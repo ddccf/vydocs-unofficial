@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flow Accounting &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="FRR" href="frr.html" />
+    <link rel="prev" title="Serial Console" href="console.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acceleration.html">Acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack.html">Conntrack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Serial Console</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Flow Accounting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#netflow-ipfix">NetFlow / IPFIX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frr.html">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host-name.html">Host Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ip.html">IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd.html">System Display (LCD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="login.html">Login/User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="name-server.html">System DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html">System Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">sFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syslog.html">Syslog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysctl.html">Sysctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task-scheduler.html">Task Scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time-zone.html">Time Zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default-route.html">Default Gateway/Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">System</a></li>
+      <li class="breadcrumb-item active">Flow Accounting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/system/flow-accounting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flow-accounting">
+<span id="id1"></span><h1>Flow Accounting<a class="headerlink" href="#flow-accounting" title="Link to this heading"></a></h1>
+<p>VyOS supports flow-accounting for both IPv4 and IPv6 traffic. The system acts
+as a flow exporter, and you are free to use it with any compatible collector.</p>
+<p>Flows can be exported via two different protocols: NetFlow (versions 5, 9 and
+10/IPFIX) and sFlow. Additionally, you may save flows to an in-memory table
+internally in a router.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You need to disable the in-memory table in production environments!
+Using <abbr title="In-Memory Table">IMT</abbr> may lead to heavy CPU overloading and
+unstable flow-accounting behavior.</p>
+</div>
+<section id="netflow-ipfix">
+<h2>NetFlow / IPFIX<a class="headerlink" href="#netflow-ipfix" title="Link to this heading"></a></h2>
+<p>NetFlow is a feature that was introduced on Cisco routers around 1996 that
+provides the ability to collect IP network traffic as it enters or exits an
+interface. By analyzing the data provided by NetFlow, a network administrator
+can determine things such as the source and destination of traffic, class of
+service, and the causes of congestion. A typical flow monitoring setup (using
+NetFlow) consists of three main components:</p>
+<ul class="simple">
+<li><p><strong>exporter</strong>: aggregates packets into flows and exports flow records towards
+one or more flow collectors</p></li>
+<li><p><strong>collector</strong>: responsible for reception, storage and pre-processing of flow
+data received from a flow exporter</p></li>
+<li><p><strong>application</strong>: analyzes received flow data in the context of intrusion
+detection or traffic profiling, for example</p></li>
+</ul>
+<p>For connectionless protocols as like ICMP and UDP, a flow is considered
+complete once no more packets for this flow appear after configurable timeout.</p>
+<p>NetFlow is usually enabled on a per-interface basis to limit load on the router
+components involved in NetFlow, or to limit the amount of NetFlow records
+exported.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Using NetFlow on routers with high traffic levels may lead to
+high CPU usage and may affect the router’s performance. In such cases,
+consider using sFlow instead.</p>
+</div>
+<p>In order for flow accounting information to be collected and displayed for an
+interface, the interface must be configured for flow accounting.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-interface-interface">
+set system flow-accounting interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure and enable collection of flow information for the interface
+identified by <cite>&lt;interface&gt;</cite>.</p>
+<p>You can configure multiple interfaces which would participate in flow
+accounting.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Will be recorded only packets/flows on <strong>incoming</strong> direction in
+configured interfaces by default.</p>
+</div>
+<p>By default, recorded flows will be saved internally and can be listed with the
+CLI command. You may disable using the local in-memory table with the command:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-disable-imt">
+set system flow-accounting disable-imt</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-disable-imt" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If you need to sample also egress traffic, you may want to
+configure egress flow-accounting:</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-enable-egress">
+set system flow-accounting enable-egress</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-enable-egress" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Internally, in flow-accounting processes exist a buffer for data exchanging
+between core process and plugins (each export target is a separated plugin).
+If you have high traffic levels or noted some problems with missed records
+or stopping exporting, you may try to increase a default buffer size (10
+MiB) with the next command:</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-buffer-size-buffer-size">
+set system flow-accounting buffer-size &lt;buffer size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-buffer-size-buffer-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>In case, if you need to catch some logs from flow-accounting daemon, you may
+configure logging facility:</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-syslog-facility-facility">
+set system flow-accounting syslog-facility &lt;facility&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-syslog-facility-facility" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>TBD</p>
+</div>
+</div>
+<section id="flow-export">
+<h3>Flow Export<a class="headerlink" href="#flow-export" title="Link to this heading"></a></h3>
+<p>In addition to displaying flow accounting information locally, one can also
+exported them to a collection server.</p>
+<section id="netflow">
+<h4>NetFlow<a class="headerlink" href="#netflow" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-version-version">
+set system flow-accounting netflow version &lt;version&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-version-version" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>There are multiple versions available for the NetFlow data. The <cite>&lt;version&gt;</cite>
+used in the exported flow data can be configured here. The following
+versions are supported:</p>
+<ul class="simple">
+<li><p><strong>5</strong> - Most common version, but restricted to IPv4 flows only</p></li>
+<li><p><strong>9</strong> - NetFlow version 9 (default)</p></li>
+<li><p><strong>10</strong> - <abbr title="IP Flow Information Export">IPFIX</abbr> as per <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3917.html"><strong>RFC 3917</strong></a></p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-server-address">
+set system flow-accounting netflow server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure address of NetFlow collector. NetFlow server at <cite>&lt;address&gt;</cite> can
+be both listening on an IPv4 or IPv6 address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-source-ip-address">
+set system flow-accounting netflow source-ip &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-source-ip-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>IPv4 or IPv6 source address of NetFlow packets</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-engine-id-id">
+set system flow-accounting netflow engine-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-engine-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>NetFlow engine-id which will appear in NetFlow data. The range is 0 to 255.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-sampling-rate-rate">
+set system flow-accounting netflow sampling-rate &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-sampling-rate-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure the  sampling rate for flow accounting. The
+system samples one in every <cite>&lt;rate&gt;</cite> packets, where <cite>&lt;rate&gt;</cite> is the value
+configured for the sampling-rate option. The advantage of sampling every n
+packets, where n &gt; 1, allows you to decrease the amount of processing
+resources required for flow accounting. The disadvantage of not sampling
+every packet is that the statistics produced are estimates of actual data
+flows.</p>
+<p>Per default every packet is sampled (that is, the sampling rate is 1).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-timeout-expiry-interval-interval">
+set system flow-accounting netflow timeout expiry-interval &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-timeout-expiry-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the interval at which Netflow data will be sent to a collector. As
+per default, Netflow data will be sent every 60 seconds.</p>
+<p>You may also additionally configure timeouts for different types of
+connections.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-netflow-max-flows-n">
+set system flow-accounting netflow max-flows &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-netflow-max-flows-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If you want to change the maximum number of flows, which are tracking
+simultaneously, you may do this with this command (default 8192).</p>
+</div>
+</div>
+</section>
+<section id="sflow">
+<h4>sFlow<a class="headerlink" href="#sflow" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-sflow-server-address">
+set system flow-accounting sflow server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-sflow-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure address of sFlow collector. sFlow server at <cite>&lt;address&gt;</cite> can
+be an IPv4 or IPv6 address. But you cannot export to both IPv4 and
+IPv6 collectors at the same time!</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-sflow-sampling-rate-rate">
+set system flow-accounting sflow sampling-rate &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-sflow-sampling-rate-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable sampling of packets, which will be transmitted to sFlow collectors.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-flow-accounting-sflow-agent-address-address">
+set system flow-accounting sflow agent-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-flow-accounting-sflow-agent-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a sFlow agent address. It can be IPv4 or IPv6 address, but you
+must set the same protocol, which is used for sFlow collector addresses. By
+default, using router-id from BGP or OSPF protocol, or the primary IP
+address from the first interface.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="example">
+<h3>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>NetFlow v5 example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system flow-accounting netflow engine-id 100
+set system flow-accounting netflow version 5
+set system flow-accounting netflow server 192.168.2.10 port 2055
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<p>Once flow accounting is configured on an interfaces it provides the ability to
+display captured network traffic information for all configured interfaces.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-flow-accounting-interface-interface">
+show flow-accounting interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-flow-accounting-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show flow accounting information for given <cite>&lt;interface&gt;</cite>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show flow-accounting interface eth0
+IN_IFACE    SRC_MAC            DST_MAC            SRC_IP                     DST_IP             SRC_PORT    DST_PORT  PROTOCOL      TOS    PACKETS    FLOWS    BYTES
+----------  -----------------  -----------------  ------------------------  ---------------  ----------  ----------  ----------  -----  ---------  -------  -------
+eth0        00:53:01:a8:28:ac  ff:ff:ff:ff:ff:ff  192.0.2.2                 255.255.255.255        5678        5678  udp             0          1        1      178
+eth0        00:53:01:b2:2f:34  33:33:ff:00:00:00  fe80::253:01ff:feb2:2f34  ff02::1:ff00:0            0           0  ipv6-icmp       0          2        1      144
+eth0        00:53:01:1a:b4:53  33:33:ff:00:00:00  fe80::253:01ff:fe1a:b453  ff02::1:ff00:0            0           0  ipv6-icmp       0          1        1       72
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100               192.0.2.14            40152          22  tcp            16         39        1     2064
+eth0        00:53:01:c8:33:af  ff:ff:ff:ff:ff:ff  192.0.2.3                 255.255.255.255        5678        5678  udp             0          1        1      154
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100               192.0.2.14            40006          22  tcp            16        146        1     9444
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100               192.0.2.14                0           0  icmp          192         27        1     4455
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-flow-accounting-interface-interface-host-address">
+show flow-accounting interface &lt;interface&gt; host &lt;address&gt;</span>
+<a class="cmdlink" href="#opcmd-show-flow-accounting-interface-interface-host-address" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show flow accounting information for given <cite>&lt;interface&gt;</cite> for a specific host
+only.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show flow-accounting interface eth0 host 192.0.2.14
+IN_IFACE    SRC_MAC            DST_MAC            SRC_IP       DST_IP        SRC_PORT    DST_PORT  PROTOCOL      TOS    PACKETS    FLOWS    BYTES
+----------  -----------------  -----------------  -----------  ----------  ----------  ----------  ----------  -----  ---------  -------  -------
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100  192.0.2.14       40006          22  tcp            16        197        2    12940
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100  192.0.2.14       40152          22  tcp            16         94        1     4924
+eth0        00:53:01:b2:22:48  00:53:02:58:a2:92  192.0.2.100  192.0.2.14           0           0  icmp          192         36        1     5877
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="console.html" class="btn btn-neutral float-left" title="Serial Console" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frr.html" class="btn btn-neutral float-right" title="FRR" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

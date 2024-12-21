@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amazon AWS &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Azure" href="azure.html" />
+    <link rel="prev" title="Cloud Environments" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../virtual/index.html">Virtual Environments</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Cloud Environments</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Amazon AWS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#deploy-vm">Deploy VM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-cloudwatch-agent-usage">Amazon CloudWatch Agent Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcp.html">Google Cloud Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oracel.html">Oracle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../bare-metal.html">Bare Metal Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../image.html">Image Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Installation and Image Management</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Cloud Environments</a></li>
+      <li class="breadcrumb-item active">Amazon AWS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/installation/cloud/aws.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="amazon-aws">
+<h1>Amazon AWS<a class="headerlink" href="#amazon-aws" title="Link to this heading"></a></h1>
+<section id="deploy-vm">
+<h2>Deploy VM<a class="headerlink" href="#deploy-vm" title="Link to this heading"></a></h2>
+<p>Deploy VyOS on Amazon <abbr title="Amazon Web Services">AWS</abbr></p>
+<ol class="arabic simple">
+<li><p>Click to <code class="docutils literal notranslate"><span class="pre">Instances</span></code> and <code class="docutils literal notranslate"><span class="pre">Launch</span> <span class="pre">Instance</span></code></p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-01.png" src="../../images/cloud-aws-01.png" />
+</figure>
+<ol class="arabic simple" start="2">
+<li><p>On the marketplace search “VyOS”</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-02.png" src="../../images/cloud-aws-02.png" />
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Choose the instance type. Minimum recommendation start from <code class="docutils literal notranslate"><span class="pre">m3.medium</span></code></p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-03.png" src="../../images/cloud-aws-03.png" />
+</figure>
+<ol class="arabic simple" start="4">
+<li><p>Configure instance for your requirements. Select number of
+instances / network / subnet</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-04.png" src="../../images/cloud-aws-04.png" />
+</figure>
+<ol class="arabic simple" start="5">
+<li><p>Additional storage. You can remove additional storage <code class="docutils literal notranslate"><span class="pre">/dev/sdb</span></code>. First
+root device will be <code class="docutils literal notranslate"><span class="pre">/dev/xvda</span></code>. You can skip this step.</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-05.png" src="../../images/cloud-aws-05.png" />
+</figure>
+<ol class="arabic simple" start="6">
+<li><p>Configure Security Group. It’s recommended that you configure ssh access
+only from certain address sources. Or permit any (by default).</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-06.png" src="../../images/cloud-aws-06.png" />
+</figure>
+<ol class="arabic simple" start="7">
+<li><p>Select SSH key pair and click <code class="docutils literal notranslate"><span class="pre">Launch</span> <span class="pre">Instances</span></code></p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-07.png" src="../../images/cloud-aws-07.png" />
+</figure>
+<ol class="arabic simple" start="8">
+<li><p>Find out your public IP address.</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../../images/cloud-aws-08.png" src="../../images/cloud-aws-08.png" />
+</figure>
+<ol class="arabic simple" start="9">
+<li><p>Connect to the instance by SSH key.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ssh -i ~/.ssh/amazon.pem vyos@203.0.113.3
+vyos@ip-192-0-2-10:~$
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="amazon-cloudwatch-agent-usage">
+<h2>Amazon CloudWatch Agent Usage<a class="headerlink" href="#amazon-cloudwatch-agent-usage" title="Link to this heading"></a></h2>
+<p>To use Amazon CloudWatch Agent, configure it within the Amazon SSM Parameter Store. If you don’t have a configuration yet, do <a class="reference internal" href="#configuration-creation"><span class="std std-ref">CloudWatch SSM Configuration creation</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Create an <abbr title="Identity and Access Management">IAM</abbr> role for the <abbr title="Elastic Compute Cloud">EC2</abbr> instance to access CloudWatch service, and name it CloudWatchAgentServerRole. The role should contain two default policies: CloudWatchAgentServerPolicy and AmazonSSMManagedInstanceCore.</p></li>
+<li><p>Attach the created role to your VyOS <abbr title="Elastic Compute Cloud">EC2</abbr> instance.</p></li>
+<li><p>Ensure that amazon-cloudwatch-agent package is installed.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo apt list --installed | grep amazon-cloudwatch-agent
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The amazon-cloudwatch-agent package is normally included in VyOS 1.3.3+ and 1.4+</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Retrieve an existing CloudWatch Agent configuration from the <abbr title="Systems Manager">SSM</abbr> Parameter Store.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:&lt;your-configuration-name&gt;
+</pre></div>
+</div>
+<p>This step also enables systemd service and runs it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The VyOS platform-specific scripts feature is under development. Thus, this step should be repeated manually after changing system image (<a class="reference internal" href="../update.html"><span class="doc">Update VyOS</span></a>)</p>
+</div>
+</div></blockquote>
+<section id="cloudwatch-ssm-configuration-creation">
+<span id="configuration-creation"></span><h3>CloudWatch SSM Configuration creation<a class="headerlink" href="#cloudwatch-ssm-configuration-creation" title="Link to this heading"></a></h3>
+<p>Creating the Amazon Cloudwatch Agent Configuration in Amazon <abbr title="Systems Manager">SSM</abbr> Parameter Store.</p>
+<ol class="arabic simple">
+<li><p>Create an <abbr title="Identity and Access Management">IAM</abbr> role for your <abbr title="Elastic Compute Cloud">EC2</abbr> instance to access the CloudWatch service. Name it CloudWatchAgentAdminRole. The role should contain at two default policies: CloudWatchAgentAdminPolicy and AmazonSSMManagedInstanceCore.</p></li>
+</ol>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>CloudWatchAgentServerRole is too permissive and should be used for single configuration creation and deployment. That’s why after completion of step #3 highly recommended to replace instance CloudWatchAgentAdminRole role with CloudWatchAgentServerRole.</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Run Cloudwatch configuration wizard.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>When prompted, answer “yes” to the question “Do you want to store the config in the SSM parameter store?”.</p></li>
+</ol>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://console.aws.amazon.com/">https://console.aws.amazon.com/</a></p></li>
+<li><p><a class="reference external" href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-iam-roles-for-cloudwatch-agent.html">https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-iam-roles-for-cloudwatch-agent.html</a></p></li>
+<li><p><a class="reference external" href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Agent-on-EC2-Instance-fleet.html">https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Agent-on-EC2-Instance-fleet.html</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Cloud Environments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="azure.html" class="btn btn-neutral float-right" title="Azure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

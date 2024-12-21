@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CGNAT &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Policy" href="../policy/index.html" />
+    <link rel="prev" title="NAT66(NPTv6)" href="nat66.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NAT</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="nat44.html">NAT44</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat64.html">NAT64</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat66.html">NAT66(NPTv6)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CGNAT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#port-calculation">Port calculation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation-commands">Operation commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">NAT</a></li>
+      <li class="breadcrumb-item active">CGNAT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/nat/cgnat.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cgnat">
+<span id="id1"></span><h1>CGNAT<a class="headerlink" href="#cgnat" title="Link to this heading"></a></h1>
+<p><abbr title="Carrier-Grade Network Address Translation">CGNAT</abbr> , also known as
+Large-Scale NAT (LSN), is a type of network address translation used by
+Internet Service Providers (ISPs) to enable multiple private IP addresses to
+share a single public IP address. This technique helps to conserve the limited
+IPv4 address space.
+The 100.64.0.0/10 address block is reserved for use in carrier-grade NAT</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>CGNAT works by placing a NAT device within the ISP’s network. This device
+translates private IP addresses from customer networks to a limited pool of
+public IP addresses assigned to the ISP. This allows many customers to share a
+smaller number of public IP addresses.</p>
+<p>Not all <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6888.html"><strong>RFC 6888</strong></a> requirements are implemented in CGNAT.</p>
+<p>Implemented the following <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6888.html"><strong>RFC 6888</strong></a>  requirements:</p>
+<ul class="simple">
+<li><p>REQ 2: A CGN must have a default “IP address pooling” behavior of “Paired”.
+CGN must use the same external IP address mapping for all sessions associated
+with the same internal IP address, be they TCP, UDP, ICMP, something else,
+or a mix of different protocols.</p></li>
+<li><p>REQ 3: The CGN function should not have any limitations on the size or the
+contiguity of the external address pool.</p></li>
+<li><p>REQ 4: A CGN must support limiting the number of external ports (or,
+equivalently, “identifiers” for ICMP) that are assigned per subscriber</p></li>
+</ul>
+<section id="advantages-of-cgnat">
+<h3>Advantages of CGNAT<a class="headerlink" href="#advantages-of-cgnat" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>IPv4 Address Conservation</strong>: CGNAT helps mitigate the exhaustion of IPv4 addresses by allowing multiple customers to share a single public IP address.</p></li>
+<li><p><strong>Scalability</strong>: ISPs can support more customers without needing a proportional increase in public IP addresses.</p></li>
+<li><p><strong>Cost-Effective</strong>: Reduces the cost associated with acquiring additional public IPv4 addresses.</p></li>
+</ul>
+</section>
+<section id="considerations">
+<h3>Considerations<a class="headerlink" href="#considerations" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Traceability Issues</strong>: Since multiple users share the same public IP address, tracking individual users for security and legal purposes can be challenging.</p></li>
+<li><p><strong>Performance Overheads</strong>: The translation process can introduce latency and potential performance bottlenecks, especially under high load.</p></li>
+<li><p><strong>Application Compatibility</strong>: Some applications and protocols may not work well with CGNAT due to their reliance on unique public IP addresses.</p></li>
+<li><p><strong>Port Allocation Limits</strong>: Each public IP address has a limited number of ports, which can be exhausted, affecting the ability to establish new connections.</p></li>
+<li><p><strong>Port Control Protocol</strong>: PCP is not implemented.</p></li>
+</ul>
+</section>
+</section>
+<section id="port-calculation">
+<h2>Port calculation<a class="headerlink" href="#port-calculation" title="Link to this heading"></a></h2>
+<p>When implementing CGNAT, ensuring that there are enough ports allocated per subscriber is critical. Below is a summary based on RFC 6888.</p>
+<ol class="arabic simple">
+<li><p><strong>Total Ports Available</strong>:</p>
+<ul class="simple">
+<li><p>Total Ports: 65536 (0 to 65535)</p></li>
+<li><p>Reserved Ports: Assume 1024 ports are reserved for well-known services and administrative purposes.</p></li>
+<li><p>Usable Ports: 65536 - 1024 = 64512</p></li>
+</ul>
+</li>
+<li><p><strong>Estimate Ports Needed per Subscriber</strong>:</p>
+<ul class="simple">
+<li><p>Example: A household might need 1000 ports to ensure smooth operation for multiple devices and applications.</p></li>
+</ul>
+</li>
+<li><p><strong>Calculate the Number of Subscribers per Public IP</strong>:</p>
+<ul class="simple">
+<li><p>Usable Ports / Ports per Subscriber</p></li>
+<li><p>64512 / 1000 ≈ 64 subscribers per public IP</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-pool-external-pool-name-external-port-range-port-range">
+set nat cgnat pool external &lt;pool-name&gt; external-port-range &lt;port-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-pool-external-pool-name-external-port-range-port-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set an external port-range for the external pool, the default range is
+1024-65535. Multiple entries can be added to the same pool.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-pool-external-pool-name-per-user-limit-port-num">
+set nat cgnat pool external &lt;pool-name&gt; per-user-limit port &lt;num&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-pool-external-pool-name-per-user-limit-port-num" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set external source port limits that will be allocated to each subscriber
+individually. The default value is 2000.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-pool-external-pool-name-range-address-address-range-network-seq">
+set nat cgnat pool external &lt;pool-name&gt; range [address | address range | network] [seq]</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-pool-external-pool-name-range-address-address-range-network-seq" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the range of external IP addresses for the CGNAT pool.
+The sequence is optional; if set, a lower value means higher priority.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-pool-internal-pool-name-range-address-range-network">
+set nat cgnat pool internal &lt;pool-name&gt; range [address range | network]</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-pool-internal-pool-name-range-address-range-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the range of internal IP addresses for the CGNAT pool.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-rule-num-source-pool-internal-pool-name">
+set nat cgnat rule &lt;num&gt; source pool &lt;internal-pool-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-rule-num-source-pool-internal-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the rule for the source pool.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-rule-num-translation-pool-external-pool-name">
+set nat cgnat rule &lt;num&gt; translation pool &lt;external-pool-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-rule-num-translation-pool-external-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the rule for the translation pool.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-cgnat-log-allocation">
+set nat cgnat log-allocation</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-cgnat-log-allocation" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable logging of IP address and ports allocations.</p>
+</div>
+</div>
+</section>
+<section id="configuration-examples">
+<h2>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h2>
+<section id="single-external-address">
+<h3>Single external address<a class="headerlink" href="#single-external-address" title="Link to this heading"></a></h3>
+<p>Example of setting up a basic CGNAT configuration:
+In the following example, we define an external pool named <cite>ext-1</cite> with one external IP address</p>
+<p>Each subscriber will be allocated a maximum of 2000 ports from the external pool.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat cgnat pool external ext1 external-port-range &#39;1024-65535&#39;
+set nat cgnat pool external ext1 per-user-limit port &#39;2000&#39;
+set nat cgnat pool external ext1 range &#39;192.0.2.222/32&#39;
+set nat cgnat pool internal int1 range &#39;100.64.0.0/28&#39;
+set nat cgnat rule 10 source pool &#39;int1&#39;
+set nat cgnat rule 10 translation pool &#39;ext1&#39;
+</pre></div>
+</div>
+</section>
+<section id="multiple-external-addresses">
+<h3>Multiple external addresses<a class="headerlink" href="#multiple-external-addresses" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat cgnat pool external ext1 external-port-range &#39;1024-65535&#39;
+set nat cgnat pool external ext1 per-user-limit port &#39;8000&#39;
+set nat cgnat pool external ext1 range &#39;192.0.2.1-192.0.2.2&#39;
+set nat cgnat pool external ext1 range &#39;203.0.113.253-203.0.113.254&#39;
+set nat cgnat pool internal int1 range &#39;100.64.0.1-100.64.0.32&#39;
+set nat cgnat rule 10 source pool &#39;int1&#39;
+set nat cgnat rule 10 translation pool &#39;ext1&#39;
+</pre></div>
+</div>
+</section>
+<section id="external-address-sequences">
+<h3>External address sequences<a class="headerlink" href="#external-address-sequences" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat cgnat pool external ext-01 per-user-limit port &#39;16000&#39;
+set nat cgnat pool external ext-01 range 203.0.113.1/32 seq &#39;10&#39;
+set nat cgnat pool external ext-01 range 192.0.2.1/32 seq &#39;20&#39;
+set nat cgnat pool internal int-01 range &#39;100.64.0.0/29&#39;
+set nat cgnat rule 10 source pool &#39;int-01&#39;
+set nat cgnat rule 10 translation pool &#39;ext-01&#39;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operation-commands">
+<h2>Operation commands<a class="headerlink" href="#operation-commands" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-nat-cgnat-allocation">
+show nat cgnat allocation</span>
+<a class="cmdlink" href="#opcmd-show-nat-cgnat-allocation" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show address and port allocations</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-nat-cgnat-allocation-external-address-address">
+show nat cgnat allocation external-address &lt;address&gt;</span>
+<a class="cmdlink" href="#opcmd-show-nat-cgnat-allocation-external-address-address" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all allocations for an external IP address</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-nat-cgnat-allocation-internal-address-address">
+show nat cgnat allocation internal-address &lt;address&gt;</span>
+<a class="cmdlink" href="#opcmd-show-nat-cgnat-allocation-internal-address-address" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all allocations for an internal IP address</p>
+</div>
+</div>
+<section id="show-cgnat-allocations">
+<h3>Show CGNAT allocations<a class="headerlink" href="#show-cgnat-allocations" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show nat cgnat allocation
+Internal IP    External IP    Port range
+-------------  -------------  ------------
+100.64.0.0     203.0.113.1    1024-17023
+100.64.0.1     203.0.113.1    17024-33023
+100.64.0.2     203.0.113.1    33024-49023
+100.64.0.3     203.0.113.1    49024-65023
+100.64.0.4     192.0.2.1      1024-17023
+100.64.0.5     192.0.2.1      17024-33023
+100.64.0.6     192.0.2.1      33024-49023
+100.64.0.7     192.0.2.1      49024-65023
+
+vyos@vyos:~$ show nat cgnat allocation internal-address 100.64.0.4
+Internal IP    External IP    Port range
+-------------  -------------  ------------
+100.64.0.4     192.0.2.1      1024-17023
+</pre></div>
+</div>
+</section>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6598.html"><strong>RFC 6598</strong></a> - IANA-Reserved IPv4 Prefix for Shared Address Space</p></li>
+<li><p><span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6888.html"><strong>RFC 6888</strong></a> - Requirements for CGNAT</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nat66.html" class="btn btn-neutral float-left" title="NAT66(NPTv6)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../policy/index.html" class="btn btn-neutral float-right" title="Policy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

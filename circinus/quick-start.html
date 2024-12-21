@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="static/vyos-logo-icon.png"/>
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=719443cf"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/design-tabs.js?v=f930bc37"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Command Line Interface" href="cli.html" />
+    <link rel="prev" title="Migrate from Vyatta Core" href="installation/migrate-from-vyatta.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            VyOS
+              <img src="static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-mode">Configuration Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commit-and-save">Commit and Save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interface-configuration">Interface Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ssh-management">SSH Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dhcp-dns-quick-start">DHCP/DNS quick-start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nat">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#firewall">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configure-firewall-groups">Configure Firewall Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-stateful-packet-filtering">Configure Stateful Packet Filtering</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#option-1-global-state-policies">Option 1: Global State Policies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#option-2-common-custom-chain">Option 2: Common/Custom Chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#option-3-per-hook-chain">Option 3: Per-Hook Chain</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#block-incoming-traffic">Block Incoming Traffic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#allow-management-access">Allow Management Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#allow-access-to-services">Allow Access to Services</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hardening">Hardening</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="sources/quick-start.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start">
+<span id="id1"></span><h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h1>
+<p>This chapter will guide you on how to get up to speed quickly using your new
+VyOS system. It will show you a very basic configuration example that will
+provide a <a class="reference internal" href="configuration/nat/index.html#nat"><span class="std std-ref">NAT</span></a> gateway for a device with two network interfaces
+(<code class="docutils literal notranslate"><span class="pre">eth0</span></code> and <code class="docutils literal notranslate"><span class="pre">eth1</span></code>).</p>
+<section id="configuration-mode">
+<span id="quick-start-configuration-mode"></span><h2>Configuration Mode<a class="headerlink" href="#configuration-mode" title="Link to this heading"></a></h2>
+<p>By default, VyOS is in operational mode, and the command prompt displays
+a <code class="docutils literal notranslate"><span class="pre">$</span></code>. To configure VyOS, you will need to enter configuration mode, resulting
+in the command prompt displaying a <code class="docutils literal notranslate"><span class="pre">#</span></code>, as demonstrated below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos$ configure
+vyos@vyos#
+</pre></div>
+</div>
+</section>
+<section id="commit-and-save">
+<h2>Commit and Save<a class="headerlink" href="#commit-and-save" title="Link to this heading"></a></h2>
+<p>After every configuration change, you need to apply the changes by using the
+following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>commit
+</pre></div>
+</div>
+<p>Once your configuration works as expected, you can save it permanently by using
+the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>save
+</pre></div>
+</div>
+</section>
+<section id="interface-configuration">
+<h2>Interface Configuration<a class="headerlink" href="#interface-configuration" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Your outside/WAN interface will be <code class="docutils literal notranslate"><span class="pre">eth0</span></code>. It will receive its interface
+address via DHCP.</p></li>
+<li><p>Your internal/LAN interface will be <code class="docutils literal notranslate"><span class="pre">eth1</span></code>. It will use a static IP address
+of <code class="docutils literal notranslate"><span class="pre">192.168.0.1/24</span></code>.</p></li>
+</ul>
+<p>After switching to <a class="reference internal" href="#quick-start-configuration-mode"><span class="std std-ref">Configuration Mode</span></a> issue the following
+commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address dhcp
+set interfaces ethernet eth0 description &#39;OUTSIDE&#39;
+set interfaces ethernet eth1 address &#39;192.168.0.1/24&#39;
+set interfaces ethernet eth1 description &#39;LAN&#39;
+</pre></div>
+</div>
+</section>
+<section id="ssh-management">
+<h2>SSH Management<a class="headerlink" href="#ssh-management" title="Link to this heading"></a></h2>
+<p>After switching to <a class="reference internal" href="#quick-start-configuration-mode"><span class="std std-ref">Configuration Mode</span></a> issue the following
+commands, and your system will listen on every interface for incoming SSH
+connections. You might want to check the <a class="reference internal" href="configuration/service/ssh.html#ssh"><span class="std std-ref">SSH</span></a> chapter on how to listen
+on specific addresses only.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ssh port &#39;22&#39;
+</pre></div>
+</div>
+</section>
+<section id="dhcp-dns-quick-start">
+<span id="id2"></span><h2>DHCP/DNS quick-start<a class="headerlink" href="#dhcp-dns-quick-start" title="Link to this heading"></a></h2>
+<p>The following settings will configure DHCP and DNS services on
+your internal/LAN network, where VyOS will act as the default gateway and
+DNS server.</p>
+<ul class="simple">
+<li><p>The default gateway and DNS recursor address will be <code class="docutils literal notranslate"><span class="pre">192.168.0.1/24</span></code></p></li>
+<li><p>The address range <code class="docutils literal notranslate"><span class="pre">192.168.0.2/24</span> <span class="pre">-</span> <span class="pre">192.168.0.8/24</span></code> will be reserved for
+static assignments</p></li>
+<li><p>DHCP clients will be assigned IP addresses within the range of
+<code class="docutils literal notranslate"><span class="pre">192.168.0.9</span> <span class="pre">-</span> <span class="pre">192.168.0.254</span></code> and have a domain name of <code class="docutils literal notranslate"><span class="pre">internal-network</span></code></p></li>
+<li><p>DHCP leases will hold for one day (86400 seconds)</p></li>
+<li><p>VyOS will serve as a full DNS recursor, replacing the need to utilize Google,
+Cloudflare, or other public DNS servers (which is good for privacy)</p></li>
+<li><p>Only hosts from your internal/LAN network can use the DNS recursor</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 option default-router &#39;192.168.0.1&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 option name-server &#39;192.168.0.1&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 option domain-name &#39;vyos.net&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 lease &#39;86400&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 range 0 start &#39;192.168.0.9&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 range 0 stop &#39;192.168.0.254&#39;
+set service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 subnet-id &#39;1&#39;
+
+set service dns forwarding cache-size &#39;0&#39;
+set service dns forwarding listen-address &#39;192.168.0.1&#39;
+set service dns forwarding allow-from &#39;192.168.0.0/24&#39;
+</pre></div>
+</div>
+</section>
+<section id="nat">
+<h2>NAT<a class="headerlink" href="#nat" title="Link to this heading"></a></h2>
+<p>The following settings will configure <a class="reference internal" href="configuration/nat/nat44.html#source-nat"><span class="std std-ref">SNAT</span></a> rules for our
+internal/LAN network, allowing hosts to communicate through the outside/WAN
+network via IP masquerade.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 100 outbound-interface name &#39;eth0&#39;
+set nat source rule 100 source address &#39;192.168.0.0/24&#39;
+set nat source rule 100 translation address masquerade
+</pre></div>
+</div>
+</section>
+<section id="firewall">
+<h2>Firewall<a class="headerlink" href="#firewall" title="Link to this heading"></a></h2>
+<p>A new firewall structure—which uses the <code class="docutils literal notranslate"><span class="pre">nftables</span></code> backend, rather
+than <code class="docutils literal notranslate"><span class="pre">iptables</span></code>—is available on all installations starting from
+VyOS <code class="docutils literal notranslate"><span class="pre">1.4-rolling-202308040557</span></code>. The firewall supports creation of distinct,
+interlinked chains for each <a class="reference external" href="https://wiki.nftables.org/wiki-nftables/index.php/Netfilter_hooks">Netfilter hook</a>
+and allows for more granular control over the packet filtering process.</p>
+<p>The firewall begins with the base <code class="docutils literal notranslate"><span class="pre">filter</span></code> tables you define for each of the
+<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">input</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> Netfiter hooks. Each of these tables is
+populated with rules that are processed in order and can jump to other chains
+for more granular filtering.</p>
+<section id="configure-firewall-groups">
+<h3>Configure Firewall Groups<a class="headerlink" href="#configure-firewall-groups" title="Link to this heading"></a></h3>
+<p>To make firewall configuration easier, we can create groups of interfaces,
+networks, addresses, ports, and domains that describe different parts of
+our network. We can then use them for filtering within our firewall rulesets,
+allowing for more concise and readable configuration.</p>
+<p>In this case, we will create two interface groups — a <code class="docutils literal notranslate"><span class="pre">WAN</span></code> group for our
+interfaces connected to the public internet and a <code class="docutils literal notranslate"><span class="pre">LAN</span></code> group for the
+interfaces connected to our internal network. Additionally, we will create a
+network group, <code class="docutils literal notranslate"><span class="pre">NET-INSIDE-v4</span></code>, that contains our internal subnet.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group interface-group WAN interface eth0
+set firewall group interface-group LAN interface eth1
+set firewall group network-group NET-INSIDE-v4 network &#39;192.168.0.0/24&#39;
+</pre></div>
+</div>
+</section>
+<section id="configure-stateful-packet-filtering">
+<h3>Configure Stateful Packet Filtering<a class="headerlink" href="#configure-stateful-packet-filtering" title="Link to this heading"></a></h3>
+<p>With the new firewall structure, we have have a lot of flexibility in how we
+group and order our rules, as shown by the three alternative approaches below.</p>
+<section id="option-1-global-state-policies">
+<h4>Option 1: Global State Policies<a class="headerlink" href="#option-1-global-state-policies" title="Link to this heading"></a></h4>
+<p>Using options defined in <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span></code>, state
+policy rules that applies for both IPv4 and IPv6 are created. These global
+state policies also applies for all traffic that passes through the router
+(transit) and for traffic originated/destinated to/from the router itself, and
+will be evaluated before any other rule defined in the firewall.</p>
+<p>Most installations would choose this option, and will contain:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy established action accept
+set firewall global-options state-policy related action accept
+set firewall global-options state-policy invalid action drop
+</pre></div>
+</div>
+</section>
+<section id="option-2-common-custom-chain">
+<h4>Option 2: Common/Custom Chain<a class="headerlink" href="#option-2-common-custom-chain" title="Link to this heading"></a></h4>
+<p>We can create a common chain for stateful connection filtering of multiple
+interfaces (or multiple netfilter hooks on one interface). Those individual
+chains can then jump to the common chain for stateful connection filtering,
+returning to the original chain for further rule processing if no action is
+taken on the packet.</p>
+<p>The chain we will create is called <code class="docutils literal notranslate"><span class="pre">CONN_FILTER</span></code> and has three rules:</p>
+<ul class="simple">
+<li><p>A default action of <code class="docutils literal notranslate"><span class="pre">return</span></code>, which returns the packet back to the original
+chain if no action is taken.</p></li>
+<li><p>A rule to <code class="docutils literal notranslate"><span class="pre">accept</span></code> packets from established and related connections.</p></li>
+<li><p>A rule to <code class="docutils literal notranslate"><span class="pre">drop</span></code> packets from invalid connections.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 name CONN_FILTER default-action &#39;return&#39;
+
+set firewall ipv4 name CONN_FILTER rule 10 action &#39;accept&#39;
+set firewall ipv4 name CONN_FILTER rule 10 state established
+set firewall ipv4 name CONN_FILTER rule 10 state related
+
+set firewall ipv4 name CONN_FILTER rule 20 action &#39;drop&#39;
+set firewall ipv4 name CONN_FILTER rule 20 state invalid
+</pre></div>
+</div>
+<p>Then, we can jump to the common chain from both the <code class="docutils literal notranslate"><span class="pre">forward</span></code> and <code class="docutils literal notranslate"><span class="pre">input</span></code>
+hooks as the first filtering rule in the respective chains:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 forward filter rule 10 action &#39;jump&#39;
+set firewall ipv4 forward filter rule 10 jump-target CONN_FILTER
+
+set firewall ipv4 input filter rule 10 action &#39;jump&#39;
+set firewall ipv4 input filter rule 10 jump-target CONN_FILTER
+</pre></div>
+</div>
+</section>
+<section id="option-3-per-hook-chain">
+<h4>Option 3: Per-Hook Chain<a class="headerlink" href="#option-3-per-hook-chain" title="Link to this heading"></a></h4>
+<p>Alternatively, you can take the more traditional stateful connection
+filtering approach by creating rules on each base hook’s chain:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 forward filter rule 5 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 5 state established
+set firewall ipv4 forward filter rule 5 state related
+set firewall ipv4 forward filter rule 10 action &#39;drop&#39;
+set firewall ipv4 forward filter rule 10 state invalid
+
+set firewall ipv4 input filter rule 5 action &#39;accept&#39;
+set firewall ipv4 input filter rule 5 state established
+set firewall ipv4 input filter rule 5 state related
+set firewall ipv4 input filter rule 10 action &#39;drop&#39;
+set firewall ipv4 input filter rule 10 state invalid
+</pre></div>
+</div>
+</section>
+</section>
+<section id="block-incoming-traffic">
+<h3>Block Incoming Traffic<a class="headerlink" href="#block-incoming-traffic" title="Link to this heading"></a></h3>
+<p>Now that we have configured stateful connection filtering to allow traffic from
+established and related connections, we can block all other incoming traffic
+addressed to our local network.</p>
+<p>Create a new chain (<code class="docutils literal notranslate"><span class="pre">OUTSIDE-IN</span></code>) which will drop all traffic that is not
+explicitly allowed at some point in the chain. Then, we can jump to that chain
+from the <code class="docutils literal notranslate"><span class="pre">forward</span></code> hook when traffic is coming from the <code class="docutils literal notranslate"><span class="pre">WAN</span></code> interface
+group and is addressed to our local network.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 name OUTSIDE-IN default-action &#39;drop&#39;
+
+set firewall ipv4 forward filter rule 100 action jump
+set firewall ipv4 forward filter rule 100 jump-target OUTSIDE-IN
+set firewall ipv4 forward filter rule 100 inbound-interface group WAN
+set firewall ipv4 forward filter rule 100 destination group network-group NET-INSIDE-v4
+</pre></div>
+</div>
+<p>We should also block all traffic destinated to the router itself that isn’t
+explicitly allowed at some point in the chain for the <code class="docutils literal notranslate"><span class="pre">input</span></code> hook. As
+we’ve already configured stateful packet filtering above, we only need to
+set the default action to <code class="docutils literal notranslate"><span class="pre">drop</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter default-action &#39;drop&#39;
+</pre></div>
+</div>
+</section>
+<section id="allow-management-access">
+<h3>Allow Management Access<a class="headerlink" href="#allow-management-access" title="Link to this heading"></a></h3>
+<p>We can now configure access to the router itself, allowing SSH
+access from the inside/LAN network and rate limiting SSH access from the
+outside/WAN network.</p>
+<p>First, create a new dedicated chain (<code class="docutils literal notranslate"><span class="pre">VyOS_MANAGEMENT</span></code>) for management
+access, which returns to the parent chain if no action is taken. Add a rule
+to accept traffic from the <code class="docutils literal notranslate"><span class="pre">LAN</span></code> interface group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 name VyOS_MANAGEMENT default-action &#39;return&#39;
+</pre></div>
+</div>
+<p>Configure a rule on the <code class="docutils literal notranslate"><span class="pre">input</span></code> hook filter to jump to the <code class="docutils literal notranslate"><span class="pre">VyOS_MANAGEMENT</span></code>
+chain when new connections are addressed to port 22 (SSH) on the router itself:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 20 action jump
+set firewall ipv4 input filter rule 20 jump-target VyOS_MANAGEMENT
+set firewall ipv4 input filter rule 20 destination port 22
+set firewall ipv4 input filter rule 20 protocol tcp
+</pre></div>
+</div>
+<p>Finally, configure the <code class="docutils literal notranslate"><span class="pre">VyOS_MANAGEMENT</span></code> chain to accept connection from the
+<code class="docutils literal notranslate"><span class="pre">LAN</span></code> interface group while limiting requests coming from the <code class="docutils literal notranslate"><span class="pre">WAN</span></code>
+interface group to 4 per minute:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 name VyOS_MANAGEMENT rule 15 action &#39;accept&#39;
+set firewall ipv4 name VyOS_MANAGEMENT rule 15 inbound-interface group &#39;LAN&#39;
+
+set firewall ipv4 name VyOS_MANAGEMENT rule 20 action &#39;drop&#39;
+set firewall ipv4 name VyOS_MANAGEMENT rule 20 recent count 4
+set firewall ipv4 name VyOS_MANAGEMENT rule 20 recent time minute
+set firewall ipv4 name VyOS_MANAGEMENT rule 20 state new
+set firewall ipv4 name VyOS_MANAGEMENT rule 20 inbound-interface group &#39;WAN&#39;
+
+set firewall ipv4 name VyOS_MANAGEMENT rule 21 action &#39;accept&#39;
+set firewall ipv4 name VyOS_MANAGEMENT rule 21 state new
+set firewall ipv4 name VyOS_MANAGEMENT rule 21 inbound-interface group &#39;WAN&#39;
+</pre></div>
+</div>
+</section>
+<section id="allow-access-to-services">
+<h3>Allow Access to Services<a class="headerlink" href="#allow-access-to-services" title="Link to this heading"></a></h3>
+<p>Here we’re allowing the router to respond to pings. Then, we can allow access to
+the DNS recursor we configured earlier, accepting traffic bound for port 53 from
+all hosts on the <code class="docutils literal notranslate"><span class="pre">NET-INSIDE-v4</span></code> network:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 30 action &#39;accept&#39;
+set firewall ipv4 input filter rule 30 icmp type-name &#39;echo-request&#39;
+set firewall ipv4 input filter rule 30 protocol &#39;icmp&#39;
+set firewall ipv4 input filter rule 30 state new
+
+set firewall ipv4 input filter rule 40 action &#39;accept&#39;
+set firewall ipv4 input filter rule 40 destination port &#39;53&#39;
+set firewall ipv4 input filter rule 40 protocol &#39;tcp_udp&#39;
+set firewall ipv4 input filter rule 40 source group network-group NET-INSIDE-v4
+</pre></div>
+</div>
+<p>Finally, we can now configure access to the services running on this router,
+allowing all connections coming from localhost:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 50 action &#39;accept&#39;
+set firewall ipv4 input filter rule 50 source address 127.0.0.0/8
+</pre></div>
+</div>
+<p>Commit changes, save the configuration, and exit configuration mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# commit
+vyos@vyos# save
+Saving configuration to &#39;/config/config.boot&#39;...
+Done
+vyos@vyos# exit
+vyos@vyos$
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hardening">
+<h2>Hardening<a class="headerlink" href="#hardening" title="Link to this heading"></a></h2>
+<p>Especially if you are allowing SSH remote access from the outside/WAN
+interface, there are a few additional configuration steps that should be taken.</p>
+<p>Replace the default <code class="docutils literal notranslate"><span class="pre">vyos</span></code> system user:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system login user myvyosuser authentication plaintext-password mysecurepassword
+</pre></div>
+</div>
+<p>Set up <a class="reference internal" href="configuration/system/login.html#ssh-key-based-authentication"><span class="std std-ref">Key Based Authentication</span></a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system login user myvyosuser authentication public-keys myusername@mydesktop type ssh-rsa
+set system login user myvyosuser authentication public-keys myusername@mydesktop key contents_of_id_rsa.pub
+</pre></div>
+</div>
+<p>Finally, try and SSH into the VyOS install as your new user. Once you have
+confirmed that your new user can access your router without a password, delete
+the original <code class="docutils literal notranslate"><span class="pre">vyos</span></code> user and completely disable password authentication for
+<a class="reference internal" href="configuration/service/ssh.html#ssh"><span class="std std-ref">SSH</span></a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>delete system login user vyos
+set service ssh disable-password-authentication
+</pre></div>
+</div>
+<p>As above, commit your changes, save the configuration, and exit
+configuration mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# commit
+vyos@vyos# save
+Saving configuration to &#39;/config/config.boot&#39;...
+Done
+vyos@vyos# exit
+vyos@vyos$
+</pre></div>
+</div>
+<p>You now should have a simple yet secure and functioning router to experiment
+with further. Enjoy!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation/migrate-from-vyatta.html" class="btn btn-neutral float-left" title="Migrate from Vyatta Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="Command Line Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

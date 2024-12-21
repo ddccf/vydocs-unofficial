@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Management &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Secure Boot" href="secure-boot.html" />
+    <link rel="prev" title="Update VyOS" href="update.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtual/index.html">Virtual Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud/index.html">Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bare-metal.html">Bare Metal Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">Update VyOS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Image Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-rollback">System rollback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Image Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/installation/image.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="image-management">
+<span id="image-mgmt"></span><h1>Image Management<a class="headerlink" href="#image-management" title="Link to this heading"></a></h1>
+<p>The VyOS image-based installation is implemented by creating a directory for
+each image on the storage device selected during the install process.</p>
+<p>The directory structure of the boot device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/
+/boot
+/boot/grub
+/boot/1.2.0-rolling+201810021347
+</pre></div>
+</div>
+<p>The image directory contains the system kernel, a compressed image of the root
+filesystem for the OS, and a directory for persistent storage, such as
+configuration. On boot, the system will extract the OS image into memory and
+mount the appropriate live-rw sub-directories to provide persistent storage
+system configuration.</p>
+<p>This process allows for a system to always boot to a known working state, as
+the OS image is fixed and non-persistent. It also allows for multiple releases
+of VyOS to be installed on the same storage device. The image can be selected
+manually at boot if needed, but the system will otherwise boot the image
+configured to be the default.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-system-image">
+show system image</span>
+<a class="cmdlink" href="#opcmd-show-system-image" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>List all available system images which can be booted on the current system.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show system image
+The system currently has the following image(s) installed:
+
+   1: 1.2.0-rolling+201810021347 (default boot)
+   2: 1.2.0-rolling+201810021217
+   3: 1.2.0-rolling+201809252218
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-delete-system-image-image-name">
+delete system image [image-name]</span>
+<a class="cmdlink" href="#opcmd-delete-system-image-image-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Delete no longer needed images from the system. You can specify an optional
+image name to delete, the image name can be retrieved via a list of available
+images can be shown using the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">system</span> <span class="pre">image</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ delete system image
+The following image(s) can be deleted:
+
+   1: 1.3-rolling-201912181733 (default boot) (running image)
+   2: 1.3-rolling-201912180242
+   3: 1.2.2
+   4: 1.2.1
+
+Select the image to delete: 2
+
+Are you sure you want to delete the
+&quot;1.3-rolling-201912180242&quot; image? (Yes/No) [No]: y
+Deleting the &quot;1.3-rolling-201912180242&quot; image...
+Done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-version">
+show version</span>
+<a class="cmdlink" href="#opcmd-show-version" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show current system image version.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show version
+Version:          VyOS 1.3-rolling-201912181733
+Built by:         autobuild@vyos.net
+Built on:         Wed 18 Dec 2019 17:33 UTC
+Build UUID:       bccde2c3-261c-49cc-b421-9b257204e06c
+Build Commit ID:  f7ce0d8a692f2d
+
+Architecture:     x86_64
+Boot via:         installed image
+System type:      bare metal
+
+Hardware vendor:  VMware, Inc.
+Hardware model:   VMware Virtual Platform
+Hardware S/N:     VMware-42 1d 83 b9 fe c1 bd b2-7d 3d 49 db 94 18 f5 c9
+Hardware UUID:    b9831d42-c1fe-b2bd-7d3d-49db9418f5c9
+
+Copyright:        VyOS maintainers and contributors
+</pre></div>
+</div>
+</div>
+</div>
+<section id="system-rollback">
+<h2>System rollback<a class="headerlink" href="#system-rollback" title="Link to this heading"></a></h2>
+<p>If you need to rollback to a previous image, you can easily do so. First
+check the available images through the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">system</span> <span class="pre">image</span></code>
+command and then select your image with the following command:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-set-system-image-default-boot-image-name">
+set system image default-boot [image-name]</span>
+<a class="cmdlink" href="#opcmd-set-system-image-default-boot-image-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Select the default boot image which will be started on the next boot
+of the system.</p>
+</div>
+</div>
+<p>Then reboot the system.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VyOS automatically associates the configuration to the image,
+so you don’t need to worry about that. Each image has a unique copy
+of its configuration.</p>
+</div>
+<p>If you have access to the console, there is a another way to select
+your booting image: reboot and use the GRUB menu at startup.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="update.html" class="btn btn-neutral float-left" title="Update VyOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="secure-boot.html" class="btn btn-neutral float-right" title="Secure Boot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

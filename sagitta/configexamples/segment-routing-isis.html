@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Segment-routing IS-IS example &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="NMP example" href="nmp.html" />
+    <link rel="prev" title="QoS example" href="qos.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="zone-policy.html">Zone-Policy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Segment-routing IS-IS example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Segment-routing IS-IS example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/segment-routing-isis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="segment-routing-is-is-example">
+<span id="examples-segment-routing-isis"></span><h1>Segment-routing IS-IS example<a class="headerlink" href="#segment-routing-is-is-example" title="Link to this heading"></a></h1>
+<p>When utilizing VyOS in an environment with Cisco IOS-XR gear you can use this
+blue print as an initial setup to get MPLS ISIS-SR working between those two
+devices.The lab was build using <abbr title="Emulated Virtual Environment NG">EVE-NG</abbr>.</p>
+<figure class="align-default" id="id1">
+<img alt="ISIS-SR network" src="../images/vyos-sr-isis.png" />
+<figcaption>
+<p><span class="caption-text">ISIS-SR example network</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The below configuration is used as example where we keep focus on
+VyOS-P1/VyOS-P2/XRv-P3 which we share the settings.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>VyOS-P1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address &#39;192.0.2.1/32&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.5/30&#39;
+set interfaces ethernet eth1 mtu &#39;8000&#39;
+set interfaces ethernet eth3 address &#39;192.0.2.21/30&#39;
+set interfaces ethernet eth3 mtu &#39;8000&#39;
+set protocols isis interface dum0 passive
+set protocols isis interface eth1 network point-to-point
+set protocols isis interface eth3 network point-to-point
+set protocols isis level &#39;level-2&#39;
+set protocols isis log-adjacency-changes
+set protocols isis metric-style &#39;wide&#39;
+set protocols isis net &#39;49.0000.0000.0000.0001.00&#39;
+set protocols isis segment-routing maximum-label-depth &#39;8&#39;
+set protocols isis segment-routing prefix 192.0.2.1/32 index value &#39;1&#39;
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth3&#39;
+set system host-name &#39;P1-VyOS&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>XRv-P3:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>hostname P3-VyOS
+interface Loopback0
+ ipv4 address 192.0.2.3 255.255.255.255
+!
+interface GigabitEthernet0/0/0/1
+ mtu 8014
+ ipv4 address 192.0.2.6 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ mtu 8014
+ ipv4 address 192.0.2.18 255.255.255.252
+!
+router isis VyOS
+ is-type level-2-only
+ net 49.0000.0000.0000.0003.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  segment-routing mpls
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+   prefix-sid index 3
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+!
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-P2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address &#39;192.0.2.2/32&#39;
+set interfaces ethernet eth2 address &#39;192.0.2.17/30&#39;
+set interfaces ethernet eth2 mtu &#39;8000&#39;
+set interfaces ethernet eth3 address &#39;192.0.2.26/30&#39;
+set interfaces ethernet eth3 mtu &#39;8000&#39;
+set protocols isis interface dum0 passive
+set protocols isis interface eth2 network point-to-point
+set protocols isis interface eth3 network point-to-point
+set protocols isis level &#39;level-2&#39;
+set protocols isis log-adjacency-changes
+set protocols isis metric-style &#39;wide&#39;
+set protocols isis net &#39;49.0000.0000.0000.0002.00&#39;
+set protocols isis segment-routing maximum-label-depth &#39;8&#39;
+set protocols isis segment-routing prefix 192.0.2.2/32 index value &#39;2&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls interface &#39;eth3&#39;
+set system host-name &#39;P2-VyOS&#39;
+</pre></div>
+</div>
+<p>This gives us MPLS segment routing enabled and labels forwarding :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@P1-VyOS:~$ show mpls table
+Inbound Label  Type        Nexthop               Outbound Label
+-----------------------------------------------------------------
+15000          SR (IS-IS)  192.0.2.6             implicit-null
+15001          SR (IS-IS)  192.0.2.22            implicit-null
+15002          SR (IS-IS)  fe80::5200:ff:fe04:3  implicit-null
+16002          SR (IS-IS)  192.0.2.6             16002
+16003          SR (IS-IS)  192.0.2.6             implicit-null
+16011          SR (IS-IS)  192.0.2.22            implicit-null
+
+vyos@P2-VyOS:~$ show mpls table
+Inbound Label  Type        Nexthop     Outbound Label
+-------------------------------------------------------
+15000          SR (IS-IS)  192.0.2.18  implicit-null
+16001          SR (IS-IS)  192.0.2.18  16001
+16003          SR (IS-IS)  192.0.2.18  implicit-null
+16011          SR (IS-IS)  192.0.2.18  16011
+
+RP/0/0/CPU0:P3-VyOS#show mpls forwarding
+Tue Mar 28 17:47:18.928 UTC
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes
+Label  Label       or ID              Interface                    Switched
+------ ----------- ------------------ ------------ --------------- ------------
+16001  Pop         SR Pfx (idx 1)     Gi0/0/0/1    192.0.2.5       0
+16002  Pop         SR Pfx (idx 2)     Gi0/0/0/2    192.0.2.17      0
+16011  16011       SR Pfx (idx 11)    Gi0/0/0/1    192.0.2.5       0
+24000  Pop         SR Adj (idx 1)     Gi0/0/0/1    192.0.2.5       0
+24001  Pop         SR Adj (idx 3)     Gi0/0/0/1    192.0.2.5       0
+24002  Pop         SR Adj (idx 1)     Gi0/0/0/2    192.0.2.17      0
+24003  Pop         SR Adj (idx 3)     Gi0/0/0/2    192.0.2.17      0
+</pre></div>
+</div>
+<p>VyOS is able to check MSD per devices:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@P1-VyOS:~$ show isis segment-routing node
+Area VyOS:
+IS-IS L1 SR-Nodes:
+
+IS-IS L2 SR-Nodes:
+
+System ID       SRGB           SRLB            Algorithm  MSD
+---------------------------------------------------------------
+0000.0000.0001  16000 - 23999  15000 - 15999   SPF        8
+0000.0000.0002  16000 - 23999  15000 - 15999   SPF        8
+0000.0000.0003  16000 - 23999  0 - 4294967295  SPF        10
+0000.0000.0011  16000 - 23999  15000 - 15999   SPF        8
+
+vyos@P2-VyOS:~$ show isis segment-routing node
+Area VyOS:
+ IS-IS L1 SR-Nodes:
+
+ IS-IS L2 SR-Nodes:
+
+ System ID       SRGB           SRLB            Algorithm  MSD
+ ---------------------------------------------------------------
+ 0000.0000.0001  16000 - 23999  15000 - 15999   SPF        8
+ 0000.0000.0002  16000 - 23999  15000 - 15999   SPF        8
+ 0000.0000.0003  16000 - 23999  0 - 4294967295  SPF        10
+ 0000.0000.0011  16000 - 23999  15000 - 15999   SPF        8
+</pre></div>
+</div>
+<p>Here is the routing tables showing the MPLS segment routing label operations:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@P1-VyOS:~$ show ip route isis
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+I&gt;* 192.0.2.2/32 [115/30] via 192.0.2.6, eth1, label 16002, weight 1, 1d03h18m
+I&gt;* 192.0.2.3/32 [115/10] via 192.0.2.6, eth1, label implicit-null, weight 1, 1d03h18m
+I   192.0.2.4/30 [115/20] via 192.0.2.6, eth1 inactive, weight 1, 1d03h18m
+I&gt;* 192.0.2.11/32 [115/20] via 192.0.2.22, eth3, label implicit-null, weight 1, 1d02h47m
+I&gt;* 192.0.2.16/30 [115/20] via 192.0.2.6, eth1, weight 1, 1d03h18m
+I   192.0.2.20/30 [115/20] via 192.0.2.22, eth3 inactive, weight 1, 1d02h48m
+I&gt;* 192.0.2.24/30 [115/30] via 192.0.2.6, eth1, weight 1, 1d03h18m
+
+
+vyos@P2-VyOS:~$ show ip route isis
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+I&gt;* 192.0.2.1/32 [115/30] via 192.0.2.18, eth2, label 16001, weight 1, 1d03h17m
+I&gt;* 192.0.2.3/32 [115/10] via 192.0.2.18, eth2, label implicit-null, weight 1, 1d03h17m
+I&gt;* 192.0.2.4/30 [115/20] via 192.0.2.18, eth2, weight 1, 1d03h17m
+I&gt;* 192.0.2.11/32 [115/40] via 192.0.2.18, eth2, label 16011, weight 1, 1d02h47m
+I   192.0.2.16/30 [115/20] via 192.0.2.18, eth2 inactive, weight 1, 1d03h17m
+I&gt;* 192.0.2.20/30 [115/30] via 192.0.2.18, eth2, weight 1, 1d03h17m
+
+RP/0/0/CPU0:P3-VyOS#show route isis
+Tue Mar 28 18:19:16.417 UTC
+
+i L2 192.0.2.1/32 [115/20] via 192.0.2.5, 1d03h, GigabitEthernet0/0/0/1
+i L2 192.0.2.2/32 [115/20] via 192.0.2.17, 1d03h, GigabitEthernet0/0/0/2
+i L2 192.0.2.11/32 [115/30] via 192.0.2.5, 1d02h, GigabitEthernet0/0/0/1
+i L2 192.0.2.20/30 [115/20] via 192.0.2.5, 1d03h, GigabitEthernet0/0/0/1
+i L2 192.0.2.24/30 [115/20] via 192.0.2.17, 1d03h, GigabitEthernet0/0/0/2
+</pre></div>
+</div>
+<p>Information about prefix-sid and label-operation from VyOS</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@P1-VyOS:~$ show isis route prefix-sid
+Area VyOS:
+IS-IS L2 IPv4 routing table:
+
+ Prefix         Metric  Interface  Nexthop    SID  Label Op.
+ ----------------------------------------------------------------------
+ 192.0.2.1/32   0       -          -          -    -
+ 192.0.2.2/32   30      eth1       192.0.2.6  2    Swap(16002, 16002)
+ 192.0.2.3/32   10      eth1       192.0.2.6  3    Pop(16003)
+ 192.0.2.4/30   20      eth1       192.0.2.6  -    -
+ 192.0.2.16/30  20      eth1       192.0.2.6  -    -
+ 192.0.2.20/30  0       -          -          -    -
+ 192.0.2.24/30  30      eth1       192.0.2.6  -    -
+
+ vyos@P2-VyOS:~$ show isis route prefix-sid
+ Area VyOS:
+ IS-IS L2 IPv4 routing table:
+
+  Prefix         Metric  Interface  Nexthop     SID  Label Op.
+  -----------------------------------------------------------------------
+  192.0.2.1/32   30      eth2       192.0.2.18  1    Swap(16001, 16001)
+  192.0.2.2/32   0       -          -           -    -
+  192.0.2.3/32   10      eth2       192.0.2.18  3    Pop(16003)
+  192.0.2.4/30   20      eth2       192.0.2.18  -    -
+  192.0.2.16/30  20      eth2       192.0.2.18  -    -
+  192.0.2.20/30  30      eth2       192.0.2.18  -    -
+  192.0.2.24/30  0       -          -           -    -
+</pre></div>
+</div>
+<p>Ping between VyOS-P1 / VyOS-P2 to confirm reachability:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@P1-VyOS:~$ ping 192.0.2.2 source-address 192.0.2.1
+PING 192.0.2.2 (192.0.2.2) from 192.0.2.1 : 56(84) bytes of data.
+64 bytes from 192.0.2.2: icmp_seq=1 ttl=63 time=3.47 ms
+64 bytes from 192.0.2.2: icmp_seq=2 ttl=63 time=2.06 ms
+64 bytes from 192.0.2.2: icmp_seq=3 ttl=63 time=3.90 ms
+64 bytes from 192.0.2.2: icmp_seq=4 ttl=63 time=3.87 ms
+^C
+--- 192.0.2.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 2.064/3.326/3.903/0.748 ms
+
+vyos@P2-VyOS:~$ ping 192.0.2.1 source-address 192.0.2.2
+PING 192.0.2.1 (192.0.2.1) from 192.0.2.2 : 56(84) bytes of data.
+64 bytes from 192.0.2.1: icmp_seq=1 ttl=63 time=2.91 ms
+64 bytes from 192.0.2.1: icmp_seq=2 ttl=63 time=3.23 ms
+64 bytes from 192.0.2.1: icmp_seq=3 ttl=63 time=2.91 ms
+64 bytes from 192.0.2.1: icmp_seq=4 ttl=63 time=2.85 ms
+^C
+--- 192.0.2.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 2.846/2.972/3.231/0.151 ms
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="qos.html" class="btn btn-neutral float-left" title="QoS example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nmp.html" class="btn btn-neutral float-right" title="NMP example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

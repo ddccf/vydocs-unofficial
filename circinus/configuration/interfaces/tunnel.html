@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tunnel &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Virtual Ethernet" href="virtual-ethernet.html" />
+    <link rel="prev" title="SSTP Client" href="sstp-client.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / Link Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">GENEVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tpv3.html">L2TPv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard.html">WireGuard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN - Pseudo Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP Client</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tunnel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#common-interface-configuration">Common interface configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipip">IPIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ip6ip6">IP6IP6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipip6">IPIP6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#in4-sit">6in4 (SIT)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generic-routing-encapsulation-gre">Generic Routing Encapsulation (GRE)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-ethernet.html">Virtual Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI - Virtual Tunnel Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">WLAN/WIFI - Wireless LAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wwan.html">WWAN - Wireless Wide-Area-Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">Tunnel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/interfaces/tunnel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tunnel">
+<span id="tunnel-interface"></span><h1>Tunnel<a class="headerlink" href="#tunnel" title="Link to this heading"></a></h1>
+<p>This article touches on ‘classic’ IP tunneling protocols.</p>
+<p>GRE is often seen as a one size fits all solution when it comes to classic IP
+tunneling protocols, and for a good reason. However, there are more specialized
+options, and many of them are supported by VyOS. There are also rather obscure
+GRE options that can be useful.</p>
+<p>All those protocols are grouped under <code class="docutils literal notranslate"><span class="pre">interfaces</span> <span class="pre">tunnel</span></code> in VyOS. Let’s take
+a closer look at the protocols and options currently supported by VyOS.</p>
+<section id="common-interface-configuration">
+<h2>Common interface configuration<a class="headerlink" href="#common-interface-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-address-address">
+set interfaces tunnel &lt;interface&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface <cite>&lt;interface&gt;</cite> with one or more interface
+addresses.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times as IPv4 and/or IPv6
+address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 address 192.0.2.1/24
+set interfaces tunnel tun0 address 2001:db8::1/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-description-description">
+set interfaces tunnel &lt;interface&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a human readable, descriptive alias for this connection. Alias is used by
+e.g. the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command or SNMP based monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 description &#39;This is an awesome interface running on VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-disable">
+set interfaces tunnel &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable given <cite>&lt;interface&gt;</cite>. It will be placed in administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-disable-flow-control">
+set interfaces tunnel &lt;interface&gt;  disable-flow-control</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-disable-flow-control" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Ethernet flow control is a mechanism for temporarily stopping the transmission
+of data on Ethernet family computer networks. The goal of this mechanism is to
+ensure zero packet loss in the presence of network congestion.</p>
+<p>The first flow control mechanism, the pause frame, was defined by the IEEE
+802.3x standard.</p>
+<p>A sending station (computer or network switch) may be transmitting data faster
+than the other end of the link can accept it. Using flow control, the
+receiving station can signal the sender requesting suspension of
+transmissions until the receiver catches up.</p>
+<p>Use this command to disable the generation of Ethernet flow control (pause
+frames).</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 disable-flow-control
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-disable-link-detect">
+set interfaces tunnel &lt;interface&gt; disable-link-detect</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to direct an interface to not detect any physical state
+changes on a link, for example, when the cable is unplugged.</p>
+<p>Default is to detects physical link state changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 disable-link-detect
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-mtu-mtu">
+set interfaces tunnel &lt;interface&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <abbr title="Maximum Transmission Unit">MTU</abbr> on given <cite>&lt;interface&gt;</cite>. It
+is the size (in bytes) of the largest ethernet frame sent on this link.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 mtu 1600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces tunnel &lt;interface&gt; ip adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 20 (IP header) - 20 (TCP header), resulting in
+1452 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-arp-cache-timeout">
+set interfaces tunnel &lt;interface&gt; ip arp-cache-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-arp-cache-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Once a neighbor has been found, the entry is considered to be valid for at
+least for this specific time. An entry’s validity will be extended if it
+receives positive feedback from higher level protocols.</p>
+<p>This defaults to 30 seconds.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip arp-cache-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-disable-arp-filter">
+set interfaces tunnel &lt;interface&gt; ip disable-arp-filter</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-disable-arp-filter" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If set the kernel can respond to arp requests with addresses from other
+interfaces. This may seem wrong but it usually makes sense, because it
+increases the chance of successful communication. IP addresses are owned by
+the complete host on Linux, not by particular interfaces. Only for more
+complex setups like load-balancing, does this behaviour cause problems.</p>
+<p>If not set (default) allows you to have multiple network interfaces on the
+same subnet, and have the ARPs for each interface be answered based on whether
+or not the kernel would route a packet from the ARP’d IP out that interface
+(therefore you must use source based routing for this to work).</p>
+<p>In other words it allows control of which cards (usually 1) will respond to an
+arp request.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip disable-arp-filter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-disable-forwarding">
+set interfaces tunnel &lt;interface&gt; ip disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-enable-directed-broadcast">
+set interfaces tunnel &lt;interface&gt; ip enable-directed-broadcast</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-enable-directed-broadcast" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for IP directed broadcast forwarding as described in
+<span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1812.html"><strong>RFC 1812</strong></a> and <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2644.html"><strong>RFC 2644</strong></a>.</p>
+<p>If configured, incoming IP directed broadcast packets on this interface will
+be forwarded.</p>
+<p>If this option is unset (default), incoming IP directed broadcast packets
+will not be forwarded.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip enable-directed-broadcast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-accept">
+set interfaces tunnel &lt;interface&gt; ip enable-arp-accept</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-accept" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define behavior for gratuitous ARP frames whose IP is not already present in
+the ARP table. If configured create new entries in the ARP table.</p>
+<p>Both replies and requests type gratuitous arp will trigger the ARP table to be
+updated, if this setting is on.</p>
+<p>If the ARP table already contains the IP address of the gratuitous arp frame,
+the arp table will be updated regardless if this setting is on or off.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip enable-arp-accept
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-announce">
+set interfaces tunnel &lt;interface&gt; ip enable-arp-announce</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-announce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different restriction levels for announcing the local source IP address
+from IP packets in ARP requests sent on interface.</p>
+<p>Use any local address, configured on any interface if this is not set.</p>
+<p>If configured, try to avoid local addresses that are not in the target’s
+subnet for this interface. This mode is useful when target hosts reachable via
+this interface require the source IP address in ARP requests to be part of
+their logical network configured on the receiving interface. When we generate
+the request we will check all our subnets that include the target IP and will
+preserve the source address if it is from such subnet. If there is no such
+subnet we select source address according to the rules for level 2.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip enable-arp-announce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-ignore">
+set interfaces tunnel &lt;interface&gt; ip enable-arp-ignore</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-enable-arp-ignore" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for sending replies in response to received ARP
+requests that resolve local target IP addresses:</p>
+<p>If configured, reply only if the target IP address is local address configured
+on the incoming interface.</p>
+<p>If this option is unset (default), reply for any local target IP address,
+configured on any interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip enable-arp-ignore
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-enable-proxy-arp">
+set interfaces tunnel &lt;interface&gt; ip enable-proxy-arp</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-enable-proxy-arp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable proxy Address Resolution Protocol (ARP) on this
+interface. Proxy ARP allows an Ethernet interface to respond with its own
+<abbr title="Media Access Control">MAC</abbr> address to ARP requests for destination IP
+addresses on subnets attached to other interfaces on the system. Subsequent
+packets sent to those destination IP addresses are forwarded appropriately by
+the system.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ip enable-proxy-arp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-proxy-arp-pvlan">
+set interfaces tunnel &lt;interface&gt; ip proxy-arp-pvlan</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-proxy-arp-pvlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Private VLAN proxy arp. Basically allow proxy arp replies back to the same
+interface (from which the ARP request/solicitation was received).</p>
+<p>This is done to support (ethernet) switch features, like <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, where
+the individual ports are NOT allowed to communicate with each other, but they
+are allowed to talk to the upstream router. As described in <span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, it is
+possible to allow these hosts to communicate through the upstream router by
+proxy_arp’ing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not need to be used together with proxy_arp.</p>
+</div>
+<p>This technology is known by different names:</p>
+<ul class="simple">
+<li><p>In <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a> it is called VLAN Aggregation</p></li>
+<li><p>Cisco and Allied Telesyn call it Private VLAN</p></li>
+<li><p>Hewlett-Packard call it Source-Port filtering or port-isolation</p></li>
+<li><p>Ericsson call it MAC-Forced Forwarding (RFC Draft)</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ip-source-validation-strict-loose-disable">
+set interfaces tunnel &lt;interface&gt; ip source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ip-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable policy for source validation by reversed path, as specified in
+<span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a>. Current recommended practice in <span class="target" id="index-6"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a> is to enable strict
+mode to prevent IP spoofing from DDos attacks. If using asymmetric routing
+or other complicated routing, then loose mode is recommended.</p>
+<ul class="simple">
+<li><p>strict: Each incoming packet is tested against the FIB and if the interface
+is not the best reverse path the packet check will fail. By default failed
+packets are discarded.</p></li>
+<li><p>loose: Each incoming packet’s source address is also tested against the FIB
+and if the source address is not reachable via any interface the packet
+check will fail.</p></li>
+<li><p>disable: No source validation</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-address-autoconf">
+set interfaces tunnel &lt;interface&gt; ipv6 address autoconf</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-address-autoconf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="Stateless Address Autoconfiguration">SLAAC</abbr> <span class="target" id="index-7"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4862.html"><strong>RFC 4862</strong></a>. IPv6 hosts
+can configure themselves automatically when connected to an IPv6 network using
+the Neighbor Discovery Protocol via <abbr title="Internet Control Message Protocol version 6">ICMPv6</abbr> router discovery messages. When first connected to a
+network, a host sends a link-local router solicitation multicast request for
+its configuration parameters; routers respond to such a request with a router
+advertisement packet that contains Internet Layer configuration parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method automatically disables IPv6 traffic forwarding on the
+interface in question.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 address autoconf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-address-eui64-prefix">
+set interfaces tunnel &lt;interface&gt; ipv6 address eui64 &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-address-eui64-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="64-Bit Extended Unique Identifier">EUI-64</abbr> as specified in
+<span class="target" id="index-8"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4291.html"><strong>RFC 4291</strong></a> allows a host to assign iteslf a unique 64-Bit IPv6 address.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 address eui64 2001:db8:beef::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-address-no-default-link-local">
+set interfaces tunnel &lt;interface&gt; ipv6 address no-default-link-local</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-address-no-default-link-local" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Do not assign a link-local IPv6 address to this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 address no-default-link-local
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-disable-forwarding">
+set interfaces tunnel &lt;interface&gt; ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces tunnel &lt;interface&gt; ipv6 adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss6</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 40 (IPv6 header) - 20 (TCP header), resulting in
+1432 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-accept-dad-1-3">
+set interfaces tunnel &lt;interface&gt; ipv6 accept-dad &lt;1-3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-accept-dad-1-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Whether to accept DAD (Duplicate Address Detection).</p>
+<ul class="simple">
+<li><p>0: Disable DAD</p></li>
+<li><p>1: Enable DAD (default)</p></li>
+<li><p>2: Enable DAD, and disable IPv6 operation if MAC-based duplicate link-local address has been found.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 accept-dad 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-ipv6-dup-addr-detect-transmits-n">
+set interfaces tunnel &lt;interface&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-ipv6-dup-addr-detect-transmits-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The amount of Duplicate Address Detection probes to send.</p>
+<p>Default: 1</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 ipv6 dup-addr-detect-transmits 5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-tunnel-interface-vrf-vrf">
+set interfaces tunnel &lt;interface&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-tunnel-interface-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Place interface in given VRF instance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
+please check this for additional information.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ipip">
+<h2>IPIP<a class="headerlink" href="#ipip" title="Link to this heading"></a></h2>
+<p>This is one of the simplest types of tunnels, as defined by <span class="target" id="index-9"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2003.html"><strong>RFC 2003</strong></a>.
+It takes an IPv4 packet and sends it as a payload of another IPv4 packet. For
+this reason, there are no other configuration options for this kind of tunnel.</p>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 encapsulation ipip
+set interfaces tunnel tun0 source-address 192.0.2.10
+set interfaces tunnel tun0 remote 203.0.113.20
+set interfaces tunnel tun0 address 192.168.100.200/24
+</pre></div>
+</div>
+</section>
+<section id="ip6ip6">
+<h2>IP6IP6<a class="headerlink" href="#ip6ip6" title="Link to this heading"></a></h2>
+<p>This is the IPv6 counterpart of IPIP. I’m not aware of an RFC that defines this
+encapsulation specifically, but it’s a natural specific case of IPv6
+encapsulation mechanisms described in :rfc:2473`.</p>
+<p>It’s not likely that anyone will need it any time soon, but it does exist.</p>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 encapsulation ip6ip6
+set interfaces tunnel tun0 source-address 2001:db8:aa::1
+set interfaces tunnel tun0 remote 2001:db8:aa::2
+set interfaces tunnel tun0 address 2001:db8:bb::1/64
+</pre></div>
+</div>
+</section>
+<section id="ipip6">
+<h2>IPIP6<a class="headerlink" href="#ipip6" title="Link to this heading"></a></h2>
+<p>In the future this is expected to be a very useful protocol (though there are
+<a class="reference external" href="https://www.isc.org/othersoftware/">other proposals</a>).</p>
+<p>As the name implies, it’s IPv4 encapsulated in IPv6, as simple as that.</p>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 encapsulation ipip6
+set interfaces tunnel tun0 source-address 2001:db8:aa::1
+set interfaces tunnel tun0 remote 2001:db8:aa::2
+set interfaces tunnel tun0 address 192.168.70.80/24
+</pre></div>
+</div>
+</section>
+<section id="in4-sit">
+<h2>6in4 (SIT)<a class="headerlink" href="#in4-sit" title="Link to this heading"></a></h2>
+<p>6in4 uses tunneling to encapsulate IPv6 traffic over IPv4 links as defined in
+<span class="target" id="index-10"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4213.html"><strong>RFC 4213</strong></a>. The 6in4 traffic is sent over IPv4 inside IPv4 packets whose IP
+headers have the IP protocol number set to 41. This protocol number is
+specifically designated for IPv6 encapsulation, the IPv4 packet header is
+immediately followed by the IPv6 packet being carried. The encapsulation
+overhead is the size of the IPv4 header of 20 bytes, therefore with an MTU of
+1500 bytes, IPv6 packets of 1480 bytes can be sent without fragmentation. This
+tunneling technique is frequently used by IPv6 tunnel brokers like <a class="reference external" href="https://tunnelbroker.net/">Hurricane
+Electric</a>.</p>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 encapsulation sit
+set interfaces tunnel tun0 source-address 192.0.2.10
+set interfaces tunnel tun0 remote 192.0.2.20
+set interfaces tunnel tun0 address 2001:db8:bb::1/64
+</pre></div>
+</div>
+<p>A full example of a Tunnelbroker.net config can be found at
+<a class="reference internal" href="../../configexamples/autotest/tunnelbroker/tunnelbroker.html#examples-tunnelbroker-ipv6"><span class="std std-ref">here</span></a>.</p>
+</section>
+<section id="generic-routing-encapsulation-gre">
+<h2>Generic Routing Encapsulation (GRE)<a class="headerlink" href="#generic-routing-encapsulation-gre" title="Link to this heading"></a></h2>
+<p>A GRE tunnel operates at layer 3 of the OSI model and is represented by IP
+protocol 47. The main benefit of a GRE tunnel is that you are able to carry
+multiple protocols inside the same tunnel. GRE also supports multicast traffic
+and supports routing protocols that leverage multicast to form neighbor
+adjacencies.</p>
+<p>A VyOS GRE tunnel can carry both IPv4 and IPv6 traffic and can also be created
+over either IPv4 (gre) or IPv6 (ip6gre).</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<p>A basic configuration requires a tunnel source (source-address), a tunnel
+destination (remote), an encapsulation type (gre), and an address (ipv4/ipv6).
+Below is a basic IPv4 only configuration example taken from a VyOS router and
+a Cisco IOS router. The main difference between these two configurations is
+that VyOS requires you explicitly configure the encapsulation type. The Cisco
+router defaults to GRE IP otherwise it would have to be configured as well.</p>
+<p><strong>VyOS Router:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun100 address &#39;10.0.0.1/30&#39;
+set interfaces tunnel tun100 encapsulation &#39;gre&#39;
+set interfaces tunnel tun100 source-address &#39;198.51.100.2&#39;
+set interfaces tunnel tun100 remote &#39;203.0.113.10&#39;
+</pre></div>
+</div>
+<p><strong>Cisco IOS Router:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface Tunnel100
+ip address 10.0.0.2 255.255.255.252
+tunnel source 203.0.113.10
+tunnel destination 198.51.100.2
+</pre></div>
+</div>
+<p>Here is a second example of a dual-stack tunnel over IPv6 between a VyOS router
+and a Linux host using systemd-networkd.</p>
+<p><strong>VyOS Router:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun101 address &#39;2001:db8:feed:beef::1/126&#39;
+set interfaces tunnel tun101 address &#39;192.168.5.1/30&#39;
+set interfaces tunnel tun101 encapsulation &#39;ip6gre&#39;
+set interfaces tunnel tun101 source-address &#39;2001:db8:babe:face::3afe:3&#39;
+set interfaces tunnel tun101 remote &#39;2001:db8:9bb:3ce::5&#39;
+</pre></div>
+</div>
+<p><strong>Linux systemd-networkd:</strong></p>
+<p>This requires two files, one to create the device (XXX.netdev) and one
+to configure the network on the device (XXX.network)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># cat /etc/systemd/network/gre-example.netdev
+[NetDev]
+Name=gre-example
+Kind=ip6gre
+MTUBytes=14180
+
+[Tunnel]
+Remote=2001:db8:babe:face::3afe:3
+
+
+# cat /etc/systemd/network/gre-example.network
+[Match]
+Name=gre-example
+
+[Network]
+Address=2001:db8:feed:beef::2/126
+
+[Address]
+Address=192.168.5.2/30
+</pre></div>
+</div>
+</section>
+<section id="tunnel-keys">
+<h3>Tunnel keys<a class="headerlink" href="#tunnel-keys" title="Link to this heading"></a></h3>
+<p>GRE is also the only classic protocol that allows creating multiple tunnels
+with the same source and destination due to its support for tunnel keys.
+Despite its name, this feature has nothing to do with security: it’s simply
+an identifier that allows routers to tell one tunnel from another.</p>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 source-address 192.0.2.10
+set interfaces tunnel tun0 remote 192.0.2.20
+set interfaces tunnel tun0 address 10.40.50.60/24
+set interfaces tunnel tun0 parameters ip key 10
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 source-address 192.0.2.10
+set interfaces tunnel tun0 remote 192.0.2.20
+set interfaces tunnel tun0 address 172.16.17.18/24
+set interfaces tunnel tun0 parameters ip key 20
+</pre></div>
+</div>
+</section>
+<section id="gretap">
+<h3>GRETAP<a class="headerlink" href="#gretap" title="Link to this heading"></a></h3>
+<p>While normal GRE is for layer 3, GRETAP is for layer 2. GRETAP can encapsulate
+Ethernet frames, thus it can be bridged with other interfaces to create
+datalink layer segments that span multiple remote sites.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces bridge br0 member interface eth0
+set interfaces bridge br0 member interface tun0
+set interfaces tunnel tun0 encapsulation gretap
+set interfaces tunnel tun0 source-address 198.51.100.2
+set interfaces tunnel tun0 remote 203.0.113.10
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h3>
+<p>GRE is a well defined standard that is common in most networks. While not
+inherently difficult to configure there are a couple of things to keep in mind
+to make sure the configuration performs as expected. A common cause for GRE
+tunnels to fail to come up correctly include ACL or Firewall configurations
+that are discarding IP protocol 47 or blocking your source/destination traffic.</p>
+<p><strong>1. Confirm IP connectivity between tunnel source-address and remote:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ ping 203.0.113.10 interface 198.51.100.2 count 4
+PING 203.0.113.10 (203.0.113.10) from 198.51.100.2 : 56(84) bytes of data.
+64 bytes from 203.0.113.10: icmp_seq=1 ttl=254 time=0.807 ms
+64 bytes from 203.0.113.10: icmp_seq=2 ttl=254 time=1.50 ms
+64 bytes from 203.0.113.10: icmp_seq=3 ttl=254 time=0.624 ms
+64 bytes from 203.0.113.10: icmp_seq=4 ttl=254 time=1.41 ms
+
+--- 203.0.113.10 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3007ms
+rtt min/avg/max/mdev = 0.624/1.087/1.509/0.381 ms
+</pre></div>
+</div>
+<p><strong>2. Confirm the link type has been set to GRE:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces tunnel tun100
+tun100@NONE: &lt;POINTOPOINT,NOARP,UP,LOWER_UP&gt; mtu 1476 qdisc noqueue state UNKNOWN group default qlen 1000
+  link/gre 198.51.100.2 peer 203.0.113.10
+  inet 10.0.0.1/30 brd 10.0.0.3 scope global tun100
+     valid_lft forever preferred_lft forever
+  inet6 fe80::5efe:c612:2/64 scope link
+     valid_lft forever preferred_lft forever
+
+  RX:  bytes    packets     errors    dropped    overrun      mcast
+        2183         27          0          0          0          0
+  TX:  bytes    packets     errors    dropped    carrier collisions
+         836          9          0          0          0          0
+</pre></div>
+</div>
+<p><strong>3. Confirm IP connectivity across the tunnel:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ ping 10.0.0.2 interface 10.0.0.1 count 4
+PING 10.0.0.2 (10.0.0.2) from 10.0.0.1 : 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=255 time=1.05 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=255 time=1.88 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=255 time=1.98 ms
+64 bytes from 10.0.0.2: icmp_seq=4 ttl=255 time=1.98 ms
+
+--- 10.0.0.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3008ms
+rtt min/avg/max/mdev = 1.055/1.729/1.989/0.395 ms
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is also a GRE over IPv6 encapsulation available, it is
+called: <code class="docutils literal notranslate"><span class="pre">ip6gre</span></code>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sstp-client.html" class="btn btn-neutral float-left" title="SSTP Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="virtual-ethernet.html" class="btn btn-neutral float-right" title="Virtual Ethernet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

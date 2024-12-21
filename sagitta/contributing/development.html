@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Issues/Feature requests" href="issues-features.html" />
+    <link rel="prev" title="Build VyOS" href="build-vyos.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submit-a-patch">Submit a Patch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-patch-commit">Prepare patch/commit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-good-commit-messages">Writing good commit messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#determinine-source-package">Determinine source package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fork-repository-and-submit-patch">Fork Repository and submit Patch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attach-patch-to-phabricator-task">Attach patch to Phabricator task</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#coding-guidelines">Coding Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#formatting">Formatting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#text-generation">Text generation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-script-structure-and-behaviour">Configuration Script Structure and Behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#xml-used-for-cli-definitions">XML (used for CLI definitions)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gnu-preprocessor">GNU Preprocessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#guidelines">Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#use-of-numbers">Use of numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#help-string">Help String</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#migrating-old-cli">Migrating old CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#c-backend-code">C++ Backend Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Development</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/contributing/development.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development">
+<span id="id1"></span><h1>Development<a class="headerlink" href="#development" title="Link to this heading"></a></h1>
+<p>All VyOS source code is hosted on GitHub under the VyOS organization which can
+be found here: <a class="reference external" href="https://github.com/vyos">https://github.com/vyos</a></p>
+<p>Our code is split into several modules. VyOS is composed of multiple individual
+packages, some of them are forks of upstream packages and are periodically
+synced with upstream, so keeping the whole source under a single repository
+would be very inconvenient and slow. There is now an ongoing effort to
+consolidate all VyOS-specific framework/config packages into vyos-1x package,
+but the basic structure is going to stay the same, just with fewer and fewer
+packages while the base code is rewritten from Perl/BASH into Python using and
+XML based interface definition for the CLI.</p>
+<p>The repository that contains all the ISO build scripts is:
+<a class="reference external" href="https://github.com/vyos/vyos-build">https://github.com/vyos/vyos-build</a></p>
+<p>The README.md file will guide you to use the this top level repository.</p>
+<section id="submit-a-patch">
+<h2>Submit a Patch<a class="headerlink" href="#submit-a-patch" title="Link to this heading"></a></h2>
+<p>Patches are always more than welcome. To have a clean and easy to maintain
+repository we have some guidelines when working with Git. A clean repository
+eases the automatic generation of a changelog file.</p>
+<p>A good approach for writing commit messages is actually to have a look at the
+file(s) history by invoking <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span> <span class="pre">path/to/file.txt</span></code>.</p>
+<section id="prepare-patch-commit">
+<span id="prepare-commit"></span><h3>Prepare patch/commit<a class="headerlink" href="#prepare-patch-commit" title="Link to this heading"></a></h3>
+<p>In a big system, such as VyOS, that is comprised of multiple components, it’s
+impossible to keep track of all the changes and bugs/feature requests in one’s
+head. We use a bugtracker known as <a class="reference external" href="https://vyos.dev/">Phabricator</a> for it (“issue tracker” would
+be a better term, but this one stuck).</p>
+<p>The information is used in three ways:</p>
+<ul class="simple">
+<li><p>Keep track of the progress (what we’ve already done in this branch and what
+we still need to do).</p></li>
+<li><p>Prepare release notes for upcoming releases</p></li>
+<li><p>Help future maintainers of VyOS (it could be you!) to find out why certain
+things have been changed in the codebase or why certain features have been
+added</p></li>
+</ul>
+<p>To make this approach work, every change must be associated with a task number
+(prefixed with <strong>T</strong>) and a component. If there is no bug report/feature request
+for the changes you are going to make, you have to create a <a class="reference external" href="https://vyos.dev/">Phabricator</a> task
+first. Once there is an entry in <a class="reference external" href="https://vyos.dev/">Phabricator</a>, you should reference its id in
+your commit message, as shown below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ddclient:</span> <span class="pre">T1030:</span> <span class="pre">auto</span> <span class="pre">create</span> <span class="pre">runtime</span> <span class="pre">directories</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Jenkins:</span> <span class="pre">add</span> <span class="pre">current</span> <span class="pre">Git</span> <span class="pre">commit</span> <span class="pre">ID</span> <span class="pre">to</span> <span class="pre">build</span> <span class="pre">description</span></code></p></li>
+</ul>
+<p>If there is no <a class="reference external" href="https://vyos.dev/">Phabricator</a> reference in the commits of your pull request, we
+have to ask you to amend the commit message. Otherwise we will have to reject
+it.</p>
+<section id="writing-good-commit-messages">
+<h4>Writing good commit messages<a class="headerlink" href="#writing-good-commit-messages" title="Link to this heading"></a></h4>
+<p>The format should be and is inspired by: <a class="reference external" href="https://git-scm.com/book/ch5-2.html">https://git-scm.com/book/ch5-2.html</a>
+It is also worth reading <a class="reference external" href="https://chris.beams.io/posts/git-commit/">https://chris.beams.io/posts/git-commit/</a></p>
+<ul class="simple">
+<li><p>A single, short, summary of the commit (recommended 50 characters or less,
+not exceeding 80 characters) containing a prefix of the changed component
+and the corresponding <a class="reference external" href="https://vyos.dev/">Phabricator</a> reference e.g. <code class="docutils literal notranslate"><span class="pre">snmp:</span> <span class="pre">T1111:</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ethernet:</span> <span class="pre">T2222:</span></code> - multiple components could be concatenated as in
+<code class="docutils literal notranslate"><span class="pre">snmp:</span> <span class="pre">ethernet:</span> <span class="pre">T3333</span></code></p></li>
+<li><p>In some contexts, the first line is treated as the subject of an email and
+the rest of the text as the body. The blank line separating the summary from
+the body is critical (unless you omit the body entirely); tools like rebase
+can get confused if you run the two together.</p></li>
+<li><p>Followed by a message which describes all the details like:</p>
+<ul>
+<li><p>What/why/how something has been changed, makes everyone’s life easier when
+working with <cite>git bisect</cite></p></li>
+<li><p>All text of the commit message should be wrapped at 72 characters if
+possible which makes reading commit logs easier with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> on a
+standard terminal (which happens to be 80x25)</p></li>
+<li><p>If applicable a reference to a previous commit should be made linking
+those commits nicely when browsing the history: <code class="docutils literal notranslate"><span class="pre">After</span> <span class="pre">commit</span> <span class="pre">abcd12ef</span>
+<span class="pre">(&quot;snmp:</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">headline&quot;)</span> <span class="pre">a</span> <span class="pre">Python</span> <span class="pre">import</span> <span class="pre">statement</span> <span class="pre">is</span> <span class="pre">missing,</span>
+<span class="pre">throwing</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">exception:</span> <span class="pre">ABCDEF</span></code></p></li>
+</ul>
+</li>
+<li><p>Always use the <code class="docutils literal notranslate"><span class="pre">-x</span></code> option to the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> command when back or
+forward porting an individual commit. This automatically appends the line:
+<code class="docutils literal notranslate"><span class="pre">(cherry</span> <span class="pre">picked</span> <span class="pre">from</span> <span class="pre">commit</span> <span class="pre">&lt;ID&gt;)</span></code> to the original authors commit message
+making it easier when bisecting problems.</p></li>
+<li><p>Every change set must be consistent (self containing)! Do not fix multiple
+bugs in a single commit. If you already worked on multiple fixes in the same
+file use <cite>git add –patch</cite> to only add the parts related to the one issue
+into your upcoming commit.</p></li>
+</ul>
+<p>Limits:</p>
+<ul class="simple">
+<li><p>We only accept bugfixes in packages other than <a class="reference external" href="https://github.com/vyos/vyos-1x">https://github.com/vyos/vyos-1x</a>
+as no new functionality should use the old style templates (<code class="docutils literal notranslate"><span class="pre">node.def</span></code> and
+Perl/BASH code. Use the new style XML/Python interface instead.</p></li>
+</ul>
+<p>Please submit your patches using the well-known GitHub pull-request against our
+repositories found in the VyOS GitHub organisation at <a class="reference external" href="https://github.com/vyos">https://github.com/vyos</a></p>
+</section>
+</section>
+<section id="determinine-source-package">
+<h3>Determinine source package<a class="headerlink" href="#determinine-source-package" title="Link to this heading"></a></h3>
+<p>Suppose you want to make a change in the webproxy script but yet you do not know
+which of the many VyOS packages ship this file. You can determine the VyOS
+package name in question by using Debian’s <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">-S</span></code> command of your running
+VyOS installation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~ dpkg -S /opt/vyatta/sbin/vyatta-update-webproxy.pl
+vyatta-webproxy: /opt/vyatta/sbin/vyatta-update-webproxy.pl
+</pre></div>
+</div>
+<p>This means the file in question (<code class="docutils literal notranslate"><span class="pre">/opt/vyatta/sbin/vyatta-update-webproxy.pl</span></code>)
+is located in the <code class="docutils literal notranslate"><span class="pre">vyatta-webproxy</span></code> package which can be found here:
+<a class="reference external" href="https://github.com/vyos/vyatta-webproxy">https://github.com/vyos/vyatta-webproxy</a></p>
+</section>
+<section id="fork-repository-and-submit-patch">
+<h3>Fork Repository and submit Patch<a class="headerlink" href="#fork-repository-and-submit-patch" title="Link to this heading"></a></h3>
+<p>Forking the repository and submitting a GitHub pull-request is the preferred
+way of submitting your changes to VyOS. You can fork any VyOS repository to your
+very own GitHub account by just appending <code class="docutils literal notranslate"><span class="pre">/fork</span></code> to any repository’s URL on
+GitHub. To e.g. fork the <code class="docutils literal notranslate"><span class="pre">vyos-1x</span></code> repository, open the following URL in your
+favourite browser: <a class="reference external" href="https://github.com/vyos/vyos-1x/fork">https://github.com/vyos/vyos-1x/fork</a></p>
+<p>You then can proceed with cloning your fork or add a new remote to your local
+repository:</p>
+<ul class="simple">
+<li><p>Clone: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/&lt;user&gt;/vyos-1x.git</span></code></p></li>
+<li><p>Fork: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">myfork</span> <span class="pre">https://github.com/&lt;user&gt;/vyos-1x.git</span></code></p></li>
+</ul>
+<p>In order to record you as the author of the fix please identify yourself to Git
+by setting up your name and email. This can be done local for this one and only
+repository <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code> or globally using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git config --global user.name &quot;J. Random Hacker&quot;
+git config --global user.email &quot;jrhacker@example.net&quot;
+</pre></div>
+</div>
+<p>Make your changes and save them. Do the following for all changes files to
+record them in your created Git commit:</p>
+<ul class="simple">
+<li><p>Add file to Git index using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">myfile</span></code>, or for a whole directory:
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">somedir/*</span></code></p></li>
+<li><p>Commit the changes by calling <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>. Please use a meaningful commit
+headline (read above) and don’t forget to reference the <a class="reference external" href="https://vyos.dev/">Phabricator</a> ID.</p></li>
+<li><p>Submit the patch <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> and create the GitHub pull-request.</p></li>
+</ul>
+</section>
+<section id="attach-patch-to-phabricator-task">
+<h3>Attach patch to Phabricator task<a class="headerlink" href="#attach-patch-to-phabricator-task" title="Link to this heading"></a></h3>
+<p>Follow the above steps on how to “Fork repository to submit a Patch”. Instead
+of uploading “pushing” your changes to GitHub you can export the patches/
+commits and send it to <a class="reference external" href="mailto:maintainers&#37;&#52;&#48;vyos&#46;net">maintainers<span>&#64;</span>vyos<span>&#46;</span>net</a> or attach it directly to the bug
+(preferred over email)</p>
+<ul class="simple">
+<li><p>Export last commit to patch file: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span></code> or export the last two
+commits into its appropriate patch files: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span> <span class="pre">-2</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="coding-guidelines">
+<h2>Coding Guidelines<a class="headerlink" href="#coding-guidelines" title="Link to this heading"></a></h2>
+<p>Like any other project we have some small guidelines about our source code, too.
+The rules we have are not there to punish you - the rules are in place to help
+us all. By having a consistent coding style it becomes very easy for new
+and also longtime contributors to navigate through the sources and all the
+implied logic of any one source file..</p>
+<p>Python 3 <strong>shall</strong> be used. How long can we keep Python 2 alive anyway? No
+considerations for Python 2 compatibility <strong>should</strong> be taken at any time.</p>
+<section id="formatting">
+<h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Python: Tabs <strong>shall not</strong> be used. Every indentation level should be 4 spaces</p></li>
+<li><p>XML: Tabs <strong>shall not</strong> be used. Every indentation level should be 2 spaces</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are extensions to e.g. VIM (xmllint) which will help you to get
+your indention levels correct. Add to following to your .vimrc file:
+<code class="docutils literal notranslate"><span class="pre">au</span> <span class="pre">FileType</span> <span class="pre">xml</span> <span class="pre">setlocal</span> <span class="pre">equalprg=xmllint\</span> <span class="pre">--format\</span> <span class="pre">--recover\</span> <span class="pre">-\</span>
+<span class="pre">2&gt;/dev/null</span></code> now you can call the linter using <code class="docutils literal notranslate"><span class="pre">gg=G</span></code> in command mode.</p>
+</div>
+<section id="text-generation">
+<h4>Text generation<a class="headerlink" href="#text-generation" title="Link to this heading"></a></h4>
+<p>Template processor <strong>should</strong> be used for generating config files. Built-in
+string formatting <strong>may</strong> be used for simple line-oriented formats where every
+line is self-contained, such as iptables rules. Template processor <strong>must</strong> be
+used for structured, multi-line formats such as those used by ISC DHCPd.</p>
+<p>The default template processor for VyOS code is <a class="reference external" href="https://jinja.palletsprojects.com/">Jinja2</a>.</p>
+</section>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
+<p>When modifying the source code, remember these rules of the legacy elimination
+campaign:</p>
+<ul class="simple">
+<li><p>No new features in Perl</p></li>
+<li><p>No old style command definitions</p></li>
+<li><p>No code incompatible with Python3</p></li>
+</ul>
+</section>
+</section>
+<section id="python">
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<p>The switch to the Python programming language for new code is not merely a
+change of the language, but a chance to rethink and improve the programming
+approach.</p>
+<p>Let’s face it: VyOS is full of spaghetti code where logic for reading the VyOS
+config, generating daemon configs, and restarting processes is all mixed up.</p>
+<p>Python (or any other language, for that matter) does not provide automatic
+protection from bad design, so we need to also devise design guidelines and
+follow them to keep the system extensible and maintainable.</p>
+<p>But we are here to assist you and want to guide you through how you can become
+a good VyOS contributor. The rules we have are not there to punish you - the
+rules are in place to help us all. What does it mean? By having a consistent
+coding style it becomes very easy for new contributors and also longtime
+contributors to navigate through the sources and all the implied logic of
+the spaghetti code.</p>
+<p>Please use the following template as good starting point when developing new
+modules or even rewrite a whole bunch of code in the new style XML/Python
+interface.</p>
+<section id="configuration-script-structure-and-behaviour">
+<h3>Configuration Script Structure and Behaviour<a class="headerlink" href="#configuration-script-structure-and-behaviour" title="Link to this heading"></a></h3>
+<p>Your configuration script or operation mode script which is also written in
+Python3 should have a line break on 80 characters. This seems to be a bit odd
+nowadays but as some people also work remotely or program using vi(m) this is
+a fair good standard which I hope we can rely on.</p>
+<p>In addition this also helps when browsing the GitHub codebase on a mobile
+device if you happen to be a crazy scientist.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2020 VyOS maintainers and contributors</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software; you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License version 2 or later as</span>
+<span class="c1"># published by the Free Software Foundation.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">vyos.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">vyos</span> <span class="kn">import</span> <span class="n">ConfigError</span>
+
+<span class="k">def</span> <span class="nf">get_config</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">config</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+
+    <span class="c1"># Base path to CLI nodes</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">&#39;...&#39;</span><span class="p">]</span>
+    <span class="c1"># Convert the VyOS config to an abstract internal representation</span>
+    <span class="n">config_data</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get_config_dict</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">key_mangling</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">),</span> <span class="n">get_first_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config_data</span>
+
+<span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Verify that configuration is valid</span>
+    <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;Descriptive message&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Generate daemon configs</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Apply the generated configs to the live system</span>
+    <span class="k">pass</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+    <span class="n">verify</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">generate</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ConfigError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_config()</span></code> function must convert the VyOS config to an abstract,
+internal representation. No other function is allowed to call the <code class="docutils literal notranslate"><span class="pre">vyos.config.</span>
+<span class="pre">Config</span></code> object method directly. The rationale for it is that when config reads
+are mixed with other logic, it’s very hard to change the config syntax since
+you need to weed out every occurrence of the old syntax. If syntax-specific
+code is confined to a single function, the rest of the code can be left
+untouched as long as the internal representation remains compatible.</p>
+<p>Another advantage is testability of the code. Mocking the entire config
+subsystem is hard, while constructing an internal representation by hand is
+way simpler.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">verify()</span></code> function takes your internal representation of the config and
+checks if it’s valid, otherwise it must raise <code class="docutils literal notranslate"><span class="pre">ConfigError</span></code> with an error
+message that describes the problem and possibly suggests how to fix it. It must
+not make any changes to the system. The rationale for it is again testability
+and, in the future when the config backend is ready and every script is
+rewritten in this fashion, ability to execute commit dry run (“commit test”
+like in JunOS) and abort commit before making any changes to the system if an
+error is found in any component.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">generate()</span></code> function generates config files for system components.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply()</span></code> function applies the generated configuration to the live
+system. It should use non-disruptive reload whenever possible. It may execute
+disruptive operations such as daemon process restart if a particular component
+does not support non-disruptive reload, or when the expected service degradation
+is minimal (for example, in case of auxiliary services such as LLDPd). In case
+of high impact services such as VPN daemon and routing protocols, when non-
+disruptive reload is supported for some but not all types of configuration
+changes, scripts authors should make effort to determine if a configuration
+change can be done in a non-disruptive way and only resort to disruptive restart
+if it cannot be avoided.</p>
+<p>Unless absolutely necessary, configuration scripts should not modify the active
+configuration of system components directly. Whenever at all possible, scripts
+should generate a configuration file or files that can be applied with a single
+command such as reloading a service through systemd init. Inserting statements
+one by one is particularly discouraged, for example, when configuring netfilter
+rules, saving them to a file and loading it with iptables-restore should always
+be preferred to executing iptables directly.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply()</span></code> and <code class="docutils literal notranslate"><span class="pre">generate()</span></code> functions may <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">ConfigError</span></code> if, for
+example, the daemon failed to start with the updated config. It shouldn’t be a
+substitute for proper config checking in the <code class="docutils literal notranslate"><span class="pre">verify()</span></code> function. All
+reasonable effort should be made to verify that generated configuration is
+valid and will be accepted by the daemon, including, when necessary, cross-
+checks with other VyOS configuration subtrees.</p>
+<p>Exceptions, including <code class="docutils literal notranslate"><span class="pre">VyOSError</span></code> (which is raised by <code class="docutils literal notranslate"><span class="pre">vyos.config.Config</span></code>
+on improper config operations, such as trying to use <code class="docutils literal notranslate"><span class="pre">list_nodes()</span></code> on a
+non-tag node) should not be silenced or caught and re-raised as config error.
+Sure this will not look pretty on user’s screen, but it will make way better
+bug reports, and help users (and most VyOS users are IT professionals) do their
+own debugging as well.</p>
+<p>For easy orientation we suggest you take a look on the <code class="docutils literal notranslate"><span class="pre">ntp.py</span></code> or
+<code class="docutils literal notranslate"><span class="pre">interfaces-bonding.py</span></code> (for tag nodes) implementation. Both files can be
+found in the <a class="reference external" href="https://github.com/vyos/vyos-1x/tree/current/schema">vyos-1x</a> repository.</p>
+</section>
+</section>
+<section id="xml-used-for-cli-definitions">
+<h2>XML (used for CLI definitions)<a class="headerlink" href="#xml-used-for-cli-definitions" title="Link to this heading"></a></h2>
+<p>The bash (or better vbash) completion in VyOS is defined in <em>templates</em>.
+Templates are text files (called <code class="docutils literal notranslate"><span class="pre">node.def</span></code>) stored in a directory tree. The
+directory names define the command names, and template files define the command
+behaviour. Before VyOS 1.2 (crux) this files were created by hand. After a
+complex redesign <a class="reference external" href="https://blog.vyos.io/vyos-development-digest-10">process</a> the new style template are automatically generated
+from a XML input file.</p>
+<p>XML interface definitions for VyOS come with a RelaxNG schema and are located
+in the <a class="reference external" href="https://github.com/vyos/vyos-1x/tree/current/schema">vyos-1x</a> module. This schema is a slightly modified schema from <a class="reference external" href="https://github.com/vyos/vyconf/tree/master/data/schemata">VyConf</a>
+alias VyOS 2.0 So VyOS 1.2.x interface definitions will be reusable in Nextgen
+VyOS Versions with very minimal changes.</p>
+<p>The great thing about schemas is not only that people can know the complete
+grammar for certain, but also that it can be automatically verified. The
+<cite>scripts/build-command-templates</cite> script that converts the XML definitions to
+old style templates also verifies them against the schema, so a bad definition
+will cause the package build to fail. I do agree that the format is verbose, but
+there is no other format now that would allow this. Besides, a specialized XML
+editor can alleviate the issue with verbosity.</p>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="cm">&lt;!-- Cron configuration --&gt;</span>
+<span class="nt">&lt;interfaceDefinition&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;system&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;children&gt;</span>
+<span class="w">      </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;task-scheduler&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">          </span><span class="nt">&lt;help&gt;</span>Task<span class="w"> </span>scheduler<span class="w"> </span>settings<span class="nt">&lt;/help&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;children&gt;</span>
+<span class="w">          </span><span class="nt">&lt;tagNode</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;task&quot;</span><span class="w"> </span><span class="na">owner=</span><span class="s">&quot;${vyos_conf_scripts_dir}/task_scheduler.py&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">              </span><span class="nt">&lt;help&gt;</span>Scheduled<span class="w"> </span>task<span class="nt">&lt;/help&gt;</span>
+<span class="w">              </span><span class="nt">&lt;valueHelp&gt;</span>
+<span class="w">                </span><span class="nt">&lt;format&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/format&gt;</span>
+<span class="w">                </span><span class="nt">&lt;description&gt;</span>Task<span class="w"> </span>name<span class="nt">&lt;/description&gt;</span>
+<span class="w">              </span><span class="nt">&lt;/valueHelp&gt;</span>
+<span class="w">              </span><span class="nt">&lt;priority&gt;</span>999<span class="nt">&lt;/priority&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">            </span><span class="nt">&lt;children&gt;</span>
+<span class="w">              </span><span class="nt">&lt;leafNode</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;crontab-spec&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;help&gt;</span>UNIX<span class="w"> </span>crontab<span class="w"> </span>time<span class="w"> </span>specification<span class="w"> </span>string<span class="nt">&lt;/help&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">              </span><span class="nt">&lt;/leafNode&gt;</span>
+<span class="w">              </span><span class="nt">&lt;leafNode</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;interval&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;help&gt;</span>Execution<span class="w"> </span>interval<span class="nt">&lt;/help&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;valueHelp&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;format&gt;</span><span class="ni">&amp;lt;</span>minutes<span class="ni">&amp;gt;</span><span class="nt">&lt;/format&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;description&gt;</span>Execution<span class="w"> </span>interval<span class="w"> </span>in<span class="w"> </span>minutes<span class="nt">&lt;/description&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/valueHelp&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;valueHelp&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;format&gt;</span><span class="ni">&amp;lt;</span>minutes<span class="ni">&amp;gt;</span>m<span class="nt">&lt;/format&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;description&gt;</span>Execution<span class="w"> </span>interval<span class="w"> </span>in<span class="w"> </span>minutes<span class="nt">&lt;/description&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/valueHelp&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;valueHelp&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;format&gt;</span><span class="ni">&amp;lt;</span>hours<span class="ni">&amp;gt;</span>h<span class="nt">&lt;/format&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;description&gt;</span>Execution<span class="w"> </span>interval<span class="w"> </span>in<span class="w"> </span>hours<span class="nt">&lt;/description&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/valueHelp&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;valueHelp&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;format&gt;</span><span class="ni">&amp;lt;</span>days<span class="ni">&amp;gt;</span>d<span class="nt">&lt;/format&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;description&gt;</span>Execution<span class="w"> </span>interval<span class="w"> </span>in<span class="w"> </span>days<span class="nt">&lt;/description&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/valueHelp&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;constraint&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;regex&gt;</span>[1-9]([0-9]*)([mhd]{0,1})<span class="nt">&lt;/regex&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/constraint&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">              </span><span class="nt">&lt;/leafNode&gt;</span>
+<span class="w">              </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;executable&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;help&gt;</span>Executable<span class="w"> </span>path<span class="w"> </span>and<span class="w"> </span>arguments<span class="nt">&lt;/help&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">                </span><span class="nt">&lt;children&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;leafNode</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;path&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">                      </span><span class="nt">&lt;help&gt;</span>Path<span class="w"> </span>to<span class="w"> </span>executable<span class="nt">&lt;/help&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/leafNode&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;leafNode</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;arguments&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">                      </span><span class="nt">&lt;help&gt;</span>Arguments<span class="w"> </span>passed<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>executable<span class="nt">&lt;/help&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">                  </span><span class="nt">&lt;/leafNode&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/children&gt;</span>
+<span class="w">              </span><span class="nt">&lt;/node&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/children&gt;</span>
+<span class="w">          </span><span class="nt">&lt;/tagNode&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/children&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/node&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/children&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/interfaceDefinition&gt;</span>
+</pre></div>
+</div>
+<p>Command definitions are purely declarative, and cannot contain any logic. All
+logic for generating config files for target applications, restarting services
+and so on is implemented in configuration scripts instead.</p>
+<section id="gnu-preprocessor">
+<h3>GNU Preprocessor<a class="headerlink" href="#gnu-preprocessor" title="Link to this heading"></a></h3>
+<p>XML interface definition files use the <cite>xml.in</cite> file extension which was
+implemented in <a class="reference external" href="https://vyos.dev/T1843">T1843</a>. XML interface definitions tend to have a lot of
+duplicated code in areas such as:</p>
+<ul class="simple">
+<li><p>VIF (incl. VIF-S/VIF-C)</p></li>
+<li><p>Address</p></li>
+<li><p>Description</p></li>
+<li><p>Enabled/Disabled</p></li>
+</ul>
+<p>Instead of supplying all those XML nodes multiple times there are now include
+files with predefined features. Brief overview:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/address-ipv4-ipv6-dhcp.xml.i">IPv4, IPv6 and DHCP(v6)</a> address assignment</p></li>
+<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/address-ipv4-ipv6.xml.i">IPv4, IPv6</a> address assignment</p></li>
+<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/vif.xml.i">VLAN (VIF)</a> definition</p></li>
+<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/mac.xml.i">MAC address</a> assignment</p></li>
+</ul>
+<p>All interface definition XML input files (.in suffix) will be sent to the GCC
+preprocess and the output is stored in the <cite>build/interface-definitions</cite>
+folder. The previously mentioned <cite>scripts/build-command-templates</cite> script
+operates on the <cite>build/interface-definitions</cite> folder to generate all required
+CLI nodes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make interface_definitions
+install -d -m 0755 build/interface-definitions
+install -d -m 0755 build/op-mode-definitions
+Generating build/interface-definitions/intel_qat.xml from interface-definitions/intel_qat.xml.in
+Generating build/interface-definitions/interfaces-bonding.xml from interface-definitions/interfaces-bonding.xml.in
+Generating build/interface-definitions/cron.xml from interface-definitions/cron.xml.in
+Generating build/interface-definitions/pppoe-server.xml from interface-definitions/pppoe-server.xml.in
+Generating build/interface-definitions/mdns-repeater.xml from interface-definitions/mdns-repeater.xml.in
+Generating build/interface-definitions/tftp-server.xml from interface-definitions/tftp-server.xml.in
+[...]
+</pre></div>
+</div>
+</section>
+<section id="guidelines">
+<h3>Guidelines<a class="headerlink" href="#guidelines" title="Link to this heading"></a></h3>
+<section id="use-of-numbers">
+<h4>Use of numbers<a class="headerlink" href="#use-of-numbers" title="Link to this heading"></a></h4>
+<p>Use of numbers in command names <strong>should</strong> be avoided unless a number is a
+part of a protocol name or similar. Thus, <code class="docutils literal notranslate"><span class="pre">protocols</span> <span class="pre">ospfv3</span></code> is perfectly
+fine, but something like <code class="docutils literal notranslate"><span class="pre">server-1</span></code> is questionable at best.</p>
+</section>
+<section id="help-string">
+<h4>Help String<a class="headerlink" href="#help-string" title="Link to this heading"></a></h4>
+<p>To ensure uniform look and feel, and improve readability, we should follow a
+set of guidelines consistently.</p>
+<section id="capitalization-and-punctuation">
+<h5>Capitalization and punctuation<a class="headerlink" href="#capitalization-and-punctuation" title="Link to this heading"></a></h5>
+<p>The first word of every help string <strong>must</strong> be capitalized. There <strong>must not</strong>
+be a period at the end of help strings.</p>
+<p>Rationale: this seems to be the unwritten standard in network device CLIs, and
+a good aesthetic compromise.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: “Frobnication algorithm”</p></li>
+<li><p>Bad: “frobnication algorithm”</p></li>
+<li><p>Bad: “Frobnication algorithm.”</p></li>
+<li><p>Horrible: “frobnication algorithm.”</p></li>
+</ul>
+</section>
+<section id="use-of-abbreviations-and-acronyms">
+<h5>Use of abbreviations and acronyms<a class="headerlink" href="#use-of-abbreviations-and-acronyms" title="Link to this heading"></a></h5>
+<p>Abbreviations and acronyms <strong>must</strong> be capitalized.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: “TCP connection timeout”</p></li>
+<li><p>Bad: “tcp connection timeout”</p></li>
+<li><p>Horrible: “Tcp connection timeout”</p></li>
+</ul>
+<p>Acronyms also <strong>must</strong> be capitalized to visually distinguish them from normal
+words:</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: RADIUS (as in remote authentication for dial-in user services)</p></li>
+<li><p>Bad: radius (unless it’s about the distance between a center of a circle and
+any of its points)</p></li>
+</ul>
+<p>Some abbreviations are traditionally written in mixed case. Generally, if it
+contains words “over” or “version”, the letter <strong>should</strong> be lowercase. If
+there’s an accepted spelling (especially if defined by an RFC or another
+standard), it <strong>must</strong> be followed.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: PPPoE, IPsec</p></li>
+<li><p>Bad: PPPOE, IPSEC</p></li>
+<li><p>Bad: pppoe, ipsec</p></li>
+</ul>
+</section>
+<section id="use-of-verbs">
+<h5>Use of verbs<a class="headerlink" href="#use-of-verbs" title="Link to this heading"></a></h5>
+<p>Verbs <strong>should</strong> be avoided. If a verb can be omitted, omit it.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: “TCP connection timeout”</p></li>
+<li><p>Bad: “Set TCP connection timeout”</p></li>
+</ul>
+<p>If a verb is essential, keep it. For example, in the help text of <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span>
+<span class="pre">ipv6</span> <span class="pre">disable-forwarding</span></code>, “Disable IPv6 forwarding on all interfaces” is a
+perfectly justified wording.</p>
+</section>
+<section id="prefer-infinitives">
+<h5>Prefer infinitives<a class="headerlink" href="#prefer-infinitives" title="Link to this heading"></a></h5>
+<p>Verbs, when they are necessary, <strong>should</strong> be in their infinitive form.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Good: “Disable IPv6 forwarding”</p></li>
+<li><p>Bad: “Disables IPv6 forwarding”</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="migrating-old-cli">
+<h3>Migrating old CLI<a class="headerlink" href="#migrating-old-cli" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Old concept/syntax</p></th>
+<th class="head"><p>New syntax</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mynode/node.def</p></td>
+<td><p>&lt;node name=”mynode”&gt; &lt;/node&gt;</p></td>
+<td><p>Leaf nodes (nodes with values) use &lt;leafNode&gt; tag instead</p></td>
+</tr>
+<tr class="row-odd"><td><p>mynode/node.tag , tag:</p></td>
+<td><p>&lt;tagNode name=”mynode&gt; &lt;/node&gt;</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>help: My node</p></td>
+<td><p>&lt;properties&gt; &lt;help&gt;My node&lt;/help&gt;</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>val_help: &lt;format&gt;; some string</p></td>
+<td><p>&lt;properties&gt; &lt;valueHelp&gt; &lt;format&gt; format &lt;/format&gt; &lt;description&gt; some
+string &lt;/description&gt;</p></td>
+<td><p>Do not add angle brackets around the format, they will be inserted
+automatically</p></td>
+</tr>
+<tr class="row-even"><td><p>syntax:expression: pattern</p></td>
+<td><p>&lt;properties&gt; &lt;constraint&gt; &lt;regex&gt; …</p></td>
+<td><p>&lt;constraintErrorMessage&gt; will be displayed on failure</p></td>
+</tr>
+<tr class="row-odd"><td><p>syntax:expression: $VAR(&#64;) in “foo”, “bar”, “baz”</p></td>
+<td><p>None</p></td>
+<td><p>Use regex</p></td>
+</tr>
+<tr class="row-even"><td><p>syntax:expression: exec …</p></td>
+<td><p>&lt;properties&gt; &lt;constraint&gt; &lt;validator&gt; &lt;name =”foo” argument=”bar”&gt;</p></td>
+<td><p>“${vyos_libexecdir}/validators/foo bar $VAR(&#64;)” will be executed,
+&lt;constraintErrorMessage&gt; will be displayed on failure</p></td>
+</tr>
+<tr class="row-odd"><td><p>syntax:expression: (arithmetic expression)</p></td>
+<td><p>None</p></td>
+<td><p>External arithmetic validator may be added if there’s demand, complex
+validation is better left to commit-time scripts</p></td>
+</tr>
+<tr class="row-even"><td><p>priority: 999</p></td>
+<td><p>&lt;properties&gt; &lt;priority&gt;999&lt;/priority&gt;</p></td>
+<td><p>Please leave a comment explaining why the priority was chosen
+(e.g. “after interfaces are configured”)</p></td>
+</tr>
+<tr class="row-odd"><td><p>multi:</p></td>
+<td><p>&lt;properties&gt; &lt;multi/&gt;</p></td>
+<td><p>Only applicable to leaf nodes</p></td>
+</tr>
+<tr class="row-even"><td><p>allowed: echo foo bar</p></td>
+<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;list&gt; foo bar &lt;/list&gt;</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>allowed: cli-shell-api listNodes vpn ipsec esp-group</p></td>
+<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;path&gt; vpn ipsec esp-group &lt;/path&gt; …</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>allowed: /path/to/script</p></td>
+<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;script&gt; /path/to/script &lt;/script&gt; …</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>default:</p></td>
+<td><p>None</p></td>
+<td><p>Move default values to scripts</p></td>
+</tr>
+<tr class="row-even"><td><p>commit:expression:</p></td>
+<td><p>None</p></td>
+<td><p>All commit time checks should be in the verify() function of the script</p></td>
+</tr>
+<tr class="row-odd"><td><p>begin:/create:/delete:</p></td>
+<td><p>None</p></td>
+<td><p>All logic should be in the scripts</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="c-backend-code">
+<h2>C++ Backend Code<a class="headerlink" href="#c-backend-code" title="Link to this heading"></a></h2>
+<p>The CLI parser used in VyOS is a mix of bash, bash-completion helper and the
+C++ backend library [vyatta-cfg](<a class="reference external" href="https://github.com/vyos/vyatta-cfg">https://github.com/vyos/vyatta-cfg</a>). This
+section is a reference of common CLI commands and the respective entry point
+in the C/C++ code.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/cstore/cstore.cpp#L352">https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/cstore/cstore.cpp#L352</a></p></li>
+<li><p><a class="reference external" href="https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/cstore/cstore.cpp#L2549">https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/cstore/cstore.cpp#L2549</a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">commit</span></code></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/commit/commit-algorithm.cpp#L1252">https://github.com/vyos/vyatta-cfg/blob/0f42786a0b3/src/commit/commit-algorithm.cpp#L1252</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="continuous-integration">
+<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link to this heading"></a></h2>
+<p>VyOS makes use of <a class="reference external" href="https://jenkins.io/">Jenkins</a> as our Continuous Integration (CI) service. Our
+<a class="reference external" href="https://ci.vyos.net">VyOS CI</a> server is publicly accessible here: <a class="reference external" href="https://ci.vyos.net">https://ci.vyos.net</a>. You can get
+a brief overview of all required components shipped in a VyOS ISO.</p>
+<p>To build our modules we utilize a CI/CD Pipeline script. Each and every VyOS
+component comes with it’s own <code class="docutils literal notranslate"><span class="pre">Jenkinsfile</span></code> which is (more or less) a copy.
+The Pipeline utilizes the Docker container from the <a class="reference internal" href="build-vyos.html#build-iso"><span class="std std-ref">Build ISO</span></a> section -
+but instead of building it from source on every run, we rather always fetch a
+fresh copy (if needed) from <a class="reference external" href="https://hub.docker.com/u/vyos/">Dockerhub</a>.</p>
+<p>Each module is build on demand if a new commit on the branch in question is
+found. After a successful run the resulting Debian Package(s) will be deployed
+to our Debian repository which is used during build time. It is located here:
+<a class="reference external" href="http://dev.packages.vyos.net/repositories/">http://dev.packages.vyos.net/repositories/</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build-vyos.html" class="btn btn-neutral float-left" title="Build VyOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="issues-features.html" class="btn btn-neutral float-right" title="Issues/Feature requests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

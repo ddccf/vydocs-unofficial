@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPSec IKEv2 Remote Access VPN &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VRF" href="../vrf/index.html" />
+    <link rel="prev" title="Site-to-Site" href="site2site_ipsec.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">IPsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dmvpn.html">DMVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="site2site_ipsec.html">Site-to-Site</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">IPSec IKEv2 Remote Access VPN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-certificates">Setting up certificates:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-ipsec">Setting up IPSec:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-tunnel">Setting up tunnel:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client-configuration">Client Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verification">Verification:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">IPSec IKEv2 Remote Access VPN</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/vpn/remoteaccess_ipsec.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipsec-ikev2-remote-access-vpn">
+<span id="remoteaccess-ipsec"></span><h1>IPSec IKEv2 Remote Access VPN<a class="headerlink" href="#ipsec-ikev2-remote-access-vpn" title="Link to this heading"></a></h1>
+<p>Internet Key Exchange version 2 (IKEv2) is a tunneling protocol, based on IPsec,
+that establishes a secure VPN communication between VPN devices,  and defines
+negotiation and authentication processes for IPsec security associations (SAs).
+It is often known as IKEv2/IPSec or IPSec IKEv2 remote-access — or road-warriors
+as others call it.</p>
+<p>Key exchange and payload encryption is done using IKE and ESP proposals as known
+from IKEv1 but the connections are faster to establish, more reliable, and also
+support roaming from IP to IP (called MOBIKE which makes sure your connection
+does not drop when changing networks from e.g. WIFI to LTE and back).
+Authentication can be achieved with X.509 certificates.</p>
+<section id="setting-up-certificates">
+<h2>Setting up certificates:<a class="headerlink" href="#setting-up-certificates" title="Link to this heading"></a></h2>
+<p>First of all, we need to create a CA root certificate and server certificate
+on the server side.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vpn.vyos.net# run generate pki ca install ca_root
+Enter private key type: [rsa, dsa, ec] (Default: rsa)
+Enter private key bits: (Default: 2048)
+Enter country code: (Default: GB)
+Enter state: (Default: Some-State)
+Enter locality: (Default: Some-City)
+Enter organization name: (Default: VyOS)
+Enter common name: (Default: vyos.io)
+Enter how many days certificate will be valid: (Default: 1825)
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N] N
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+[edit]
+
+
+vyos@vpn.vyos.net# comp
+[pki ca]
++ ca_root {
++     certificate &quot;MIIDnTCCAoWgAwI….&quot;
++     private {
++         key &quot;MIIEvAIBADANBgkqhkiG9….”
+
+vyos@vpn.vyos.net# run generate pki certificate sign ca_root install server_cert
+Do you already have a certificate request? [y/N] N
+Enter private key type: [rsa, dsa, ec] (Default: rsa)
+Enter private key bits: (Default: 2048)
+Enter country code: (Default: GB)
+Enter state: (Default: Some-State)
+Enter locality: (Default: Some-City)
+Enter organization name: (Default: VyOS)
+Enter common name: (Default: vyos.io) vpn.vyos.net
+Do you want to configure Subject Alternative Names? [y/N] N
+Enter how many days certificate will be valid: (Default: 365)
+Enter certificate type: (client, server) (Default: server)
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N] N
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+
+vyos@vpn.vyos.net# comp
+[pki certificate]
++ server_cert {
++     certificate &quot;MIIDuzCCAqOgAwIBAgIUaSrCPWx………&quot;
++     private {
++         key &quot;MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBK…..&quot;
++     }
++ }
+</pre></div>
+</div>
+<p>Once the command is completed, it will add the certificate to the configuration
+session, to the pki subtree. You can then review the proposed changes and
+commit them.</p>
+</section>
+<section id="setting-up-ipsec">
+<h2>Setting up IPSec:<a class="headerlink" href="#setting-up-ipsec" title="Link to this heading"></a></h2>
+<p>After the PKI certs are all set up we can start configuring our IPSec/IKE
+proposals used for key-exchange end data encryption. The used encryption ciphers
+and integrity algorithms vary from operating system to operating system. The
+ones used in this example are validated to work on Windows 10.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group ESP-RW lifetime &#39;3600&#39;
+set vpn ipsec esp-group ESP-RW pfs &#39;disable&#39;
+set vpn ipsec esp-group ESP-RW proposal 10 encryption &#39;aes128gcm128&#39;
+set vpn ipsec esp-group ESP-RW proposal 10 hash &#39;sha256&#39;
+
+set vpn ipsec ike-group IKE-RW key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group IKE-RW lifetime &#39;7200&#39;
+set vpn ipsec ike-group IKE-RW proposal 10 dh-group &#39;14&#39;
+set vpn ipsec ike-group IKE-RW proposal 10 encryption &#39;aes128gcm128&#39;
+set vpn ipsec ike-group IKE-RW proposal 10 hash &#39;sha256&#39;
+</pre></div>
+</div>
+<p>Every connection/remote-access pool we configure also needs a pool where we
+can draw our client IP addresses from. We provide one IPv4 and IPv6 pool.
+Authorized clients will receive an IPv4 address from the configured IPv4 prefix
+and an IPv6 address from the IPv6 prefix. We can also send some DNS nameservers
+down to our clients used on their connection.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec remote-access pool ra-rw-ipv4 name-server &#39;192.0.2.1&#39;
+set vpn ipsec remote-access pool ra-rw-ipv4 prefix &#39;192.0.2.128/25&#39;
+
+set vpn ipsec remote-access pool ra-rw-ipv6 name-server &#39;2001:db8:1000::1&#39;
+set vpn ipsec remote-access pool ra-rw-ipv6 prefix &#39;2001:db8:2000::/64&#39;
+</pre></div>
+</div>
+</section>
+<section id="setting-up-tunnel">
+<h2>Setting up tunnel:<a class="headerlink" href="#setting-up-tunnel" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec remote-access connection rw authentication local-id &#39;192.0.2.1&#39;
+set vpn ipsec remote-access connection rw authentication server-mode &#39;x509&#39;
+set vpn ipsec remote-access connection rw authentication x509 ca-certificate &#39;ca_root&#39;
+set vpn ipsec remote-access connection rw authentication x509 certificate &#39;server_cert&#39;
+set vpn ipsec remote-access connection rw esp-group &#39;ESP-RW&#39;
+set vpn ipsec remote-access connection rw ike-group &#39;IKE-RW&#39;
+set vpn ipsec remote-access connection rw local-address &#39;192.0.2.1&#39;
+set vpn ipsec remote-access connection rw pool &#39;ra-rw-ipv4&#39;
+set vpn ipsec remote-access connection rw pool &#39;ra-rw-ipv6&#39;
+</pre></div>
+</div>
+<p>VyOS also supports two different modes of authentication, local and RADIUS.
+To create a new local user named “vyos” with a password of “vyos” use the
+following commands.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec remote-access connection rw authentication client-mode &#39;eap-mschapv2&#39;
+set vpn ipsec remote-access connection rw authentication local-users username vyos password &#39;vyos&#39;
+</pre></div>
+</div>
+</section>
+<section id="client-configuration">
+<h2>Client Configuration<a class="headerlink" href="#client-configuration" title="Link to this heading"></a></h2>
+<p>Most operating systems include native client support for IPsec IKEv2 VPN
+connections, and others typically have an app or add-on package which adds the
+capability.
+This section covers IPsec IKEv2 client configuration for Windows 10.</p>
+<p>VyOS provides a command to generate a connection profile used by Windows clients
+that will connect to the “rw” connection on our VyOS server.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Windows expects the server name to be also used in the server’s
+certificate common name, so it’s best to use this DNS name for your VPN
+connection.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vpn.vyos.net:~$ generate ipsec profile windows-remote-access rw remote vpn.vyos.net
+
+
+==== &lt;snip&gt; ====
+Add-VpnConnection -Name &quot;VyOS IKEv2 VPN&quot; -ServerAddress &quot;vpn.vyos.net&quot; -TunnelType &quot;Ikev2&quot;
+
+Set-VpnConnectionIPsecConfiguration -ConnectionName &quot;VyOS IKEv2 VPN&quot; -AuthenticationTransformConstants GCMAES128 -CipherTransformConstants
+GCMAES128 -EncryptionMethod GCMAES128 -IntegrityCheckMethod SHA256128 -PfsGroup None -DHGroup &quot;Group14&quot; -PassThru -Force
+==== &lt;/snip&gt; ====
+</pre></div>
+</div>
+<p>Add the commands from Snippet in the Windows side via PowerShell.
+Also import the root CA cert to the Windows “Trusted Root Certification
+Authorities” and establish the connection.</p>
+</section>
+<section id="verification">
+<h2>Verification:<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vpn.vyos.net:~$ show vpn ipsec remote-access summary
+  Connection ID  Username    Protocol    State    Uptime    Tunnel IP    Remote Host    Remote ID    IKE Proposal                                IPSec Proposal
+---------------  ----------  ----------  -------  --------  -----------  -------------  -----------  ------------------------------------------  ------------------
+              5  vyos        IKEv2       UP       37s       192.0.2.129  10.0.0.2       10.0.0.2     AES_GCM_16-128/PRF_HMAC_SHA2_256/MODP_2048  ESP:AES_GCM_16-128
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="site2site_ipsec.html" class="btn btn-neutral float-left" title="Site-to-Site" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vrf/index.html" class="btn btn-neutral float-right" title="VRF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

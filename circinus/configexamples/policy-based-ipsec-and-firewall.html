@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Policy-Based Site-to-Site VPN and Firewall Configuration &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Site-to-Site IPSec VPN to Cisco using FlexVPN" href="site-2-site-cisco.html" />
+    <link rel="prev" title="Ansible example" href="ansible.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Policy-Based Site-to-Site VPN and Firewall Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-topology-and-requirements">Network Topology and requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checking-through-op-mode-commands">Checking through op-mode commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Policy-Based Site-to-Site VPN and Firewall Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/policy-based-ipsec-and-firewall.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="policy-based-site-to-site-vpn-and-firewall-configuration">
+<span id="examples-policy-based-ipsec-and-firewall"></span><h1>Policy-Based Site-to-Site VPN and Firewall Configuration<a class="headerlink" href="#policy-based-site-to-site-vpn-and-firewall-configuration" title="Link to this heading"></a></h1>
+<p>This guide shows an example policy-based IKEv2 site-to-site VPN between two
+VyOS routers, and firewall configuration.</p>
+<p>For simplicity, configuration and tests are done only using IPv4, and firewall
+configuration is done only on one router.</p>
+<section id="network-topology-and-requirements">
+<h2>Network Topology and requirements<a class="headerlink" href="#network-topology-and-requirements" title="Link to this heading"></a></h2>
+<p>This configuration example and the requirements consists of:</p>
+<ul>
+<li><p>Two VyOS routers with public IP address.</p></li>
+<li><p>2 private subnets on each site.</p></li>
+<li><p>Local subnets should be able to reach internet using source NAT.</p></li>
+<li><p>Communication between private subnets should be done through IPSec tunnel
+without NAT.</p></li>
+<li><p>Configuration of basic firewall in one site, in order to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Protect the router on ‘WAN’ interface, allowing only IPSec connections
+and SSH access from trusted IPs.</p></li>
+<li><p>Allow access to the router only from trusted networks.</p></li>
+<li><p>Allow DNS requests only only for local networks.</p></li>
+<li><p>Allow ICMP on all interfaces.</p></li>
+<li><p>Allow all new connections from local subnets.</p></li>
+<li><p>Allow connections from LANs to LANs through the tunnel.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<img alt="../images/policy-based-ipsec-and-firewall.png" src="../images/policy-based-ipsec-and-firewall.png" />
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>Interface and routing configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># LEFT router:
+set interfaces ethernet eth0 address &#39;198.51.100.14/30&#39;
+set interfaces ethernet eth1 vif 111 address &#39;10.1.11.1/24&#39;
+set interfaces ethernet eth2 vif 112 address &#39;10.1.12.1/24&#39;
+set protocols static route 0.0.0.0/0 next-hop 198.51.100.13
+
+# RIGHT router:
+set interfaces ethernet eth0 address &#39;192.0.2.130/30&#39;
+set interfaces ethernet eth1 vif 221 address &#39;10.2.21.1/24&#39;
+set interfaces ethernet eth2 vif 222 address &#39;10.2.22.1/24&#39;
+</pre></div>
+</div>
+<p>IPSec configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># LEFT router:
+set vpn ipsec authentication psk RIGHT id &#39;198.51.100.14&#39;
+set vpn ipsec authentication psk RIGHT id &#39;192.0.2.130&#39;
+set vpn ipsec authentication psk RIGHT secret &#39;p4ssw0rd&#39;
+set vpn ipsec esp-group ESP-GROUP mode &#39;tunnel&#39;
+set vpn ipsec esp-group ESP-GROUP proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec esp-group ESP-GROUP proposal 1 hash &#39;sha256&#39;
+set vpn ipsec ike-group IKE-GROUP key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 dh-group &#39;14&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 hash &#39;sha256&#39;
+set vpn ipsec interface &#39;eth0&#39;
+set vpn ipsec site-to-site peer RIGHT authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer RIGHT connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer RIGHT default-esp-group &#39;ESP-GROUP&#39;
+set vpn ipsec site-to-site peer RIGHT ike-group &#39;IKE-GROUP&#39;
+set vpn ipsec site-to-site peer RIGHT local-address &#39;198.51.100.14&#39;
+set vpn ipsec site-to-site peer RIGHT remote-address &#39;192.0.2.130&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 0 local prefix &#39;10.1.11.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 0 remote prefix &#39;10.2.21.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 1 local prefix &#39;10.1.11.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 1 remote prefix &#39;10.2.22.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 2 local prefix &#39;10.1.12.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 2 remote prefix &#39;10.2.21.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 3 local prefix &#39;10.1.12.0/24&#39;
+set vpn ipsec site-to-site peer RIGHT tunnel 3 remote prefix &#39;10.2.22.0/24&#39;
+
+# RIGHT router:
+set vpn ipsec authentication psk LEFT id &#39;192.0.2.130&#39;
+set vpn ipsec authentication psk LEFT id &#39;198.51.100.14&#39;
+set vpn ipsec authentication psk LEFT secret &#39;p4ssw0rd&#39;
+set vpn ipsec esp-group ESP-GROUP mode &#39;tunnel&#39;
+set vpn ipsec esp-group ESP-GROUP proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec esp-group ESP-GROUP proposal 1 hash &#39;sha256&#39;
+set vpn ipsec ike-group IKE-GROUP key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 dh-group &#39;14&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group IKE-GROUP proposal 1 hash &#39;sha256&#39;
+set vpn ipsec interface &#39;eth0&#39;
+set vpn ipsec site-to-site peer LEFT authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer LEFT connection-type &#39;respond&#39;
+set vpn ipsec site-to-site peer LEFT default-esp-group &#39;ESP-GROUP&#39;
+set vpn ipsec site-to-site peer LEFT ike-group &#39;IKE-GROUP&#39;
+set vpn ipsec site-to-site peer LEFT local-address &#39;192.0.2.130&#39;
+set vpn ipsec site-to-site peer LEFT remote-address &#39;198.51.100.14&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 0 local prefix &#39;10.2.21.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 0 remote prefix &#39;10.1.11.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 1 local prefix &#39;10.2.22.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 1 remote prefix &#39;10.1.11.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 2 local prefix &#39;10.2.21.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 2 remote prefix &#39;10.1.12.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 3 local prefix &#39;10.2.22.0/24&#39;
+set vpn ipsec site-to-site peer LEFT tunnel 3 remote prefix &#39;10.1.12.0/24&#39;
+</pre></div>
+</div>
+<p>Firewall Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Firewall Groups:
+set firewall group network-group LOCAL-NETS network &#39;10.1.11.0/24&#39;
+set firewall group network-group LOCAL-NETS network &#39;10.1.12.0/24&#39;
+set firewall group network-group REMOTE-NETS network &#39;10.2.21.0/24&#39;
+set firewall group network-group REMOTE-NETS network &#39;10.2.22.0/24&#39;
+set firewall group network-group TRUSTED network &#39;198.51.100.125/32&#39;
+set firewall group network-group TRUSTED network &#39;203.0.113.0/24&#39;
+set firewall group network-group TRUSTED network &#39;10.1.11.0/24&#39;
+set firewall group network-group TRUSTED network &#39;192.168.70.0/24&#39;
+
+# Forward traffic: default drop and only allow what is needed
+set firewall ipv4 forward filter default-action &#39;drop&#39;
+
+# Forward traffic: global state policies
+set firewall ipv4 forward filter rule 1 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 1 state established &#39;enable&#39;
+set firewall ipv4 forward filter rule 1 state related &#39;enable&#39;
+set firewall ipv4 forward filter rule 2 action &#39;drop&#39;
+set firewall ipv4 forward filter rule 2 state invalid &#39;enable&#39;
+
+# Forward traffic: Accept all connections from local networks
+set firewall ipv4 forward filter rule 10 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 10 source group network-group &#39;LOCAL-NETS&#39;
+
+# Forward traffic: accept connections from remote LANs to local LANs
+set firewall ipv4 forward filter rule 20 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 20 destination group network-group &#39;LOCAL-NETS&#39;
+set firewall ipv4 forward filter rule 20 source group network-group &#39;REMOTE-NETS&#39;
+
+# Input traffic: default drop and only allow what is needed
+set firewall ipv4 input filter default-action &#39;drop&#39;
+
+# Input traffic: global state policies
+set firewall ipv4 input filter rule 1 action &#39;accept&#39;
+set firewall ipv4 input filter rule 1 state established &#39;enable&#39;
+set firewall ipv4 input filter rule 1 state related &#39;enable&#39;
+set firewall ipv4 input filter rule 2 action &#39;drop&#39;
+set firewall ipv4 input filter rule 2 state invalid &#39;enable&#39;
+
+# Input traffic: add rules needed for ipsec connection
+set firewall ipv4 input filter rule 10 action &#39;accept&#39;
+set firewall ipv4 input filter rule 10 destination port &#39;500,4500&#39;
+set firewall ipv4 input filter rule 10 inbound-interface interface-name &#39;eth0&#39;
+set firewall ipv4 input filter rule 10 protocol &#39;udp&#39;
+set firewall ipv4 input filter rule 15 action &#39;accept&#39;
+set firewall ipv4 input filter rule 15 inbound-interface interface-name &#39;eth0&#39;
+set firewall ipv4 input filter rule 15 protocol &#39;esp&#39;
+
+# Input traffic: accept ssh connection from trusted ips
+set firewall ipv4 input filter rule 20 action &#39;accept&#39;
+set firewall ipv4 input filter rule 20 destination port &#39;22&#39;
+set firewall ipv4 input filter rule 20 protocol &#39;tcp&#39;
+set firewall ipv4 input filter rule 20 source group network-group &#39;TRUSTED&#39;
+
+# Input traffic: accepd dns requests only from local networks.
+set firewall ipv4 input filter rule 25 action &#39;accept&#39;
+set firewall ipv4 input filter rule 25 destination port &#39;53&#39;
+set firewall ipv4 input filter rule 25 protocol &#39;udp&#39;
+set firewall ipv4 input filter rule 25 source group network-group &#39;LOCAL-NETS&#39;
+
+# Input traffic: allow icmp
+set firewall ipv4 input filter rule 30 action &#39;accept&#39;
+set firewall ipv4 input filter rule 30 protocol &#39;icmp&#39;
+</pre></div>
+</div>
+<p>And NAT Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 10 destination group network-group &#39;REMOTE-NETS&#39;
+set nat source rule 10 exclude
+set nat source rule 10 outbound-interface name &#39;eth0&#39;
+set nat source rule 10 source group network-group &#39;LOCAL-NETS&#39;
+set nat source rule 20 outbound-interface name &#39;eth0&#39;
+set nat source rule 20 source group network-group &#39;LOCAL-NETS&#39;
+set nat source rule 20 translation address &#39;masquerade&#39;
+</pre></div>
+</div>
+</section>
+<section id="checking-through-op-mode-commands">
+<h2>Checking through op-mode commands<a class="headerlink" href="#checking-through-op-mode-commands" title="Link to this heading"></a></h2>
+<p>After some testing, we can check IPSec status, and counter on every tunnel:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@LEFT:~$ show vpn ipsec sa
+Connection      State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------  -------  --------  --------------  ----------------  ----------------  -----------  ---------------------------------------
+RIGHT-tunnel-0  up       36m24s    840B/840B       10/10             192.0.2.130       192.0.2.130  AES_CBC_256/HMAC_SHA2_256_128/MODP_2048
+RIGHT-tunnel-1  up       36m33s    588B/588B       7/7               192.0.2.130       192.0.2.130  AES_CBC_256/HMAC_SHA2_256_128/MODP_2048
+RIGHT-tunnel-2  up       35m50s    1K/1K           15/15             192.0.2.130       192.0.2.130  AES_CBC_256/HMAC_SHA2_256_128/MODP_2048
+RIGHT-tunnel-3  up       36m54s    2K/2K           32/32             192.0.2.130       192.0.2.130  AES_CBC_256/HMAC_SHA2_256_128/MODP_2048
+vyos@LEFT:~$
+</pre></div>
+</div>
+<p>Also, we can check firewall counters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@LEFT:~$ show firewall
+Rulesets Information
+
+---------------------------------
+IPv4 Firewall &quot;forward filter&quot;
+
+Rule     Action    Protocol      Packets    Bytes  Conditions
+-------  --------  ----------  ---------  -------  ------------------------------------------------------
+1        accept    all               681    96545  ct state { established, related }  accept
+2        drop      all                 0        0  ct state invalid
+10       accept    all               360    27205  ip saddr @N_LOCAL-NETS  accept
+20       accept    all                 8      648  ip daddr @N_LOCAL-NETS ip saddr @N_REMOTE-NETS  accept
+default  drop      all
+
+---------------------------------
+IPv4 Firewall &quot;input filter&quot;
+
+Rule     Action    Protocol      Packets    Bytes  Conditions
+-------  --------  ----------  ---------  -------  ----------------------------------------------
+1        accept    all               901   123709  ct state { established, related }  accept
+2        drop      all                 0        0  ct state invalid
+10       accept    udp                 0        0  udp dport { 500, 4500 } iifname &quot;eth0&quot;  accept
+15       accept    esp                 0        0  meta l4proto esp iifname &quot;eth0&quot;  accept
+20       accept    tcp                 1       60  tcp dport 22 ip saddr @N_TRUSTED  accept
+25       accept    udp                 0        0  udp dport 53 ip saddr @N_LOCAL-NETS  accept
+30       accept    icmp                0        0  meta l4proto icmp  accept
+default  drop      all
+
+vyos@LEFT:~$
+vyos@LEFT:~$ show firewall statistics
+Rulesets Statistics
+
+---------------------------------
+IPv4 Firewall &quot;forward filter&quot;
+
+Rule     Packets    Bytes    Action    Source       Destination    Inbound-Interface    Outbound-interface
+-------  ---------  -------  --------  -----------  -------------  -------------------  --------------------
+1        681        96545    accept    any          any            any                  any
+2        0          0        drop      any          any            any                  any
+10       360        27205    accept    LOCAL-NETS   any            any                  any
+20       8          648      accept    REMOTE-NETS  LOCAL-NETS     any                  any
+default  N/A        N/A      drop      any          any            any                  any
+
+---------------------------------
+IPv4 Firewall &quot;input filter&quot;
+
+Rule     Packets    Bytes    Action    Source      Destination    Inbound-Interface    Outbound-interface
+-------  ---------  -------  --------  ----------  -------------  -------------------  --------------------
+1        905        124213   accept    any         any            any                  any
+2        0          0        drop      any         any            any                  any
+10       0          0        accept    any         any            eth0                 any
+15       0          0        accept    any         any            eth0                 any
+20       1          60       accept    TRUSTED     any            any                  any
+25       0          0        accept    LOCAL-NETS  any            any                  any
+30       0          0        accept    any         any            any                  any
+default  N/A        N/A      drop      any         any            any                  any
+
+vyos@LEFT:~$
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ansible.html" class="btn btn-neutral float-left" title="Ansible example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="site-2-site-cisco.html" class="btn btn-neutral float-right" title="Site-to-Site IPSec VPN to Cisco using FlexVPN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

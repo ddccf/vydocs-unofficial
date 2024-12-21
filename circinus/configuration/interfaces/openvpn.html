@@ -1,0 +1,1052 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenVPN &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="WireGuard" href="wireguard.html" />
+    <link rel="prev" title="MACsec" href="macsec.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / Link Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">GENEVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tpv3.html">L2TPv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OpenVPN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#site-to-site">Site-to-Site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server">Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multi-factor-authentication">Multi-factor Authentication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openvpn-data-channel-offload-dco">OpenVPN Data Channel Offload (DCO)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard.html">WireGuard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN - Pseudo Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tunnel.html">Tunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-ethernet.html">Virtual Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI - Virtual Tunnel Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">WLAN/WIFI - Wireless LAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wwan.html">WWAN - Wireless Wide-Area-Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">OpenVPN</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/interfaces/openvpn.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="openvpn">
+<span id="id1"></span><h1>OpenVPN<a class="headerlink" href="#openvpn" title="Link to this heading"></a></h1>
+<p>Traditionally hardware routers implement IPsec exclusively due to relative
+ease of implementing it in hardware and insufficient CPU power for doing
+encryption in software. Since VyOS is a software router, this is less of a
+concern. OpenVPN has been widely used on the UNIX platform for a long time and
+is a popular option for remote access VPN, though it’s also capable of
+site-to-site connections.</p>
+<p>Advantages of OpenVPN are:</p>
+<ul class="simple">
+<li><p>It uses a single TCP or UDP connection and does not rely on packet source
+addresses, so it will work even through a double NAT: perfect for public
+hotspots and such</p></li>
+<li><p>It’s easy to setup and offers very flexible split tunneling</p></li>
+<li><p>There’s a variety of client GUI frontends for any platform</p></li>
+</ul>
+<p>Disadvantages are:</p>
+<ul class="simple">
+<li><p>It’s slower than IPsec due to higher protocol overhead and the fact it runs
+in user mode while IPsec, on Linux, is in kernel mode</p></li>
+<li><p>None of the operating systems have client software installed by default</p></li>
+</ul>
+<p>In the VyOS CLI, a key point often overlooked is that rather than being
+configured using the <cite>set vpn</cite> stanza, OpenVPN is configured as a network
+interface using <cite>set interfaces openvpn</cite>.</p>
+<section id="site-to-site">
+<h2>Site-to-Site<a class="headerlink" href="#site-to-site" title="Link to this heading"></a></h2>
+<figure class="align-default">
+<img alt="../../images/openvpn_site2site_diagram.jpg" src="../../images/openvpn_site2site_diagram.jpg" />
+</figure>
+<p>OpenVPN is popular for client-server setups, but its site-to-site mode
+remains a relatively obscure feature, and many router appliances
+still don’t support it. However, it’s very useful for quickly setting up
+tunnels between routers.</p>
+<p>As of VyOS 1.4, OpenVPN site-to-site mode can use either pre-shared keys or
+x.509 certificates.</p>
+<p>The pre-shared key mode is deprecated and will be removed from future OpenVPN
+versions, so VyOS will have to remove support for that option as well. The
+reason is that using pre-shared keys is significantly less secure than using TLS.</p>
+<p>We’ll configure OpenVPN using self-signed certificates, and then discuss the
+legacy pre-shared key mode.</p>
+<p>In both cases, we will use the following settings:</p>
+<ul class="simple">
+<li><p>The public IP address of the local side of the VPN will be 198.51.100.10.</p></li>
+<li><p>The public IP address of the remote side of the VPN will be 203.0.113.11.</p></li>
+<li><p>The tunnel will use 10.255.1.1 for the local IP and 10.255.1.2 for the remote.</p></li>
+<li><p>The local site will have a subnet of 10.0.0.0/16.</p></li>
+<li><p>The remote site will have a subnet of 10.1.0.0/16.</p></li>
+<li><p>The official port for OpenVPN is 1194, which we reserve for client VPN; we
+will use 1195 for site-to-site VPN.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">persistent-tunnel</span></code> directive will allow us to configure tunnel-related
+attributes, such as firewall policy as we would on any normal network
+interface.</p></li>
+<li><p>If known, the IP of the remote router can be configured using the
+<code class="docutils literal notranslate"><span class="pre">remote-host</span></code> directive; if unknown, it can be omitted. We will assume a
+dynamic IP for our remote router.</p></li>
+</ul>
+<section id="setting-up-certificates">
+<h3>Setting up certificates<a class="headerlink" href="#setting-up-certificates" title="Link to this heading"></a></h3>
+<p>Setting up a full-blown PKI with a CA certificate would arguably defeat the purpose
+of site-to-site OpenVPN, since its main goal is supposed to be configuration simplicity,
+compared to server setups that need to support multiple clients.</p>
+<p>However, since VyOS 1.4, it is possible to verify self-signed certificates using
+certificate fingerprints.</p>
+<p>On both sides, you need to generate a self-signed certificate, preferrably using the “ec” (elliptic curve) type.
+You can generate them by executing command <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">generate</span> <span class="pre">pki</span> <span class="pre">certificate</span> <span class="pre">self-signed</span> <span class="pre">install</span> <span class="pre">&lt;name&gt;</span></code> in the configuration mode.
+Once the command is complete, it will add the certificate to the configuration session, to the <code class="docutils literal notranslate"><span class="pre">pki</span></code> subtree.
+You can then review the proposed changes and commit them.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run generate pki certificate self-signed install openvpn-local
+Enter private key type: [rsa, dsa, ec] (Default: rsa) ec
+Enter private key bits: (Default: 256)
+Enter country code: (Default: GB)
+Enter state: (Default: Some-State)
+Enter locality: (Default: Some-City)
+Enter organization name: (Default: VyOS)
+Enter common name: (Default: vyos.io)
+Do you want to configure Subject Alternative Names? [y/N]
+Enter how many days certificate will be valid: (Default: 365)
+Enter certificate type: (client, server) (Default: server)
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N]
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+[edit]
+
+vyos@vyos# compare
+[pki]
++ certificate openvpn-local {
++     certificate &quot;MIICJTCCAcugAwIBAgIUMXLfRNJ5iOjk/    uAZqUe4phW8MdgwCgYIKoZIzj0EAwIwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcMCVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0yMzA5MDcyMTQzMTNaFw0yNDA5MDYyMTQzMTNaMFcxCzAJBgNVBAYTAkdCMRMwEQYDVQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5T1MxEDAOBgNVBAMMB3Z5b3MuaW8wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASp7D0vE3SKSAWAzr/lw9Eq9Q89r247AJR6ec/GT26AIcVA1bsongV1YaWvRwzTPC/yi5pkzV/PcT/WU7JQIyMWo3UwczAMBgNVHRMBAf8EAjAAMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDATAdBgNVHQ4EFgQUBrAxRdFppdG/UBRdo7qNyHutaTQwHwYDVR0jBBgwFoAUBrAxRdFppdG/UBRdo7qNyHutaTQwCgYIKoZIzj0EAwIDSAAwRQIhAI2+8C92z9wTcTWkQ/goRxs10EBC+h78O+vgo9k97z5iAiBSeqfaVr5taQTS31+McGTAK3cYWNTg0DlOBI8aKO2oRg==&quot;
++     private {
++         key &quot;MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgtOeEb0dMb5P/2Exi09WWvk6Cvz0oOBoDuP68ZimS2LShRANCAASp7D0vE3SKSAWAzr/lw9Eq9Q89r247AJR6ec/GT26AIcVA1bsongV1YaWvRwzTPC/yi5pkzV/PcT/WU7JQIyMW&quot;
++     }
++ }
+
+[edit]
+
+vyos@vyos# commit
+</pre></div>
+</div>
+<p>You do <strong>not</strong> need to copy the certificate to the other router. Instead, you need to retrieve its SHA-256 fingerprint.
+OpenVPN only supports SHA-256 fingerprints at the moment, so you need to use the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show pki certificate openvpn-local fingerprint sha256
+5C:B8:09:64:8B:59:51:DC:F4:DF:2C:12:5C:B7:03:D1:68:94:D7:5B:62:C2:E1:83:79:F1:F0:68:B2:81:26:79
+</pre></div>
+</div>
+<p>Note: certificate names don’t matter, we use ‘openvpn-local’ and ‘openvpn-remote’ but they can be arbitrary.</p>
+<p>Repeat the procedure on the other router.</p>
+</section>
+<section id="setting-up-openvpn">
+<h3>Setting up OpenVPN<a class="headerlink" href="#setting-up-openvpn" title="Link to this heading"></a></h3>
+<p>Local Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Configure the tunnel:
+
+set interfaces openvpn vtun1 mode site-to-site
+set interfaces openvpn vtun1 protocol udp
+set interfaces openvpn vtun1 persistent-tunnel
+set interfaces openvpn vtun1 remote-host &#39;203.0.113.11&#39;                         # Public IP of the other side
+set interfaces openvpn vtun1 local-port &#39;1195&#39;
+set interfaces openvpn vtun1 remote-port &#39;1195&#39;
+set interfaces openvpn vtun1 local-address &#39;10.255.1.1&#39;                         # Local IP of vtun interface
+set interfaces openvpn vtun1 remote-address &#39;10.255.1.2&#39;                        # Remote IP of vtun interface
+set interfaces openvpn vtun1 tls certificate &#39;openvpn-local&#39;                    # The self-signed certificate
+set interfaces openvpn vtun1 tls peer-fingerprint &lt;remote cert fingerprint&gt;     # The output of &#39;run show pki certificate &lt;name&gt; fingerprint sha256 on the remote router
+set interfaces openvpn vtun1 tls role active
+</pre></div>
+</div>
+<p>Remote Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun1 mode site-to-site
+set interfaces openvpn vtun1 protocol udp
+set interfaces openvpn vtun1 persistent-tunnel
+set interfaces openvpn vtun1 remote-host &#39;198.51.100.10&#39;                         # Pub IP of other site
+set interfaces openvpn vtun1 local-port &#39;1195&#39;
+set interfaces openvpn vtun1 remote-port &#39;1195&#39;
+set interfaces openvpn vtun1 local-address &#39;10.255.1.2&#39;                          # Local IP of vtun interface
+set interfaces openvpn vtun1 remote-address &#39;10.255.1.1&#39;                         # Remote IP of vtun interface
+set interfaces openvpn vtun1 tls certificate &#39;openvpn-remote&#39;                    # The self-signed certificate
+set interfaces openvpn vtun1 tls peer-fingerprint &lt;local cert fingerprint&gt;       # The output of &#39;run show pki certificate &lt;name&gt; fingerprint sha256 on the local router
+set interfaces openvpn vtun1 tls role active
+</pre></div>
+</div>
+</section>
+<section id="pre-shared-keys">
+<h3>Pre-shared keys<a class="headerlink" href="#pre-shared-keys" title="Link to this heading"></a></h3>
+<p>Until VyOS 1.4, the only option for site-to-site OpenVPN without PKI was to use
+pre-shared keys. That option is still available but it is deprecated and will
+be removed in the future. However, if you need to set up a tunnel to an older
+VyOS version or a system with older OpenVPN, you need to still need to know how
+to use it.</p>
+<p>First, you need to generate a key by running <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">generate</span> <span class="pre">pki</span> <span class="pre">openvpn</span> <span class="pre">shared-secret</span> <span class="pre">install</span> <span class="pre">&lt;name&gt;</span></code> from configuration mode.
+You can use any name, we will use <code class="docutils literal notranslate"><span class="pre">s2s</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@local# run generate pki openvpn shared-secret install s2s
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+[edit]
+vyos@local# compare
+[pki openvpn shared-secret]
++ s2s {
++     key   &quot;7c73046a9da91e874d31c7ad894a32688cda054bde157c64270f28eceebc0bb2f44dbb70335fad45148b0456aaa78cb34a34c0958eeed4f75e75fd99ff519ef940f7029a316c436d2366a2b0fb8ea1d1c792a65f67d10a461af83ef4530adc25d1c872de6d9c7d5f338223d1f3b66dc3311bbbddc0e05228c47b91c817c721aadc7ed18f0662df52ad14f898904372679e3d9697d062b0869d12de47ceb2e626fa12e1926a3119be37dd29c9b0ad81997230f4038926900d5edb78522d2940cfe207f8e2b948e0d459fa137ebb18064ac5982b28dd1899020b4f2b082a20d5d4eb65710fbb1e62b5e061df39620267eab429d3eedd9a1ae85957457c8e4655f3&quot;
++     version &quot;1&quot;
++ }
+
+[edit]
+
+vyos@local# commit
+[edit]
+</pre></div>
+</div>
+<p>Then you need to install the key on the remote router:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@remote# set pki openvpn shared-secret s2s key &lt;generated key string&gt;
+</pre></div>
+</div>
+<p>Then you need to set the key in your OpenVPN interface settings:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun1 shared-secret-key s2s
+</pre></div>
+</div>
+</section>
+<section id="firewall-exceptions">
+<h3>Firewall Exceptions<a class="headerlink" href="#firewall-exceptions" title="Link to this heading"></a></h3>
+<p>For the OpenVPN traffic to pass through the WAN interface, you must create a
+firewall exception.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall name OUTSIDE_LOCAL rule 10 action accept
+set firewall name OUTSIDE_LOCAL rule 10 description &#39;Allow established/related&#39;
+set firewall name OUTSIDE_LOCAL rule 10 state established enable
+set firewall name OUTSIDE_LOCAL rule 10 state related enable
+set firewall name OUTSIDE_LOCAL rule 20 action accept
+set firewall name OUTSIDE_LOCAL rule 20 description OpenVPN_IN
+set firewall name OUTSIDE_LOCAL rule 20 destination port 1195
+set firewall name OUTSIDE_LOCAL rule 20 log enable
+set firewall name OUTSIDE_LOCAL rule 20 protocol udp
+set firewall name OUTSIDE_LOCAL rule 20 source
+</pre></div>
+</div>
+<p>You should also ensure that the OUTISDE_LOCAL firewall group is applied to the
+WAN interface and a direction (local).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall interface eth0 local name &#39;OUTSIDE-LOCAL&#39;
+</pre></div>
+</div>
+<p>Static Routing:</p>
+<p>Static routes can be configured referencing the tunnel interface; for example,
+the local router will use a network of 10.0.0.0/16, while the remote has a
+network of 10.1.0.0/16:</p>
+<p>Local Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.1.0.0/16 interface vtun1
+</pre></div>
+</div>
+<p>Remote Configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.0.0.0/16 interface vtun1
+</pre></div>
+</div>
+<p>The configurations above will default to using 256-bit AES in GCM mode
+for encryption (if both sides support data cipher negotiation) and SHA-1 for HMAC authentication.
+SHA-1 is considered weak, but other hashing algorithms are available, as are
+encryption algorithms:</p>
+<p>For Encryption:</p>
+<p>This sets the cipher when NCP (Negotiable Crypto Parameters) is disabled or
+OpenVPN version &lt; 2.4.0. This option should not be used any longer in TLS
+mode and still exists for compatibility with old configurations.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set interfaces openvpn vtun1 encryption cipher
+Possible completions:
+  des          DES algorithm
+  3des         DES algorithm with triple encryption
+  bf128        Blowfish algorithm with 128-bit key
+  bf256        Blowfish algorithm with 256-bit key
+  aes128       AES algorithm with 128-bit key CBC
+  aes128gcm    AES algorithm with 128-bit key GCM
+  aes192       AES algorithm with 192-bit key CBC
+  aes192gcm    AES algorithm with 192-bit key GCM
+  aes256       AES algorithm with 256-bit key CBC
+  aes256gcm    AES algorithm with 256-bit key GCM
+</pre></div>
+</div>
+<p>This option was called –ncp-ciphers in OpenVPN 2.4 but has been renamed
+to –data-ciphers in OpenVPN 2.5 to more accurately reflect its meaning.
+The first cipher in that list that is also in the client’s –data-ciphers list
+is chosen. If no common cipher is found the client is rejected.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set int open vtun0 encryption data-ciphers
+Possible completions:
+  none         Disable encryption
+  3des         DES algorithm with triple encryption
+  aes128       AES algorithm with 128-bit key CBC
+  aes128gcm    AES algorithm with 128-bit key GCM
+  aes192       AES algorithm with 192-bit key CBC
+  aes192gcm    AES algorithm with 192-bit key GCM
+  aes256       AES algorithm with 256-bit key CBC
+  aes256gcm    AES algorithm with 256-bit key GCM
+</pre></div>
+</div>
+<p>For Hashing:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set interfaces openvpn vtun1 hash
+Possible completions:
+  md5          MD5 algorithm
+  sha1         SHA-1 algorithm
+  sha256       SHA-256 algorithm
+  sha512       SHA-512 algorithm
+</pre></div>
+</div>
+<p>If you change the default encryption and hashing algorithms, be sure that the
+local and remote ends have matching configurations, otherwise the tunnel will
+not come up.</p>
+<p>Firewall policy can also be applied to the tunnel interface for <cite>local</cite>, <cite>in</cite>,
+and <cite>out</cite> directions and functions identically to ethernet interfaces.</p>
+<p>If you’re making use of multiple tunnels, OpenVPN must have a way to
+distinguish between different tunnels aside from the pre-shared-key. This is
+done either by referencing IP addresses or port numbers. One option is to
+dedicate a public IP to each tunnel. Another option is to dedicate a port
+number to each tunnel (e.g. 1195,1196,1197…).</p>
+<p>OpenVPN status can be verified using the <cite>show openvpn</cite> operational commands.
+See the built-in help for a complete list of options.</p>
+</section>
+</section>
+<section id="server">
+<h2>Server<a class="headerlink" href="#server" title="Link to this heading"></a></h2>
+<p>Multi-client server is the most popular OpenVPN mode on routers. It always uses
+x.509 authentication and therefore requires a PKI setup. Refer this topic
+<a class="reference internal" href="../pki/index.html#pki"><span class="std std-ref">PKI</span></a> to generate a CA certificate,
+a server certificate and key, a certificate revocation list, and a Diffie-Hellman
+key exchange parameters file. You do not need client certificates and keys for
+the server setup.</p>
+<p>In this example we will use the most complicated case: a setup where each
+client is a router that has its own subnet (think HQ and branch offices), since
+simpler setups are subsets of it.</p>
+<p>Suppose you want to use 10.23.1.0/24 network for client tunnel endpoints and
+all client subnets belong to 10.23.0.0/20. All clients need access to the
+192.168.0.0/16 network.</p>
+<p>First we need to specify the basic settings. 1194/UDP is the default. The
+<code class="docutils literal notranslate"><span class="pre">persistent-tunnel</span></code> option is recommended, as it prevents the TUN/TAP device
+from closing on connection resets or daemon reloads.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <strong>openvpn-option -reneg-sec</strong> can be tricky. This option is
+used to renegotiate data channel after n seconds. When used on both the
+server and client, the lower value will trigger the renegotiation. If you
+set it to 0 on one side of the connection (to disable it), the chosen value
+on the other side will determine when the renegotiation will occur.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 mode server
+set interfaces openvpn vtun10 local-port 1194
+set interfaces openvpn vtun10 persistent-tunnel
+set interfaces openvpn vtun10 protocol udp
+</pre></div>
+</div>
+<p>Then we need to generate, add and specify the names of the cryptographic materials.
+Each of the install commands should be applied to the configuration and commited
+before using under the openvpn interface configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>run generate pki ca install ca-1                                # Follow the instructions to generate CA cert.
+Configure mode commands to install:
+set pki ca ca-1 certificate &#39;generated_cert_string&#39;
+set pki ca ca-1 private key &#39;generated_private_key&#39;
+
+run generate pki certificate sign ca-1 install srv-1            # Follow the instructions to generate server cert.
+Configure mode commands to install:
+set pki certificate srv-1 certificate &#39;generated_server_cert&#39;
+set pki certificate srv-1 private key &#39;generated_private_key&#39;
+
+run generate pki dh install dh-1                                # Follow the instructions to generate set of
+                                                                  Diffie-Hellman parameters.
+Generating parameters...
+Configure mode commands to install DH parameters:
+set pki dh dh-1 parameters &#39;generated_dh_params_set&#39;
+
+set interfaces openvpn vtun10 tls ca-certificate ca-1
+set interfaces openvpn vtun10 tls certificate srv-1
+set interfaces openvpn vtun10 tls dh-params dh-1
+</pre></div>
+</div>
+<p>Now we need to specify the server network settings. In all cases we need to
+specify the subnet for client tunnel endpoints. Since we want clients to access
+a specific network behind our router, we will use a push-route option for
+installing that route on clients.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 server push-route 192.168.0.0/16
+set interfaces openvpn vtun10 server subnet 10.23.1.0/24
+</pre></div>
+</div>
+<p>Since it’s a HQ with branch offices setup, we will want all clients to have
+fixed addresses and we will route traffic to specific subnets through them. We
+need configuration for each client to achieve this.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Clients are identified by the CN field of their x.509 certificates,
+in this example the CN is <code class="docutils literal notranslate"><span class="pre">client0</span></code>:</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 server client client0 ip 10.23.1.10
+set interfaces openvpn vtun10 server client client0 subnet 10.23.2.0/25
+</pre></div>
+</div>
+<p>OpenVPN <strong>will not</strong> automatically create routes in the kernel for client
+subnets when they connect and will only use client-subnet association
+internally, so we need to create a route to the 10.23.0.0/20 network ourselves:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.23.0.0/20 interface vtun10
+</pre></div>
+</div>
+<p>Additionally, each client needs a copy of ca cert and its own client key and
+cert files. The files are plaintext so they may be copied manually from the CLI.
+Client key and cert files should be signed with the proper ca cert and generated
+on the server side.</p>
+<p>HQ’s router requires the following steps to generate crypto materials for the Branch 1:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>run generate pki certificate sign ca-1 install branch-1            # Follow the instructions to generate client
+                                                                     cert for Branch 1
+Configure mode commands to install:
+</pre></div>
+</div>
+<p>Branch 1’s router might have the following lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set pki ca ca-1 certificate &#39;generated_cert_string&#39;                # CA cert generated on HQ router
+set pki certificate branch-1 certificate &#39;generated_branch_cert&#39;   # Client cert generated and signed on HQ router
+set pki certificate branch-1 private key &#39;generated_private_key&#39;   # Client cert key generated on HQ router
+
+set interfaces openvpn vtun10 tls ca-cert ca-1
+set interfaces openvpn vtun10 tls certificate branch-1
+</pre></div>
+</div>
+<section id="client-authentication">
+<h3>Client Authentication<a class="headerlink" href="#client-authentication" title="Link to this heading"></a></h3>
+<section id="ldap">
+<h4>LDAP<a class="headerlink" href="#ldap" title="Link to this heading"></a></h4>
+<p>Enterprise installations usually ship a kind of directory service which is used
+to have a single password store for all employees. VyOS and OpenVPN support
+using LDAP/AD as single user backend.</p>
+<p>Authentication is done by using the <code class="docutils literal notranslate"><span class="pre">openvpn-auth-ldap.so</span></code> plugin which is
+shipped with every VyOS installation. A dedicated configuration file is
+required. It is best practise to store it in <code class="docutils literal notranslate"><span class="pre">/config</span></code> to survive image
+updates</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun0 openvpn-option &quot;--plugin /usr/lib/openvpn/openvpn-auth-ldap.so /config/auth/ldap-auth.config&quot;
+</pre></div>
+</div>
+<p>The required config file may look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;LDAP&gt;
+# LDAP server URL
+URL             ldap://ldap.example.com
+# Bind DN (If your LDAP server doesn&#39;t support anonymous binds)
+BindDN          cn=LDAPUser,dc=example,dc=com
+# Bind Password password
+Password        S3cr3t
+# Network timeout (in seconds)
+Timeout         15
+&lt;/LDAP&gt;
+
+&lt;Authorization&gt;
+# Base DN
+BaseDN          &quot;ou=people,dc=example,dc=com&quot;
+# User Search Filter
+SearchFilter    &quot;(&amp;(uid=%u)(objectClass=shadowAccount))&quot;
+# Require Group Membership - allow all users
+RequireGroup    false
+&lt;/Authorization&gt;
+</pre></div>
+</div>
+<section id="active-directory">
+<h5>Active Directory<a class="headerlink" href="#active-directory" title="Link to this heading"></a></h5>
+<p>Despite the fact that AD is a superset of LDAP</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;LDAP&gt;
+  # LDAP server URL
+  URL ldap://dc01.example.com
+  # Bind DN (If your LDAP server doesn’t support anonymous binds)
+  BindDN CN=LDAPUser,DC=example,DC=com
+  # Bind Password
+  Password mysecretpassword
+  # Network timeout (in seconds)
+  Timeout  15
+  # Enable Start TLS
+  TLSEnable no
+  # Follow LDAP Referrals (anonymously)
+  FollowReferrals no
+&lt;/LDAP&gt;
+
+&lt;Authorization&gt;
+  # Base DN
+  BaseDN        &quot;DC=example,DC=com&quot;
+  # User Search Filter, user must be a member of the VPN AD group
+  SearchFilter  &quot;(&amp;(sAMAccountName=%u)(memberOf=CN=VPN,OU=Groups,DC=example,DC=com))&quot;
+  # Require Group Membership
+  RequireGroup    false # already handled by SearchFilter
+  &lt;Group&gt;
+    BaseDN        &quot;OU=Groups,DC=example,DC=com&quot;
+    SearchFilter  &quot;(|(cn=VPN))&quot;
+    MemberAttribute  memberOf
+  &lt;/Group&gt;
+&lt;/Authorization&gt;
+</pre></div>
+</div>
+<p>If you only want to check if the user account is enabled and can authenticate
+(against the primary group) the following snipped is sufficient:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;LDAP&gt;
+  URL ldap://dc01.example.com
+  BindDN CN=SA_OPENVPN,OU=ServiceAccounts,DC=example,DC=com
+  Password ThisIsTopSecret
+  Timeout  15
+  TLSEnable no
+  FollowReferrals no
+&lt;/LDAP&gt;
+
+&lt;Authorization&gt;
+  BaseDN          &quot;DC=example,DC=com&quot;
+  SearchFilter    &quot;sAMAccountName=%u&quot;
+  RequireGroup    false
+&lt;/Authorization&gt;
+</pre></div>
+</div>
+<p>A complete LDAP auth OpenVPN configuration could look like the following
+example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show interfaces openvpn
+ openvpn vtun0 {
+     mode server
+     openvpn-option &quot;--tun-mtu 1500 --fragment 1300 --mssfix&quot;
+     openvpn-option &quot;--plugin /usr/lib/openvpn/openvpn-auth-ldap.so /config/auth/ldap-auth.config&quot;
+     openvpn-option &quot;--push redirect-gateway&quot;
+     openvpn-option --duplicate-cn
+     openvpn-option &quot;--verify-client-cert none&quot;
+     openvpn-option --comp-lzo
+     openvpn-option --persist-key
+     openvpn-option --persist-tun
+     server {
+         domain-name example.com
+         max-connections 5
+         name-server 203.0.113.0.10
+         name-server 198.51.100.3
+         subnet 172.18.100.128/29
+     }
+     tls {
+         ca-certificate ca.crt
+         certificate server.crt
+         dh-params dh1024.pem
+     }
+ }
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="client">
+<h2>Client<a class="headerlink" href="#client" title="Link to this heading"></a></h2>
+<p>VyOS can not only act as an OpenVPN site-to-site or server for multiple clients
+but you can also configure any VyOS OpenVPN interface as an OpenVPN client that
+connects to a VyOS OpenVPN server or any other OpenVPN server.</p>
+<p>Given the following example we have one VyOS router acting as an OpenVPN server
+and another VyOS router acting as an OpenVPN client. The server also pushes a
+static client IP address to the OpenVPN client. Remember, clients are identified
+using their CN attribute in the SSL certificate.</p>
+<section id="configuration">
+<span id="openvpn-client-server"></span><h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<section id="server-side">
+<h4>Server Side<a class="headerlink" href="#server-side" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 encryption data-ciphers &#39;aes256&#39;
+set interfaces openvpn vtun10 hash &#39;sha512&#39;
+set interfaces openvpn vtun10 local-host &#39;172.18.201.10&#39;
+set interfaces openvpn vtun10 local-port &#39;1194&#39;
+set interfaces openvpn vtun10 mode &#39;server&#39;
+set interfaces openvpn vtun10 persistent-tunnel
+set interfaces openvpn vtun10 protocol &#39;udp&#39;
+set interfaces openvpn vtun10 server client client1 ip &#39;10.10.0.10&#39;
+set interfaces openvpn vtun10 server domain-name &#39;vyos.net&#39;
+set interfaces openvpn vtun10 server max-connections &#39;250&#39;
+set interfaces openvpn vtun10 server name-server &#39;172.16.254.30&#39;
+set interfaces openvpn vtun10 server subnet &#39;10.10.0.0/24&#39;
+set interfaces openvpn vtun10 server topology &#39;subnet&#39;
+set interfaces openvpn vtun10 tls ca-cert ca-1
+set interfaces openvpn vtun10 tls certificate srv-1
+set interfaces openvpn vtun10 tls crypt-key srv-1
+set interfaces openvpn vtun10 tls dh-params dh-1
+set interfaces openvpn vtun10 use-lzo-compression
+</pre></div>
+</div>
+</section>
+<section id="client-side">
+<span id="openvpn-client-client"></span><h4>Client Side<a class="headerlink" href="#client-side" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 encryption data-ciphers &#39;aes256&#39;
+set interfaces openvpn vtun10 hash &#39;sha512&#39;
+set interfaces openvpn vtun10 mode &#39;client&#39;
+set interfaces openvpn vtun10 persistent-tunnel
+set interfaces openvpn vtun10 protocol &#39;udp&#39;
+set interfaces openvpn vtun10 remote-host &#39;172.18.201.10&#39;
+set interfaces openvpn vtun10 remote-port &#39;1194&#39;
+set interfaces openvpn vtun10 tls ca-cert ca-1
+set interfaces openvpn vtun10 tls certificate client-1
+set interfaces openvpn vtun10 tls crypt-key client-1
+set interfaces openvpn vtun10 use-lzo-compression
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Compression is generally not recommended. VPN tunnels which use
+compression are susceptible to the VORALCE attack vector. Enable compression
+if needed.</p>
+</div>
+</section>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading"></a></h3>
+<p>We do not have CLI nodes for every single OpenVPN option. If an option is
+missing, a feature request should be opened at <a class="reference external" href="https://vyos.dev/">Phabricator</a> so all users can
+benefit from it (see <a class="reference internal" href="../../contributing/issues-features.html#issues-features"><span class="std std-ref">Issues/Feature requests</span></a>).</p>
+<p>If you are a hacker or want to try on your own we support passing raw OpenVPN
+options to OpenVPN.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-persist-key">
+set interfaces openvpn vtun10 openvpn-option ‘persist-key’</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-persist-key" title="Permalink to this Command"></a></div></div>
+<p>Will add <code class="docutils literal notranslate"><span class="pre">persist-key</span></code> to the generated OpenVPN configuration.
+Please use this only as last resort - things might break and OpenVPN won’t start
+if you pass invalid options/syntax.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-push-keepalive-10-60">
+set interfaces openvpn vtun10 openvpn-option ‘push keepalive 10 60’</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-push-keepalive-10-60" title="Permalink to this Command"></a></div></div>
+<p>Will add <code class="docutils literal notranslate"><span class="pre">push</span> <span class="pre">&quot;keepalive</span> <span class="pre">1</span> <span class="pre">10&quot;</span></code> to the generated OpenVPN config file.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-route-up-quot-config-auth-tun-up-sh-arg1-quot">
+set interfaces openvpn vtun10 openvpn-option ‘route-up &amp;quot;/config/auth/tun_up.sh arg1&amp;quot;’</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-vtun10-openvpn-option-route-up-quot-config-auth-tun-up-sh-arg1-quot" title="Permalink to this Command"></a></div></div>
+<p>Will add <code class="docutils literal notranslate"><span class="pre">route-up</span> <span class="pre">&quot;/config/auth/tun_up.sh</span> <span class="pre">arg1&quot;</span></code> to the generated OpenVPN
+config file. The path and arguments need to be single- or double-quoted.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes option lines in the generated OpenVPN configuration require
+quotes. This is done through a hack on our config generator. You can pass
+quotes using the <code class="docutils literal notranslate"><span class="pre">&amp;quot;</span></code> statement.</p>
+</div>
+</section>
+<section id="server-bridge">
+<h3>Server bridge<a class="headerlink" href="#server-bridge" title="Link to this heading"></a></h3>
+<p>In Ethernet bridging configurations, OpenVPN’s server mode can be set as a
+‘bridge’ where the VPN tunnel encapsulates entire Ethernet frames
+(up to 1514 bytes) instead of just IP packets (up to 1500 bytes). This setup
+allows clients to transmit Layer 2 frames through the OpenVPN tunnel. Below,
+we outline a basic configuration to achieve this:</p>
+<p>Server Side:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces bridge br10 member interface eth1.10
+set interfaces bridge br10 member interface vtun10
+set interfaces openvpn vtun10 device-type &#39;tap&#39;
+set interfaces openvpn vtun10 encryption data-ciphers &#39;aes192&#39;
+set interfaces openvpn vtun10 hash &#39;sha256&#39;&#39;
+set interfaces openvpn vtun10 local-host &#39;172.18.201.10&#39;
+set interfaces openvpn vtun10 local-port &#39;1194&#39;
+set interfaces openvpn vtun10 mode &#39;server&#39;
+set interfaces openvpn vtun10 server bridge gateway &#39;10.10.0.1&#39;
+set interfaces openvpn vtun10 server bridge start &#39;10.10.0.100&#39;
+set interfaces openvpn vtun10 server bridge stop &#39;10.10.0.200&#39;
+set interfaces openvpn vtun10 server bridge subnet-mask &#39;255.255.255.0&#39;
+set interfaces openvpn vtun10 server topology &#39;subnet&#39;
+set interfaces openvpn vtun10 tls ca-certificate &#39;ca-1&#39;
+set interfaces openvpn vtun10 tls certificate &#39;srv-1&#39;
+set interfaces openvpn vtun10 tls dh-params &#39;srv-1&#39;
+</pre></div>
+</div>
+<p>Client Side :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 device-type &#39;tap&#39;
+set interfaces openvpn vtun10 encryption data-ciphers &#39;aes192&#39;
+set interfaces openvpn vtun10 hash &#39;sha256&#39;&#39;
+set interfaces openvpn vtun10 mode &#39;client&#39;
+set interfaces openvpn vtun10 protocol &#39;udp&#39;
+set interfaces openvpn vtun10 remote-host &#39;172.18.201.10&#39;
+set interfaces openvpn vtun10 remote-port &#39;1194&#39;
+set interfaces openvpn vtun10 tls ca-certificate &#39;ca-1&#39;
+set interfaces openvpn vtun10 tls certificate &#39;client-1&#39;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="multi-factor-authentication">
+<h2>Multi-factor Authentication<a class="headerlink" href="#multi-factor-authentication" title="Link to this heading"></a></h2>
+<p>VyOS supports multi-factor authentication (MFA) or two-factor authentication
+using Time-based One-Time Password (TOTP). Compatible with Google Authenticator
+software token, other software tokens.</p>
+<section id="mfa-totp-options">
+<h3>MFA TOTP options<a class="headerlink" href="#mfa-totp-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-challenge-enable-disable">
+set interfaces openvpn &lt;interface&gt; server mfa totp challenge &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-challenge-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If set to enable, openvpn-otp will expect password as result of challenge/
+response protocol.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-digits-1-65535">
+set interfaces openvpn &lt;interface&gt; server mfa totp digits &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-digits-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure number of digits to use for totp hash (default: 6)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-drift-1-65535">
+set interfaces openvpn &lt;interface&gt; server mfa totp drift &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-drift-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure time drift in seconds (default: 0)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-slop-1-65535">
+set interfaces openvpn &lt;interface&gt; server mfa totp slop &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-slop-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure maximum allowed clock slop in seconds (default: 180)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-step-1-65535">
+set interfaces openvpn &lt;interface&gt; server mfa totp step &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-interface-server-mfa-totp-step-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure step value for totp in seconds (default: 30)</p>
+</div>
+</div>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun20 encryption cipher &#39;aes256&#39;
+set interfaces openvpn vtun20 hash &#39;sha512&#39;
+set interfaces openvpn vtun20 mode &#39;server&#39;
+set interfaces openvpn vtun20 persistent-tunnel
+set interfaces openvpn vtun20 server client user1
+set interfaces openvpn vtun20 server mfa totp challenge &#39;disable&#39;
+set interfaces openvpn vtun20 server subnet &#39;10.10.2.0/24&#39;
+set interfaces openvpn vtun20 server topology &#39;subnet&#39;
+set interfaces openvpn vtun20 tls ca-certificate &#39;openvpn_vtun20&#39;
+set interfaces openvpn vtun20 tls certificate &#39;openvpn_vtun20&#39;
+set interfaces openvpn vtun20 tls dh-params &#39;dh-pem&#39;
+</pre></div>
+</div>
+<p>For every client in the openvpn server configuration a totp secret is created.
+To display the authentication information, use the command:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-show-interfaces-openvpn-interface-user-username-mfa-qrcode-secret-uri">
+show interfaces openvpn &lt;interface&gt; user &lt;username&gt; mfa &lt;qrcode|secret|uri&gt;</span>
+<a class="cmdlink" href="#cfgcmd-show-interfaces-openvpn-interface-user-username-mfa-qrcode-secret-uri" title="Permalink to this Command"></a></div></div>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ sh interfaces openvpn vtun20 user user1 mfa qrcode
+█████████████████████████████████████
+█████████████████████████████████████
+████ ▄▄▄▄▄ █▀▄▀ ▀▀▄▀ ▀▀▄ █ ▄▄▄▄▄ ████
+████ █   █ █▀▀▄ █▀▀▀█▀██ █ █   █ ████
+████ █▄▄▄█ █▀█ ▄ █▀▀ █▄▄▄█ █▄▄▄█ ████
+████▄▄▄▄▄▄▄█▄█ █ █ ▀ █▄▀▄█▄▄▄▄▄▄▄████
+████▄▄ ▄ █▄▄ ▄▀▄█▄ ▄▀▄█ ▄▄▀ ▀▄█ ▀████
+████ ▀██▄▄▄█▄ ██ █▄▄▄▄ █▄▀█ █ █▀█████
+████ ▄█▀▀▄▄  ▄█▀  ▀▄ ▄▄▀▄█▀▀▀ ▄▄▀████
+████▄█ ▀▄▄▄▀  ▀ ▄█ ▄ █▄█▀ █▀  █▀█████
+████▀█▀ ▀ ▄█▀▄▀▀█▄██▄█▀▀  ▀ ▀ ▄█▀████
+████ ██▄▄▀▄▄█ ██ ▀█ ▄█ ▀▄█  █▀██▀████
+████▄███▄█▄█ ▀█▄ ██▄▄▄█▀ ▄▄▄ █ ▀ ████
+████ ▄▄▄▄▄ █▄█▀▄ ▀▄ ▀█▀  █▄█ ██▀█████
+████ █   █ █ ▄█▀█▀▀▄ ▄▀▀▄▄▄▄▄▄   ████
+████ █▄▄▄█ █ ▄ ▀ █▄▄▄██▄▀█▄▀▄█▄ █████
+████▄▄▄▄▄▄▄█▄██▄█▄▄▄▄▄█▄█▄█▄██▄██████
+█████████████████████████████████████
+█████████████████████████████████████
+</pre></div>
+</div>
+<p>Use the QR code to add the user account in Google authenticator application and
+on client side, use the OTP number as password.</p>
+</section>
+</section>
+<section id="openvpn-data-channel-offload-dco">
+<h2>OpenVPN Data Channel Offload (DCO)<a class="headerlink" href="#openvpn-data-channel-offload-dco" title="Link to this heading"></a></h2>
+<p>OpenVPN Data Channel Offload (DCO) enables significant performance enhancement
+in encrypted OpenVPN data processing. By minimizing context switching for each
+packet, DCO effectively reduces overhead. This optimization is achieved by
+keeping most data handling tasks within the kernel, avoiding frequent switches
+between kernel and user space for encryption and packet handling.</p>
+<p>As a result, the processing of each packet becomes more efficient, potentially
+leveraging hardware encryption offloading support available in the kernel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>OpenVPN DCO is not a fully supported OpenVPN feature, and is currently
+considered experimental. Furthermore, there are certain OpenVPN features and
+use cases that remain incompatible with DCO. To get a comprehensive
+understanding of the limitations associated with DCO, refer to the list of
+known limitations in the documentation.</p>
+<p><a class="reference external" href="https://community.openvpn.net/openvpn/wiki/DataChannelOffload/Features">https://community.openvpn.net/openvpn/wiki/DataChannelOffload/Features</a></p>
+</div>
+<section id="enabling-openvpn-dco">
+<h3>Enabling OpenVPN DCO<a class="headerlink" href="#enabling-openvpn-dco" title="Link to this heading"></a></h3>
+<p>DCO support is a per-tunnel option and it is not automatically enabled by
+default for new or upgraded tunnels. Existing tunnels will continue to function
+as they have in the past.</p>
+<p>DCO can be enabled for both new and existing tunnels. VyOS adds an option in
+each tunnel configuration where we can enable this function. The current best
+practice is to create a new tunnel with DCO to minimize the chance of problems
+with existing clients.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-openvpn-name-offload-dco">
+set interfaces openvpn &lt;name&gt; offload dco</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-openvpn-name-offload-dco" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable OpenVPN Data Channel Offload feature by loading the appropriate kernel
+module.</p>
+<p>Disabled by default - no kernel module loaded.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Enable this feature causes an interface reset.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h3>
+<p>VyOS provides some operational commands on OpenVPN.</p>
+<section id="check-status">
+<h4>Check status<a class="headerlink" href="#check-status" title="Link to this heading"></a></h4>
+<p>The following commands let you check tunnel status.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-openvpn-client">
+show openvpn client</span>
+<a class="cmdlink" href="#opcmd-show-openvpn-client" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to check the tunnel status for OpenVPN client interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-openvpn-server">
+show openvpn server</span>
+<a class="cmdlink" href="#opcmd-show-openvpn-server" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to check the tunnel status for OpenVPN server interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-openvpn-site-to-site">
+show openvpn site-to-site</span>
+<a class="cmdlink" href="#opcmd-show-openvpn-site-to-site" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to check the tunnel status for OpenVPN site-to-site
+interfaces.</p>
+</div>
+</div>
+</section>
+<section id="openvpn-logs">
+<h4>OpenVPN Logs<a class="headerlink" href="#openvpn-logs" title="Link to this heading"></a></h4>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-openvpn">
+show log openvpn</span>
+<a class="cmdlink" href="#opcmd-show-log-openvpn" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to check log messages which include entries for successful
+connections as well as failures and errors related to all OpenVPN interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-openvpn-interface-name">
+show log openvpn interface &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-log-openvpn-interface-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to check log messages specific to an interface.</p>
+</div>
+</div>
+</section>
+<section id="reset-openvpn">
+<h4>Reset OpenVPN<a class="headerlink" href="#reset-openvpn" title="Link to this heading"></a></h4>
+<p>The following commands let you reset OpenVPN.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-openvpn-client-text">
+reset openvpn client &lt;text&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-openvpn-client-text" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to reset the specified OpenVPN client.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-openvpn-interface-interface">
+reset openvpn interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-openvpn-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to reset the OpenVPN process on a specific interface.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="macsec.html" class="btn btn-neutral float-left" title="MACsec" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wireguard.html" class="btn btn-neutral float-right" title="WireGuard" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

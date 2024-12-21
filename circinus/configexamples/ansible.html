@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ansible example &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Policy-Based Site-to-Site VPN and Firewall Configuration" href="policy-based-ipsec-and-firewall.html" />
+    <link rel="prev" title="NMP example" href="nmp.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ansible example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-ansible-on-a-server-running-the-debian-operating-system">Setting up Ansible on a server running the Debian operating system.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-ansible">Install Ansible:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-paramiko">Install Paramiko:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-the-version">Check the version:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-configuration-of-ansible-cfg">Basic configuration of ansible.cfg:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-all-the-vyos-hosts">Add all the VyOS hosts:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-general-variables">Add general variables:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-a-simple-playbook-with-the-tasks-for-each-router">Add a simple playbook with the tasks for each router:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-the-playbook">Start the playbook:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-the-result-on-the-vyos10-router">Check the result on the vyos10 router:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-simple-way-without-configuration-of-the-hostname-one-task-for-all-routers">The simple way without configuration of the hostname (one task for all routers):</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Ansible example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/ansible.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ansible-example">
+<span id="examples-ansible"></span><h1>Ansible example<a class="headerlink" href="#ansible-example" title="Link to this heading"></a></h1>
+<section id="setting-up-ansible-on-a-server-running-the-debian-operating-system">
+<h2>Setting up Ansible on a server running the Debian operating system.<a class="headerlink" href="#setting-up-ansible-on-a-server-running-the-debian-operating-system" title="Link to this heading"></a></h2>
+<p>In this example, we will set up a simple use of Ansible to configure multiple VyoS routers.
+We have four pre-configured routers with this configuration:</p>
+<p>Using the general schema for example:</p>
+<a class="reference internal image-reference" href="../images/ansible.png"><img alt="Network Topology Diagram" class="align-center" src="../images/ansible.png" style="width: 80%;" />
+</a>
+<p>We have four pre-configured routers with this configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address dhcp
+set service ssh
+commit
+save
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>vyos7 - 192.0.2.105</p></li>
+<li><p>vyos8 - 192.0.2.106</p></li>
+<li><p>vyos9 - 192.0.2.107</p></li>
+<li><p>vyos10 - 192.0.2.108</p></li>
+</ul>
+</section>
+<section id="install-ansible">
+<h2>Install Ansible:<a class="headerlink" href="#install-ansible" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># apt-get install ansible
+Do you want to continue? [Y/n] y
+</pre></div>
+</div>
+</section>
+<section id="install-paramiko">
+<h2>Install Paramiko:<a class="headerlink" href="#install-paramiko" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#apt-get install -y python3-paramiko
+</pre></div>
+</div>
+</section>
+<section id="check-the-version">
+<h2>Check the version:<a class="headerlink" href="#check-the-version" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ansible --version
+ansible 2.10.8
+config file = None
+configured module search path = [&#39;/root/.ansible/plugins/modules&#39;, &#39;/usr/share/ansible/plugins/modules&#39;]
+ansible python module location = /usr/lib/python3/dist-packages/ansible
+executable location = /usr/bin/ansible
+python version = 3.9.2 (default, Feb 28 2021, 17:03:44) [GCC 10.2.1 20210110]
+</pre></div>
+</div>
+</section>
+<section id="basic-configuration-of-ansible-cfg">
+<h2>Basic configuration of ansible.cfg:<a class="headerlink" href="#basic-configuration-of-ansible-cfg" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># nano /root/ansible.cfg
+[defaults]
+host_key_checking = no
+</pre></div>
+</div>
+</section>
+<section id="add-all-the-vyos-hosts">
+<h2>Add all the VyOS hosts:<a class="headerlink" href="#add-all-the-vyos-hosts" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># nano /root/hosts
+[vyos_hosts]
+vyos7 ansible_ssh_host=192.0.2.105
+vyos8 ansible_ssh_host=192.0.2.106
+vyos9 ansible_ssh_host=192.0.2.107
+vyos10 ansible_ssh_host=192.0.2.108
+</pre></div>
+</div>
+</section>
+<section id="add-general-variables">
+<h2>Add general variables:<a class="headerlink" href="#add-general-variables" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># mkdir /root/group_vars/
+# nano /root/group_vars/vyos_hosts
+ansible_python_interpreter: /usr/bin/python3
+ansible_network_os: vyos
+ansible_connection: network_cli
+ansible_user: vyos
+ansible_ssh_pass: vyos
+</pre></div>
+</div>
+</section>
+<section id="add-a-simple-playbook-with-the-tasks-for-each-router">
+<h2>Add a simple playbook with the tasks for each router:<a class="headerlink" href="#add-a-simple-playbook-with-the-tasks-for-each-router" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># nano /root/main.yml
+
+---
+- hosts: vyos_hosts
+gather_facts: &#39;no&#39;
+tasks:
+        - name: Configure general settings for the vyos hosts group
+        vyos_config:
+                lines:
+                - set system name-server 8.8.8.8
+                - set interfaces ethernet eth0 description &#39;#WAN#&#39;
+                - set interfaces ethernet eth1 description &#39;#LAN#&#39;
+                - set interfaces ethernet eth2 disable
+                - set interfaces ethernet eth3 disable
+                - set system host-name {{ inventory_hostname }}
+                save:
+                true
+</pre></div>
+</div>
+</section>
+<section id="start-the-playbook">
+<h2>Start the playbook:<a class="headerlink" href="#start-the-playbook" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ansible-playbook -i hosts main.yml
+PLAY [vyos_hosts] **************************************************************
+
+TASK [Configure general settings for the vyos hosts group] *********************
+ok: [vyos9]
+ok: [vyos10]
+ok: [vyos7]
+ok: [vyos8]
+
+PLAY RECAP *********************************************************************
+vyos10                     : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos7                      : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos8                      : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos9                      : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</pre></div>
+</div>
+</section>
+<section id="check-the-result-on-the-vyos10-router">
+<h2>Check the result on the vyos10 router:<a class="headerlink" href="#check-the-result-on-the-vyos10-router" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos10:~$ show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             192.0.2.108/24                    u/u  WAN
+eth1             -                                 u/u  LAN
+eth2             -                                 A/D
+eth3             -                                 A/D
+lo               127.0.0.1/8                       u/u
+                                ::1/128
+
+vyos@vyos10:~$ sh configuration commands | grep 8.8.8.8
+set system name-server &#39;8.8.8.8&#39;
+</pre></div>
+</div>
+</section>
+<section id="the-simple-way-without-configuration-of-the-hostname-one-task-for-all-routers">
+<h2>The simple way without configuration of the hostname (one task for all routers):<a class="headerlink" href="#the-simple-way-without-configuration-of-the-hostname-one-task-for-all-routers" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># nano /root/hosts_v2
+[vyos_hosts_group]
+vyos7 ansible_ssh_host=192.0.2.105
+vyos8 ansible_ssh_host=192.0.2.106
+vyos9 ansible_ssh_host=192.0.2.107
+vyos10 ansible_ssh_host=192.0.2.108
+[vyos_hosts_group:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=vyos
+ansible_ssh_pass=vyos
+ansible_network_os=vyos
+ansible_connection=network_cli
+
+# nano /root/main_v2.yml
+---
+- hosts: vyos_hosts_group
+
+connection: network_cli
+gather_facts: &#39;no&#39;
+
+tasks:
+        - name: Configure remote vyos_hosts_group
+        vyos_config:
+                lines:
+                - set system name-server 8.8.8.8
+                - set interfaces ethernet eth0 description WAN
+                - set interfaces ethernet eth1 description LAN
+                - set interfaces ethernet eth2 disable
+                - set interfaces ethernet eth3 disable
+                save:
+                true
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ansible-playbook -i hosts_v2 main_v2.yml
+
+PLAY [vyos_hosts_group] ********************************************************
+
+TASK [Configure remote vyos_hosts_group] ***************************************
+ok: [vyos8]
+ok: [vyos7]
+ok: [vyos9]
+ok: [vyos10]
+
+PLAY RECAP *********************************************************************
+vyos10                     : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos7                      : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos8                      : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+vyos9                      : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</pre></div>
+</div>
+<p>In the next chapter of the example, we’ll use Ansible with jinja2 templates and variables.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nmp.html" class="btn btn-neutral float-left" title="NMP example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="policy-based-ipsec-and-firewall.html" class="btn btn-neutral float-right" title="Policy-Based Site-to-Site VPN and Firewall Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,831 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPoE Server &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="LLDP" href="lldp.html" />
+    <link rel="prev" title="DDoS Protection" href="ids.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">IPoE Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-ipoe-server">Configuring IPoE Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-radius-authentication">Configuring RADIUS authentication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipv6">IPv6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripting">Scripting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-options">Advanced Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#toubleshooting">Toubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">IPoE Server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/ipoe-server.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipoe-server">
+<span id="id1"></span><h1>IPoE Server<a class="headerlink" href="#ipoe-server" title="Link to this heading"></a></h1>
+<p>VyOS utilizes <a class="reference external" href="https://accel-ppp.org/">accel-ppp</a> to provide <abbr title="Internet Protocol over Ethernet">IPoE</abbr> server functionality. It can be used with local authentication
+(mac-address) or a connected RADIUS server.</p>
+<p>IPoE is a method of delivering an IP payload over an Ethernet-based access
+network or an access network using bridged Ethernet over Asynchronous Transfer
+Mode (ATM) without using PPPoE. It directly encapsulates the IP datagrams in
+Ethernet frames, using the standard <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc894.html"><strong>RFC 894</strong></a> encapsulation.</p>
+<p>The use of IPoE addresses the disadvantage that PPP is unsuited for multicast
+delivery to multiple users. Typically, IPoE uses Dynamic Host Configuration
+Protocol and Extensible Authentication Protocol to provide the same
+functionality as PPPoE, but in a less robust manner.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please be aware, due to an upstream bug, config changes/commits
+will restart the ppp daemon and will reset existing IPoE sessions,
+in order to become effective.</p>
+</div>
+<section id="configuring-ipoe-server">
+<h2>Configuring IPoE Server<a class="headerlink" href="#configuring-ipoe-server" title="Link to this heading"></a></h2>
+<p>IPoE can be configure on different interfaces, it will depend on each specific
+situation which interface will provide IPoE to clients. The clients mac address
+and the incoming interface is being used as control parameter, to authenticate
+a client.</p>
+<p>The example configuration below will assign an IP to the client on the incoming
+interface eth2 with the client mac address 08:00:27:2f:d8:06. Other DHCP
+discovery requests will be ignored, unless the client mac has been enabled in
+the configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth1 address &#39;192.168.0.1/24&#39;
+set service ipoe-server authentication interface eth1.100 mac 00:50:79:66:68:00
+set service ipoe-server authentication interface eth1.101 mac 00:50:79:66:68:01
+set service ipoe-server authentication mode &#39;local&#39;
+set service ipoe-server client-ip-pool IPOE-POOL range &#39;192.168.0.2-192.168.0.254&#39;
+set service ipoe-server default-pool &#39;IPOE-POOL&#39;
+set service ipoe-server gateway-address &#39;192.168.0.1/24&#39;
+set service ipoe-server interface eth1 mode &#39;l2&#39;
+set service ipoe-server interface eth1 network &#39;vlan&#39;
+set service ipoe-server interface eth1 vlan &#39;100-200&#39;
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac">
+set service ipoe-server authentication interface &lt;interface&gt; mac &lt;MAC&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Creates local IPoE user with username=**&lt;interface&gt;** and
+password=**&lt;MAC&gt;** (mac-address)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-mode-local-radius">
+set service ipoe-server authentication mode &lt;local | radius&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-mode-local-radius" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set authentication backend. The configured authentication backend is used
+for all queries.</p>
+<ul class="simple">
+<li><p><strong>radius</strong>: All authentication queries are handled by a configured RADIUS
+server.</p></li>
+<li><p><strong>local</strong>: All authentication queries are handled locally.</p></li>
+<li><p><strong>noauth</strong>: Authentication disabled</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-client-ip-pool-pool-name-range-x-x-x-x-x-x-x-x-x-x-x-x-x">
+set service ipoe-server client-ip-pool &lt;POOL-NAME&gt; range &lt;x.x.x.x-x.x.x.x | x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-client-ip-pool-pool-name-range-x-x-x-x-x-x-x-x-x-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define the first IP address of a pool of
+addresses to be given to IPoE clients. If notation <code class="docutils literal notranslate"><span class="pre">x.x.x.x-x.x.x.x</span></code>,
+it must be within a /24 subnet. If notation <code class="docutils literal notranslate"><span class="pre">x.x.x.x/x</span></code> is
+used there is possibility to set host/netmask.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-default-pool-pool-name">
+set service ipoe-server default-pool &lt;POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-default-pool-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define default address pool name.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-gateway-address-x-x-x-x-x">
+set service ipoe-server gateway-address &lt;x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-gateway-address-x-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies address to be used as server ip address if radius can assign
+only client address. In such case if client address is matched network
+and mask then specified address and mask will be used. You can specify
+multiple such options.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-interface-interface-mode-l2-l3">
+set service ipoe-server interface &lt;interface&gt; mode &lt;l2 | l3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-interface-interface-mode-l2-l3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set authentication backend. The configured authentication backend is used
+for all queries.</p>
+<ul class="simple">
+<li><p><strong>l2</strong>: It means that clients are on same network where interface
+is.**(default)**</p></li>
+<li><p><strong>local</strong>: It means that client are behind some router.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-interface-interface-network-shared-vlan">
+set service ipoe-server interface &lt;interface&gt; network &lt;shared | vlan&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-interface-interface-network-shared-vlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify where interface is shared by multiple users or it is vlan-per-user.</p>
+<ul class="simple">
+<li><p><strong>shared</strong>: Multiple clients share the same network. <strong>(default)</strong></p></li>
+<li><p><strong>vlan</strong>: One VLAN per client.</p></li>
+</ul>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ipoe-server sessions
+
+ ifname | username |    calling-sid    |     ip      | rate-limit | type | comp | state  |  uptime
+--------+----------+-------------------+-------------+------------+------+------+--------+----------
+ ipoe0  | eth1.100 | 00:50:79:66:68:00 | 192.168.0.2 |            | ipoe |      | active | 00:04:55
+ ipoe1  | eth1.101 | 00:50:79:66:68:01 | 192.168.0.3 |            | ipoe |      | active | 00:04:44
+</pre></div>
+</div>
+</section>
+<section id="configuring-radius-authentication">
+<h2>Configuring RADIUS authentication<a class="headerlink" href="#configuring-radius-authentication" title="Link to this heading"></a></h2>
+<p>To enable RADIUS based authentication, the authentication mode needs to be
+changed within the configuration. Previous settings like the local users, still
+exists within the configuration, however they are not used if the mode has been
+changed from local to radius. Once changed back to local, it will use all local
+accounts again.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ipoe-server authentication mode radius
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-server-server-key-secret">
+set service ipoe-server authentication radius server &lt;server&gt; key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-server-server-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure RADIUS <cite>&lt;server&gt;</cite> and its required shared <cite>&lt;secret&gt;</cite> for
+communicating with the RADIUS server.</p>
+</div>
+</div>
+<p>Since the RADIUS server would be a single point of failure, multiple RADIUS
+servers can be setup and will be used subsequentially.
+For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ipoe-server authentication radius server 10.0.0.1 key &#39;foo&#39;
+set service ipoe-server authentication radius server 10.0.0.2 key &#39;foo&#39;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some RADIUS severs use an access control list which allows or denies
+queries, make sure to add your VyOS router to the allowed client list.</p>
+</div>
+<section id="radius-source-address">
+<h3>RADIUS source address<a class="headerlink" href="#radius-source-address" title="Link to this heading"></a></h3>
+<p>If you are using OSPF as IGP, always the closest interface connected to the
+RADIUS server is used. With VyOS 1.2 you can bind all outgoing RADIUS requests
+to a single source IP e.g. the loopback interface.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-source-address-address">
+set service ipoe-server authentication radius source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source IPv4 address used in all RADIUS server queires.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">source-address</span></code> must be configured on one of VyOS interface.
+Best practice would be a loopback or dummy interface.</p>
+</div>
+</section>
+<section id="radius-advanced-options">
+<h3>RADIUS advanced options<a class="headerlink" href="#radius-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-server-server-port-port">
+set service ipoe-server authentication radius server &lt;server&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-server-server-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure RADIUS <cite>&lt;server&gt;</cite> and its required port for authentication requests.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-server-server-fail-time-time">
+set service ipoe-server authentication radius server &lt;server&gt; fail-time &lt;time&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-server-server-fail-time-time" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mark RADIUS server as offline for this given <cite>&lt;time&gt;</cite> in seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-server-server-disable">
+set service ipoe-server authentication radius server &lt;server&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-server-server-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Temporary disable this RADIUS server.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-acct-timeout-timeout">
+set service ipoe-server authentication radius acct-timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-acct-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout to wait reply for Interim-Update packets. (default 3 seconds)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-server-address">
+set service ipoe-server authentication radius dynamic-author server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies IP address for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-port-port">
+set service ipoe-server authentication radius dynamic-author port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Port for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-key-secret">
+set service ipoe-server authentication radius dynamic-author key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-dynamic-author-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Secret for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-max-try-number">
+set service ipoe-server authentication radius max-try &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-max-try-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum number of tries to send Access-Request/Accounting-Request queries</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-timeout-timeout">
+set service ipoe-server authentication radius timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout to wait response from server (seconds)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-nas-identifier-identifier">
+set service ipoe-server authentication radius nas-identifier &lt;identifier&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-nas-identifier-identifier" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Value to send to RADIUS server in NAS-Identifier attribute and to be matched
+in DM/CoA requests.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-nas-ip-address-address">
+set service ipoe-server authentication radius nas-ip-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-nas-ip-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Value to send to RADIUS server in NAS-IP-Address attribute and to be matched
+in DM/CoA requests. Also DM/CoA server will bind to that address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-source-address-address">
+set service ipoe-server authentication radius source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source IPv4 address used in all RADIUS server queires.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-attribute-attribute">
+set service ipoe-server authentication radius rate-limit attribute &lt;attribute&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-attribute-attribute" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies which RADIUS server attribute contains the rate limit information.
+The default attribute is <cite>Filter-Id</cite>.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you set a custom RADIUS attribute you must define it on both
+dictionaries at RADIUS server and client.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-enable">
+set service ipoe-server authentication radius rate-limit enable</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-enable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables bandwidth shaping via RADIUS.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-vendor">
+set service ipoe-server authentication radius rate-limit vendor</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-radius-rate-limit-vendor" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the vendor dictionary, dictionary needs to be in
+/usr/share/accel-ppp/radius.</p>
+</div>
+</div>
+<p>Received RADIUS attributes have a higher priority than parameters defined within
+the CLI configuration, refer to the explanation below.</p>
+</section>
+<section id="allocation-clients-ip-addresses-by-radius">
+<h3>Allocation clients ip addresses by RADIUS<a class="headerlink" href="#allocation-clients-ip-addresses-by-radius" title="Link to this heading"></a></h3>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-IP-Address</span></code> then this IP
+address will be allocated to the client and the option <code class="docutils literal notranslate"><span class="pre">default-pool</span></code> within the CLI
+config is being ignored.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-Pool</span></code>, IP address will be allocated
+from a predefined IP pool whose name equals the attribute value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code>, IPv6 address
+will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">prefix</span></code> whose name equals the attribute value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code>, IPv6
+delegation pefix will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">delegate</span></code>
+whose name equals the attribute value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code> and <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code> are defined in
+RFC6911. If they are not defined in your RADIUS server, add new <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.rfc6911">dictionary</a>.</p>
+</div>
+<p>User interface can be put to VRF context via RADIUS Access-Accept packet, or change
+it via RADIUS CoA. <code class="docutils literal notranslate"><span class="pre">Accel-VRF-Name</span></code> is used from these purposes. It is custom <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.accel">ACCEL-PPP attribute</a>.
+Define it in your RADIUS server.</p>
+</section>
+</section>
+<section id="ipv6">
+<h2>IPv6<a class="headerlink" href="#ipv6" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits">
+set service ipoe-server client-ipv6-pool &lt;IPv6-POOL-NAME&gt; prefix &lt;address&gt;  mask &lt;number-of-bits&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this comand to set the IPv6 address pool from which an IPoE client
+will get an IPv6 prefix of your defined length (mask) to terminate the
+IPoE endpoint at their side. The mask length can be set from 48 to 128
+bit long, the default value is 64.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits">
+set service ipoe-server client-ipv6-pool &lt;IPv6-POOL-NAME&gt; delegate &lt;address&gt;  delegation-prefix &lt;number-of-bits&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure DHCPv6 Prefix Delegation (RFC3633) on
+IPoE. You will have to set your IPv6 pool and the length of the
+delegation prefix. From the defined IPv6 pool you will be handing out
+networks of the defined length (delegation-prefix). The length of the
+delegation prefix can be set from 32 to 64 bit long.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-default-ipv6-pool-ipv6-pool-name">
+set service ipoe-server default-ipv6-pool &lt;IPv6-POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-default-ipv6-pool-ipv6-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define default IPv6 address pool name.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ipoe-server client-ipv6-pool IPv6-POOL delegate &#39;2001:db8:8003::/48&#39; delegation-prefix &#39;56&#39;
+set service ipoe-server client-ipv6-pool IPv6-POOL prefix &#39;2001:db8:8002::/48&#39; mask &#39;64&#39;
+set service ipoe-server default-ipv6-pool IPv6-POOL
+</pre></div>
+</div>
+</section>
+<section id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-extended-scripts-on-change-path-to-script">
+set service ipoe-server extended-scripts on-change &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-extended-scripts-on-change-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface changed by RADIUS CoA handling</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-extended-scripts-on-down-path-to-script">
+set service ipoe-server extended-scripts on-down &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-extended-scripts-on-down-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface going to terminate</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-extended-scripts-on-pre-up-path-to-script">
+set service ipoe-server extended-scripts on-pre-up &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-extended-scripts-on-pre-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run before session interface comes up</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-extended-scripts-on-up-path-to-script">
+set service ipoe-server extended-scripts on-up &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-extended-scripts-on-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface is completely configured and started</p>
+</div>
+</div>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading"></a></h2>
+<section id="authentication-advanced-options">
+<h3>Authentication Advanced Options<a class="headerlink" href="#authentication-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-vlan-vlan-id">
+set service ipoe-server authentication interface &lt;interface&gt; mac &lt;MAC&gt; vlan  &lt;vlan-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-vlan-vlan-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>VLAN monitor for automatic creation of VLAN interfaces for specific user on specific &lt;interface&gt;</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-rate-limit-download-bandwidth">
+set service ipoe-server authentication interface &lt;interface&gt; mac &lt;MAC&gt; rate-limit  download &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-rate-limit-download-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Download bandwidth limit in kbit/s for user on interface <cite>&lt;interface&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-rate-limit-upload-bandwidth">
+set service ipoe-server authentication interface &lt;interface&gt; mac &lt;MAC&gt; rate-limit  upload &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-authentication-interface-interface-mac-mac-rate-limit-upload-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Upload bandwidth limit in kbit/s for for user on interface <cite>&lt;interface&gt;</cite>.</p>
+</div>
+</div>
+</section>
+<section id="client-ip-pool-advanced-options">
+<h3>Client IP Pool Advanced Options<a class="headerlink" href="#client-ip-pool-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-client-ip-pool-pool-name-next-pool-next-pool-name">
+set service ipoe-server client-ip-pool &lt;POOL-NAME&gt; next-pool &lt;NEXT-POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-client-ip-pool-pool-name-next-pool-next-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define the next address pool name.</p>
+</div>
+</div>
+</section>
+<section id="advanced-interface-options">
+<h3>Advanced Interface Options<a class="headerlink" href="#advanced-interface-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-interface-interface-client-subnet-x-x-x-x-x">
+set service ipoe-server interface &lt;interface&gt; client-subnet &lt;x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-interface-interface-client-subnet-x-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify local range of ip address to give to dhcp clients. First IP in range is router IP.
+If you need more customization use <cite>client-ip-pool</cite></p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-interface-interface-external-dhcp-dhcp-relay-x-x-x-x">
+set service ipoe-server interface &lt;interface&gt; external-dhcp dhcp-relay &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-interface-interface-external-dhcp-dhcp-relay-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify DHCPv4 relay IP address to pass requests to. If specified giaddr is also needed.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-interface-interface-external-dhcp-giaddr-x-x-x-x">
+set service ipoe-server interface &lt;interface&gt; external-dhcp giaddr &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-interface-interface-external-dhcp-giaddr-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies relay agent IP addre</p>
+</div>
+</div>
+</section>
+<section id="global-advanced-options">
+<h3>Global Advanced options<a class="headerlink" href="#global-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-description-description">
+set service ipoe-server description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set description.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-limits-burst-value">
+set service ipoe-server limits burst &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-limits-burst-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Burst count</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-limits-connection-limit-value">
+set service ipoe-server limits connection-limit &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-limits-connection-limit-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Acceptable rate of connections (e.g. 1/min, 60/sec)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-limits-timeout-value">
+set service ipoe-server limits timeout &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-limits-timeout-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout in seconds</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-max-concurrent-sessions">
+set service ipoe-server max-concurrent-sessions</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-max-concurrent-sessions" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum number of concurrent session start attempts</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-name-server-address">
+set service ipoe-server name-server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-name-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Connected client should use <cite>&lt;address&gt;</cite> as their DNS server. This
+command accepts both IPv4 and IPv6 addresses. Up to two nameservers
+can be configured for IPv4, up to three for IPv6.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-shaper-fwmark-1-2147483647">
+set service ipoe-server shaper fwmark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-shaper-fwmark-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match firewall mark value</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ipoe-server-snmp-master-agent">
+set service ipoe-server snmp master-agent</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ipoe-server-snmp-master-agent" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable SNMP</p>
+</div>
+</div>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipoe-server-sessions">
+show ipoe-server sessions</span>
+<a class="cmdlink" href="#opcmd-show-ipoe-server-sessions" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to locally check the active sessions in the IPoE
+server.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ipoe-server sessions
+ifname  | username |    calling-sid    |     ip      | rate-limit | type | comp | state  |  uptime
+----------+----------+-------------------+-------------+------------+------+------+--------+----------
+ eth1.100 | eth1.100 | 0c:98:bd:b8:00:01 | 192.168.0.3 |            | ipoe |      | active | 03:03:58
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ipoe-server statistics
+uptime: 0.03:31:36
+cpu: 0%
+mem(rss/virt): 6044/101360 kB
+core:
+  mempool_allocated: 148628
+  mempool_available: 144748
+  thread_count: 1
+  thread_active: 1
+  context_count: 10
+  context_sleeping: 0
+  context_pending: 0
+  md_handler_count: 6
+  md_handler_pending: 0
+  timer_count: 1
+  timer_pending: 0
+sessions:
+  starting: 0
+  active: 1
+  finishing: 0
+ipoe:
+  starting: 0
+  active: 1
+  delayed: 0
+</pre></div>
+</div>
+</section>
+<section id="toubleshooting">
+<h2>Toubleshooting<a class="headerlink" href="#toubleshooting" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$sudo journalctl -u accel-ppp@ipoe -b 0
+
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:: recv [DHCPv4 Discover xid=55df9228 chaddr=0c:98:bd:b8:00:01 &lt;Message-Type Discover&gt; &lt;Request-IP 192.168.0.3&gt; &lt;Host-Name vyos&gt; &lt;Request-List Subnet,Broadcast,Router,DNS,Classless-Route,Domain-Name,MTU&gt;]
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: eth1.100: authentication succeeded
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: send [DHCPv4 Offer xid=55df9228 yiaddr=192.168.0.4 chaddr=0c:98:bd:b8:00:01 &lt;Message-Type Offer&gt; &lt;Server-ID 192.168.0.1&gt; &lt;Lease-Time 600&gt; &lt;T1 300&gt; &lt;T2 525&gt; &lt;Router 192.168.0.1&gt; &lt;Subnet 255.255.255.0&gt;]
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: recv [DHCPv4 Request xid=55df9228 chaddr=0c:98:bd:b8:00:01 &lt;Message-Type Request&gt; &lt;Server-ID 192.168.0.1&gt; &lt;Request-IP 192.168.0.4&gt; &lt;Host-Name vyos&gt; &lt;Request-List Subnet,Broadcast,Router,DNS,Classless-Route,Domain-Name,MTU&gt;]
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: ipoe: activate session
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: ipoe: no free IPv6 address
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: ipoe: session started
+Feb 27 14:29:27 vyos accel-ipoe[2262]: eth1.100:eth1.100: send [DHCPv4 Ack xid=55df9228 yiaddr=192.168.0.4 chaddr=0c:98:bd:b8:00:01 &lt;Message-Type Ack&gt; &lt;Server-ID 192.168.0.1&gt; &lt;Lease-Time 600&gt; &lt;T1 300&gt; &lt;T2 525&gt; &lt;Router 192.168.0.1&gt; &lt;Subnet 255.255.255.0&gt;]
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ids.html" class="btn btn-neutral float-left" title="DDoS Protection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lldp.html" class="btn btn-neutral float-right" title="LLDP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

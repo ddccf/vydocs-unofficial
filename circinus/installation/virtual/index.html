@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Environments &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Running on Libvirt Qemu/KVM" href="libvirt.html" />
+    <link rel="prev" title="Installation" href="../install.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Virtual Environments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html">Running on Libvirt Qemu/KVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxmox.html">Running on Proxmox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vmware.html">Running on VMware ESXi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gns3.html">Running on GNS3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eve-ng.html">EVE-NG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html">Running in Docker Container</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cloud/index.html">Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bare-metal.html">Bare Metal Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../image.html">Image Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Virtual Environments</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/installation/virtual/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="virtual-environments">
+<h1>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libvirt.html">Running on Libvirt Qemu/KVM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libvirt.html#cli">CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html#deploy-from-iso">Deploy from ISO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html#deploy-from-qcow2">Deploy from qcow2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libvirt.html#virt-manager">Virt-manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html#libvirt-virt-manager-iso">Deploy from ISO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html#libvirt-virt-manager-qcow2">Deploy from qcow2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="proxmox.html">Running on Proxmox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxmox.html#deploy-vyos-from-cli-with-qcow2-image">Deploy VyOS from CLI with qcow2 image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxmox.html#deploy-vyos-from-cli-with-rolling-release-iso">Deploy VyOS from CLI with rolling release ISO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vmware.html">Running on VMware ESXi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vmware.html#esxi-5-5-or-later">ESXi 5.5 or later</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vmware.html#memory-contention-considerations">Memory Contention Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vmware.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gns3.html">Running on GNS3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gns3.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gns3.html#vm-setup">VM setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gns3.html#vyos-installation">VyOS installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gns3.html#vyos-vm-configuration">VyOS VM configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="eve-ng.html">EVE-NG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="eve-ng.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Running in Docker Container</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docker.html#ipv6-support-for-docker">IPv6 Support for docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#method-1-create-a-docker-network-with-ipv6-support">Method 1: Create a docker network with IPv6 support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html#method-2-add-ipv6-support-to-the-docker-daemon">Method 2: Add IPv6 support to the docker daemon</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html#deploy-container-from-iso">Deploy container from ISO</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="libvirt.html" class="btn btn-neutral float-right" title="Running on Libvirt Qemu/KVM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

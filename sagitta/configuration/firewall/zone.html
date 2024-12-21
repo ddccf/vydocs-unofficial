@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zone Based Firewall &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="High availability" href="../highavailability/index.html" />
+    <link rel="prev" title="Flowtables Firewall Configuration" href="flowtables.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Firewall</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global-options.html">Global Options Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="groups.html">Firewall groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#zone-based-firewall">Zone-based firewall</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Zone Based Firewall</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Firewall</a></li>
+      <li class="breadcrumb-item active">Zone Based Firewall</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/firewall/zone.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="zone-based-firewall">
+<span id="firewall-zone"></span><h1>Zone Based Firewall<a class="headerlink" href="#zone-based-firewall" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Starting from VyOS 1.4-rolling-202308040557, a new firewall
+structure can be found on all vyos instalations. Zone based firewall was
+removed in that version, but re introduced in VyOS 1.4 and 1.5. All
+versions built after 2023-10-22 has this feature.
+Documentation for most of the new firewall CLI can be
+found in the <a class="reference external" href="https://docs.vyos.io/en/latest/configuration/firewall/general.html">firewall</a>
+chapter. The legacy firewall is still available for versions before
+1.4-rolling-202308040557 and can be found in the
+<span class="xref std std-doc">legacy firewall configuration</span>
+chapter.</p>
+</div>
+<p>In this section there’s useful information of all firewall configuration that
+is needed for zone-based firewall.
+Configuration commands covered in this section:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone">
+set firewall zone …</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone" title="Permalink to this Command"></a></div></div>
+<p>From main structure defined in
+<a class="reference internal" href="index.html"><span class="doc">Firewall Overview</span></a>
+in this section you can find detailed information only for the next part
+of the general structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- set firewall
+    * zone
+         - custom_zone_name
+            + ...
+</pre></div>
+</div>
+<p>In zone-based policy, interfaces are assigned to zones, and inspection policy
+is applied to traffic moving between the zones and acted on according to
+firewall rules. A zone is a group of interfaces that have similar functions or
+features. It establishes the security borders of a network. A zone defines a
+boundary where traffic is subjected to policy restrictions as it crosses to
+another region of a network.</p>
+<p>Key Points:</p>
+<ul class="simple">
+<li><p>A zone must be configured before an interface is assigned to it and an
+interface can be assigned to only a single zone.</p></li>
+<li><p>All traffic to and from an interface within a zone is permitted.</p></li>
+<li><p>All traffic between zones is affected by existing policies</p></li>
+<li><p>Traffic cannot flow between zone member interface and any interface that is
+not a zone member.</p></li>
+<li><p>You need 2 separate firewalls to define traffic: one for each direction.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <a class="reference external" href="https://vyos.dev/T2199">T2199</a> the syntax of the zone configuration was changed.
+The zone configuration moved from <code class="docutils literal notranslate"><span class="pre">zone-policy</span> <span class="pre">zone</span> <span class="pre">&lt;name&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">firewall</span>
+<span class="pre">zone</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>As an alternative to applying policy to an interface directly, a zone-based
+firewall can be created to simplify configuration when multiple interfaces
+belong to the same security zone. Instead of applying rule-sets to interfaces,
+they are applied to source zone-destination zone pairs.</p>
+<p>A basic introduction to zone-based firewalls can be found <a class="reference external" href="https://support.vyos.io/en/kb/articles/a-primer-to-zone-based-firewall">here</a>,
+and an example at <a class="reference internal" href="../../configexamples/zone-policy.html#examples-zone-policy"><span class="std std-ref">Zone-Policy example</span></a>.</p>
+<section id="define-a-zone">
+<h3>Define a Zone<a class="headerlink" href="#define-a-zone" title="Link to this heading"></a></h3>
+<p>To define a zone setup either one with interfaces or a local zone.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-interface-interface">
+set firewall zone &lt;name&gt; interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set interfaces to a zone. A zone can have multiple interfaces.
+But an interface can only be a member in one zone.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-local-zone">
+set firewall zone &lt;name&gt; local-zone</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-local-zone" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define the zone as a local zone. A local zone has no interfaces and
+will be applied to the router itself.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-default-action-drop-reject">
+set firewall zone &lt;name&gt; default-action [drop | reject]</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-default-action-drop-reject" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Change the default-action with this setting.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-description">
+set firewall zone &lt;name&gt; description</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a meaningful description.</p>
+</div>
+</div>
+</section>
+<section id="applying-a-rule-set-to-a-zone">
+<h3>Applying a Rule-Set to a Zone<a class="headerlink" href="#applying-a-rule-set-to-a-zone" title="Link to this heading"></a></h3>
+<p>Before you are able to apply a rule-set to a zone you have to create the zones
+first.</p>
+<p>It helps to think of the syntax as: (see below). The ‘rule-set’ should be
+written from the perspective of: <em>Source Zone</em>-to-&gt;*Destination Zone*</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-rule-set">
+set firewall zone &lt;Destination Zone&gt; from &lt;Source Zone&gt; firewall name &lt;rule-set&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-rule-set" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-from-name-firewall-name-rule-set">
+set firewall zone &lt;name&gt; from &lt;name&gt; firewall name &lt;rule-set&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-from-name-firewall-name-rule-set" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-from-name-firewall-ipv6-name-rule-set">
+set firewall zone &lt;name&gt; from &lt;name&gt; firewall ipv6-name &lt;rule-set&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-from-name-firewall-ipv6-name-rule-set" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>You apply a rule-set always to a zone from an other zone, it is recommended
+to create one rule-set for each zone pair.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall zone DMZ from LAN firewall name LANv4-to-DMZv4
+set firewall zone LAN from DMZ firewall name DMZv4-to-LANv4
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="operation-mode">
+<h2>Operation-mode<a class="headerlink" href="#operation-mode" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-zone-policy">
+show firewall zone-policy</span>
+<a class="cmdlink" href="#opcmd-show-firewall-zone-policy" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>This will show you a basic summary of zones configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall zone-policy
+Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
+------  ------------  -----------  ---------------  ---------------
+LAN     eth1          WAN          WAN_to_LAN
+        eth2
+LOCAL   LOCAL         LAN          LAN_to_LOCAL
+                      WAN          WAN_to_LOCAL     WAN_to_LOCAL_v6
+WAN     eth3          LAN          LAN_to_WAN
+        eth0          LOCAL        LOCAL_to_WAN
+vyos@vyos:~$
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-zone-policy-zone-zone">
+show firewall zone-policy zone &lt;zone&gt;</span>
+<a class="cmdlink" href="#opcmd-show-firewall-zone-policy-zone-zone" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>This will show you a basic summary of a particular zone.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall zone-policy zone WAN
+Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
+------  ------------  -----------  ---------------  ---------------
+WAN     eth3          LAN          LAN_to_WAN
+        eth0          LOCAL        LOCAL_to_WAN
+vyos@vyos:~$ show firewall zone-policy zone LOCAL
+Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
+------  ------------  -----------  ---------------  ---------------
+LOCAL   LOCAL         LAN          LAN_to_LOCAL
+                      WAN          WAN_to_LOCAL     WAN_to_LOCAL_v6
+vyos@vyos:~$
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flowtables.html" class="btn btn-neutral float-left" title="Flowtables Firewall Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../highavailability/index.html" class="btn btn-neutral float-right" title="High availability" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

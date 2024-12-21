@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>High Availability Walkthrough &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="WAN Load Balancer examples" href="wan-load-balancing.html" />
+    <link rel="prev" title="Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)" href="azure-vpn-dual-bgp.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="zone-policy.html">Zone-Policy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">High Availability Walkthrough</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#design">Design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#walkthrough-suggestion">Walkthrough suggestion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-network">Example Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vlans">VLANs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hardware">Hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#network-cabling">Network Cabling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-setup-via-console">Basic Setup (via console)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bonding-on-hardware-router">Bonding on Hardware Router</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#assign-external-ip-addresses">Assign external IP addresses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-temporary-default-route">Add (temporary) default route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-ssh">Enable SSH</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vrrp-configuration">VRRP Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#internal-network">Internal Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#public-network">Public Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-vrrp-sync-group">Create VRRP sync-group</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nat-and-conntrack-sync">NAT and conntrack-sync</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-conntrack-sync-and-enable-helpers">Configure conntrack-sync and enable helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ha-contracktesting">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ospf-over-wireguard">OSPF Over WireGuard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-wireguard">Configure Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-wireguard">Test WireGuard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-export-filter">Create Export Filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-import-filter">Create Import Filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-ospf">Enable OSPF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-ospf">Test OSPF</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#advertise-connected-routes">Advertise connected routes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#duplicate-configuration">Duplicate configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#priorities">Priorities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bgp">BGP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">High Availability Walkthrough</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/ha.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="high-availability-walkthrough">
+<span id="example-high-availability"></span><h1>High Availability Walkthrough<a class="headerlink" href="#high-availability-walkthrough" title="Link to this heading"></a></h1>
+<p>This document walks you through a complete HA setup of two VyOS machines. This
+design is based on a VM as the primary router and a physical machine as a
+backup, using VRRP, BGP, OSPF, and conntrack sharing.</p>
+<p>This document aims to walk you through setting everything up, so
+at a point where you can reboot any machine and not lose more than a few
+seconds worth of connectivity.</p>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading"></a></h2>
+<p>This is based on a real-life production design. One of the complex issues
+is ensuring you have redundant data INTO your network. We do this with a pair
+of Cisco Nexus switches and using Virtual PortChannels that are spanned across
+them. As a bonus, this also allows for complete switch failure without
+an outage. How you achieve this yourself is left as an exercise to the reader.
+But our setup is documented here.</p>
+<section id="walkthrough-suggestion">
+<h3>Walkthrough suggestion<a class="headerlink" href="#walkthrough-suggestion" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">commit</span></code> command is implied after every section. If you make an error,
+<code class="docutils literal notranslate"><span class="pre">commit</span></code> will warn you and you can fix it before getting too far into things.
+Please ensure you commit early and commit often.</p>
+<p>If you are following through this document, it is strongly suggested you
+complete the entire document, ONLY doing the virtual router1 steps, and then
+come back and walk through it AGAIN on the backup hardware router.</p>
+<p>This ensures you don’t go too fast or miss a step. However, it will make your
+life easier to configure the fixed IP address and default route now on the
+hardware router.</p>
+</section>
+<section id="example-network">
+<h3>Example Network<a class="headerlink" href="#example-network" title="Link to this heading"></a></h3>
+<p>In this document, we have been allocated 203.0.113.0/24 by our upstream
+provider, which we are publishing on VLAN100.</p>
+<p>They want us to establish a BGP session to their routers on 192.0.2.11 and
+192.0.2.12 from our routers 192.0.2.21 and 192.0.2.22. They are AS 65550 and
+we are AS 65551.</p>
+<p>Our routers are going to have a floating IP address of 203.0.113.1, and use
+.2 and .3 as their fixed IPs.</p>
+<p>We are going to use 10.200.201.0/24 for an ‘internal’ network on VLAN201.</p>
+<p>When traffic is originated from the 10.200.201.0/24 network, it will be
+masqueraded to 203.0.113.1</p>
+<p>For connection between sites, we are running a WireGuard link to two REMOTE
+routers and using OSPF over those links to distribute routes. That remote
+site is expected to send traffic from anything in 10.201.0.0/16</p>
+</section>
+<section id="vlans">
+<h3>VLANs<a class="headerlink" href="#vlans" title="Link to this heading"></a></h3>
+<p>These are the vlans we will be using:</p>
+<ul class="simple">
+<li><p>50: Upstream, using the 192.0.2.0/24 network allocated by them.</p></li>
+<li><p>100: ‘Public’ network, using our 203.0.113.0/24 network.</p></li>
+<li><p>201: ‘Internal’ network, using 10.200.201.0/24</p></li>
+</ul>
+</section>
+<section id="hardware">
+<h3>Hardware<a class="headerlink" href="#hardware" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>switch1 (Nexus 10gb Switch)</p></li>
+<li><p>switch2 (Nexus 10gb Switch)</p></li>
+<li><p>compute1 (VMware ESXi 6.5)</p></li>
+<li><p>compute2 (VMware ESXi 6.5)</p></li>
+<li><p>compute3 (VMware ESXi 6.5)</p></li>
+<li><p>router2 (Random 1RU machine with 4 NICs)</p></li>
+</ul>
+<p>Note that router1 is a VM that runs on one of the compute nodes.</p>
+</section>
+<section id="network-cabling">
+<h3>Network Cabling<a class="headerlink" href="#network-cabling" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>From Datacenter - This connects into port 1 on both switches, and is tagged
+as VLAN 50</p></li>
+<li><p>Cisco VPC Crossconnect - Ports 39 and 40 bonded between each switch</p></li>
+<li><p>Hardware Router - Port 8 of each switch</p></li>
+<li><p>compute1 - Port 9 of each switch</p></li>
+<li><p>compute2 - Port 10 of each switch</p></li>
+<li><p>compute3 - Port 11 of each switch</p></li>
+</ul>
+<p>This is ignoring the extra Out-of-band management networking, which should be
+on totally different switches, and a different feed into the rack, and is out
+of scope of this.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Our implementation uses VMware’s Distributed Port Groups, which allows
+VMware to use LACP. This is a part of the ENTERPRISE licence, and is not
+available on a free licence. If you are implementing this and do not have
+access to DPGs, you should not use VMware, and use some other virtualization
+platform instead.</p>
+</div>
+</section>
+</section>
+<section id="basic-setup-via-console">
+<h2>Basic Setup (via console)<a class="headerlink" href="#basic-setup-via-console" title="Link to this heading"></a></h2>
+<p>Create your router1 VM. So it can withstand a VM Host failing or a
+network link failing. Using VMware, this is achieved by enabling vSphere DRS,
+vSphere Availability, and creating a Distributed Port Group that uses LACP.</p>
+<p>Many other Hypervisors do this, and I’m hoping that this document will be
+expanded to document how to do this for others.</p>
+<p>Create an ‘All VLANs’ network group, that passes all trunked traffic through
+to the VM. Attach this network group to router1 as eth0.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VMware: You must DISABLE SECURITY on this Port group. Make sure that
+<code class="docutils literal notranslate"><span class="pre">Promiscuous</span> <span class="pre">Mode</span></code>, <code class="docutils literal notranslate"><span class="pre">MAC</span> <span class="pre">address</span> <span class="pre">changes</span></code> and <code class="docutils literal notranslate"><span class="pre">Forged</span> <span class="pre">transmits</span></code> are
+enabled. All of these will be done as part of failover.</p>
+</div>
+<section id="bonding-on-hardware-router">
+<h3>Bonding on Hardware Router<a class="headerlink" href="#bonding-on-hardware-router" title="Link to this heading"></a></h3>
+<p>Create a LACP bond on the hardware router. We are assuming that eth0 and eth1
+are connected to port 8 on both switches, and that those ports are configured
+as a Port-Channel.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces bonding bond0 description &#39;Switch Port-Channel&#39;
+set interfaces bonding bond0 hash-policy &#39;layer2&#39;
+set interfaces bonding bond0 member interface &#39;eth0&#39;
+set interfaces bonding bond0 member interface &#39;eth1&#39;
+set interfaces bonding bond0 mode &#39;802.3ad&#39;
+</pre></div>
+</div>
+</section>
+<section id="assign-external-ip-addresses">
+<h3>Assign external IP addresses<a class="headerlink" href="#assign-external-ip-addresses" title="Link to this heading"></a></h3>
+<p>VLAN 100 and 201 will have floating IP addresses, but VLAN50 does not, as this
+is talking directly to upstream. Create our IP address on vlan50.</p>
+<p>For the hardware router, replace <code class="docutils literal notranslate"><span class="pre">eth0</span></code> with <code class="docutils literal notranslate"><span class="pre">bond0</span></code>. As (almost) every
+command is identical, this will not be specified unless different things need
+to be performed on different hosts.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 vif 50 address &#39;192.0.2.21/24&#39;
+</pre></div>
+</div>
+<p>In this case, the hardware router has a different IP, so it would be</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet bond0 vif 50 address &#39;192.0.2.22/24&#39;
+</pre></div>
+</div>
+</section>
+<section id="add-temporary-default-route">
+<h3>Add (temporary) default route<a class="headerlink" href="#add-temporary-default-route" title="Link to this heading"></a></h3>
+<p>It is assumed that the routers provided by upstream are capable of acting as a
+default router, add that as a static route.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 0.0.0.0/0 next-hop 192.0.2.11
+commit
+save
+</pre></div>
+</div>
+</section>
+<section id="enable-ssh">
+<h3>Enable SSH<a class="headerlink" href="#enable-ssh" title="Link to this heading"></a></h3>
+<p>Enable SSH so you can now SSH into the routers, rather than using the console.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ssh
+commit
+save
+</pre></div>
+</div>
+<p>At this point, you should be able to SSH into both of them, and will no longer
+need access to the console (unless you break something!)</p>
+</section>
+</section>
+<section id="vrrp-configuration">
+<h2>VRRP Configuration<a class="headerlink" href="#vrrp-configuration" title="Link to this heading"></a></h2>
+<p>We are setting up VRRP so that it does NOT fail back when a machine returns into
+service, and it prioritizes router1 over router2.</p>
+<section id="internal-network">
+<h3>Internal Network<a class="headerlink" href="#internal-network" title="Link to this heading"></a></h3>
+<p>This has a floating IP address of 10.200.201.1/24, using virtual router ID 201.
+The difference between them is the interface name, hello-source-address, and
+peer-address.</p>
+<p><strong>router1</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 vif 201 address 10.200.201.2/24
+set high-availability vrrp group int hello-source-address &#39;10.200.201.2&#39;
+set high-availability vrrp group int interface &#39;eth0.201&#39;
+set high-availability vrrp group int peer-address &#39;10.200.201.3&#39;
+set high-availability vrrp group int no-preempt
+set high-availability vrrp group int priority &#39;200&#39;
+set high-availability vrrp group int address &#39;10.200.201.1/24&#39;
+set high-availability vrrp group int vrid &#39;201&#39;
+</pre></div>
+</div>
+<p><strong>router2</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet bond0 vif 201 address 10.200.201.3/24
+set high-availability vrrp group int hello-source-address &#39;10.200.201.3&#39;
+set high-availability vrrp group int interface &#39;bond0.201&#39;
+set high-availability vrrp group int peer-address &#39;10.200.201.2&#39;
+set high-availability vrrp group int no-preempt
+set high-availability vrrp group int priority &#39;100&#39;
+set high-availability vrrp group int address &#39;10.200.201.1/24&#39;
+set high-availability vrrp group int vrid &#39;201&#39;
+</pre></div>
+</div>
+</section>
+<section id="public-network">
+<h3>Public Network<a class="headerlink" href="#public-network" title="Link to this heading"></a></h3>
+<p>This has a floating IP address of 203.0.113.1/24, using virtual router ID 113.
+The virtual router ID is just a random number between 1 and 254, and can be set
+to whatever you want. Best practices suggest you try to keep them unique
+enterprise-wide.</p>
+<p><strong>router1</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 vif 100 address 203.0.113.2/24
+set high-availability vrrp group public hello-source-address &#39;203.0.113.2&#39;
+set high-availability vrrp group public interface &#39;eth0.100&#39;
+set high-availability vrrp group public peer-address &#39;203.0.113.3&#39;
+set high-availability vrrp group public no-preempt
+set high-availability vrrp group public priority &#39;200&#39;
+set high-availability vrrp group public address &#39;203.0.113.1/24&#39;
+set high-availability vrrp group public vrid &#39;113&#39;
+</pre></div>
+</div>
+<p><strong>router2</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet bond0 vif 100 address 203.0.113.3/24
+set high-availability vrrp group public hello-source-address &#39;203.0.113.3&#39;
+set high-availability vrrp group public interface &#39;bond0.100&#39;
+set high-availability vrrp group public peer-address &#39;203.0.113.2&#39;
+set high-availability vrrp group public no-preempt
+set high-availability vrrp group public priority &#39;100&#39;
+set high-availability vrrp group public address &#39;203.0.113.1/24&#39;
+set high-availability vrrp group public vrid &#39;113&#39;
+</pre></div>
+</div>
+</section>
+<section id="create-vrrp-sync-group">
+<h3>Create VRRP sync-group<a class="headerlink" href="#create-vrrp-sync-group" title="Link to this heading"></a></h3>
+<p>The sync group is used to replicate connection tracking. It needs to be assigned
+to a random VRRP group, and we are creating a sync group called <code class="docutils literal notranslate"><span class="pre">sync</span></code> using
+the vrrp group <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp sync-group sync member &#39;int&#39;
+</pre></div>
+</div>
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h3>
+<p>At this point, you should be able to see both IP addresses when you run
+<code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code>, and <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">vrrp</span></code> should show both interfaces in MASTER
+state (and SLAVE state on router2).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router1:~$ show vrrp
+Name      Interface      VRID  State    Last Transition
+--------  -----------  ------  -------  -----------------
+int       eth0.201        201  MASTER   100s
+public    eth0.100        113  MASTER   200s
+vyos@router1:~$
+</pre></div>
+</div>
+<p>You should be able to ping to and from all the IPs you have allocated.</p>
+</section>
+</section>
+<section id="nat-and-conntrack-sync">
+<h2>NAT and conntrack-sync<a class="headerlink" href="#nat-and-conntrack-sync" title="Link to this heading"></a></h2>
+<p>Masquerade Traffic originating from 10.200.201.0/24 that is heading out the
+public interface.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We explicitly exclude the primary upstream network so that BGP or
+OSPF traffic doesn’t accidentally get NAT’ed.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 10 destination address &#39;!192.0.2.0/24&#39;
+set nat source rule 10 outbound-interface &#39;eth0.50&#39;
+set nat source rule 10 source address &#39;10.200.201.0/24&#39;
+set nat source rule 10 translation address &#39;203.0.113.1&#39;
+</pre></div>
+</div>
+<section id="configure-conntrack-sync-and-enable-helpers">
+<h3>Configure conntrack-sync and enable helpers<a class="headerlink" href="#configure-conntrack-sync-and-enable-helpers" title="Link to this heading"></a></h3>
+<p>Conntrack helper modules are enabled by default, but they tend to cause more
+problems than they’re worth in complex networks. You can disable all of them
+at one go.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>delete system conntrack modules
+</pre></div>
+</div>
+<p>Now enable replication between nodes. Replace eth0.201 with bond0.201 on the
+hardware router.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service conntrack-sync accept-protocol &#39;tcp,udp,icmp&#39;
+set service conntrack-sync event-listen-queue-size &#39;8&#39;
+set service conntrack-sync failover-mechanism vrrp sync-group &#39;sync&#39;
+set service conntrack-sync interface eth0.201
+set service conntrack-sync mcast-group &#39;224.0.0.50&#39;
+set service conntrack-sync sync-queue-size &#39;8&#39;
+</pre></div>
+</div>
+</section>
+<section id="ha-contracktesting">
+<span id="id1"></span><h3>Testing<a class="headerlink" href="#ha-contracktesting" title="Link to this heading"></a></h3>
+<p>The simplest way to test is to look at the connection tracking stats on the
+standby hardware router with the command <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">conntrack-sync</span> <span class="pre">statistics</span></code>.
+The numbers should be very close to the numbers on the primary router.</p>
+<p>When you have both routers up, you should be able to establish a connection
+from a NAT’ed machine out to the internet, reboot the active machine, and that
+connection should be preserved, and will not drop out.</p>
+</section>
+</section>
+<section id="ospf-over-wireguard">
+<h2>OSPF Over WireGuard<a class="headerlink" href="#ospf-over-wireguard" title="Link to this heading"></a></h2>
+<p>Wireguard doesn’t have the concept of an up or down link, due to its design.
+This complicates AND simplifies using it for network transport, as for reliable
+state detection you need to use SOMETHING to detect when the link is down.</p>
+<p>If you use a routing protocol itself, you solve two problems at once. This is
+only a basic example, and is provided as a starting point.</p>
+<section id="configure-wireguard">
+<h3>Configure Wireguard<a class="headerlink" href="#configure-wireguard" title="Link to this heading"></a></h3>
+<p>There is plenty of instructions and documentation on setting up Wireguard. The
+only important thing you need to remember is to only use one WireGuard
+interface per OSPF connection.</p>
+<p>We use small /30’s from 10.254.60/24 for the point-to-point links.</p>
+<p><strong>router1</strong></p>
+<p>Replace the 203.0.113.3 with whatever the other router’s IP address is.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 address &#39;10.254.60.1/30&#39;
+set interfaces wireguard wg01 description &#39;router1-to-offsite1&#39;
+set interfaces wireguard wg01 peer OFFSITE1 allowed-ips &#39;0.0.0.0/0&#39;
+set interfaces wireguard wg01 peer OFFSITE1 endpoint &#39;203.0.113.3:50001&#39;
+set interfaces wireguard wg01 peer OFFSITE1 persistent-keepalive &#39;15&#39;
+set interfaces wireguard wg01 peer OFFSITE1 pubkey &#39;GEFMOWzAyau42/HwdwfXnrfHdIISQF8YHj35rOgSZ0o=&#39;
+set interfaces wireguard wg01 port &#39;50001&#39;
+set protocols ospf interface wg01 authentication md5 key-id 1 md5-key &#39;i360KoCwUGZvPq7e&#39;
+set protocols ospf interface wg01 cost &#39;11&#39;
+set protocols ospf interface wg01 dead-interval &#39;5&#39;
+set protocols ospf interface wg01 hello-interval &#39;1&#39;
+set protocols ospf interface wg01 network &#39;point-to-point&#39;
+set protocols ospf interface wg01 priority &#39;1&#39;
+set protocols ospf interface wg01 retransmit-interval &#39;5&#39;
+set protocols ospf interface wg01 transmit-delay &#39;1&#39;
+</pre></div>
+</div>
+<p><strong>offsite1</strong></p>
+<p>This is connecting back to the STATIC IP of router1, not the floating.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 address &#39;10.254.60.2/30&#39;
+set interfaces wireguard wg01 description &#39;offsite1-to-router1&#39;
+set interfaces wireguard wg01 peer ROUTER1 allowed-ips &#39;0.0.0.0/0&#39;
+set interfaces wireguard wg01 peer ROUTER1 endpoint &#39;192.0.2.21:50001&#39;
+set interfaces wireguard wg01 peer ROUTER1 persistent-keepalive &#39;15&#39;
+set interfaces wireguard wg01 peer ROUTER1 pubkey &#39;CKwMV3ZaLntMule2Kd3G7UyVBR7zE8/qoZgLb82EE2Q=&#39;
+set interfaces wireguard wg01 port &#39;50001&#39;
+set protocols ospf interface wg01 authentication md5 key-id 1 md5-key &#39;i360KoCwUGZvPq7e&#39;
+set protocols ospf interface wg01 cost &#39;11&#39;
+set protocols ospf interface wg01 dead-interval &#39;5&#39;
+set protocols ospf interface wg01 hello-interval &#39;1&#39;
+set protocols ospf interface wg01 network &#39;point-to-point&#39;
+set protocols ospf interface wg01 priority &#39;1&#39;
+set protocols ospf interface wg01 retransmit-interval &#39;5&#39;
+set protocols ospf interface wg01 transmit-delay &#39;1&#39;
+</pre></div>
+</div>
+</section>
+<section id="test-wireguard">
+<h3>Test WireGuard<a class="headerlink" href="#test-wireguard" title="Link to this heading"></a></h3>
+<p>Make sure you can ping 10.254.60.1 and .2 from both routers.</p>
+</section>
+<section id="create-export-filter">
+<h3>Create Export Filter<a class="headerlink" href="#create-export-filter" title="Link to this heading"></a></h3>
+<p>We only want to export the networks we know. Always do a whitelist on your route
+filters, both importing and exporting. A good rule of thumb is
+<strong>‘If you are not the default router for a network, don’t advertise
+it’</strong>. This means we explicitly do not want to advertise the 192.0.2.0/24
+network (but do want to advertise 10.200.201.0 and 203.0.113.0, which we ARE
+the default route for). This filter is applied to <code class="docutils literal notranslate"><span class="pre">redistribute</span> <span class="pre">connected</span></code>.
+If we WERE to advertise it, the remote machines would see 192.0.2.21 available
+via their default route, establish the connection, and then OSPF would say
+‘192.0.2.0/24 is available via this tunnel’, at which point the tunnel would
+break, OSPF would drop the routes, and then 192.0.2.0/24 would be reachable via
+default again. This is called ‘flapping’.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy access-list 150 description &#39;Outbound OSPF Redistribution&#39;
+set policy access-list 150 rule 10 action &#39;permit&#39;
+set policy access-list 150 rule 10 destination any
+set policy access-list 150 rule 10 source inverse-mask &#39;0.0.0.255&#39;
+set policy access-list 150 rule 10 source network &#39;10.200.201.0&#39;
+set policy access-list 150 rule 20 action &#39;permit&#39;
+set policy access-list 150 rule 20 destination any
+set policy access-list 150 rule 20 source inverse-mask &#39;0.0.0.255&#39;
+set policy access-list 150 rule 20 source network &#39;203.0.113.0&#39;
+set policy access-list 150 rule 100 action &#39;deny&#39;
+set policy access-list 150 rule 100 destination any
+set policy access-list 150 rule 100 source any
+</pre></div>
+</div>
+</section>
+<section id="create-import-filter">
+<h3>Create Import Filter<a class="headerlink" href="#create-import-filter" title="Link to this heading"></a></h3>
+<p>We only want to import networks we know. Our OSPF peer should only be
+advertising networks in the 10.201.0.0/16 range. Note that this is an INVERSE
+MATCH. You deny in access-list 100 to accept the route.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy access-list 100 description &#39;Inbound OSPF Routes from Peers&#39;
+set policy access-list 100 rule 10 action &#39;deny&#39;
+set policy access-list 100 rule 10 destination any
+set policy access-list 100 rule 10 source inverse-mask &#39;0.0.255.255&#39;
+set policy access-list 100 rule 10 source network &#39;10.201.0.0&#39;
+set policy access-list 100 rule 100 action &#39;permit&#39;
+set policy access-list 100 rule 100 destination any
+set policy access-list 100 rule 100 source any
+set policy route-map PUBOSPF rule 100 action &#39;deny&#39;
+set policy route-map PUBOSPF rule 100 match ip address access-list &#39;100&#39;
+set policy route-map PUBOSPF rule 500 action &#39;permit&#39;
+</pre></div>
+</div>
+</section>
+<section id="enable-ospf">
+<h3>Enable OSPF<a class="headerlink" href="#enable-ospf" title="Link to this heading"></a></h3>
+<p>Every router <strong>must</strong> have a unique router-id.
+The ‘reference-bandwidth’ is used because when OSPF was originally designed,
+the idea of a link faster than 1gbit was unheard of, and it does not scale
+correctly.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf area 0.0.0.0 authentication &#39;md5&#39;
+set protocols ospf area 0.0.0.0 network &#39;10.254.60.0/24&#39;
+set protocols ospf auto-cost reference-bandwidth &#39;10000&#39;
+set protocols ospf log-adjacency-changes
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.254.60.2&#39;
+set protocols ospf route-map PUBOSPF
+</pre></div>
+</div>
+</section>
+<section id="test-ospf">
+<h3>Test OSPF<a class="headerlink" href="#test-ospf" title="Link to this heading"></a></h3>
+<p>When you have enabled OSPF on both routers, you should be able to see each
+other with the command <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">ospf</span> <span class="pre">neighbour</span></code>. The state must be ‘Full’
+or ‘2-Way’. If it is not, then there is a network connectivity issue between the
+hosts. This is often caused by NAT or MTU issues. You should not see any new
+routes (unless this is the second pass) in the output of <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">route</span></code></p>
+</section>
+</section>
+<section id="advertise-connected-routes">
+<h2>Advertise connected routes<a class="headerlink" href="#advertise-connected-routes" title="Link to this heading"></a></h2>
+<p>As a reminder, only advertise routes that you are the default router for. This
+is why we are NOT announcing the 192.0.2.0/24 network, because if that was
+announced into OSPF, the other routers would try to connect to that network
+over a tunnel that connects to that network!</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf access-list 150 export &#39;connected&#39;
+set protocols ospf redistribute connected
+</pre></div>
+</div>
+<p>You should now be able to see the advertised network on the other host.</p>
+<section id="duplicate-configuration">
+<h3>Duplicate configuration<a class="headerlink" href="#duplicate-configuration" title="Link to this heading"></a></h3>
+<p>At this point, you now need to create the X link between all four routers.
+Use amdifferent /30 for each link.</p>
+</section>
+<section id="priorities">
+<h3>Priorities<a class="headerlink" href="#priorities" title="Link to this heading"></a></h3>
+<p>Set the cost on the secondary links to be 200. This means that they will not
+be used unless the primary links are down.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf interface wg01 cost &#39;10&#39;
+set protocols ospf interface wg01 cost &#39;200&#39;
+</pre></div>
+</div>
+<p>This will be visible in ‘show ip route’.</p>
+</section>
+</section>
+<section id="bgp">
+<h2>BGP<a class="headerlink" href="#bgp" title="Link to this heading"></a></h2>
+<p>BGP is an extremely complex network protocol. An example is provided here.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Router id’s must be unique.</p>
+</div>
+<p><strong>router1</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">redistribute</span> <span class="pre">ospf</span></code> command is there purely as an example of how this can
+be expanded. In this walkthrough, it will be filtered by BGPOUT rule 10000, as
+it is not 203.0.113.0/24.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy prefix-list BGPOUT description &#39;BGP Export List&#39;
+set policy prefix-list BGPOUT rule 10 action &#39;deny&#39;
+set policy prefix-list BGPOUT rule 10 description &#39;Do not advertise short masks&#39;
+set policy prefix-list BGPOUT rule 10 ge &#39;25&#39;
+set policy prefix-list BGPOUT rule 10 prefix &#39;0.0.0.0/0&#39;
+set policy prefix-list BGPOUT rule 100 action &#39;permit&#39;
+set policy prefix-list BGPOUT rule 100 description &#39;Our network&#39;
+set policy prefix-list BGPOUT rule 100 prefix &#39;203.0.113.0/24&#39;
+set policy prefix-list BGPOUT rule 10000 action &#39;deny&#39;
+set policy prefix-list BGPOUT rule 10000 prefix &#39;0.0.0.0/0&#39;
+
+set policy route-map BGPOUT description &#39;BGP Export Filter&#39;
+set policy route-map BGPOUT rule 10 action &#39;permit&#39;
+set policy route-map BGPOUT rule 10 match ip address prefix-list &#39;BGPOUT&#39;
+set policy route-map BGPOUT rule 10000 action &#39;deny&#39;
+set policy route-map BGPPREPENDOUT description &#39;BGP Export Filter&#39;
+set policy route-map BGPPREPENDOUT rule 10 action &#39;permit&#39;
+set policy route-map BGPPREPENDOUT rule 10 set as-path prepend &#39;65551 65551 65551&#39;
+set policy route-map BGPPREPENDOUT rule 10 match ip address prefix-list &#39;BGPOUT&#39;
+set policy route-map BGPPREPENDOUT rule 10000 action &#39;deny&#39;
+
+set protocols bgp system-as 65551
+set protocols bgp address-family ipv4-unicast network 192.0.2.0/24
+set protocols bgp address-family ipv4-unicast redistribute connected metric &#39;50&#39;
+set protocols bgp address-family ipv4-unicast redistribute ospf metric &#39;50&#39;
+set protocols bgp neighbor 192.0.2.11 address-family ipv4-unicast route-map export &#39;BGPOUT&#39;
+set protocols bgp neighbor 192.0.2.11 address-family ipv4-unicast soft-reconfiguration inbound
+set protocols bgp neighbor 192.0.2.11 remote-as &#39;65550&#39;
+set protocols bgp neighbor 192.0.2.11 update-source &#39;192.0.2.21&#39;
+set protocols bgp parameters router-id &#39;192.0.2.21&#39;
+</pre></div>
+</div>
+<p><strong>router2</strong></p>
+<p>This is identical, but you use the BGPPREPENDOUT route-map to advertise the
+route with a longer path.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="azure-vpn-dual-bgp.html" class="btn btn-neutral float-left" title="Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wan-load-balancing.html" class="btn btn-neutral float-right" title="WAN Load Balancer examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

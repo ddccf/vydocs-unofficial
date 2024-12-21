@@ -1,0 +1,1577 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traffic Policy &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VPN" href="../vpn/index.html" />
+    <link rel="prev" title="Default Gateway/Route" href="../system/default-route.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Traffic Policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">QoS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-make-it-work">How to make it work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#units">Units</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-traffic-policy">Creating a traffic policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#applying-a-traffic-policy">Applying a traffic policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-case-of-ingress-shaping">The case of ingress shaping</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+      <li class="breadcrumb-item active">Traffic Policy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/trafficpolicy/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="traffic-policy">
+<span id="qos"></span><h1>Traffic Policy<a class="headerlink" href="#traffic-policy" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>QoS<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>The generic name of Quality of Service or Traffic Control involves
+things like shaping traffic, scheduling or dropping packets, which
+are the kind of things you may want to play with when you have, for
+instance, a bandwidth bottleneck in a link and you want to somehow
+prioritize some type of traffic over another.</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Tc_(Linux)">tc</a> is a powerful tool for Traffic Control found at the Linux kernel.
+However, its configuration is often considered a cumbersome task.
+Fortunately, VyOS eases the job through its CLI, while using <code class="docutils literal notranslate"><span class="pre">tc</span></code> as
+backend.</p>
+<section id="how-to-make-it-work">
+<h3>How to make it work<a class="headerlink" href="#how-to-make-it-work" title="Link to this heading"></a></h3>
+<p>In order to have VyOS Traffic Control working you need to follow 2
+steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><strong>Create a traffic policy</strong>.</p></li>
+<li><p><strong>Apply the traffic policy to an interface ingress or egress</strong>.</p></li>
+</ol>
+</div></blockquote>
+<p>But before learning to configure your policy, we will warn you
+about the different units you can use and also show you what <em>classes</em>
+are and how they work, as some policies may require you to configure
+them.</p>
+</section>
+<section id="units">
+<h3>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h3>
+<p>When configuring your traffic policy, you will have to set data rate
+values, watch out the units you are managing, it is easy to get confused
+with the different prefixes and suffixes you can use. VyOS will always
+show you the different units you can use.</p>
+<section id="prefixes">
+<h4>Prefixes<a class="headerlink" href="#prefixes" title="Link to this heading"></a></h4>
+<p>They can be <strong>decimal</strong> prefixes.</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kbit  (10^3)    kilobit per second
+mbit  (10^6)    megabit per second
+gbit  (10^9)    gigabit per second
+tbit  (10^12)   terabit per second
+
+kbps  (8*10^3)  kilobyte per second
+mbps  (8*10^6)  megabyte per second
+gbps  (8*10^9)  gigabyte per second
+tbps  (8*10^12) terabyte per second
+</pre></div>
+</div>
+</div></blockquote>
+<p>Or <strong>binary</strong> prefixes.</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kibit (2^10 = 1024)    kibibit per second
+mibit (2^20 = 1024^2)  mebibit per second
+gibit (2^30 = 1024^3)  gibibit per second
+tbit  (2^40 = 1024^4)  tebibit per second
+
+kibps (1024*8)         kibibyte (KiB) per second
+mibps (1024^2*8)       mebibyte (MiB) per second
+gibps (1024^3*8)       gibibyte (GiB) per second
+tibps (1024^4*8)       tebibyte (TiB) per second
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="suffixes">
+<h4>Suffixes<a class="headerlink" href="#suffixes" title="Link to this heading"></a></h4>
+<p>A <em>bit</em> is written as <strong>bit</strong>,</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kbit (kilobits per second)
+mbit (megabits per second)
+gbit (gigabits per second)
+tbit (terabits per second)
+</pre></div>
+</div>
+</div></blockquote>
+<p>while a <em>byte</em> is written as a single <strong>b</strong>.</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kbps (kilobytes per second)
+mbps (megabytes per second)
+gbps (gigabytes per second)
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="classes">
+<span id="id2"></span><h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<p>In the <a class="reference internal" href="#creating-a-traffic-policy"><span class="std std-ref">Creating a traffic policy</span></a> section you will see that
+some of the policies use <em>classes</em>. Those policies let you distribute
+traffic into different classes according to different parameters you can
+choose. So, a class is just a specific type of traffic you select.</p>
+<p>The ultimate goal of classifying traffic is to give each class a
+different treatment.</p>
+<section id="matching-traffic">
+<h4>Matching traffic<a class="headerlink" href="#matching-traffic" title="Link to this heading"></a></h4>
+<p>In order to define which traffic goes into which class, you define
+filters (that is, the matching criteria). Packets go through these matching
+rules (as in the rules of a firewall) and, if a packet matches the filter, it
+is assigned to that class.</p>
+<p>In VyOS, a class is identified by a number you can choose when
+configuring it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The meaning of the Class ID is not the same for every type of
+policy. Normally policies just need a meaningless number to identify
+a class (Class ID), but that does not apply to every policy.
+The number of a class in a Priority Queue it does not only
+identify it, it also defines its priority.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy &lt;policy&gt; &lt;policy-name&gt; class &lt;class-ID&gt; match &lt;class-matching-rule-name&gt;
+</pre></div>
+</div>
+<p>In the command above, we set the type of policy we are going to
+work with and the name we choose for it; a class (so that we can
+differentiate some traffic) and an identifiable number for that class;
+then we configure a matching rule (or filter) and a name for it.</p>
+<p>A class can have multiple match filters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper MY-SHAPER class 30 match HTTP
+set qos policy shaper MY-SHAPER class 30 match HTTPs
+</pre></div>
+</div>
+<p>A match filter can contain multiple criteria and will match traffic if
+all those criteria are true.</p>
+<p>For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper MY-SHAPER class 30 match HTTP ip protocol tcp
+set qos policy shaper MY-SHAPER class 30 match HTTP ip source port 80
+</pre></div>
+</div>
+<p>This will match TCP traffic with source port 80.</p>
+<p>There are many parameters you will be able to use in order to match the
+traffic you want for a class:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Ethernet (protocol, destination address or source address)</strong></p></li>
+<li><p><strong>Interface name</strong></p></li>
+<li><p><strong>IPv4 (DSCP value, maximum packet length, protocol, source address,</strong>
+<strong>destination address, source port, destination port or TCP flags)</strong></p></li>
+<li><p><strong>IPv6 (DSCP value, maximum payload length, protocol, source address,</strong>
+<strong>destination address, source port, destination port or TCP flags)</strong></p></li>
+<li><p><strong>Firewall mark</strong></p></li>
+<li><p><strong>VLAN ID</strong></p></li>
+</ul>
+</div></blockquote>
+<p>When configuring your filter, you can use the <code class="docutils literal notranslate"><span class="pre">Tab</span></code> key to see the many
+different parameters you can configure.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy shaper MY-SHAPER class 30 match MY-FIRST-FILTER
+Possible completions:
+   description  Description
+ &gt; ether        Ethernet header match
+   interface    Interface to use
+ &gt; ip           Match IP protocol header
+ &gt; ipv6         Match IPV6 protocol header
+   mark         Match on mark applied by firewall
+   vif          Virtual Local Area Network (VLAN) ID for this match
+</pre></div>
+</div>
+<p>As shown in the example above, one of the possibilities to match packets
+is based on marks done by the firewall,
+<a class="reference external" href="https://blog.vyos.io/using-the-policy-route-and-packet-marking-for-custom-qos-matches">that can give you a great deal of flexibility</a>.</p>
+<p>You can also write a description for a filter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper MY-SHAPER class 30 match MY-FIRST-FILTER description &quot;My filter description&quot;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An IPv4 TCP filter will only match packets with an IPv4 header
+length of 20 bytes (which is the majority of IPv4 packets anyway).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IPv6 TCP filters will only match IPv6 packets with no header
+extension, see <a class="reference external" href="https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers">https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers</a></p>
+</div>
+</section>
+<section id="default">
+<h4>Default<a class="headerlink" href="#default" title="Link to this heading"></a></h4>
+<p>Often you will also have to configure your <em>default</em> traffic in the same
+way you do with a class. <em>Default</em> can be considered a class as it
+behaves like that. It contains any traffic that did not match any
+of the defined classes, so it is like an open class, a class without
+matching filters.</p>
+</section>
+<section id="class-treatment">
+<h4>Class treatment<a class="headerlink" href="#class-treatment" title="Link to this heading"></a></h4>
+<p>Once a class has a filter configured, you will also have to define what
+you want to do with the traffic of that class, what specific
+Traffic-Control treatment you want to give it. You will have different
+possibilities depending on the Traffic Policy you are configuring.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy shaper MY-SHAPER class 30
+Possible completions:
+   bandwidth    Available bandwidth for this policy (default: auto)
+   burst        Burst size for this class (default: 15k)
+   ceiling      Bandwidth limit for this class
+   codel-quantum
+                Deficit in the fair queuing algorithm (default 1514)
+   description  Description
+   flows        Number of flows into which the incoming packets are classified(default 1024)
+   interval     Interval used to measure the delay (default 100)
++&gt; match        Class matching rule name
+   priority     Priority for rule evaluation
+   queue-limit  Maximum queue size
+   queue-type   Queue type for default traffic (default: fq-codel)
+   set-dscp     Change the Differentiated Services (DiffServ) field in the IP header
+   target       Acceptable minimum standing/persistent queue delay (default: 5)
+</pre></div>
+</div>
+<p>For instance, with <code class="code docutils literal notranslate"><span class="pre">set</span> <span class="pre">qos</span> <span class="pre">policy</span> <span class="pre">shaper</span> <span class="pre">MY-SHAPER</span>
+<span class="pre">class</span> <span class="pre">30</span> <span class="pre">set-dscp</span> <span class="pre">EF</span></code> you would be modifying the DSCP field value of packets in
+that class to Expedite Forwarding.</p>
+<blockquote>
+<div><p>DSCP values as per <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2474.html"><strong>RFC 2474</strong></a> and <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4595.html"><strong>RFC 4595</strong></a>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Binary
+value</p></th>
+<th class="head"><p>Configured
+value</p></th>
+<th class="head"><p>Drop
+rate</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>101110</p></td>
+<td><p>46</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Expedited forwarding (EF)</p></td>
+</tr>
+<tr class="row-odd"><td><p>000000</p></td>
+<td><p>0</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Best effort traffic, default</p></td>
+</tr>
+<tr class="row-even"><td><p>001010</p></td>
+<td><p>10</p></td>
+<td><p>Low</p></td>
+<td><p>Assured Forwarding(AF) 11</p></td>
+</tr>
+<tr class="row-odd"><td><p>001100</p></td>
+<td><p>12</p></td>
+<td><p>Medium</p></td>
+<td><p>Assured Forwarding(AF) 12</p></td>
+</tr>
+<tr class="row-even"><td><p>001110</p></td>
+<td><p>14</p></td>
+<td><p>High</p></td>
+<td><p>Assured Forwarding(AF) 13</p></td>
+</tr>
+<tr class="row-odd"><td><p>010010</p></td>
+<td><p>18</p></td>
+<td><p>Low</p></td>
+<td><p>Assured Forwarding(AF) 21</p></td>
+</tr>
+<tr class="row-even"><td><p>010100</p></td>
+<td><p>20</p></td>
+<td><p>Medium</p></td>
+<td><p>Assured Forwarding(AF) 22</p></td>
+</tr>
+<tr class="row-odd"><td><p>010110</p></td>
+<td><p>22</p></td>
+<td><p>High</p></td>
+<td><p>Assured Forwarding(AF) 23</p></td>
+</tr>
+<tr class="row-even"><td><p>011010</p></td>
+<td><p>26</p></td>
+<td><p>Low</p></td>
+<td><p>Assured Forwarding(AF) 31</p></td>
+</tr>
+<tr class="row-odd"><td><p>011100</p></td>
+<td><p>28</p></td>
+<td><p>Medium</p></td>
+<td><p>Assured Forwarding(AF) 32</p></td>
+</tr>
+<tr class="row-even"><td><p>011110</p></td>
+<td><p>30</p></td>
+<td><p>High</p></td>
+<td><p>Assured Forwarding(AF) 33</p></td>
+</tr>
+<tr class="row-odd"><td><p>100010</p></td>
+<td><p>34</p></td>
+<td><p>Low</p></td>
+<td><p>Assured Forwarding(AF) 41</p></td>
+</tr>
+<tr class="row-even"><td><p>100100</p></td>
+<td><p>36</p></td>
+<td><p>Medium</p></td>
+<td><p>Assured Forwarding(AF) 42</p></td>
+</tr>
+<tr class="row-odd"><td><p>100110</p></td>
+<td><p>38</p></td>
+<td><p>High</p></td>
+<td><p>Assured Forwarding(AF) 43</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="embedding-one-policy-into-another-one">
+<span id="embed"></span><h4>Embedding one policy into another one<a class="headerlink" href="#embedding-one-policy-into-another-one" title="Link to this heading"></a></h4>
+<p>Often we need to embed one policy into another one. It is possible to do
+so on classful policies, by attaching a new policy into a class. For
+instance, you might want to apply different policies to the different
+classes of a Round-Robin policy you have configured.</p>
+<p>A common example is the case of some policies which, in order to be
+effective, they need to be applied to an interface that is directly
+connected where the bottleneck is. If your router is not
+directly connected to the bottleneck, but some hop before it, you can
+emulate the bottleneck by embedding your non-shaping policy into a
+classful shaping one so that it takes effect.</p>
+<p>You can configure a policy into a class through the <code class="docutils literal notranslate"><span class="pre">queue-type</span></code>
+setting.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper FQ-SHAPER bandwidth 4gbit
+set qos policy shaper FQ-SHAPER default bandwidth 100%
+set qos policy shaper FQ-SHAPER default queue-type fq-codel
+</pre></div>
+</div>
+<p>As shown in the last command of the example above, the <cite>queue-type</cite>
+setting allows these combinations. You will be able to use it
+in many policies.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some policies already include other embedded policies inside.
+That is the case of <a class="reference internal" href="#shaper">Shaper</a>: each of its classes use fair-queue
+unless you change it.</p>
+</div>
+</section>
+</section>
+<section id="creating-a-traffic-policy">
+<span id="id3"></span><h3>Creating a traffic policy<a class="headerlink" href="#creating-a-traffic-policy" title="Link to this heading"></a></h3>
+<p>VyOS lets you control traffic in many different ways, here we will cover
+every possibility. You can configure as many policies as you want, but
+you will only be able to apply one policy per interface and direction
+(inbound or outbound).</p>
+<p>Some policies can be combined, you will be able to <a class="reference internal" href="#embed">embed</a> a different
+policy that will be applied to a class of the main policy.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><strong>If you are looking for a policy for your outbound traffic</strong>
+but you don’t know which one you need and you don’t want to go
+through every possible policy shown here, <strong>our bet is that highly
+likely you are looking for a</strong> <a class="reference internal" href="#shaper">Shaper</a> <strong>policy and you want to</strong>
+<a class="reference internal" href="#embed"><span class="std std-ref">set its queues</span></a> <strong>as FQ-CoDel</strong>.</p>
+</div>
+<section id="drop-tail">
+<h4>Drop Tail<a class="headerlink" href="#drop-tail" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> PFIFO (Packet First In First Out).</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>This the simplest queue possible you can apply to your traffic. Traffic
+must go through a finite queue before it is actually sent. You must
+define how many packets that queue can contain.</p>
+<p>When a packet is to be sent, it will have to go through that queue, so
+the packet will be placed at the tail of it. When the packet completely
+goes through it, it will be dequeued emptying its place in the queue and
+being eventually handed to the NIC to be actually sent out.</p>
+<p>Despite the Drop-Tail policy does not slow down packets, if many packets
+are to be sent, they could get dropped when trying to get enqueued at
+the tail. This can happen if the queue has still not been able to
+release enough packets from its head.</p>
+<p>This is the policy that requieres the lowest resources for the same
+amount of traffic. But <strong>very likely you do not need it as you cannot
+get much from it. Sometimes it is used just to enable logging.</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-drop-tail-policy-name-queue-limit-number-of-packets">
+set qos policy drop-tail &lt;policy-name&gt; queue-limit &lt;number-of-packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-drop-tail-policy-name-queue-limit-number-of-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a drop-tail policy (PFIFO). Choose a
+unique name for this policy and the size of the queue by setting the
+number of packets it can contain (maximum 4294967295).</p>
+</div>
+</div>
+</section>
+<section id="fair-queue">
+<h4>Fair Queue<a class="headerlink" href="#fair-queue" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> SFQ (Stochastic Fairness Queuing).</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>Fair Queue is a work-conserving scheduler which schedules the
+transmission of packets based on flows, that is, it balances traffic
+distributing it through different sub-queues in order to ensure
+fairness so that each flow is able to send data in turn, preventing any
+single one from drowning out the rest.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fair-queue-policy-name">
+set qos policy fair-queue &lt;policy-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fair-queue-policy-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to create a Fair-Queue policy and give it a name.
+It is based on the Stochastic Fairness Queueing and can be applied to
+outbound traffic.</p>
+</div>
+</div>
+<p>In order to separate traffic, Fair Queue uses a classifier based on
+source address, destination address and source port. The algorithm
+enqueues packets to hash buckets based on those tree parameters.
+Each of these buckets should represent a unique flow. Because multiple
+flows may get hashed to the same bucket, the hashing algorithm is
+perturbed at configurable intervals so that the unfairness lasts only
+for a short while. Perturbation may however cause some inadvertent
+packet reordering to occur. An advisable value could be 10 seconds.</p>
+<p>One of the uses of Fair Queue might be the mitigation of Denial of
+Service attacks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fair-queue-policy-name-hash-interval-seconds">
+set qos policy fair-queue &lt;policy-name&gt; hash-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fair-queue-policy-name-hash-interval-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define a Fair-Queue policy, based on the
+Stochastic Fairness Queueing, and set the number of seconds at which
+a new queue algorithm perturbation will occur (maximum 4294967295).</p>
+</div>
+</div>
+<p>When dequeuing, each hash-bucket with data is queried in a round robin
+fashion. You can configure the length of the queue.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fair-queue-policy-name-queue-limit-limit">
+set qos policy fair-queue &lt;policy-name&gt; queue-limit &lt;limit&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fair-queue-policy-name-queue-limit-limit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define a Fair-Queue policy, based on the
+Stochastic Fairness Queueing, and set the number of maximum packets
+allowed to wait in the queue. Any other packet will be dropped.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Fair Queue is a non-shaping (work-conserving) policy, so it
+will only be useful if your outgoing interface is really full. If it
+is not, VyOS will not own the queue and Fair Queue will have no
+effect. If there is bandwidth available on the physical link, you can
+<a class="reference internal" href="#embed">embed</a> Fair-Queue into a classful shaping policy to make sure it owns
+the queue.</p>
+</div>
+</section>
+<section id="fq-codel">
+<span id="id4"></span><h4>FQ-CoDel<a class="headerlink" href="#fq-codel" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline</strong> Fair/Flow Queue CoDel.</div>
+<div class="line"><strong>Applies to:</strong> Outbound Traffic.</div>
+</div>
+<p>The FQ-CoDel policy distributes the traffic into 1024 FIFO queues and
+tries to provide good service between all of them. It also tries to keep
+the length of all the queues short.</p>
+<p>FQ-CoDel fights bufferbloat and reduces latency without the need of
+complex configurations. It has become the new default Queueing
+Discipline for the interfaces of some GNU/Linux distributions.</p>
+<p>It uses a stochastic model to classify incoming packets into
+different flows and is used to provide a fair share of the bandwidth to
+all the flows using the queue. Each flow is managed by the CoDel
+queuing  discipline. Reordering within a flow is avoided since Codel
+internally uses a FIFO queue.</p>
+<p>FQ-CoDel is based on a modified Deficit Round Robin (<a class="reference internal" href="#drr">DRR</a>) queue
+scheduler with the CoDel Active Queue Management (AQM) algorithm
+operating on each queue.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>FQ-Codel is a non-shaping (work-conserving) policy, so it
+will only be useful if your outgoing interface is really full. If it
+is not, VyOS will not own the queue and FQ-Codel will have no
+effect. If there is bandwidth available on the physical link, you can
+<a class="reference internal" href="#embed">embed</a> FQ-Codel into a classful shaping policy to make sure it owns
+the queue. If you are not sure if you need to embed your FQ-CoDel
+policy into a Shaper, do it.</p>
+</div>
+<p>FQ-CoDel is tuned to run ok with its default parameters at 10Gbit
+speeds. It might work ok too at other speeds without configuring
+anything, but here we will explain some cases when you might want to
+tune its parameters.</p>
+<p>When running it at 1Gbit and lower, you may want to reduce the
+<cite>queue-limit</cite> to 1000 packets or less. In rates like 10Mbit, you may
+want to set it to 600 packets.</p>
+<p>If you are using FQ-CoDel embedded into <a class="reference internal" href="#shaper">Shaper</a> and you have large rates
+(100Mbit and above), you may consider increasing <cite>quantum</cite> to 8000 or
+higher so that the scheduler saves CPU.</p>
+<p>On low rates (below 40Mbit) you may want to tune <cite>quantum</cite> down to
+something like 300 bytes.</p>
+<p>At very low rates (below 3Mbit), besides tuning <cite>quantum</cite> (300 keeps
+being ok) you may also want to increase <cite>target</cite> to something like 15ms
+and increase <cite>interval</cite> to something around 150 ms.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fq-codel-policy-name-codel-quantum-bytes">
+set qos policy fq-codel &lt;policy name&gt; codel-quantum &lt;bytes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fq-codel-policy-name-codel-quantum-bytes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an fq-codel policy, set its name and
+the maximum number of bytes (default: 1514) to be dequeued from a
+queue at once.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fq-codel-policy-name-flows-number-of-flows">
+set qos policy fq-codel &lt;policy name&gt; flows &lt;number-of-flows&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fq-codel-policy-name-flows-number-of-flows" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an fq-codel policy, set its name and
+the number of sub-queues (default: 1024) into which packets are
+classified.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fq-codel-policy-name-interval-miliseconds">
+set qos policy fq-codel &lt;policy name&gt; interval &lt;miliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fq-codel-policy-name-interval-miliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an fq-codel policy, set its name and
+the time period used by the control loop of CoDel to detect when a
+persistent queue is developing, ensuring that the measured minimum
+delay does not become too stale (default: 100ms).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fq-codel-policy-name-queue-limit-number-of-packets">
+set qos policy fq-codel &lt;policy-name&gt; queue-limit &lt;number-of-packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fq-codel-policy-name-queue-limit-number-of-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an fq-codel policy, set its name, and
+define a hard limit on the real queue size. When this limit is
+reached, new packets are dropped (default: 10240 packets).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-fq-codel-policy-name-target-miliseconds">
+set qos policy fq-codel &lt;policy-name&gt; target &lt;miliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-fq-codel-policy-name-target-miliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an fq-codel policy, set its name, and
+define the acceptable minimum standing/persistent queue delay. This
+minimum delay is identified by tracking the local minimum queue delay
+that packets experience (default: 5ms).</p>
+</div>
+</div>
+<section id="example">
+<h5>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h5>
+<p>A simple example of an FQ-CoDel policy working inside a Shaper one.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper FQ-CODEL-SHAPER bandwidth 2gbit
+set qos policy shaper FQ-CODEL-SHAPER default bandwidth 100%
+set qos policy shaper FQ-CODEL-SHAPER default queue-type fq-codel
+</pre></div>
+</div>
+</section>
+</section>
+<section id="limiter">
+<h4>Limiter<a class="headerlink" href="#limiter" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Ingress policer.</div>
+<div class="line"><strong>Applies to:</strong> Inbound traffic.</div>
+</div>
+<p>Limiter is one of those policies that uses <a class="reference internal" href="#classes">classes</a> (Ingress qdisc is
+actually a classless policy but filters do work in it).</p>
+<p>The limiter performs basic ingress policing of traffic flows. Multiple
+classes of traffic can be defined and traffic limits can be applied to
+each class. Although the policer uses a token bucket mechanism
+internally, it does not have the capability to delay a packet as a
+shaping mechanism does. Traffic exceeding the defined bandwidth limits
+is directly dropped. A maximum allowed burst can be configured too.</p>
+<p>You can configure classes (up to 4090) with different settings and a
+default policy which will be applied to any traffic not matching any of
+the configured classes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the case you want to apply some kind of <strong>shaping</strong> to your
+<strong>inbound</strong> traffic, check the <a class="reference internal" href="#ingress-shaping">ingress-shaping</a> section.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-match-match-name-description-description">
+set qos policy limiter &lt;policy-name&gt; class &lt;class ID&gt; match &lt;match-name&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-match-match-name-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name,
+a class identifier (1-4090), a class matching rule name and its
+description.</p>
+</div>
+</div>
+<p>Once the matching rules are set for a class, you can start configuring
+how you want matching traffic to behave.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-bandwidth-rate">
+set qos policy limiter &lt;policy-name&gt; class &lt;class-ID&gt; bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name,
+a class identifier (1-4090) and the maximum allowed bandwidth for
+this class.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-burst-burst-size">
+set qos policy limiter &lt;policy-name&gt; class &lt;class-ID&gt; burst &lt;burst-size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-burst-burst-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name,
+a class identifier (1-4090) and the burst size in bytes for this
+class (default: 15).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-default-bandwidth-rate">
+set qos policy limiter &lt;policy-name&gt; default bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-default-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name
+and the maximum allowed bandwidth for its default policy.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-default-burst-burst-size">
+set qos policy limiter &lt;policy-name&gt; default burst &lt;burst-size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-default-burst-burst-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name
+and the burst size in bytes (default: 15) for its default policy.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-priority-value">
+set qos policy limiter &lt;policy-name&gt; class &lt;class ID&gt; priority &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-limiter-policy-name-class-class-id-priority-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure an Ingress Policer, defining its name,
+a class identifier (1-4090), and the priority (0-20, default 20) in
+which the rule is evaluated (the lower the number, the higher the
+priority).</p>
+</div>
+</div>
+</section>
+<section id="network-emulator">
+<h4>Network Emulator<a class="headerlink" href="#network-emulator" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> netem (Network Emulator) + TBF (Token Bucket Filter).</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>VyOS Network Emulator policy emulates the conditions you can suffer in a
+real network. You will be able to configure things like rate, burst,
+delay, packet loss, packet corruption or packet reordering.</p>
+<p>This could be helpful if you want to test how an application behaves
+under certain network conditions.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-network-emulator-policy-name-bandwidth-rate">
+set qos policy network-emulator &lt;policy-name&gt; bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-network-emulator-policy-name-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure the maximum rate at which traffic will
+be shaped in a Network Emulator policy. Define the name of the policy
+and the rate.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-network-emulator-policy-name-burst-burst-size">
+set qos policy network-emulator &lt;policy-name&gt; burst &lt;burst-size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-network-emulator-policy-name-burst-burst-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure the burst size of the traffic in a
+Network Emulator policy. Define the name of the Network Emulator
+policy and its traffic burst size (it will be configured through the
+Token Bucket Filter qdisc). Default:15kb. It will only take effect if
+you have configured its bandwidth too.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-network-emulator-policy-name-delay-delay">
+set qos policy network-emulator &lt;policy-name&gt; delay &lt;delay&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-network-emulator-policy-name-delay-delay" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Network Emulator policy defining its
+name and the fixed amount of time you want to add to all packet going
+out of the interface. The latency will be added through the
+Token Bucket Filter qdisc. It will only take effect if you have
+configured its bandwidth too. You can use secs, ms and us. Default:
+50ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-network-emulator-policy-name-corruption-percent">
+set qos policy network-emulator &lt;policy-name&gt; corruption &lt;percent&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-network-emulator-policy-name-corruption-percent" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to emulate noise in a Network Emulator policy. Set
+the policy name and the percentage of corrupted packets you want. A
+random error will be introduced in a random position for the chosen
+percent of packets.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-network-emulator-policy-name-loss-percent">
+set qos policy network-emulator &lt;policy-name&gt; loss &lt;percent&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-network-emulator-policy-name-loss-percent" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to emulate packet-loss conditions in a Network
+Emulator policy. Set the policy name and the percentage of loss
+packets your traffic will suffer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-traffic-policy-network-emulator-policy-name-reordering-percent">
+set traffic-policy network-emulator &lt;policy-name&gt; reordering &lt;percent&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-traffic-policy-network-emulator-policy-name-reordering-percent" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to emulate packet-reordering conditions in a Network
+Emulator policy. Set the policy name and the percentage of reordered
+packets your traffic will suffer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-traffic-policy-network-emulator-policy-name-queue-limit-limit">
+set traffic-policy network-emulator &lt;policy-name&gt; queue-limit &lt;limit&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-traffic-policy-network-emulator-policy-name-queue-limit-limit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define the length of the queue of your Network
+Emulator policy. Set the policy name and the maximum number of
+packets (1-4294967295) the queue may hold queued at a time.</p>
+</div>
+</div>
+</section>
+<section id="priority-queue">
+<h4>Priority Queue<a class="headerlink" href="#priority-queue" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> PRIO.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>The Priority Queue is a classful scheduling policy. It does not delay
+packets (Priority Queue is not a shaping policy), it simply dequeues
+packets according to their priority.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Priority Queue, as other non-shaping policies, is only useful
+if your outgoing interface is really full. If it is not, VyOS will
+not own the queue and Priority Queue will have no effect. If there is
+bandwidth available on the physical link, you can <a class="reference internal" href="#embed">embed</a> Priority
+Queue into a classful shaping policy to make sure it owns the queue.
+In that case packets can be prioritized based on DSCP.</p>
+</div>
+<p>Up to seven queues -defined as <a class="reference internal" href="#classes">classes</a> with different priorities- can
+be configured. Packets are placed into queues based on associated match
+criteria. Packets are transmitted from the queues in priority order. If
+classes with a higher priority are being filled with packets
+continuously, packets from lower priority classes will only be
+transmitted after traffic volume from higher priority classes decreases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Priority Queue we do not define clases with a meaningless
+class ID number but with a class priority number (1-7). The lower the
+number, the higher the priority.</p>
+</div>
+<p>As with other policies, you can define different type of matching rules
+for your classes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy priority-queue MY-PRIO class 3 match MY-MATCH-RULE
+Possible completions:
+   description  Description
+ &gt; ether        Ethernet header match
+   interface    Interface to use
+ &gt; ip           Match IP protocol header
+ &gt; ipv6         Match IPV6 protocol header
+   mark         Match on mark applied by firewall
+   vif          Virtual Local Area Network (VLAN) ID for this match
+</pre></div>
+</div>
+<p>As with other policies, you can <a class="reference internal" href="#embed">embed</a> other policies into the classes
+(and default) of your Priority Queue policy through the <code class="docutils literal notranslate"><span class="pre">queue-type</span></code>
+setting:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy priority-queue MY-PRIO class 3 queue-type
+Possible completions:
+   drop-tail    First-In-First-Out (FIFO) (default)
+   fq-codel     Fair Queue Codel
+   fair-queue   Stochastic Fair Queue (SFQ)
+   priority     Priority queueing
+   random-detect
+                Random Early Detection (RED)
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-priority-queue-policy-name-class-class-id-queue-limit-limit">
+set qos policy priority-queue &lt;policy-name&gt; class &lt;class-ID&gt; queue-limit &lt;limit&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-priority-queue-policy-name-class-class-id-queue-limit-limit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Priority Queue policy, set its name,
+set a class with a priority from 1 to 7 and define a hard limit on
+the real queue size. When this limit is reached, new packets are
+dropped.</p>
+</div>
+</div>
+</section>
+<section id="random-detect">
+<span id="id5"></span><h4>Random-Detect<a class="headerlink" href="#random-detect" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Generalized Random Early Drop.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>A simple Random Early Detection (RED) policy would start randomly
+dropping packets from a queue before it reaches its queue limit thus
+avoiding congestion. That is good for TCP connections as the gradual
+dropping of packets acts as a signal for the sender to decrease its
+transmission rate.</p>
+<p>In contrast to simple RED, VyOS’ Random-Detect uses a Generalized Random
+Early Detect policy that provides different virtual queues based on the
+IP Precedence value so that some virtual queues can drop more packets
+than others.</p>
+<p>This is achieved by using the first three bits of the ToS (Type of
+Service) field to categorize data streams and, in accordance with the
+defined precedence parameters, a decision is made.</p>
+<p>IP precedence as defined in <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc791.html"><strong>RFC 791</strong></a>:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Precedence</p></th>
+<th class="head"><p>Priority</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Network Control</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Internetwork Control</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>CRITIC/ECP</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Flash Override</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Flash</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Immediate</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Priority</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>Routine</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Random-Detect could be useful for heavy traffic. One use of this
+algorithm might be to prevent a backbone overload. But only for TCP
+(because dropped packets could be retransmitted), not for UDP.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-bandwidth-bandwidth">
+set qos policy random-detect &lt;policy-name&gt; bandwidth &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-bandwidth-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy, set its name
+and set the available bandwidth for this policy. It is used for
+calculating the average queue size after some idle time. It should be
+set to the bandwidth of your interface. Random Detect is not a
+shaping policy, this command will not shape.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-average-packet-bytes">
+set qos policy random-detect &lt;policy-name&gt; precedence &lt;IP-precedence-value&gt; average-packet &lt;bytes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-average-packet-bytes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy and set its
+name, then state the IP Precedence for the virtual queue you are
+configuring and what the size of its average-packet should be
+(in bytes, default: 1024).</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When configuring a Random-Detect policy: <strong>the higher the
+precedence number, the higher the priority</strong>.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-mark-probability-value">
+set qos policy random-detect &lt;policy-name&gt; precedence &lt;IP-precedence-value&gt; mark-probability &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-mark-probability-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy and set its
+name, then state the IP Precedence for the virtual queue you are
+configuring and what its mark (drop) probability will be. Set the
+probability by giving the N value of the fraction 1/N (default: 10).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-maximum-threshold-packets">
+set qos policy random-detect &lt;policy-name&gt; precedence &lt;IP-precedence-value&gt; maximum-threshold &lt;packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-maximum-threshold-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy and set its
+name, then state the IP Precedence for the virtual queue you are
+configuring and what its maximum threshold for random detection will
+be (from 0 to 4096 packets, default: 18). At this size, the marking
+(drop) probability is maximal.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-minimum-threshold-packets">
+set qos policy random-detect &lt;policy-name&gt; precedence &lt;IP-precedence-value&gt; minimum-threshold &lt;packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-minimum-threshold-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy and set its
+name, then state the IP Precedence for the virtual queue you are
+configuring and what its minimum threshold for random detection will
+be (from 0 to 4096 packets).  If this value is exceeded, packets
+start being eligible for being dropped.</p>
+</div>
+</div>
+<p>The default values for the minimum-threshold depend on IP precedence:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Precedence</p></th>
+<th class="head"><p>default min-threshold</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>13</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>9</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-queue-limit-packets">
+set qos policy random-detect &lt;policy-name&gt; precedence &lt;IP-precedence-value&gt; queue-limit &lt;packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-random-detect-policy-name-precedence-ip-precedence-value-queue-limit-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Random-Detect policy and set its
+name, then name the IP Precedence for the virtual queue you are
+configuring and what the maximum size of its queue will be (from 1 to
+1-4294967295 packets). Packets are dropped when the current queue
+length reaches this value.</p>
+</div>
+</div>
+<p>If the average queue size is lower than the <strong>min-threshold</strong>, an
+arriving packet will be placed in the queue.</p>
+<p>In the case the average queue size is between <strong>min-threshold</strong> and
+<strong>max-threshold</strong>, then an arriving packet would be either dropped or
+placed in the queue, it will depend on the defined <strong>mark-probability</strong>.</p>
+<p>If the current queue size is larger than <strong>queue-limit</strong>,
+then packets will be dropped. The average queue size depends on its
+former average size and its current one.</p>
+<p>If <strong>max-threshold</strong> is set but <strong>min-threshold is not, then
+**min-threshold</strong> is scaled to 50% of <strong>max-threshold</strong>.</p>
+<p>In principle, values must be
+<code class="code docutils literal notranslate"><span class="pre">min-threshold</span></code> &lt; <code class="code docutils literal notranslate"><span class="pre">max-threshold</span></code> &lt; <code class="code docutils literal notranslate"><span class="pre">queue-limit</span></code>.</p>
+</section>
+<section id="rate-control">
+<h4>Rate Control<a class="headerlink" href="#rate-control" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Tocken Bucket Filter.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>Rate-Control is a classless policy that limits the packet flow to a set
+rate. It is a pure shaper, it does not schedule traffic. Traffic is
+filtered based on the expenditure of tokens. Tokens roughly correspond
+to bytes.</p>
+<p>Short bursts can be allowed to exceed the limit. On creation, the
+Rate-Control traffic is stocked with tokens which correspond to the
+amount of traffic that can be burst in one go. Tokens arrive at a steady
+rate, until the bucket is full.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-rate-control-policy-name-bandwidth-rate">
+set qos policy rate-control &lt;policy-name&gt; bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-rate-control-policy-name-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Rate-Control policy, set its name
+and the rate limit you want to have.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-rate-control-policy-name-burst-burst-size">
+set qos policy rate-control &lt;policy-name&gt; burst &lt;burst-size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-rate-control-policy-name-burst-burst-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Rate-Control policy, set its name
+and the size of the bucket in bytes which will be available for
+burst.</p>
+</div>
+</div>
+<p>As a reference: for 10mbit/s on Intel, you might need at least 10kbyte
+buffer if you want to reach your configured rate.</p>
+<p>A very small buffer will soon start dropping packets.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-rate-control-policy-name-latency">
+set qos policy rate-control &lt;policy-name&gt; latency</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-rate-control-policy-name-latency" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Rate-Control policy, set its name
+and the maximum amount of time a packet can be queued (default: 50
+ms).</p>
+</div>
+</div>
+<p>Rate-Control is a CPU-friendly policy. You might consider using it when
+you just simply want to slow traffic down.</p>
+</section>
+<section id="round-robin">
+<span id="drr"></span><h4>Round Robin<a class="headerlink" href="#round-robin" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Deficit Round Robin.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>The round-robin policy is a classful scheduler that divides traffic in
+different <a class="reference internal" href="#classes">classes</a> you can configure (up to 4096). You can <a class="reference internal" href="#embed">embed</a> a
+new policy into each of those classes (default included).</p>
+<p>Each class is assigned a deficit counter (the number of bytes that a
+flow is allowed to transmit when it is its turn) initialized to quantum.
+Quantum is a parameter you configure which acts like a credit of fix
+bytes the counter receives on each round. Then the Round-Robin policy
+starts moving its Round Robin pointer through the queues. If the deficit
+counter is greater than the packet’s size at the head of the queue, this
+packet will be sent and the value of the counter will be decremented by
+the packet size. Then, the size of the next packet will be compared to
+the counter value again, repeating the process. Once the queue is empty
+or the value of the counter is insufficient, the Round-Robin pointer
+will move to the next queue. If the queue is empty, the value of the
+deficit counter is reset to 0.</p>
+<p>At every round, the deficit counter adds the quantum so that even large
+packets will have their opportunity to be dequeued.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-round-robin-policy-name-class-class-id-quantum-packets">
+set qos policy round-robin &lt;policy name&gt; class &lt;class-ID&gt; quantum &lt;packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-round-robin-policy-name-class-class-id-quantum-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Round-Robin policy, set its name, set
+a class ID, and the quantum for that class. The deficit counter will
+add that value each round.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-round-robin-policy-name-class-class-id-queue-limit-packets">
+set qos policy round-robin &lt;policy name&gt; class &lt;class ID&gt; queue-limit &lt;packets&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-round-robin-policy-name-class-class-id-queue-limit-packets" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Round-Robin policy, set its name, set
+a class ID, and the queue size in packets.</p>
+</div>
+</div>
+<p>As with other policies, Round-Robin can <a class="reference internal" href="#embed">embed</a> another policy into a
+class through the <code class="docutils literal notranslate"><span class="pre">queue-type</span></code> setting.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy round-robin DRR class 10 queue-type
+Possible completions:
+   drop-tail    First-In-First-Out (FIFO) (default)
+   fq-codel     Fair Queue Codel
+   fair-queue   Stochastic Fair Queue (SFQ)
+   priority     Priority queueing based
+   random-detect
+                Random Early Detection (RED)
+</pre></div>
+</div>
+</section>
+<section id="shaper">
+<span id="id6"></span><h4>Shaper<a class="headerlink" href="#shaper" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Hierarchical Token Bucket.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p>The Shaper policy does not guarantee a low delay, but it does guarantee
+bandwidth to different traffic classes and also lets you decide how to
+allocate more traffic once the guarantees are met.</p>
+<p>Each class can have a guaranteed part of the total bandwidth defined for
+the whole policy, so all those shares together should not be higher
+than the policy’s whole bandwidth.</p>
+<p>If guaranteed traffic for a class is met and there is room for more
+traffic, the ceiling parameter can be used to set how much more
+bandwidth could be used. If guaranteed traffic is met and there are
+several classes willing to use their ceilings, the priority parameter
+will establish the order in which that additional traffic will be
+allocated. Priority can be any number from 0 to 7. The lower the number,
+the higher the priority.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-shaper-policy-name-bandwidth-rate">
+set qos policy shaper &lt;policy-name&gt; bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-shaper-policy-name-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Shaper policy, set its name
+and the maximum bandwidth for all combined traffic.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-bandwidth-rate">
+set qos policy shaper &lt;policy-name&gt; class &lt;class-ID&gt; bandwidth &lt;rate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-bandwidth-rate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Shaper policy, set its name, define
+a class and set the guaranteed traffic you want to allocate to that
+class.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-burst-bytes">
+set qos policy shaper &lt;policy-name&gt; class &lt;class-ID&gt; burst &lt;bytes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-burst-bytes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Shaper policy, set its name, define
+a class and set the size of the <a class="reference external" href="https://en.wikipedia.org/wiki/Token_bucket">tocken bucket</a> in bytes, which will
+be available to be sent at ceiling speed (default: 15Kb).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-ceiling-bandwidth">
+set qos policy shaper &lt;policy-name&gt; class &lt;class-ID&gt; ceiling &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-ceiling-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Shaper policy, set its name, define
+a class and set the maximum speed possible for this class. The
+default ceiling value is the bandwidth value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-priority-0-7">
+set qos policy shaper &lt;policy-name&gt; class &lt;class-ID&gt; priority &lt;0-7&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-shaper-policy-name-class-class-id-priority-0-7" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a Shaper policy, set its name, define
+a class and set the priority for usage of available bandwidth once
+guarantees have been met. The lower the priority number, the higher
+the priority. The default priority value is 0, the highest priority.</p>
+</div>
+</div>
+<p>As with other policies, Shaper can <a class="reference internal" href="#embed">embed</a> other policies into its
+classes through the <code class="docutils literal notranslate"><span class="pre">queue-type</span></code> setting and then configure their
+parameters.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy shaper HTB class 10 queue-type
+Possible completions:
+   fq-codel     Fair Queue Codel (default)
+   fair-queue   Stochastic Fair Queue (SFQ)
+   drop-tail    First-In-First-Out (FIFO)
+   priority     Priority queueing
+   random-detect
+                Random Early Detection (RED)
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set qos policy shaper HTB class 10
+Possible completions:
+   bandwidth    Available bandwidth for this policy (default: auto)
+   burst        Burst size for this class (default: 15k)
+   ceiling      Bandwidth limit for this class
+   codel-quantum
+                Deficit in the fair queuing algorithm (default 1514)
+   description  Description
+   flows        Number of flows into which the incoming packets are classified (default 1024)
+   interval     Interval used to measure the delay (default 100)
++&gt; match        Class matching rule name
+   priority     Priority for rule evaluation
+   queue-limit  Maximum queue size (packets)
+   queue-type   Queue type for default traffic (default: fq-codel)
+   set-dscp     Change the Differentiated Services (DiffServ) field in the IP header
+   target       Acceptable minimum standing/persistent queue delay (default: 5)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you configure a class for <strong>VoIP traffic</strong>, don’t give it any
+<em>ceiling</em>, otherwise new VoIP calls could start when the link is
+available and get suddenly dropped when other classes start using
+their assigned <em>bandwidth</em> share.</p>
+</div>
+<section id="traffic-policy-shaper-example">
+<span id="id7"></span><h5>Example<a class="headerlink" href="#traffic-policy-shaper-example" title="Link to this heading"></a></h5>
+<p>A simple example of Shaper using priorities.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper MY-HTB bandwidth &#39;50mbit&#39;
+set qos policy shaper MY-HTB class 10 bandwidth &#39;20%&#39;
+set qos policy shaper MY-HTB class 10 match DSCP ip dscp &#39;EF&#39;
+set qos policy shaper MY-HTB class 10 queue-type &#39;fq-codel&#39;
+set qos policy shaper MY-HTB class 20 bandwidth &#39;10%&#39;
+set qos policy shaper MY-HTB class 20 ceiling &#39;50%&#39;
+set qos policy shaper MY-HTB class 20 match PORT666 ip destination port &#39;666&#39;
+set qos policy shaper MY-HTB class 20 priority &#39;3&#39;
+set qos policy shaper MY-HTB class 20 queue-type &#39;fair-queue&#39;
+set qos policy shaper MY-HTB class 30 bandwidth &#39;10%&#39;
+set qos policy shaper MY-HTB class 30 ceiling &#39;50%&#39;
+set qos policy shaper MY-HTB class 30 match ADDRESS30 ip source address &#39;192.168.30.0/24&#39;
+set qos policy shaper MY-HTB class 30 priority &#39;5&#39;
+set qos policy shaper MY-HTB class 30 queue-type &#39;fair-queue&#39;
+set qos policy shaper MY-HTB default bandwidth &#39;10%&#39;
+set qos policy shaper MY-HTB default ceiling &#39;100%&#39;
+set qos policy shaper MY-HTB default priority &#39;7&#39;
+set qos policy shaper MY-HTB default queue-type &#39;fair-queue&#39;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cake">
+<span id="id8"></span><h4>CAKE<a class="headerlink" href="#cake" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line"><strong>Queueing discipline:</strong> Deficit mode.</div>
+<div class="line"><strong>Applies to:</strong> Outbound traffic.</div>
+</div>
+<p><a class="reference external" href="https://www.bufferbloat.net/projects/codel/wiki/Cake/">Common Applications Kept Enhanced</a> (CAKE) is a comprehensive queue management
+system, implemented as a queue discipline (qdisc) for the Linux kernel. It is
+designed to replace and improve upon the complex hierarchy of simple qdiscs
+presently required to effectively tackle the bufferbloat problem at the network
+edge.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-bandwidth-value">
+set qos policy cake &lt;text&gt; bandwidth &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-bandwidth-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the shaper bandwidth, either as an explicit bitrate or a percentage
+of the interface bandwidth.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-description">
+set qos policy cake &lt;text&gt; description</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a description for the shaper.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-blind">
+set qos policy cake &lt;text&gt; flow-isolation blind</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-blind" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables flow isolation, all traffic passes through a single queue.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-dst-host">
+set qos policy cake &lt;text&gt; flow-isolation dst-host</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-dst-host" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined only by destination address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-dual-dst-host">
+set qos policy cake &lt;text&gt; flow-isolation dual-dst-host</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-dual-dst-host" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined by the 5-tuple. Fairness is applied first over destination
+addresses, then over individual flows.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-dual-src-host">
+set qos policy cake &lt;text&gt; flow-isolation dual-src-host</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-dual-src-host" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined by the 5-tuple. Fairness is applied first over source
+addresses, then over individual flows.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-flow">
+set qos policy cake &lt;text&gt; flow-isolation flow</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-flow" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined by the entire 5-tuple (source IP address, source port,
+destination IP address, destination port, transport protocol).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-host">
+set qos policy cake &lt;text&gt; flow-isolation host</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-host" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined by source-destination host pairs.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-nat">
+set qos policy cake &lt;text&gt; flow-isolation nat</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-nat" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Perform NAT lookup before applying flow-isolation rules.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-src-host">
+set qos policy cake &lt;text&gt; flow-isolation src-host</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-src-host" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Flows are defined only by source address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-flow-isolation-triple-isolate">
+set qos policy cake &lt;text&gt; flow-isolation triple-isolate</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-flow-isolation-triple-isolate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>(Default)</strong> Flows are defined by the 5-tuple, fairness is applied over source and
+destination addresses and also over individual flows.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-qos-policy-cake-text-rtt">
+set qos policy cake &lt;text&gt; rtt</span>
+<a class="cmdlink" href="#cfgcmd-set-qos-policy-cake-text-rtt" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Defines the round-trip time used for active queue management (AQM) in
+milliseconds. The default value is 100.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="applying-a-traffic-policy">
+<h3>Applying a traffic policy<a class="headerlink" href="#applying-a-traffic-policy" title="Link to this heading"></a></h3>
+<p>Once a traffic-policy is created, you can apply it to an interface:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos interface eth0 egress WAN-OUT
+</pre></div>
+</div>
+<p>You can only apply one policy per interface and direction, but you could
+reuse a policy on different interfaces and directions:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos interface eth0 ingress WAN-IN
+set qos interface eth0 egress WAN-OUT
+set qos interface eth1 ingress LAN-IN
+set qos interface eth1 egress LAN-OUT
+set qos interface eth2 ingress LAN-IN
+set qos interface eth2 egress LAN-OUT
+set qos interface eth3 ingress TWO-WAY-POLICY
+set qos interface eth3 egress TWO-WAY-POLICY
+set qos interface eth4 ingress TWO-WAY-POLICY
+set qos interface eth4 egress TWO-WAY-POLICY
+</pre></div>
+</div>
+</section>
+<section id="the-case-of-ingress-shaping">
+<span id="ingress-shaping"></span><h3>The case of ingress shaping<a class="headerlink" href="#the-case-of-ingress-shaping" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>Applies to:</strong> Inbound traffic.</div>
+</div>
+<p>For the ingress traffic of an interface, there is only one policy you
+can directly apply, a <strong>Limiter</strong> policy. You cannot apply a shaping
+policy directly to the ingress traffic of any interface because shaping
+only works for outbound traffic.</p>
+<p>This workaround lets you apply a shaping policy to the ingress traffic
+by first redirecting it to an in-between virtual interface
+(<a class="reference external" href="https://www.linuxfoundation.org/collaborate/workgroups/networking/ifb">Intermediate Functional Block</a>). There, in that virtual interface,
+you will be able to apply any of the policies that work for outbound
+traffic, for instance, a shaping one.</p>
+<p>That is how it is possible to do the so-called “ingress shaping”.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos policy shaper MY-INGRESS-SHAPING bandwidth 1000kbit
+set qos policy shaper MY-INGRESS-SHAPING default bandwidth 1000kbit
+set qos policy shaper MY-INGRESS-SHAPING default queue-type fair-queue
+
+set qos interface ifb0 egress MY-INGRESS-SHAPING
+set interfaces ethernet eth0 redirect ifb0
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not configure IFB as the first step. First create everything else
+of your traffic-policy, and then you can configure IFB.
+Otherwise you might get the <code class="docutils literal notranslate"><span class="pre">RTNETLINK</span> <span class="pre">answer:</span> <span class="pre">File</span> <span class="pre">exists</span></code> error,
+which can be solved with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">ip</span> <span class="pre">link</span> <span class="pre">delete</span> <span class="pre">ifb0</span></code>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../system/default-route.html" class="btn btn-neutral float-left" title="Default Gateway/Route" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vpn/index.html" class="btn btn-neutral float-right" title="VPN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

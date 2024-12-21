@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testing &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Write Documentation" href="../documentation.html" />
+    <link rel="prev" title="Debugging" href="debugging.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jenkins-ci">Jenkins CI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smoketests">Smoketests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#manual-smoketest-run">Manual Smoketest Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interface-based-tests">Interface based tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#config-load-tests">Config Load Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#manual-config-load-test">Manual config load test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Testing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/contributing/testing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="testing">
+<span id="id1"></span><h1>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h1>
+<p>One of the major advantages introduced in VyOS 1.3 is an automated test
+framework. When assembling an ISO image multiple things can go wrong badly and
+publishing a faulty ISO makes no sense. The user is disappointed by the quality
+of the image and the developers get flodded with bug reports over and over
+again.</p>
+<p>As the VyOS documentation is not only for users but also for the developers -
+and we keep no secret documentation - this section describes how the automated
+testing works.</p>
+<section id="jenkins-ci">
+<h2>Jenkins CI<a class="headerlink" href="#jenkins-ci" title="Link to this heading"></a></h2>
+<p>Our <a class="reference external" href="https://ci.vyos.net">VyOS CI</a> system is based on Jenkins and builds all our required packages
+for VyOS 1.2 to 1.4. In addition to the package build, there is the vyos-build
+Job which builds and tests the VyOS ISO image which is published after a
+successful test drive.</p>
+<p>We differentiate in two independent tests, which are both run in parallel by
+two separate QEmu instances which are launched via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> and <code class="docutils literal notranslate"><span class="pre">make</span>
+<span class="pre">testc</span></code> from within the <a class="reference external" href="https://github.com/vyos/vyos-build">vyos-build</a> repository.</p>
+</section>
+<section id="smoketests">
+<h2>Smoketests<a class="headerlink" href="#smoketests" title="Link to this heading"></a></h2>
+<p>Smoketests executes predefined VyOS CLI commands and checks if the desired
+daemon/service configuration is rendert - that is how to put it “short”.</p>
+<p>When and ISO image is assembled by the <a class="reference external" href="https://ci.vyos.net">VyOS CI</a>, the <code class="docutils literal notranslate"><span class="pre">BUILD_SMOKETEST</span></code>
+parameter is enabled by default, which will extend the ISO configuration line
+with the following packages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">CUSTOM_PACKAGES</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">BUILD_SMOKETESTS</span><span class="p">)</span>
+    <span class="n">CUSTOM_PACKAGES</span> <span class="o">=</span> <span class="s1">&#39;--custom-package vyos-1x-smoketest&#39;</span>
+</pre></div>
+</div>
+<p>So if you plan to build your own custom ISO image and want to make use of our
+smoketests, ensure that you have the <cite>vyos-1x-smoketest</cite> package installed.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> command from the <a class="reference external" href="https://github.com/vyos/vyos-build">vyos-build</a> repository will launch a new
+QEmu instance and the ISO image is first installed to the virtual harddisk.</p>
+<p>After its first boot into the newly installed system the main Smoketest script
+is executed, it can be found here: <cite>/usr/bin/vyos-smoketest</cite></p>
+<p>The script only searches for executable “test-cases” under
+<code class="docutils literal notranslate"><span class="pre">/usr/libexec/vyos/tests/smoke/cli/</span></code> and executes them one by one.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As Smoketests will alter the system configuration and you are logged
+in remote you may loose your connection to the system.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To enable smoketest debugging (print of the CLI set commands used)
+you can run: <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">/tmp/vyos.smoketest.debug</span></code>.</p>
+</div>
+<section id="manual-smoketest-run">
+<h3>Manual Smoketest Run<a class="headerlink" href="#manual-smoketest-run" title="Link to this heading"></a></h3>
+<p>On the other hand - as each test is contain in its own file - one can always
+execute a single Smoketest by hand by simply running the Python test scripts.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ /usr/libexec/vyos/tests/smoke/cli/test_protocols_bgp.py
+test_bgp_01_simple (__main__.TestProtocolsBGP) ... ok
+test_bgp_02_neighbors (__main__.TestProtocolsBGP) ... ok
+test_bgp_03_peer_groups (__main__.TestProtocolsBGP) ... ok
+test_bgp_04_afi_ipv4 (__main__.TestProtocolsBGP) ... ok
+test_bgp_05_afi_ipv6 (__main__.TestProtocolsBGP) ... ok
+test_bgp_06_listen_range (__main__.TestProtocolsBGP) ... ok
+test_bgp_07_l2vpn_evpn (__main__.TestProtocolsBGP) ... ok
+test_bgp_08_zebra_route_map (__main__.TestProtocolsBGP) ... ok
+test_bgp_09_distance_and_flowspec (__main__.TestProtocolsBGP) ... ok
+test_bgp_10_vrf_simple (__main__.TestProtocolsBGP) ... ok
+test_bgp_11_confederation (__main__.TestProtocolsBGP) ... ok
+test_bgp_12_v6_link_local (__main__.TestProtocolsBGP) ... ok
+test_bgp_13_solo (__main__.TestProtocolsBGP) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 348.191s
+
+OK
+</pre></div>
+</div>
+</section>
+<section id="interface-based-tests">
+<h3>Interface based tests<a class="headerlink" href="#interface-based-tests" title="Link to this heading"></a></h3>
+<p>Our smoketests not only test daemons and serives, but also check if what we
+configure for an interface works. Thus there is a common base classed named:
+<code class="docutils literal notranslate"><span class="pre">base_interfaces_test.py</span></code> which holds all the common code that an interface
+supports and is tested.</p>
+<p>Those common tests consists out of:</p>
+<ul class="simple">
+<li><p>Add one or more IP addresses</p></li>
+<li><p>DHCP client and DHCPv6 prefix delegation</p></li>
+<li><p>MTU size</p></li>
+<li><p>IP and IPv6 options</p></li>
+<li><p>Port description</p></li>
+<li><p>Port disable</p></li>
+<li><p>VLANs (QinQ and regular 802.1q)</p></li>
+<li><p>…</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When you are working on interface configuration and you also want to
+test if the Smoketests pass you would normally loose the remote SSH connection
+to your <abbr title="Device Under Test">DUT</abbr>. To handle this issue, some of the
+interface based tests can be called with an environment variable beforehand
+to limit the number of interfaces used in the test. By default all interface
+e.g. all Ethernet interfaces are used.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ TEST_ETH=&quot;eth1 eth2&quot; /usr/libexec/vyos/tests/smoke/cli/test_interfaces_bonding.py
+test_add_multiple_ip_addresses (__main__.BondingInterfaceTest) ... ok
+test_add_single_ip_address (__main__.BondingInterfaceTest) ... ok
+test_bonding_hash_policy (__main__.BondingInterfaceTest) ... ok
+test_bonding_lacp_rate (__main__.BondingInterfaceTest) ... ok
+test_bonding_min_links (__main__.BondingInterfaceTest) ... ok
+test_bonding_remove_member (__main__.BondingInterfaceTest) ... ok
+test_dhcpv6_client_options (__main__.BondingInterfaceTest) ... ok
+test_dhcpv6pd_auto_sla_id (__main__.BondingInterfaceTest) ... ok
+test_dhcpv6pd_manual_sla_id (__main__.BondingInterfaceTest) ... ok
+test_interface_description (__main__.BondingInterfaceTest) ... ok
+test_interface_disable (__main__.BondingInterfaceTest) ... ok
+test_interface_ip_options (__main__.BondingInterfaceTest) ... ok
+test_interface_ipv6_options (__main__.BondingInterfaceTest) ... ok
+test_interface_mtu (__main__.BondingInterfaceTest) ... ok
+test_ipv6_link_local_address (__main__.BondingInterfaceTest) ... ok
+test_mtu_1200_no_ipv6_interface (__main__.BondingInterfaceTest) ... ok
+test_span_mirror (__main__.BondingInterfaceTest) ... ok
+test_vif_8021q_interfaces (__main__.BondingInterfaceTest) ... ok
+test_vif_8021q_lower_up_down (__main__.BondingInterfaceTest) ... ok
+test_vif_8021q_mtu_limits (__main__.BondingInterfaceTest) ... ok
+test_vif_8021q_qos_change (__main__.BondingInterfaceTest) ... ok
+test_vif_s_8021ad_vlan_interfaces (__main__.BondingInterfaceTest) ... ok
+test_vif_s_protocol_change (__main__.BondingInterfaceTest) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 244.694s
+
+OK
+</pre></div>
+</div>
+<p>This will limit the <cite>bond</cite> interface test to only make use of <cite>eth1</cite> and <cite>eth2</cite>
+as member ports.</p>
+</section>
+</section>
+<section id="config-load-tests">
+<h2>Config Load Tests<a class="headerlink" href="#config-load-tests" title="Link to this heading"></a></h2>
+<p>The other part of our tests are called “config load tests”. The config load tests
+will load - one after another - arbitrary configuration files to test if the
+configuration migration scripts work as designed and that a given set of
+functionality still can be loaded with a fresh VyOS ISO image.</p>
+<p>The configurations are all derived from production systems and can not only act
+as a testcase but also as reference if one wants to enable a certain feature.
+The configurations can be found here:
+<a class="reference external" href="https://github.com/vyos/vyos-1x/tree/current/smoketest/configs">https://github.com/vyos/vyos-1x/tree/current/smoketest/configs</a></p>
+<p>The entire test is controlled by the main wrapper script <code class="docutils literal notranslate"><span class="pre">/usr/bin/vyos-configtest</span></code>
+which behaves in the same way as the main smoketest script. It scans the folder
+for potential configuration files and issues a <code class="docutils literal notranslate"><span class="pre">load</span></code> command one after another.</p>
+<section id="manual-config-load-test">
+<h3>Manual config load test<a class="headerlink" href="#manual-config-load-test" title="Link to this heading"></a></h3>
+<p>One is not bound to load all configurations one after another but can also load
+individual test configurations on his own.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ configure
+load[edit]
+
+vyos@vyos# load /usr/libexec/vyos/tests/config/ospf-small
+Loading configuration from &#39;/usr/libexec/vyos/tests/config/ospf-small&#39;
+Load complete. Use &#39;commit&#39; to make changes effective.
+[edit]
+vyos@vyos# compare
+[edit interfaces ethernet eth0]
+-hw-id 00:50:56:bf:c5:6d
+[edit interfaces ethernet eth1]
++duplex auto
+-hw-id 00:50:56:b3:38:c5
++speed auto
+[edit interfaces]
+-ethernet eth2 {
+-    hw-id 00:50:56:b3:9c:1d
+-}
+-vti vti1 {
+-    address 192.0.2.1/30
+-}
+...
+
+vyos@vyos# commit
+vyos@vyos#
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some of the configurations have preconditions which need to be met.
+Those most likely include generation of crypographic keys before the config
+can be applied - you will get a commit error otherwise. If you are interested
+how those preconditions are fulfilled check the <a class="reference external" href="https://github.com/vyos/vyos-build">vyos-build</a> repository and
+the <code class="docutils literal notranslate"><span class="pre">scripts/check-qemu-install</span></code> file.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="debugging.html" class="btn btn-neutral float-left" title="Debugging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../documentation.html" class="btn btn-neutral float-right" title="Write Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

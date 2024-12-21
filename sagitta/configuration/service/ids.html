@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDoS Protection &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="IPoE Server" href="ipoe-server.html" />
+    <link rel="prev" title="HTTP API" href="https.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DDoS Protection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fastnetmon">FastNetMon</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">DDoS Protection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/ids.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ddos-protection">
+<span id="ids"></span><h1>DDoS Protection<a class="headerlink" href="#ddos-protection" title="Link to this heading"></a></h1>
+<section id="fastnetmon">
+<h2>FastNetMon<a class="headerlink" href="#fastnetmon" title="Link to this heading"></a></h2>
+<p>FastNetMon is a high-performance DDoS detector/sensor built on top of multiple
+packet capture engines: NetFlow, IPFIX, sFlow, AF_PACKET (port mirror). It can
+detect hosts in the deployed network sending or receiving large volumes of
+traffic, packets/bytes/flows per second and perform a configurable action to
+handle that event, such as calling a custom script.</p>
+<p>VyOS includes the FastNetMon Community Edition.</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-alert-script-text">
+set service ids ddos-protection alert-script &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-alert-script-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure alert script that will be executed when an attack is detected.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-ban-time-1-4294967294">
+set service ids ddos-protection ban-time &lt;1-4294967294&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-ban-time-1-4294967294" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure how long an IP (attacker) should be kept in blocked state.
+Default value is 1900.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-direction-in-out">
+set service ids ddos-protection direction [in | out]</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-direction-in-out" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure direction for processing traffic.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-exclude-network-x-x-x-x-x">
+set service ids ddos-protection exclude-network &lt;x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-exclude-network-x-x-x-x-x" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-exlude-network-h-h-h-h-h-h-h-h-x">
+set service ids ddos-protection exlude-network &lt;h:h:h:h:h:h:h:h/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-exlude-network-h-h-h-h-h-h-h-h-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify IPv4 and/or IPv6 networks which are going to be excluded.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-listen-interface-text">
+set service ids ddos-protection listen-interface &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-listen-interface-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure listen interface for mirroring traffic.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-mode-mirror-sflow">
+set service ids ddos-protection mode [mirror | sflow]</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-mode-mirror-sflow" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure traffic capture mode.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-network-x-x-x-x-x">
+set service ids ddos-protection network &lt;x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-network-x-x-x-x-x" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-network-h-h-h-h-h-h-h-h-x">
+set service ids ddos-protection network &lt;h:h:h:h:h:h:h:h/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-network-h-h-h-h-h-h-h-h-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify IPv4 and/or IPv6 networks that should be protected/monitored.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-sflow-listen-address-x-x-x-x">
+set service ids ddos-protection sflow listen-address &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-sflow-listen-address-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure local IPv4 address to listen for sflow.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-sflow-port-1-65535">
+set service ids ddos-protection sflow port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-sflow-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure port number to be used for sflow conection. Default port is 6343.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-threshold-general-fps-mbps-pps-0-4294967294">
+set service ids ddos-protection threshold general [fps | mbps | pps] &lt;0-4294967294&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-threshold-general-fps-mbps-pps-0-4294967294" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Configure general threshold parameters.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-threshold-icmp-fps-mbps-pps-0-4294967294">
+set service ids ddos-protection threshold icmp [fps | mbps | pps] &lt;0-4294967294&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-threshold-icmp-fps-mbps-pps-0-4294967294" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Configure ICMP threshold parameters.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-threshold-tcp-fps-mbps-pps-0-4294967294">
+set service ids ddos-protection threshold tcp [fps | mbps | pps] &lt;0-4294967294&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-threshold-tcp-fps-mbps-pps-0-4294967294" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Configure TCP threshold parameters</p>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ids-ddos-protection-threshold-udp-fps-mbps-pps-0-4294967294">
+set service ids ddos-protection threshold udp [fps | mbps | pps] &lt;0-4294967294&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ids-ddos-protection-threshold-udp-fps-mbps-pps-0-4294967294" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Configure UDP threshold parameters</p>
+</div></blockquote>
+</div>
+</div>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>A configuration example can be found in this section.
+In this simplified scenario, main things to be considered are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Network to be protected: 192.0.2.0/24 (public IPs use by
+customers)</p></li>
+<li><p><strong>ban-time</strong> and <strong>threshold</strong>: these values are kept very low in order
+to easily identify and generate and attack.</p></li>
+<li><p>Direction: <strong>in</strong> and <strong>out</strong>. Protect public network from external
+attacks, and identify internal attacks towards internet.</p></li>
+<li><p>Interface <strong>eth0</strong> used to connect to upstream.</p></li>
+</ul>
+</div></blockquote>
+<p>Since we are analyzing attacks to and from our internal network, two types
+of attacks can be identified, and differents actions are needed:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>External attack: an attack from the internet towards an internal IP
+is identify. In this case, all connections towards such IP will be
+blocked</p></li>
+<li><p>Internal attack: an attack from the internal network (generated by a
+customer) towards the internet is identify. In this case, all connections
+from this particular IP/Customer will be blocked.</p></li>
+</ul>
+</div></blockquote>
+<p>So, firewall configuration needed for this setup:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group FNMS-DST-Block
+set firewall group address-group FNMS-SRC-Block
+
+set firewall ipv4 forward filter rule 10 action &#39;drop&#39;
+set firewall ipv4 forward filter rule 10 description &#39;FNMS - block destination&#39;
+set firewall ipv4 forward filter rule 10 destination group address-group &#39;FNMS-DST-Block&#39;
+
+set firewall ipv4 forward filter rule 20 action &#39;drop&#39;
+set firewall ipv4 forward filter rule 20 description &#39;FNMS - Block source&#39;
+set firewall ipv4 forward filter rule 20 source group address-group &#39;FNMS-SRC-Block&#39;
+</pre></div>
+</div>
+<p>Then, FastNetMon configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ids ddos-protection alert-script &#39;/config/scripts/fnm-alert.sh&#39;
+set service ids ddos-protection ban-time &#39;10&#39;
+set service ids ddos-protection direction &#39;in&#39;
+set service ids ddos-protection direction &#39;out&#39;
+set service ids ddos-protection listen-interface &#39;eth0&#39;
+set service ids ddos-protection mode &#39;mirror&#39;
+set service ids ddos-protection network &#39;192.0.2.0/24&#39;
+set service ids ddos-protection threshold general pps &#39;100&#39;
+</pre></div>
+</div>
+<p>And content of the script:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+# alert-script is called twice.
+# When an attack occurs, the program calls a bash script twice:
+# 1st time when threshold exceed
+# 2nd when we collect 100 packets for detailed audit of what happened.
+
+# Do nothing if “attack_details” is passed as an argument
+if [ &quot;${4}&quot; == &quot;attack_details&quot; ]; then
+    # Do nothing
+    exit
+fi
+# Arguments:
+ip=$1
+direction=$2
+pps_rate=$3
+action=$4
+
+logger -t FNMS &quot;** Start - Running alert script **&quot;
+
+if [ &quot;${direction}&quot; == &quot;incoming&quot; ] ; then
+    group=&quot;FNMS-DST-Block&quot;
+    origin=&quot;external&quot;
+else
+    group=&quot;FNMS-SRC-Block&quot;
+    origin=&quot;internal&quot;
+fi
+
+if [ &quot;${action}&quot; == &quot;ban&quot; ] ; then
+    logger -t FNMS &quot;Attack detected for IP ${ip} and ${direction} direction from ${origin} network. Need to block IP address.&quot;
+    logger -t FNMS &quot;Adding IP address ${ip} to firewall group ${group}.&quot;
+    sudo nft add element ip vyos_filter A_${group} { ${ip} }
+else
+    logger -t FNMS &quot;Timeout for IP ${ip}, removing it from group ${group}.&quot;
+    sudo nft delete element ip vyos_filter A_${group} { ${ip} }
+fi
+logger -t FNMS &quot;** End - Running alert script **&quot;
+exit
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="https.html" class="btn btn-neutral float-left" title="HTTP API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipoe-server.html" class="btn btn-neutral float-right" title="IPoE Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

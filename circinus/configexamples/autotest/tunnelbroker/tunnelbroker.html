@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tunnelbroker.net (IPv6) &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="L3VPN EVPN with VyOS" href="../L3VPN_EVPN/L3VPN_EVPN.html" />
+    <link rel="prev" title="DHCP Relay trough GRE-Bridge" href="../DHCPRelay_through_GRE/DHCPRelay_through_GRE.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../DHCPRelay_through_GRE/DHCPRelay_through_GRE.html">DHCP Relay trough GRE-Bridge</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tunnelbroker.net (IPv6)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#topology">Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lan-configuration">LAN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#single-lan-setup">Single LAN Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-lan-dmz-setup">Multiple LAN/DMZ Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firewall">Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../L3VPN_EVPN/L3VPN_EVPN.html">L3VPN EVPN with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Wireguard/Wireguard.html">Wireguard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../OpenVPN_with_LDAP/OpenVPN_with_LDAP.html">OpenVPN with LDAP</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Tunnelbroker.net (IPv6)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../sources/configexamples/autotest/tunnelbroker/tunnelbroker.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tunnelbroker-net-ipv6">
+<span id="examples-tunnelbroker-ipv6"></span><h1>Tunnelbroker.net (IPv6)<a class="headerlink" href="#tunnelbroker-net-ipv6" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">Testdate: 2024-01-13</div>
+<div class="line">Version: 1.5-rolling-202401121239</div>
+</div>
+<p>This guide walks through the setup of <a class="reference external" href="https://www.tunnelbroker.net/">https://www.tunnelbroker.net/</a> for an
+IPv6 Tunnel.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>A public, routable IPv4 address. This does not necessarily need to be static,
+but you will need to update the tunnel endpoint when/if your IP address
+changes, which can be done with a script and a scheduled task.</p></li>
+<li><p>Account at <a class="reference external" href="https://www.tunnelbroker.net/">https://www.tunnelbroker.net/</a></p></li>
+<li><p>Requested a “Regular Tunnel”. You want to choose a location that is closest
+to your physical location for the best response time.</p></li>
+</ul>
+<section id="topology">
+<h3>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h3>
+<p>The example topology has 2 VyOS routers. One as The WAN Router and on as a
+Client, to test a single LAN setup</p>
+<img alt="Tunnelbroker topology image" src="../../../images/topology4.png" />
+</section>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<p>First, we configure the <code class="docutils literal notranslate"><span class="pre">vyos-wan</span></code> interface to get a DHCP address.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth1 address dhcp
+</pre></div>
+</div>
+<p>Now we are able to setup the tunnel interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun0 address &#39;2001:470:6c:779::2/64&#39; #Tunnelbroker Client IPv6 address
+set interfaces tunnel tun0 description &#39;HE.NET IPv6 Tunnel&#39;
+set interfaces tunnel tun0 encapsulation &#39;sit&#39;
+set interfaces tunnel tun0 remote &#39;216.66.86.114&#39; #Tunnelbroker Server IPv4 address
+set interfaces tunnel tun0 source-address &#39;172.29.129.60&#39; # Tunnelbroker Client IPv4 address. See note below
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <cite>source-address</cite> is the Tunnelbroker client IPv4
+address or if there is NAT the current WAN interface address.</p>
+<p>If <cite>source-address</cite> is  dynamic, the tunnel will cease working once
+the address changes. To avoid having to manually update
+<cite>source-address</cite> each time the dynamic IP changes, an address of
+‘0.0.0.0’ can be specified.</p>
+</div>
+<p>Setup the IPv6 default route to the tunnel interface</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 ::/0 interface tun0
+</pre></div>
+</div>
+<p>Now you should be able to ping a public IPv6 Address</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos-wan:~$ ping 2001:470:20::2 count 4
+PING 2001:470:20::2(2001:470:20::2) 56 data bytes
+64 bytes from 2001:470:20::2: icmp_seq=1 ttl=64 time=33.8 ms
+64 bytes from 2001:470:20::2: icmp_seq=2 ttl=64 time=43.9 ms
+64 bytes from 2001:470:20::2: icmp_seq=3 ttl=64 time=43.4 ms
+64 bytes from 2001:470:20::2: icmp_seq=4 ttl=64 time=42.5 ms
+
+--- 2001:470:20::2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 2999ms
+rtt min/avg/max/mdev = 33.802/40.920/43.924/4.139 ms
+</pre></div>
+</div>
+<p>Assuming the pings are successful, you need to add some DNS servers.
+Some options:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system name-server 2001:470:20::2 #Tunnelbroker DNS Server
+</pre></div>
+</div>
+<p>You should now be able to ping something by IPv6 DNS name:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos-wan:~$ ping tunnelbroker.net count 4
+PING tunnelbroker.net(tunnelbroker.net (2001:470:0:63::2)) 56 data bytes
+64 bytes from tunnelbroker.net (2001:470:0:63::2): icmp_seq=1 ttl=48 time=285 ms
+64 bytes from tunnelbroker.net (2001:470:0:63::2): icmp_seq=2 ttl=48 time=186 ms
+64 bytes from tunnelbroker.net (2001:470:0:63::2): icmp_seq=3 ttl=48 time=178 ms
+64 bytes from tunnelbroker.net (2001:470:0:63::2): icmp_seq=4 ttl=48 time=177 ms
+
+--- tunnelbroker.net ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3002ms
+rtt min/avg/max/mdev = 176.707/206.638/285.128/45.457 ms
+</pre></div>
+</div>
+</section>
+<section id="lan-configuration">
+<h3>LAN Configuration<a class="headerlink" href="#lan-configuration" title="Link to this heading"></a></h3>
+<p>At this point, your VyOS install should have full IPv6, but now your LAN devices
+need access.</p>
+<p>With Tunnelbroker.net, you have two options:</p>
+<ul class="simple">
+<li><p>Routed /64. This is the default assignment. In IPv6-land, it’s good for a
+single “LAN”, and is somewhat equivalent to a /24.</p></li>
+<li><p>Routed /48. This is something you can request by clicking the “Assign /48”
+link in the Tunnelbroker.net tunnel config. It allows you to have up to 65k</p></li>
+</ul>
+<p>Unlike IPv4, IPv6 is really not designed to be broken up smaller than /64. So
+if you ever want to have multiple LANs, VLANs, DMZ, etc, you’ll want to ignore
+the assigned /64, and request the /48 and use that.</p>
+</section>
+</section>
+<section id="single-lan-setup">
+<h2>Single LAN Setup<a class="headerlink" href="#single-lan-setup" title="Link to this heading"></a></h2>
+<p>Single LAN setup where eth2 is your LAN interface. Use the Tunnelbroker
+Routed /64 prefix:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interface ethernet eth2 address &#39;2001:470:6d:778::1/64&#39; # Tunnelbroker Routed /64 prefix
+set service router-advert interface eth2 name-server &#39;2001:470:20::2&#39;
+set service router-advert interface eth2 prefix 2001:470:6d:778::/64 # Tunnelbroker Routed /64 prefix
+</pre></div>
+</div>
+<p>Please note, ‘autonomous-flag’ and ‘on-link-flag’ are enabled by default,
+‘valid-lifetime’ and ‘preferred-lifetime’ are set to default values of
+30 days and 4 hours respectively.</p>
+<p>And the <code class="docutils literal notranslate"><span class="pre">client</span></code> to receive an IPv6 address with stateless autoconfig.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth1 ipv6 address autoconf
+</pre></div>
+</div>
+<p>This accomplishes a few things:</p>
+<ul class="simple">
+<li><p>Sets your LAN interface’s IP address</p></li>
+<li><p>Enables router advertisements. This is an IPv6 alternative for DHCP (though
+DHCPv6 can still be used). With RAs, Your devices will automatically find the
+information they need for routing and DNS.</p></li>
+</ul>
+<p>Now the Client is able to ping a public IPv6 address</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@client:~$ ping 2001:470:20::2 count 4
+PING 2001:470:20::2(2001:470:20::2) 56 data bytes
+64 bytes from 2001:470:20::2: icmp_seq=1 ttl=63 time=32.1 ms
+64 bytes from 2001:470:20::2: icmp_seq=2 ttl=63 time=41.8 ms
+64 bytes from 2001:470:20::2: icmp_seq=3 ttl=63 time=41.7 ms
+64 bytes from 2001:470:20::2: icmp_seq=4 ttl=63 time=47.1 ms
+
+--- 2001:470:20::2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 32.128/40.688/47.107/5.403 ms
+</pre></div>
+</div>
+</section>
+<section id="multiple-lan-dmz-setup">
+<h2>Multiple LAN/DMZ Setup<a class="headerlink" href="#multiple-lan-dmz-setup" title="Link to this heading"></a></h2>
+<p>That’s how you can expand the example above.
+Use the <cite>Routed /48</cite> information. This allows you to assign a
+different /64 to every interface, LAN, or even device. Or you could break your
+network into smaller chunks like /56 or /60.</p>
+<p>The format of these addresses:</p>
+<ul class="simple">
+<li><p><cite>2001:470:xxxx::/48</cite>: The whole subnet. xxxx should come from Tunnelbroker.</p></li>
+<li><p><cite>2001:470:xxxx:1::/64</cite>: A subnet suitable for a LAN</p></li>
+<li><p><cite>2001:470:xxxx:2::/64</cite>: Another subnet</p></li>
+<li><p><cite>2001:470:xxxx:ffff:/64</cite>: The last usable /64 subnet.</p></li>
+</ul>
+<p>In the above examples, 1,2,ffff are all chosen by you. You can use 1-ffff
+(1-65535).</p>
+<p>So, when your LAN is eth1, your DMZ is eth2, your cameras are on eth3, etc:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth1 address &#39;2001:470:xxxx:1::1/64&#39;
+set service router-advert interface eth1 name-server &#39;2001:470:20::2&#39;
+set service router-advert interface eth1 prefix 2001:470:xxxx:1::/64
+
+set interfaces ethernet eth2 address &#39;2001:470:xxxx:2::1/64&#39;
+set service router-advert interface eth2 name-server &#39;2001:470:20::2&#39;
+set service router-advert interface eth2 prefix 2001:470:xxxx:2::/64
+
+set interfaces ethernet eth3 address &#39;2001:470:xxxx:3::1/64&#39;
+set service router-advert interface eth3 name-server &#39;2001:470:20::2&#39;
+set service router-advert interface eth3 prefix 2001:470:xxxx:3::/64
+</pre></div>
+</div>
+<p>Please note, ‘autonomous-flag’ and ‘on-link-flag’ are enabled by default,
+‘valid-lifetime’ and ‘preferred-lifetime’ are set to default values of
+30 days and 4 hours respectively.</p>
+</section>
+<section id="firewall">
+<h2>Firewall<a class="headerlink" href="#firewall" title="Link to this heading"></a></h2>
+<p>Finally, don’t forget the <a class="reference internal" href="../../../configuration/firewall/index.html#firewall"><span class="std std-ref">Firewall</span></a>. The usage is identical, except for
+instead of <cite>set firewall name NAME</cite>, you would use <cite>set firewall ipv6-name
+NAME</cite>.</p>
+<p>Similarly, to attach the firewall, you would use <cite>set interfaces ethernet eth0
+firewall in ipv6-name</cite> or <cite>set firewall zone LOCAL from WAN firewall
+ipv6-name</cite>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../DHCPRelay_through_GRE/DHCPRelay_through_GRE.html" class="btn btn-neutral float-left" title="DHCP Relay trough GRE-Bridge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../L3VPN_EVPN/L3VPN_EVPN.html" class="btn btn-neutral float-right" title="L3VPN EVPN with VyOS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

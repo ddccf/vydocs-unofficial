@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowtables Firewall Configuration &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Zone Based Firewall" href="zone.html" />
+    <link rel="prev" title="IPv6 Firewall Configuration" href="ipv6.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Firewall</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global-options.html">Global Options Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="groups.html">Firewall groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Flowtables Firewall Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flowtable-configuration">Flowtable Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-example">Configuration Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#zone-based-firewall">Zone-based firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Firewall</a></li>
+      <li class="breadcrumb-item active">Flowtables Firewall Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/firewall/flowtables.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flowtables-firewall-configuration">
+<span id="firewall-flowtables-configuration"></span><h1>Flowtables Firewall Configuration<a class="headerlink" href="#flowtables-firewall-configuration" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Documentation under development</strong></p>
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>In this section there’s useful information on all firewall configuration that
+can be done regarding flowtables.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-flowtables">
+set firewall flowtables …</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-flowtables" title="Permalink to this Command"></a></div></div>
+<p>From the main structure defined in
+<a class="reference internal" href="index.html"><span class="doc">Firewall Overview</span></a>
+in this section you can find detailed information only for the next part
+of the general structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- set firewall
+    * flowtable
+         - custom_flow_table
+            + ...
+</pre></div>
+</div>
+<p>Flowtables allow you to define a fastpath through the flowtable datapath.
+The flowtable supports for the layer 3 IPv4 and IPv6 and the layer 4 TCP
+and UDP protocols.</p>
+<figure class="align-default">
+<img alt="../../images/firewall-flowtable-packet-flow.png" src="../../images/firewall-flowtable-packet-flow.png" />
+</figure>
+<p>Once the first packet of the flow successfully goes through the IP forwarding
+path (black circles path), from the second packet on, you might decide to
+offload the flow to the flowtable through your ruleset. The flowtable
+infrastructure provides a rule action that allows you to specify when to add
+a flow to the flowtable (On forward filtering, red circle number 6)</p>
+<p>A packet that finds a matching entry in the flowtable (flowtable hit) is
+transmitted to the output netdevice, hence, packets bypass the classic IP
+forwarding path and uses the <strong>Fast Path</strong> (orange circles path). The visible
+effect is that you do not see these packets from any of the Netfilter
+hooks coming after ingress. In case that there is no matching entry in the
+flowtable (flowtable miss), the packet follows the classic IP forwarding path.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Flowtable Reference:</strong>
+<a class="reference external" href="https://docs.kernel.org/networking/nf_flowtable.html">https://docs.kernel.org/networking/nf_flowtable.html</a></p>
+</div>
+</section>
+<section id="flowtable-configuration">
+<h2>Flowtable Configuration<a class="headerlink" href="#flowtable-configuration" title="Link to this heading"></a></h2>
+<p>In order to use flowtables, the minimal configuration needed includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Create flowtable: create flowtable, which includes the interfaces
+that are going to be used by the flowtable.</p></li>
+<li><p>Create firewall rule: create a firewall rule, setting action to
+<code class="docutils literal notranslate"><span class="pre">offload</span></code> and using desired flowtable for <code class="docutils literal notranslate"><span class="pre">offload-target</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Creating a flow table:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-flowtable-flow-table-name-interface-iface">
+set firewall flowtable &lt;flow_table_name&gt; interface &lt;iface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-flowtable-flow-table-name-interface-iface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define interfaces to be used in the flowtable.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-flowtable-flow-table-name-description-text">
+set firewall flowtable &lt;flow_table_name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-flowtable-flow-table-name-description-text" title="Permalink to this Command"></a></div></div>
+<p>Provide a description to the flow table.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-flowtable-flow-table-name-offload-hardware-software">
+set firewall flowtable &lt;flow_table_name&gt; offload &lt;hardware | software&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-flowtable-flow-table-name-offload-hardware-software" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define type of offload to be used by the flowtable: <code class="docutils literal notranslate"><span class="pre">hardware</span></code> or
+<code class="docutils literal notranslate"><span class="pre">software</span></code>. By default, <code class="docutils literal notranslate"><span class="pre">software</span></code> offload is used.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Hardware offload:</strong> should be supported by the NICs used.</p>
+</div>
+<p>Creating rules for using flow tables:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-action-offload">
+set firewall [ipv4 | ipv6] forward filter rule &lt;1-999999&gt; action offload</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-action-offload" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create firewall rule in forward chain, and set action to <code class="docutils literal notranslate"><span class="pre">offload</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-offload-target-flowtable">
+set firewall [ipv4 | ipv6] forward filter rule &lt;1-999999&gt; offload-target &lt;flowtable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-offload-target-flowtable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create firewall rule in forward chain, and define which flowtbale
+should be used. Only applicable if action is <code class="docutils literal notranslate"><span class="pre">offload</span></code>.</p>
+</div>
+</div>
+</section>
+<section id="configuration-example">
+<h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h2>
+<p>Things to be considered in this setup:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Two interfaces are going to be used in the flowtables: eth0 and eth1</p></li>
+<li><p>Minimum firewall ruleset is provided, which includes some filtering rules,
+and appropriate rules for using flowtable offload capabilities.</p></li>
+</ul>
+</div></blockquote>
+<p>As described, the first packet will be evaluated by the firewall path, so a
+desired connection should be explicitly accepted. Same thing should be taken
+into account for traffic in reverse order. In most cases state policies are
+used in order to accept a connection in the reverse path.</p>
+<p>We will only accept traffic coming from interface eth0, protocol tcp and
+destination port 1122. All other traffic trespassing the router should be
+blocked.</p>
+<section id="commands">
+<h3>Commands<a class="headerlink" href="#commands" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall flowtable FT01 interface &#39;eth0&#39;
+set firewall flowtable FT01 interface &#39;eth1&#39;
+set firewall ipv4 forward filter default-action &#39;drop&#39;
+set firewall ipv4 forward filter rule 10 action &#39;offload&#39;
+set firewall ipv4 forward filter rule 10 offload-target &#39;FT01&#39;
+set firewall ipv4 forward filter rule 10 state &#39;established&#39;
+set firewall ipv4 forward filter rule 10 state &#39;related&#39;
+set firewall ipv4 forward filter rule 20 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 20 state &#39;established&#39;
+set firewall ipv4 forward filter rule 20 state &#39;related&#39;
+set firewall ipv4 forward filter rule 110 action &#39;accept&#39;
+set firewall ipv4 forward filter rule 110 destination address &#39;192.0.2.100&#39;
+set firewall ipv4 forward filter rule 110 destination port &#39;1122&#39;
+set firewall ipv4 forward filter rule 110 inbound-interface name &#39;eth0&#39;
+set firewall ipv4 forward filter rule 110 protocol &#39;tcp&#39;
+</pre></div>
+</div>
+</section>
+<section id="explanation">
+<h3>Explanation<a class="headerlink" href="#explanation" title="Link to this heading"></a></h3>
+<p>Analysis on what happens for desired connection:</p>
+<blockquote>
+<div><p>1. Firstly, a packet is received on eth0, with destination address 192.0.2.100,
+protocol tcp and destination port 1122. Assume such destination address is
+reachable through interface eth1.</p>
+<p>2. Since this is the first packet, connection status of this connection,
+so far is <strong>new</strong>. So neither rule 10 nor 20 are valid.</p>
+<ol class="arabic simple" start="3">
+<li><p>Rule 110 is hit, so connection is accepted.</p></li>
+</ol>
+<p>4. Once an answer from server 192.0.2.100 is seen in opposite direction,
+connection state will be triggered to <strong>established</strong>, so this reply is
+accepted in rule 20.</p>
+<p>5. The second packet for this connection is received by the router. Since
+connection state is <strong>established</strong>, then rule 10 is hit, and a new entry
+in the flowtable FT01 is added for this connection.</p>
+<p>6. All the following packets will skip the traditional path, will be
+offloaded and use the <strong>Fast Path</strong>.</p>
+</div></blockquote>
+</section>
+<section id="checks">
+<h3>Checks<a class="headerlink" href="#checks" title="Link to this heading"></a></h3>
+<p>It’s time to check the conntrack table, to see if any connections were accepted,
+and if it was properly offloaded</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@FlowTables:~$ show firewall ipv4 forward filter
+Ruleset Information
+
+---------------------------------
+ipv4 Firewall &quot;forward filter&quot;
+
+Rule     Action    Protocol      Packets    Bytes  Conditions
+-------  --------  ----------  ---------  -------  ----------------------------------------------------------------
+10       offload   all                 8      468  ct state { established, related }  flow add @VYOS_FLOWTABLE_FT01
+20       accept    all                 8      468  ct state { established, related }  accept
+110      accept    tcp                 2      120  ip daddr 192.0.2.100 tcp dport 1122 iifname &quot;eth0&quot;  accept
+default  drop      all                 7      420
+
+vyos@FlowTables:~$ sudo conntrack -L | grep tcp
+conntrack v1.4.6 (conntrack-tools): 5 flow entries have been shown.
+tcp      6 src=198.51.100.100 dst=192.0.2.100 sport=41676 dport=1122 src=192.0.2.100 dst=198.51.100.100 sport=1122 dport=41676 [OFFLOAD] mark=0 use=2
+vyos@FlowTables:~$
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ipv6.html" class="btn btn-neutral float-left" title="IPv6 Firewall Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="zone.html" class="btn btn-neutral float-right" title="Zone Based Firewall" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haproxy &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="NAT" href="../nat/index.html" />
+    <link rel="prev" title="WAN load balancing" href="wan.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Load-balancing</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wan.html">WAN load balancing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Haproxy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#health-checks">Health checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redirect-http-to-https">Redirect HTTP to HTTPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Load-balancing</a></li>
+      <li class="breadcrumb-item active">Haproxy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/loadbalancing/haproxy.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="haproxy">
+<h1>Haproxy<a class="headerlink" href="#haproxy" title="Link to this heading"></a></h1>
+<div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><p>Haproxy is a balancer and proxy server that provides
+high-availability, load balancing and proxying for TCP (level 4)
+and HTTP-based (level 7) applications.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>Service configuration is responsible for binding to a specific port,
+while the backend configuration determines the type of load balancing
+to be applied and specifies the real servers to be utilized.</p>
+<section id="service">
+<h3>Service<a class="headerlink" href="#service" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-listen-address-address">
+set load-balancing haproxy service &lt;name&gt; listen-address  &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set service to bind on IP address, by default listen on any IPv4 and IPv6</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-port-port">
+set load-balancing haproxy service &lt;name&gt; port  &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create service <cite>&lt;name&gt;</cite> to listen on &lt;port&gt;</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-mode-tcp-http">
+set load-balancing haproxy service &lt;name&gt; mode  &lt;tcp|http&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-mode-tcp-http" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure service <cite>&lt;name&gt;</cite> mode TCP or HTTP</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-backend-name">
+set load-balancing haproxy service &lt;name&gt; backend  &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-backend-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure service <cite>&lt;name&gt;</cite> to use the backend &lt;name&gt;</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-ssl-certificate-name">
+set load-balancing haproxy service &lt;name&gt; ssl  certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-ssl-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set SSL certificate &lt;name&gt; for service &lt;name&gt;. Multiple certificates could be defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-http-response-headers-header-name-value-header-value">
+set load-balancing haproxy service &lt;name&gt; http-response-headers &lt;header-name&gt; value &lt;header-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-http-response-headers-header-name-value-header-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set custom HTTP headers to be included in all responses</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-logging-facility-facility-level-level">
+set load-balancing haproxy service &lt;name&gt; logging facility &lt;facility&gt; level &lt;level&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-logging-facility-facility-level-level" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify facility and level for logging.
+For an explanation on <a class="reference internal" href="../system/syslog.html#syslog-facilities"><span class="std std-ref">Facilities</span></a> and <a class="reference internal" href="../system/syslog.html#syslog-severity-level"><span class="std std-ref">Severity Level</span></a>
+see tables in syslog configuration section.</p>
+</div>
+</div>
+<section id="rules">
+<h4>Rules<a class="headerlink" href="#rules" title="Link to this heading"></a></h4>
+<p>Rules allow to control and route incoming traffic to specific backend based
+on predefined conditions. Rules allow to define matching criteria and
+perform action accordingly.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-domain-name-name">
+set load-balancing haproxy service &lt;name&gt; rule &lt;rule&gt;  domain-name &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-domain-name-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match domain name</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-ssl-sni">
+set load-balancing haproxy service &lt;name&gt; rule &lt;rule&gt;  ssl &lt;sni&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-ssl-sni" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<dl>
+<dt>SSL match Server Name Indication (SNI) option:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">req-ssl-sni</span></code> SSL Server Name Indication (SNI) request match</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssl-fc-sni</span></code> SSL frontend connection Server Name Indication match</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssl-fc-sni-end</span></code> SSL frontend match end of connection Server Name</p>
+<blockquote>
+<div><p>Indication</p>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-url-path-match-url">
+set load-balancing haproxy service &lt;name&gt; rule &lt;rule&gt;  url-path &lt;match&gt; &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-url-path-match-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allows to define URL path matching rules for a specific service.</p>
+<p>With this command, you can specify how the URL path should be matched
+against incoming requests.</p>
+<dl class="simple">
+<dt>The available options for &lt;match&gt; are:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">begin</span></code> Matches the beginning of the URL path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end</span></code> Matches the end of the URL path.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exact</span></code> Requires an exactly match of the URL path</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-set-backend-name">
+set load-balancing haproxy service &lt;name&gt; rule &lt;rule&gt;  set backend &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-set-backend-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Assign a specific backend to a rule</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-redirect-location-url">
+set load-balancing haproxy service &lt;name&gt; rule &lt;rule&gt;  redirect-location &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-service-name-rule-rule-redirect-location-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Redirect URL to a new location</p>
+</div>
+</div>
+</section>
+</section>
+<section id="backend">
+<h3>Backend<a class="headerlink" href="#backend" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-balance-balance">
+set load-balancing haproxy backend &lt;name&gt; balance  &lt;balance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-balance-balance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Load-balancing algorithms to be used for distributed requests among the
+available servers</p>
+<dl class="simple">
+<dt>Balance algorithms:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">source-address</span></code> Distributes requests based on the source IP address
+of the client</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">round-robin</span></code> Distributes requests in a circular manner,
+sequentially sending each request to the next server in line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">least-connection</span></code> Distributes requests to the server with the fewest
+active connections</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-mode-mode">
+set load-balancing haproxy backend &lt;name&gt; mode  &lt;mode&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-mode-mode" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure backend <cite>&lt;name&gt;</cite> mode TCP or HTTP</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-server-name-address-x-x-x-x">
+set load-balancing haproxy backend &lt;name&gt; server  &lt;name&gt; address &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-server-name-address-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the address of the backend server to which the incoming traffic will
+be forwarded</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-server-name-port-port">
+set load-balancing haproxy backend &lt;name&gt; server  &lt;name&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-server-name-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the address of the backend port</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-server-name-check">
+set load-balancing haproxy backend &lt;name&gt; server  &lt;name&gt; check</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-server-name-check" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Active health check backend server</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-server-name-send-proxy">
+set load-balancing haproxy backend &lt;name&gt; server  &lt;name&gt; send-proxy</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-server-name-send-proxy" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Send a Proxy Protocol version 1 header (text format)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-server-name-send-proxy-v2">
+set load-balancing haproxy backend &lt;name&gt; server  &lt;name&gt; send-proxy-v2</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-server-name-send-proxy-v2" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Send a Proxy Protocol version 2 header (binary format)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-ssl-ca-certificate-ca-certificate">
+set load-balancing haproxy backend &lt;name&gt; ssl  ca-certificate &lt;ca-certificate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-ssl-ca-certificate-ca-certificate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure requests to the backend server to use SSL encryption and
+authenticate backend against &lt;ca-certificate&gt;</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-ssl-no-verify">
+set load-balancing haproxy backend &lt;name&gt; ssl no-verify</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-ssl-no-verify" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure requests to the backend server to use SSL encryption without
+validating server certificate</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-http-response-headers-header-name-value-header-value">
+set load-balancing haproxy backend &lt;name&gt; http-response-headers &lt;header-name&gt; value &lt;header-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-http-response-headers-header-name-value-header-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set custom HTTP headers to be included in all responses using the backend</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-logging-facility-facility-level-level">
+set load-balancing haproxy backend &lt;name&gt; logging facility &lt;facility&gt; level &lt;level&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-logging-facility-facility-level-level" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify facility and level for logging.
+For an explanation on <a class="reference internal" href="../system/syslog.html#syslog-facilities"><span class="std std-ref">Facilities</span></a> and <a class="reference internal" href="../system/syslog.html#syslog-severity-level"><span class="std std-ref">Severity Level</span></a>
+see tables in syslog configuration section.</p>
+</div>
+</div>
+</section>
+<section id="global">
+<h3>Global<a class="headerlink" href="#global" title="Link to this heading"></a></h3>
+<p>Global parameters</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-global-parameters-max-connections-num">
+set load-balancing haproxy global-parameters max-connections  &lt;num&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-global-parameters-max-connections-num" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Limit maximum number of connections</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-global-parameters-ssl-bind-ciphers-ciphers">
+set load-balancing haproxy global-parameters ssl-bind-ciphers  &lt;ciphers&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-global-parameters-ssl-bind-ciphers-ciphers" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Limit allowed cipher algorithms used during SSL/TLS handshake</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-global-parameters-tls-version-min-version">
+set load-balancing haproxy global-parameters tls-version-min  &lt;version&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-global-parameters-tls-version-min-version" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the minimum required TLS version 1.2 or 1.3</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-global-parameters-logging-facility-facility-level-level">
+set load-balancing haproxy global-parameters logging facility &lt;facility&gt; level &lt;level&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-global-parameters-logging-facility-facility-level-level" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify facility and level for logging.
+For an explanation on <a class="reference internal" href="../system/syslog.html#syslog-facilities"><span class="std std-ref">Facilities</span></a> and <a class="reference internal" href="../system/syslog.html#syslog-severity-level"><span class="std std-ref">Severity Level</span></a>
+see tables in syslog configuration section.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="health-checks">
+<h2>Health checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h2>
+<section id="http-checks">
+<h3>HTTP checks<a class="headerlink" href="#http-checks" title="Link to this heading"></a></h3>
+<p>For web application providing information about their state HTTP health
+checks can be used to determine their availability.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-http-check">
+set load-balancing haproxy backend &lt;name&gt; http-check</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-http-check" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables HTTP health checks using OPTION HTTP requests against ‘/’ and
+expecting a successful response code in the 200-399 range.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-http-check-method-method">
+set load-balancing haproxy backend &lt;name&gt; http-check  method &lt;method&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-http-check-method-method" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Sets the HTTP method to be used, can be either: option, get, post, put</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-http-check-uri-path">
+set load-balancing haproxy backend &lt;name&gt; http-check  uri &lt;path&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-http-check-uri-path" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Sets the endpoint to be used for health checks</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-http-check-expect-condition">
+set load-balancing haproxy backend &lt;name&gt; http-check  expect &lt;condition&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-http-check-expect-condition" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Sets the expected result condition for considering a server healthy.</p>
+<dl class="simple">
+<dt>Some possible examples are:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">200</span></code> Expecting a 200 response code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">200-399</span></code> Expecting a non-failure response code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">success</span></code> Expecting the string <cite>success</cite> in the response body</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="tcp-checks">
+<h3>TCP checks<a class="headerlink" href="#tcp-checks" title="Link to this heading"></a></h3>
+<p>Health checks can also be configured for TCP mode backends. You can configure
+protocol aware checks for a range of Layer 7 protocols:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-load-balancing-haproxy-backend-name-health-check-protocol">
+set load-balancing haproxy backend &lt;name&gt; health-check &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-load-balancing-haproxy-backend-name-health-check-protocol" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<dl class="simple">
+<dt>Available health check protocols:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ldap</span></code> LDAP protocol check.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">redis</span></code> Redis protocol check.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mysql</span></code> MySQL protocol check.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pgsql</span></code> PostgreSQL protocol check.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smtp</span></code> SMTP protocol check.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you specify a server to be checked but do not configure a
+protocol, a basic TCP health check will be attempted. A server shall be
+deemed online if it responses to a connection attempt with a valid
+<code class="docutils literal notranslate"><span class="pre">SYN/ACK</span></code> packet.</p>
+</div>
+</section>
+</section>
+<section id="redirect-http-to-https">
+<h2>Redirect HTTP to HTTPS<a class="headerlink" href="#redirect-http-to-https" title="Link to this heading"></a></h2>
+<p>Configure the load-balancing haproxy service for HTTP.</p>
+<p>This configuration listen on port 80 and redirect incoming
+requests to HTTPS:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service http port &#39;80&#39;
+set load-balancing haproxy service http redirect-http-to-https
+</pre></div>
+</div>
+<p>The name of the service can be different, in this example it is only for
+convenience.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="level-4-balancing">
+<h3>Level 4 balancing<a class="headerlink" href="#level-4-balancing" title="Link to this heading"></a></h3>
+<p>This configuration enables the TCP reverse proxy for the “my-tcp-api” service.
+Incoming TCP connections on port 8888 will be load balanced across the backend
+servers (srv01 and srv02) using the round-robin load-balancing algorithm.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service my-tcp-api backend &#39;bk-01&#39;
+set load-balancing haproxy service my-tcp-api mode &#39;tcp&#39;
+set load-balancing haproxy service my-tcp-api port &#39;8888&#39;
+
+set load-balancing haproxy backend bk-01 balance &#39;round-robin&#39;
+set load-balancing haproxy backend bk-01 mode &#39;tcp&#39;
+
+set load-balancing haproxy backend bk-01 server srv01 address &#39;192.0.2.11&#39;
+set load-balancing haproxy backend bk-01 server srv01 port &#39;8881&#39;
+set load-balancing haproxy backend bk-01 server srv02 address &#39;192.0.2.12&#39;
+set load-balancing haproxy backend bk-01 server srv02 port &#39;8882&#39;
+</pre></div>
+</div>
+</section>
+<section id="balancing-based-on-domain-name">
+<h3>Balancing based on domain name<a class="headerlink" href="#balancing-based-on-domain-name" title="Link to this heading"></a></h3>
+<p>The following configuration demonstrates how to use VyOS
+to achieve load balancing based on the domain name.</p>
+<p>The HTTP service listen on TCP port 80.</p>
+<p>Rule 10 matches requests with the domain name <code class="docutils literal notranslate"><span class="pre">node1.example.com</span></code> forwards
+to the backend <code class="docutils literal notranslate"><span class="pre">bk-api-01</span></code></p>
+<p>Rule 20 matches requests with the domain name <code class="docutils literal notranslate"><span class="pre">node2.example.com</span></code> forwards
+to the backend <code class="docutils literal notranslate"><span class="pre">bk-api-02</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service http description &#39;bind app listen on 443 port&#39;
+set load-balancing haproxy service http mode &#39;tcp&#39;
+set load-balancing haproxy service http port &#39;80&#39;
+
+set load-balancing haproxy service http rule 10 domain-name &#39;node1.example.com&#39;
+set load-balancing haproxy service http rule 10 set backend &#39;bk-api-01&#39;
+set load-balancing haproxy service http rule 20 domain-name &#39;node2.example.com&#39;
+set load-balancing haproxy service http rule 20 set backend &#39;bk-api-02&#39;
+
+set load-balancing haproxy backend bk-api-01 description &#39;My API-1&#39;
+set load-balancing haproxy backend bk-api-01 mode &#39;tcp&#39;
+set load-balancing haproxy backend bk-api-01 server api01 address &#39;127.0.0.1&#39;
+set load-balancing haproxy backend bk-api-01 server api01 port &#39;4431&#39;
+set load-balancing haproxy backend bk-api-02 description &#39;My API-2&#39;
+set load-balancing haproxy backend bk-api-02 mode &#39;tcp&#39;
+set load-balancing haproxy backend bk-api-02 server api01 address &#39;127.0.0.2&#39;
+set load-balancing haproxy backend bk-api-02 server api01 port &#39;4432&#39;
+</pre></div>
+</div>
+</section>
+<section id="terminate-ssl">
+<h3>Terminate SSL<a class="headerlink" href="#terminate-ssl" title="Link to this heading"></a></h3>
+<p>The following configuration terminates SSL on the router.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">http</span></code> service is listens on port 80 and force redirects from HTTP to
+HTTPS.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">https</span></code> service listens on port 443 with backend <code class="docutils literal notranslate"><span class="pre">bk-default</span></code> to
+handle HTTPS traffic. It uses certificate named <code class="docutils literal notranslate"><span class="pre">cert</span></code> for SSL termination.
+HSTS header is set with a 1-year expiry, to tell browsers to always use SSL for site.</p>
+<p>Rule 10 matches requests with the exact URL path <code class="docutils literal notranslate"><span class="pre">/.well-known/xxx</span></code>
+and redirects to location <code class="docutils literal notranslate"><span class="pre">/certs/</span></code>.</p>
+<p>Rule 20 matches requests with URL paths ending in <code class="docutils literal notranslate"><span class="pre">/mail</span></code> or exact
+path <code class="docutils literal notranslate"><span class="pre">/email/bar</span></code> redirect to location <code class="docutils literal notranslate"><span class="pre">/postfix/</span></code>.</p>
+<p>Additional global parameters are set, including the maximum number
+connection limit of 4000 and a minimum TLS version of 1.3.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service http description &#39;Force redirect to HTTPS&#39;
+set load-balancing haproxy service http port &#39;80&#39;
+set load-balancing haproxy service http redirect-http-to-https
+
+set load-balancing haproxy service https backend &#39;bk-default&#39;
+set load-balancing haproxy service https description &#39;listen on 443 port&#39;
+set load-balancing haproxy service https mode &#39;http&#39;
+set load-balancing haproxy service https port &#39;443&#39;
+set load-balancing haproxy service https ssl certificate &#39;cert&#39;
+set load-balancing haproxy service https http-response-headers Strict-Transport-Security value &#39;max-age=31536000&#39;
+
+set load-balancing haproxy service https rule 10 url-path exact &#39;/.well-known/xxx&#39;
+set load-balancing haproxy service https rule 10 set redirect-location &#39;/certs/&#39;
+set load-balancing haproxy service https rule 20 url-path end &#39;/mail&#39;
+set load-balancing haproxy service https rule 20 url-path exact &#39;/email/bar&#39;
+set load-balancing haproxy service https rule 20 set redirect-location &#39;/postfix/&#39;
+
+set load-balancing haproxy backend bk-default description &#39;Default backend&#39;
+set load-balancing haproxy backend bk-default mode &#39;http&#39;
+set load-balancing haproxy backend bk-default server sr01 address &#39;192.0.2.23&#39;
+set load-balancing haproxy backend bk-default server sr01 port &#39;80&#39;
+
+set load-balancing haproxy global-parameters max-connections &#39;4000&#39;
+set load-balancing haproxy global-parameters tls-version-min &#39;1.3&#39;
+</pre></div>
+</div>
+</section>
+<section id="ssl-bridging">
+<h3>SSL Bridging<a class="headerlink" href="#ssl-bridging" title="Link to this heading"></a></h3>
+<p>The following configuration terminates incoming HTTPS traffic on the router,
+then re-encrypts the traffic and sends to the backend server via HTTPS.
+This is useful if encryption is required for both legs, but you do not want to
+install publicly trusted certificates on each backend server.</p>
+<p>Backend service certificates are checked against the certificate authority
+specified in the configuration, which could be an internal CA.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">https</span></code> service listens on port 443 with backend <code class="docutils literal notranslate"><span class="pre">bk-bridge-ssl</span></code> to
+handle HTTPS traffic. It uses certificate named <code class="docutils literal notranslate"><span class="pre">cert</span></code> for SSL termination.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">bk-bridge-ssl</span></code> backend connects to sr01 server on port 443 via HTTPS
+and checks backend server has a valid certificate trusted by CA <code class="docutils literal notranslate"><span class="pre">cacert</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service https backend &#39;bk-bridge-ssl&#39;
+set load-balancing haproxy service https description &#39;listen on 443 port&#39;
+set load-balancing haproxy service https mode &#39;http&#39;
+set load-balancing haproxy service https port &#39;443&#39;
+set load-balancing haproxy service https ssl certificate &#39;cert&#39;
+
+set load-balancing haproxy backend bk-bridge-ssl description &#39;SSL backend&#39;
+set load-balancing haproxy backend bk-bridge-ssl mode &#39;http&#39;
+set load-balancing haproxy backend bk-bridge-ssl ssl ca-certificate &#39;cacert&#39;
+set load-balancing haproxy backend bk-bridge-ssl server sr01 address &#39;192.0.2.23&#39;
+set load-balancing haproxy backend bk-bridge-ssl server sr01 port &#39;443&#39;
+</pre></div>
+</div>
+</section>
+<section id="balancing-with-http-health-checks">
+<h3>Balancing with HTTP health checks<a class="headerlink" href="#balancing-with-http-health-checks" title="Link to this heading"></a></h3>
+<p>This configuration enables HTTP health checks on backend servers.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing haproxy service my-tcp-api backend &#39;bk-01&#39;
+set load-balancing haproxy service my-tcp-api mode &#39;tcp&#39;
+set load-balancing haproxy service my-tcp-api port &#39;8888&#39;
+
+set load-balancing haproxy backend bk-01 balance &#39;round-robin&#39;
+set load-balancing haproxy backend bk-01 mode &#39;tcp&#39;
+
+set load-balancing haproxy backend bk-01 http-check method &#39;get&#39;
+set load-balancing haproxy backend bk-01 http-check uri &#39;/health&#39;
+set load-balancing haproxy backend bk-01 http-check expect &#39;status 200&#39;
+
+set load-balancing haproxy backend bk-01 server srv01 address &#39;192.0.2.11&#39;
+set load-balancing haproxy backend bk-01 server srv01 port &#39;8881&#39;
+set load-balancing haproxy backend bk-01 server srv01 check
+set load-balancing haproxy backend bk-01 server srv02 address &#39;192.0.2.12&#39;
+set load-balancing haproxy backend bk-01 server srv02 port &#39;8882&#39;
+set load-balancing haproxy backend bk-01 server srv02 check
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wan.html" class="btn btn-neutral float-left" title="WAN load balancing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../nat/index.html" class="btn btn-neutral float-right" title="NAT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

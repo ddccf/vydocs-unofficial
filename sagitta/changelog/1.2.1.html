@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.2.1 &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Installation and Image Management" href="../installation/index.html" />
+    <link rel="prev" title="1.2.2" href="1.2.2.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Changelog</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.5.html">1.5 Circinus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.4.html">1.4 Sagitta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.3.html">1.3 Equuleus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.6.html">1.2.6-S1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.6.html#id1">1.2.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.5.html">1.2.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.4.html">1.2.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.3.html">1.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.2.html">1.2.2</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resolved-issues">Resolved issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Changelog</a></li>
+      <li class="breadcrumb-item active">1.2.1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/changelog/1.2.1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>1.2.1<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>VyOS 1.2.1 is a maintenance release made in April 2019.</p>
+<section id="resolved-issues">
+<h2>Resolved issues<a class="headerlink" href="#resolved-issues" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Package updates: kernel 4.19.32, open-vm-tools 10.3, latest Intel NIC drivers</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1326">T1326</a> The kernel now includes drivers for various USB serial
+adapters, which allows people to add a serial console to a machine without
+onboard RS232, or connect to something else from the router</p></li>
+<li><p>The collection of network card firmware is now much more extensive</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1271">T1271</a> VRRP now correctly uses a virtual rather than physical MAC
+addresses in the RFC-compliant mode</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1330">T1330</a> DHCP WPAD URL option works correctly again</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1312">T1312</a> Many to many NAT rules now can use source/destination and
+translation networks of non-matching size. If 1:1 network bits translation is
+desired, it’s now users responsibility to check if prefix length matches.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1290">T1290</a> IPv6 network prefix translation is fixed</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1308">T1308</a> Non-alphanumeric characters such as <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> can now be safely
+used in PPPoE passwords</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1305">T1305</a> <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">|</span> <span class="pre">commands</span></code> no longer fails when a config section ends
+with a leaf node such as <code class="docutils literal notranslate"><span class="pre">timezone</span></code> in <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">system</span> <span class="pre">|</span> <span class="pre">commands</span></code></p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1235">T1235</a> <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">|</span> <span class="pre">commands</span></code> correctly works in config mode now</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1298">T1298</a> VTI is now compatible with the DHCP-interface IPsec option</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1277">T1277</a> <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">dhcp</span> <span class="pre">server</span> <span class="pre">statistics</span></code> command was broken in latest
+Crux</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1261">T1261</a> An issue with TFTP server refusing to listen on addresses
+other than loopback was fixed</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1224">T1224</a> Template issue that might cause UDP broadcast relay fail to
+start is fixed</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1067">T1067</a> VXLAN value validation is improved</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1211">T1211</a> Blank hostnames in DHCP updates no longer can crash DNS
+forwarding</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1322">T1322</a> Correct configuration is now generated for DHCPv6 relays with
+more than one upstream interface</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1234">T1234</a> <code class="docutils literal notranslate"><span class="pre">relay-agents-packets</span></code> option works correctly now</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1231">T1231</a> Dynamic DNS data is now cleaned on configuration change</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1282">T1282</a> Remote Syslog can now use a fully qualified domain name</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1279">T1279</a> ACPI power off works again</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1247">T1247</a> Negation in WAN load balancing rules works again</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1218">T1218</a> FRR staticd now starts on boot correctly</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1296">T1296</a> The installer now correctly detects SD card devices</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1225">T1225</a> Wireguard peers can be disabled now</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1217">T1217</a> The issue with Wireguard interfaces impossible to delete
+is fixed</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1160">T1160</a> Unintended IPv6 access is fixed in SNMP configuration</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1060">T1060</a> It’s now possible to exclude hosts from the transparent
+web proxy</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T484">T484</a> An issue with rules impossible to delete from the zone-based
+firewall is fixed</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="1.2.2.html" class="btn btn-neutral float-left" title="1.2.2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../installation/index.html" class="btn btn-neutral float-right" title="Installation and Image Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BGP IPv6 unnumbered with extended nexthop &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="OSPF unnumbered with ECMP" href="ospf-unnumbered.html" />
+    <link rel="prev" title="Zone-Policy example" href="zone-policy.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="zone-policy.html">Zone-Policy example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">BGP IPv6 unnumbered with extended nexthop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#results">Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">BGP IPv6 unnumbered with extended nexthop</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/bgp-ipv6-unnumbered.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bgp-ipv6-unnumbered-with-extended-nexthop">
+<span id="examples-bgp-ipv6-unnumbered"></span><h1>BGP IPv6 unnumbered with extended nexthop<a class="headerlink" href="#bgp-ipv6-unnumbered-with-extended-nexthop" title="Link to this heading"></a></h1>
+<p>General information can be found in the <a class="reference internal" href="../configuration/protocols/bgp.html#routing-bgp"><span class="std std-ref">BGP</span></a> chapter.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Router A:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as 64496
+set protocols bgp address-family ipv4-unicast redistribute connected
+set protocols bgp address-family ipv6-unicast redistribute connected
+set protocols bgp neighbor eth1 interface v6only
+set protocols bgp neighbor eth1 interface v6only peer-group &#39;fabric&#39;
+set protocols bgp neighbor eth2 interface v6only
+set protocols bgp neighbor eth2 interface v6only peer-group &#39;fabric&#39;
+set protocols bgp parameters bestpath as-path multipath-relax
+set protocols bgp parameters bestpath compare-routerid
+set protocols bgp parameters default no-ipv4-unicast
+set protocols bgp parameters router-id &#39;192.168.0.1&#39;
+set protocols bgp peer-group fabric address-family ipv4-unicast
+set protocols bgp peer-group fabric address-family ipv6-unicast
+set protocols bgp peer-group fabric capability extended-nexthop
+set protocols bgp peer-group fabric remote-as &#39;external&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Router B:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as 64499
+set protocols bgp address-family ipv4-unicast redistribute connected
+set protocols bgp address-family ipv6-unicast redistribute connected
+set protocols bgp neighbor eth1 interface v6only
+set protocols bgp neighbor eth1 interface v6only peer-group &#39;fabric&#39;
+set protocols bgp neighbor eth2 interface v6only
+set protocols bgp neighbor eth2 interface v6only peer-group &#39;fabric&#39;
+set protocols bgp parameters bestpath as-path multipath-relax
+set protocols bgp parameters bestpath compare-routerid
+set protocols bgp parameters default no-ipv4-unicast
+set protocols bgp parameters router-id &#39;192.168.0.2&#39;
+set protocols bgp peer-group fabric address-family ipv4-unicast
+set protocols bgp peer-group fabric address-family ipv6-unicast
+set protocols bgp peer-group fabric capability extended-nexthop
+set protocols bgp peer-group fabric remote-as &#39;external&#39;
+</pre></div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Router A:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             198.51.100.34/24                  u/u
+eth1             -                                 u/u
+eth2             -                                 u/u
+lo               127.0.0.1/8                       u/u
+                 192.168.0.1/32
+                 ::1/128
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       F - PBR, f - OpenFabric,
+       &gt; - selected route, * - FIB route
+
+S&gt;* 0.0.0.0/0 [210/0] via 198.51.100.34, eth0, 03:21:53
+C&gt;* 198.51.100.0/24 is directly connected, eth0, 03:21:53
+C&gt;* 192.168.0.1/32 is directly connected, lo, 03:21:56
+B&gt;* 192.168.0.2/32 [20/0] via fe80::a00:27ff:fe3b:7ed2, eth2, 00:05:07
+  *                       via fe80::a00:27ff:fe7b:4000, eth1, 00:05:07
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ ping 192.168.0.2
+PING 192.168.0.2 (192.168.0.2) 56(84) bytes of data.
+64 bytes from 192.168.0.2: icmp_seq=1 ttl=64 time=0.575 ms
+64 bytes from 192.168.0.2: icmp_seq=2 ttl=64 time=0.628 ms
+64 bytes from 192.168.0.2: icmp_seq=3 ttl=64 time=0.581 ms
+64 bytes from 192.168.0.2: icmp_seq=4 ttl=64 time=0.682 ms
+64 bytes from 192.168.0.2: icmp_seq=5 ttl=64 time=0.597 ms
+
+--- 192.168.0.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4086ms
+rtt min/avg/max/mdev = 0.575/0.612/0.682/0.047 ms
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip bgp summary
+
+IPv4 Unicast Summary:
+BGP router identifier 192.168.0.1, local AS number 65020 vrf-id 0
+BGP table version 4
+RIB entries 5, using 800 bytes of memory
+Peers 2, using 41 KiB of memory
+Peer groups 1, using 64 bytes of memory
+
+Neighbor        V         AS MsgRcvd MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd
+eth1            4      64499      13      13        0    0    0 00:05:33            2
+eth2            4      64499      13      14        0    0    0 00:05:29            2
+
+Total number of neighbors 2
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Router B:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             198.51.100.33/24                  u/u
+eth1             -                                 u/u
+eth2             -                                 u/u
+lo               127.0.0.1/8                       u/u
+                 192.168.0.2/32
+                 ::1/128
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       F - PBR, f - OpenFabric,
+       &gt; - selected route, * - FIB route
+
+S&gt;* 0.0.0.0/0 [210/0] via 198.51.100.33, eth0, 00:44:08
+C&gt;* 198.51.100.0/24 is directly connected, eth0, 00:44:09
+B&gt;* 192.168.0.1/32 [20/0] via fe80::a00:27ff:fe2d:205d, eth1, 00:06:18
+  *                       via fe80::a00:27ff:fe93:e142, eth2, 00:06:18
+C&gt;* 192.168.0.2/32 is directly connected, lo, 00:44:11
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ ping 192.168.0.1
+PING 192.168.0.1 (192.168.0.1) 56(84) bytes of data.
+64 bytes from 192.168.0.1: icmp_seq=1 ttl=64 time=0.427 ms
+64 bytes from 192.168.0.1: icmp_seq=2 ttl=64 time=0.471 ms
+64 bytes from 192.168.0.1: icmp_seq=3 ttl=64 time=0.782 ms
+64 bytes from 192.168.0.1: icmp_seq=4 ttl=64 time=0.715 ms
+
+--- 192.168.0.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3051ms
+rtt min/avg/max/mdev = 0.427/0.598/0.782/0.155 ms
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip bgp summary
+IPv4 Unicast Summary:
+BGP router identifier 192.168.0.2, local AS number 65021 vrf-id 0
+BGP table version 4
+RIB entries 5, using 800 bytes of memory
+Peers 2, using 41 KiB of memory
+Peer groups 1, using 64 bytes of memory
+
+Neighbor        V         AS MsgRcvd MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd
+eth1            4      64496      14      14        0    0    0 00:06:40            2
+eth2            4      64496      14      14        0    0    0 00:06:37            2
+
+Total number of neighbors 2
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zone-policy.html" class="btn btn-neutral float-left" title="Zone-Policy example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ospf-unnumbered.html" class="btn btn-neutral float-right" title="OSPF unnumbered with ECMP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

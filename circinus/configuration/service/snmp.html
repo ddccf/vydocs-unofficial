@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNMP &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="SSH" href="ssh.html" />
+    <link rel="prev" title="Salt-Minion" href="salt-minion.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SNMP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview-and-basic-concepts">Overview and basic concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snmp-protocol-versions">SNMP Protocol Versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-mibs">VyOS MIBs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snmp-extensions">SNMP Extensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solarwinds">SolarWinds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">suricata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">SNMP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/snmp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="snmp">
+<span id="id1"></span><h1>SNMP<a class="headerlink" href="#snmp" title="Link to this heading"></a></h1>
+<p><abbr title="Simple Network Management Protocol">SNMP</abbr> is an Internet Standard
+protocol for collecting and organizing information about managed devices on
+IP networks and for modifying that information to change device behavior.
+Devices that typically support SNMP include cable modems, routers, switches,
+servers, workstations, printers, and more.</p>
+<p>SNMP is widely used in network management for network monitoring. SNMP exposes
+management data in the form of variables on the managed systems organized in
+a management information base (<a class="reference external" href="https://en.wikipedia.org/wiki/Management_information_base">MIB</a>) which describe the system status and
+configuration. These variables can then be remotely queried (and, in some
+circumstances, manipulated) by managing applications.</p>
+<p>Three significant versions of SNMP have been developed and deployed. SNMPv1 is
+the original version of the protocol. More recent versions, SNMPv2c and SNMPv3,
+feature improvements in performance, flexibility and security.</p>
+<p>SNMP is a component of the Internet Protocol Suite as defined by the Internet
+Engineering Task Force (IETF). It consists of a set of standards for network
+management, including an application layer protocol, a database schema, and a
+set of data objects.</p>
+<section id="overview-and-basic-concepts">
+<h2>Overview and basic concepts<a class="headerlink" href="#overview-and-basic-concepts" title="Link to this heading"></a></h2>
+<p>In typical uses of SNMP, one or more administrative computers called managers
+have the task of monitoring or managing a group of hosts or devices on a
+computer network. Each managed system executes a software component called an
+agent which reports information via SNMP to the manager.</p>
+<p>An SNMP-managed network consists of three key components:</p>
+<ul class="simple">
+<li><p>Managed devices</p></li>
+<li><p>Agent - software which runs on managed devices</p></li>
+<li><p>Network management station (NMS) - software which runs on the manager</p></li>
+</ul>
+<p>A managed device is a network node that implements an SNMP interface that
+allows unidirectional (read-only) or bidirectional (read and write) access to
+node-specific information. Managed devices exchange node-specific information
+with the NMSs. Sometimes called network elements, the managed devices can be
+any type of device, including, but not limited to, routers, access servers,
+switches, cable modems, bridges, hubs, IP telephones, IP video cameras,
+computer hosts, and printers.</p>
+<p>An agent is a network-management software module that resides on a managed
+device. An agent has local knowledge of management information and translates
+that information to or from an SNMP-specific form.</p>
+<p>A network management station executes applications that monitor and control
+managed devices. NMSs provide the bulk of the processing and memory resources
+required for network management. One or more NMSs may exist on any managed
+network.</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../images/service_snmp_communication_principles_diagram.png"><img alt="Principle of SNMP Communication" src="../../images/service_snmp_communication_principles_diagram.png" style="width: 735.8000000000001px; height: 340.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Image thankfully borrowed from
+<a class="reference external" href="https://en.wikipedia.org/wiki/File:SNMP_communication_principles_diagram.PNG">https://en.wikipedia.org/wiki/File:SNMP_communication_principles_diagram.PNG</a>
+which is under the GNU Free Documentation License</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VyOS SNMP supports both IPv4 and IPv6.</p>
+</div>
+</section>
+<section id="snmp-protocol-versions">
+<h2>SNMP Protocol Versions<a class="headerlink" href="#snmp-protocol-versions" title="Link to this heading"></a></h2>
+<p>VyOS itself supports <a class="reference external" href="https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol#Version_2">SNMPv2</a> (version 2) and <a class="reference external" href="https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol#Version_3">SNMPv3</a> (version 3) where the
+later is recommended because of improved security (optional authentication and
+encryption).</p>
+<section id="snmpv2">
+<h3>SNMPv2<a class="headerlink" href="#snmpv2" title="Link to this heading"></a></h3>
+<p>SNMPv2 is the original and most commonly used version. For authorizing clients,
+SNMP uses the concept of communities. Communities may have authorization set
+to read only (this is most common) or to read and write (this option is not
+actively used in VyOS).</p>
+<p>SNMP can work synchronously or asynchronously. In synchronous communication,
+the monitoring system queries the router periodically. In asynchronous, the
+router sends notification to the “trap” (the monitoring host).</p>
+<p>SNMPv2 does not support any authentication mechanisms, other than client source
+address, so you should specify addresses of clients allowed to monitor the
+router. Note that SNMPv2 also supports no encryption and always sends data in
+plain text.</p>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Define a community
+set service snmp community routers authorization ro
+
+# Allow monitoring access from the entire network
+set service snmp community routers network 192.0.2.0/24
+set service snmp community routers network 2001::db8:ffff:eeee::/64
+
+# Allow monitoring access from specific addresses
+set service snmp community routers client 203.0.113.10
+set service snmp community routers client 203.0.113.20
+
+# Define optional router information
+set service snmp location &quot;UK, London&quot;
+set service snmp contact &quot;admin@example.com&quot;
+
+# Trap target if you want asynchronous communication
+set service snmp trap-target 203.0.113.10
+
+# Listen only on specific IP addresses (port defaults to 161)
+set service snmp listen-address 172.16.254.36 port 161
+set service snmp listen-address 2001:db8::f00::1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="snmpv3">
+<h3>SNMPv3<a class="headerlink" href="#snmpv3" title="Link to this heading"></a></h3>
+<p>SNMPv3 (version 3 of the SNMP protocol) introduced a whole slew of new security
+related features that have been missing from the previous versions. Security
+was one of the biggest weakness of SNMP until v3. Authentication in SNMP
+Versions 1 and 2 amounts to nothing more than a password (community string)
+sent in clear text between a manager and agent. Each SNMPv3 message contains
+security parameters which are encoded as an octet string. The meaning of these
+security parameters depends on the security model being used.</p>
+<p>The security approach in SNMPv3 targets:</p>
+<ul class="simple">
+<li><p>Confidentiality – Encryption of packets to prevent snooping by an
+unauthorized source.</p></li>
+<li><p>Integrity – Message integrity to ensure that a packet has not been tampered
+while in transit including an optional packet replay protection mechanism.</p></li>
+<li><p>Authentication – to verify that the message is from a valid source.</p></li>
+</ul>
+<section id="snmp-v3-example">
+<span id="id2"></span><h4>Example<a class="headerlink" href="#snmp-v3-example" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Let SNMP daemon listen only on IP address 192.0.2.1</p></li>
+<li><p>Configure new SNMP user named “vyos” with password “vyos12345678”</p></li>
+<li><p>New user will use SHA/AES for authentication and privacy</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp listen-address 192.0.2.1
+set service snmp location &#39;VyOS Datacenter&#39;
+set service snmp v3 engineid &#39;000000000000000000000002&#39;
+set service snmp v3 group default mode &#39;ro&#39;
+set service snmp v3 group default view &#39;default&#39;
+set service snmp v3 user vyos auth plaintext-password &#39;vyos12345678&#39;
+set service snmp v3 user vyos auth type &#39;sha&#39;
+set service snmp v3 user vyos group &#39;default&#39;
+set service snmp v3 user vyos privacy plaintext-password &#39;vyos12345678&#39;
+set service snmp v3 user vyos privacy type &#39;aes&#39;
+set service snmp v3 view default oid 1
+</pre></div>
+</div>
+<p>After commit the plaintext passwords will be hashed and stored in your
+configuration. The resulting CLI config will look like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show service snmp
+ listen-address 192.0.2.1 {
+ }
+ location &quot;VyOS Datacenter&quot;
+ v3 {
+     engineid 000000000000000000000002
+     group default {
+         mode ro
+         view default
+     }
+     user vyos {
+         auth {
+             encrypted-password 4e52fe55fd011c9c51ae2c65f4b78ca93dcafdfe
+             type sha
+         }
+         group default
+         privacy {
+             encrypted-password 4e52fe55fd011c9c51ae2c65f4b78ca93dcafdfe
+             type aes
+         }
+     }
+     view default {
+         oid 1 {
+         }
+     }
+ }
+</pre></div>
+</div>
+<p>You can test the SNMPv3 functionality from any linux based system, just run the
+following command: <code class="docutils literal notranslate"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">3</span> <span class="pre">-u</span> <span class="pre">vyos</span> <span class="pre">-a</span> <span class="pre">SHA</span> <span class="pre">-A</span> <span class="pre">vyos12345678</span> <span class="pre">-x</span> <span class="pre">AES</span>
+<span class="pre">-X</span> <span class="pre">vyos12345678</span> <span class="pre">-l</span> <span class="pre">authPriv</span> <span class="pre">192.0.2.1</span> <span class="pre">.1</span></code></p>
+</section>
+</section>
+</section>
+<section id="vyos-mibs">
+<h2>VyOS MIBs<a class="headerlink" href="#vyos-mibs" title="Link to this heading"></a></h2>
+<p>All SNMP MIBs are located in each image of VyOS here: <code class="docutils literal notranslate"><span class="pre">/usr/share/snmp/mibs/</span></code></p>
+<p>You are be able to download the files using SCP, once the SSH service
+has been activated like so</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>scp -r vyos@your_router:/usr/share/snmp/mibs /your_folder/mibs
+</pre></div>
+</div>
+</section>
+<section id="snmp-extensions">
+<h2>SNMP Extensions<a class="headerlink" href="#snmp-extensions" title="Link to this heading"></a></h2>
+<p>To extend SNMP agent functionality, custom scripts can be executed every time
+the agent is being called. This can be achieved by using
+<code class="docutils literal notranslate"><span class="pre">arbitrary</span> <span class="pre">extensioncommands</span></code>. The first step is to create a functional
+script of course, then upload it to your VyOS instance via the command
+<code class="docutils literal notranslate"><span class="pre">scp</span> <span class="pre">your_script.sh</span> <span class="pre">vyos&#64;your_router:/config/user-data</span></code>.
+Once the script is uploaded, it needs to be configured via the command below.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp script-extensions extension-name my-extension script your_script.sh
+commit
+</pre></div>
+</div>
+<p>The OID <code class="docutils literal notranslate"><span class="pre">.1.3.6.1.4.1.8072.1.3.2.3.1.1.4.116.101.115.116</span></code>, once called, will
+contain the output of the extension.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>root@vyos:/home/vyos# snmpwalk -v2c  -c public 127.0.0.1 nsExtendOutput1
+NET-SNMP-EXTEND-MIB::nsExtendOutput1Line.&quot;my-extension&quot; = STRING: hello
+NET-SNMP-EXTEND-MIB::nsExtendOutputFull.&quot;my-extension&quot; = STRING: hello
+NET-SNMP-EXTEND-MIB::nsExtendOutNumLines.&quot;my-extension&quot; = INTEGER: 1
+NET-SNMP-EXTEND-MIB::nsExtendResult.&quot;my-extension&quot; = INTEGER: 0
+</pre></div>
+</div>
+</section>
+<section id="solarwinds">
+<h2>SolarWinds<a class="headerlink" href="#solarwinds" title="Link to this heading"></a></h2>
+<p>If you happen to use SolarWinds Orion as NMS you can also use the Device
+Templates Management. A template for VyOS can be easily imported.</p>
+<p>Create a file named <code class="docutils literal notranslate"><span class="pre">VyOS-1.3.6.1.4.1.44641.ConfigMgmt-Commands</span></code> using the
+following content:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Configuration-Management Device=&quot;VyOS&quot; SystemOID=&quot;1.3.6.1.4.1.44641&quot;&gt;
+    &lt;Commands&gt;
+        &lt;Command Name=&quot;Reset&quot; Value=&quot;set terminal width 0${CRLF}set terminal length 0&quot;/&gt;
+        &lt;Command Name=&quot;Reboot&quot; Value=&quot;reboot${CRLF}Yes&quot;/&gt;
+        &lt;Command Name=&quot;EnterConfigMode&quot; Value=&quot;configure&quot;/&gt;
+        &lt;Command Name=&quot;ExitConfigMode&quot; Value=&quot;commit${CRLF}exit&quot;/&gt;
+        &lt;Command Name=&quot;DownloadConfig&quot; Value=&quot;show configuration commands&quot;/&gt;
+        &lt;Command Name=&quot;SaveConfig&quot; Value=&quot;commit${CRLF}save&quot;/&gt;
+        &lt;Command Name=&quot;Version&quot; Value=&quot;show version&quot;/&gt;
+        &lt;Command Name=&quot;MenuBased&quot; Value=&quot;False&quot;/&gt;
+        &lt;Command Name=&quot;VirtualPrompt&quot; Value=&quot;:~&quot;/&gt;
+    &lt;/Commands&gt;
+&lt;/Configuration-Management&gt;
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="salt-minion.html" class="btn btn-neutral float-left" title="Salt-Minion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ssh.html" class="btn btn-neutral float-right" title="SSH" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Write Documentation &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="static/vyos-logo-icon.png"/>
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/design-tabs.js?v=f930bc37"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Coverage" href="coverage.html" />
+    <link rel="prev" title="Testing" href="contributing/testing.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            VyOS
+              <img src="static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Write Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#guidelines">Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forking-workflow">Forking Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#style-guide">Style Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#formatting-and-sphinxmarkup">Formatting and Sphinxmarkup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toc-level">TOC Level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cross-references">Cross-References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#address-space">Address space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line-length">Line length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autolinter">Autolinter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-sphinx-doc-markup">Custom Sphinx-doc Markup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#page-content">Page content</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-mode-pages">Configuration mode pages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation-mode-pages">Operation mode pages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anything-else">Anything else</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Write Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="sources/documentation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="write-documentation">
+<span id="documentation"></span><h1>Write Documentation<a class="headerlink" href="#write-documentation" title="Link to this heading"></a></h1>
+<p>We encourage every VyOS user to help us improve our documentation as we have
+a deficit like most software projects.  This not only helps you when reading
+but also everyone else.</p>
+<p>If you are willing to contribute to our documentation this is the definite
+guide how to do so.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In contrast to submitting code patches, there is no requirement that
+you open up a <a class="reference external" href="https://vyos.dev/">Phabricator</a> task prior to submitting a Pull-Request to the
+documentation.</p>
+</div>
+<p>VyOS documentation is written in reStructuredText and generated to Read the Docs
+pages with Sphinx, as per the Python tradition, as well as PDF files for offline
+use through LaTeX. We welcome all sorts of contributions to the documentation.
+Not just new additions but also corrections to existing documentation.</p>
+<p>The documentation source is kept in the Git repository at
+<a class="reference external" href="https://github.com/vyos/vyos-documentation">https://github.com/vyos/vyos-documentation</a> and you can follow the instructions
+in the <a class="reference external" href="https://github.com/vyos/vyos-documentation/blob/master/README.md">README.md</a> to build and test your changes.</p>
+<p>You can either install Sphinx (and TeX Live for PDF output) and build the
+documentation locally, or use the <a class="reference external" href="https://github.com/vyos/vyos-documentation/blob/master/docker/Dockerfile">Dockerfile</a> to build it in a container.</p>
+<section id="guidelines">
+<h2>Guidelines<a class="headerlink" href="#guidelines" title="Link to this heading"></a></h2>
+<p>There are a few things to keep in mind when contributing to the
+documentation, for the sake of consistency and readability.</p>
+<p>Take a look at the <a class="reference internal" href="#"><span class="doc">Write Documentation</span></a> page for an intricate explanation
+of the documentation process.</p>
+<p>The following is a quick summary of the rules:</p>
+<ul class="simple">
+<li><p>Use American English at all times. It’s always a good idea to run
+your text through a grammar and spell checker, such as <a class="reference external" href="https://www.grammarly.com/">Grammarly</a>.</p></li>
+<li><p>Don’t forget to update <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> when adding a new node.</p></li>
+<li><p>Try not to exceed 80 characters per line, but don’t break URLs over this.</p></li>
+<li><p>Properly quote commands, filenames and brief code snippets with double backticks.</p></li>
+<li><p>Use literal blocks for longer snippets.</p></li>
+<li><p>Leave a newline before and after a header.</p></li>
+<li><p>Indent with two spaces.</p></li>
+<li><p>When in doubt, follow the style of existing documentation.</p></li>
+</ul>
+<p>And finally, remember that the reStructuredText files aren’t
+exclusively for generating HTML and PDF. They should be human-readable
+and easily perused from a console.</p>
+</section>
+<section id="forking-workflow">
+<h2>Forking Workflow<a class="headerlink" href="#forking-workflow" title="Link to this heading"></a></h2>
+<p>The Forking Workflow is fundamentally different from other popular Git
+workflows. Instead of using a single server-side repository to act as the
+“central” codebase, it gives every developer their own server-side repository.
+This means that each contributor has not one, but two Git repositories: a
+private local one and a public server-side one.</p>
+<p>The main advantage of the Forking Workflow is that contributions can be
+integrated without the need for everybody to push to a single central
+repository. Developers push to their own server-side repositories, and only the
+project maintainer can push to the official repository. This allows the
+maintainer to accept commits from any developer without giving them write
+access to the official codebase.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Updates to our documentation should be delivered by a GitHub
+pull-request. This requires you already have a GitHub account.</p>
+</div>
+<ul>
+<li><p>Fork this project on GitHub <a class="reference external" href="https://github.com/vyos/vyos-documentation/fork">https://github.com/vyos/vyos-documentation/fork</a></p></li>
+<li><p>Clone fork to local machine, then change to that directory
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cd</span> <span class="pre">vyos-documentation</span></code></p></li>
+<li><p>Install the requirements <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>
+(or something similar)</p></li>
+<li><p>Create a new branch for your work, use a descriptive name of your work:
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">&lt;branch-name&gt;</span></code></p></li>
+<li><p>Make all your changes - please keep our commit rules in mind
+(<a class="reference internal" href="contributing/development.html#prepare-commit"><span class="std std-ref">Prepare patch/commit</span></a>). This mainly applies to proper commit messages
+describing your change (how and why). Please check out the documentation of
+<a class="reference external" href="https://www.sphinx-doc.org">Sphinx-doc</a> or <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a> if you are not familiar with it. This is used
+for writing our docs. Additional directives how to write in RST can be
+obtained from <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html">reStructuredTextDirectives</a>.</p></li>
+<li><p>Check your changes by locally building the documentation <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">livehtml</span></code>.
+Sphinx will build the html files in the <code class="docutils literal notranslate"><span class="pre">docs/_build</span></code> folder. We provide
+you with a Docker container for an easy-to-use user experience. Check the
+<a class="reference external" href="https://github.com/vyos/vyos-documentation/blob/master/README.md">README.md</a> file of this repository.</p></li>
+<li><p>View modified files by calling <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">status</span></code>. You will get an overview of
+all files modified by you. You can add individual files to the Git Index in
+the next step.</p></li>
+<li><p>Add modified files to Git index <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">add</span> <span class="pre">path/to/filename</span></code> or add all
+unstaged files <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">add</span> <span class="pre">.</span></code>. All files added to the Git index will be part
+of you following Git commit.</p></li>
+<li><p>Commit your changes with the message, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;&lt;commit</span> <span class="pre">message&gt;&quot;</span></code>
+or  use <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-v</span></code> to have your configured editor launched. You can
+type in a commit message. Again please make yourself comfortable without
+rules (<a class="reference internal" href="contributing/development.html#prepare-commit"><span class="std std-ref">Prepare patch/commit</span></a>).</p></li>
+<li><p>Push commits to your GitHub project: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">&lt;branch-name&gt;</span></code></p></li>
+<li><p>Submit pull-request. In GitHub visit the main repository and you should
+see a banner suggesting to make a pull request. Fill out the form and
+describe what you do.</p></li>
+<li><p>Once pull requests have been approved, you may want to locally update
+your forked repository too. First you’ll have to add a second remote
+called <cite>upstream</cite> which points to our main repository. <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span>
+<span class="pre">upstream</span> <span class="pre">https://github.com/vyos/vyos-documentation.git</span></code></p>
+<p>Check your configured remote repositories:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git remote -v
+origin    https://github.com/&lt;username&gt;/vyos-documentation.git (fetch)
+origin    https://github.com/&lt;username&gt;/vyos.documentation.git (push)
+upstream  https://github.com/vyos/vyos-documentation.git (fetch)
+upstream  https://github.com/vyos/vyos-documentation.git (push)
+</pre></div>
+</div>
+<p>Your remote repo on Github is called <code class="docutils literal notranslate"><span class="pre">origin</span></code>, while the original repo you
+have forked is called <code class="docutils literal notranslate"><span class="pre">upstream</span></code>. Now you can locally update your forked
+repo.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git fetch upstream
+$ git checkout master
+$ git merge upstream/master
+</pre></div>
+</div>
+</li>
+<li><p>If you also want to update your fork on GitHub, use the following: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span>
+<span class="pre">push</span> <span class="pre">origin</span> <span class="pre">master</span></code></p></li>
+</ul>
+</section>
+<section id="style-guide">
+<h2>Style Guide<a class="headerlink" href="#style-guide" title="Link to this heading"></a></h2>
+<section id="formatting-and-sphinxmarkup">
+<h3>Formatting and Sphinxmarkup<a class="headerlink" href="#formatting-and-sphinxmarkup" title="Link to this heading"></a></h3>
+<section id="toc-level">
+<h4>TOC Level<a class="headerlink" href="#toc-level" title="Link to this heading"></a></h4>
+<p>We use the following syntax for Headlines.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#####
+Title
+#####
+
+********
+Chapters
+********
+
+Sections
+========
+
+Subsections
+-----------
+
+Subsubsections
+^^^^^^^^^^^^^^
+
+Paragraphs
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+</pre></div>
+</div>
+</section>
+<section id="cross-references">
+<h4>Cross-References<a class="headerlink" href="#cross-references" title="Link to this heading"></a></h4>
+<p>A plugin will be used to generate a reference label for each headline.
+To reference a page or a section in the documentation use the
+<code class="docutils literal notranslate"><span class="pre">:ref:</span></code> command.</p>
+<p>For example, you want to reference the headline <strong>VLAN</strong> in the
+<strong>ethernet.rst</strong> page. The plugin generates the label based on
+the headline and the file path.</p>
+<p><code class="docutils literal notranslate"><span class="pre">:ref:`configuration/interfaces/ethernet:vlan</span></code></p>
+<p>to use an alternative hyperlink use it this way:</p>
+<p><code class="docutils literal notranslate"><span class="pre">:ref:`Check</span> <span class="pre">out</span> <span class="pre">VLAN&lt;configuration/interfaces/ethernet:vlan&gt;</span></code></p>
+<section id="handle-build-errors">
+<h5>handle build errors<a class="headerlink" href="#handle-build-errors" title="Link to this heading"></a></h5>
+<p>The plugin will warn on build if a headline has a duplicate name in the
+same document. To prevent this warning, you have to put a custom link on
+top of the headline.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Section A
+==========
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+
+Example
+-------
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+
+Section B
+==========
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+
+.. _section B example:
+
+Example
+-------
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+</pre></div>
+</div>
+</section>
+</section>
+<section id="address-space">
+<h4>Address space<a class="headerlink" href="#address-space" title="Link to this heading"></a></h4>
+<p>Note the following RFCs (<span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5737.html"><strong>RFC 5737</strong></a>, <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3849.html"><strong>RFC 3849</strong></a>, <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5389.html"><strong>RFC 5389</strong></a> and
+<span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7042.html"><strong>RFC 7042</strong></a>), which describe the reserved public IP addresses and autonomous
+system numbers for the documentation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">192.0.2.0/24</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">198.51.100.0/24</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">203.0.113.0/24</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2001:db8::/32</span></code></p></li>
+<li><p>16bit ASN: <code class="docutils literal notranslate"><span class="pre">64496</span> <span class="pre">-</span> <span class="pre">64511</span></code></p></li>
+<li><p>32bit ASN: <code class="docutils literal notranslate"><span class="pre">65536</span> <span class="pre">-</span> <span class="pre">65551</span></code></p></li>
+<li><p>Unicast MAC Addresses: <code class="docutils literal notranslate"><span class="pre">00-53-00</span></code> to <code class="docutils literal notranslate"><span class="pre">00-53-FF</span></code></p></li>
+<li><p>Multicast MAC-Addresses: <code class="docutils literal notranslate"><span class="pre">90-10-00</span></code> to <code class="docutils literal notranslate"><span class="pre">90-10-FF</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>Please do not use other public address space.</p>
+</section>
+<section id="line-length">
+<h4>Line length<a class="headerlink" href="#line-length" title="Link to this heading"></a></h4>
+<p>Limit all lines to a maximum of 80 characters.</p>
+<p>Except in <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">code-block::</span></code> because it uses the html tag <code class="docutils literal notranslate"><span class="pre">&lt;pre&gt;</span></code> and
+renders the same line format from the source rst file.</p>
+</section>
+<section id="autolinter">
+<h4>Autolinter<a class="headerlink" href="#autolinter" title="Link to this heading"></a></h4>
+<p>Each GitHub pull request is automatically linted to check the address space and
+line length.</p>
+<p>Sometimes it is necessary to provide real IP addresses like in the
+<a class="reference internal" href="configexamples/index.html#examples"><span class="std std-ref">Configuration Blueprints</span></a>. For this, please use the sphinx comment syntax
+<code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">stop_vyoslinter</span></code> to stop the linter and <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">start_vyoslinter</span></code> to start.</p>
+</section>
+<section id="custom-sphinx-doc-markup">
+<h4>Custom Sphinx-doc Markup<a class="headerlink" href="#custom-sphinx-doc-markup" title="Link to this heading"></a></h4>
+<p>Custom commands have been developed for writing the documentation. Please
+make yourself comfortable with those commands as this eases the way we
+render the documentation.</p>
+<section id="cfgcmd">
+<h5>cfgcmd<a class="headerlink" href="#cfgcmd" title="Link to this heading"></a></h5>
+<p>When documenting CLI commands, use the <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">cfgcmd::</span></code> directive
+for all configuration mode commands. An explanation of the described command
+should be added below this statement.
+Replace all variable contents with &lt;value&gt; or something similar.</p>
+<p>With those custom commands, it will be possible to render them in a more
+descriptive way in the resulting HTML/PDF manual.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. cfgcmd:: protocols static arp &lt;ipaddress&gt; hwaddr &lt;macaddress&gt;
+
+   This will configure a static ARP entry, always resolving `192.0.2.100` to
+   `00:53:27:de:23:aa`.
+</pre></div>
+</div>
+<p>For an inline configuration level command, use <code class="docutils literal notranslate"><span class="pre">:cfgcmd:</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>:cfgcmd:`set interface ethernet eth0`
+</pre></div>
+</div>
+<p>To extract a defaultvalue from the XML definitions add a <code class="docutils literal notranslate"><span class="pre">:defaultvalue:</span></code>
+to <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">cfgcmd::</span></code> directive.
+To have this feature locally, the vyos-1x submodule must be initialized before.
+Please be aware to not update the submodule in your PR.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. cfgcmd:: set system conntrack table-size &lt;1-50000000&gt;
+    :defaultvalue:
+
+    The connection tracking table contains one entry for each connection being
+    tracked by the system.
+</pre></div>
+</div>
+</section>
+<section id="opcmd">
+<h5>opcmd<a class="headerlink" href="#opcmd" title="Link to this heading"></a></h5>
+<p>When documenting operational level commands, use the <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">opcmd::</span></code> directive.
+An explanation of the described command should be added below this statement.</p>
+<p>With those custom commands, it is possible to render them in a more
+descriptive way in the resulting HTML/PDF manual.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. opcmd:: show protocols static arp
+
+   Display all known ARP table entries spanning across all interfaces
+</pre></div>
+</div>
+<p>For an inline operational level command, use <code class="docutils literal notranslate"><span class="pre">:opcmd:</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>:opcmd:`add system image`
+</pre></div>
+</div>
+</section>
+<section id="cmdinclude">
+<h5>cmdinclude<a class="headerlink" href="#cmdinclude" title="Link to this heading"></a></h5>
+<p>To minimize redundancy, there is a special include directive. It includes a txt
+file and replace the <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">var0</span> <span class="pre">}}</span></code> - <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">var9</span> <span class="pre">}}</span></code> with the correct value.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. cmdinclude:: /_include/interface-address.txt
+   :var0: ethernet
+   :var1: eth1
+</pre></div>
+</div>
+<p>the content of interface-address.txt looks like this</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. cfgcmd:: set interfaces {{ var0 }} &lt;interface&gt; address &lt;address | dhcp |
+   dhcpv6&gt;
+
+   Configure interface `&lt;interface&gt;` with one or more interface
+   addresses.
+
+   * **address** can be specified multiple times as IPv4 and/or IPv6
+   address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64
+   * **dhcp** interface address is received by DHCP from a DHCP server
+   on this segment.
+   * **dhcpv6** interface address is received by DHCPv6 from a DHCPv6
+   server on this segment.
+
+   Example:
+
+   .. code-block:: none
+
+      set interfaces {{ var0 }} {{ var1 }} address 192.0.2.1/24
+      set interfaces {{ var0 }} {{ var1 }} address 192.0.2.2/24
+      set interfaces {{ var0 }} {{ var1 }} address 2001:db8::ffff/64
+      set interfaces {{ var0 }} {{ var1 }} address 2001:db8:100::ffff/64
+</pre></div>
+</div>
+</section>
+<section id="vytask">
+<h5>vytask<a class="headerlink" href="#vytask" title="Link to this heading"></a></h5>
+<p>When referencing to VyOS Phabricator Tasks, there is a custom Sphinx Markup
+command called <code class="docutils literal notranslate"><span class="pre">vytask</span></code> that automatically renders to a proper Phabricator
+URL. This is heavily used in the <a class="reference internal" href="changelog/index.html#release-notes"><span class="std std-ref">Changelog</span></a> section.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* :vytask:`T1605` Fixed regression in L2TP/IPsec server
+* :vytask:`T1613` Netflow/sFlow captures IPv6 traffic correctly
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="page-content">
+<h3>Page content<a class="headerlink" href="#page-content" title="Link to this heading"></a></h3>
+<p>The documentation has 3 different types of pages. The same kind of pages must
+have the same structure to achieve a recognition factor.</p>
+<p>All RST files must follow the same TOC Level syntax and have to start with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#####</span>
+<span class="n">Title</span>
+<span class="c1">#####</span>
+</pre></div>
+</div>
+<section id="configuration-mode-pages">
+<h4>Configuration mode pages<a class="headerlink" href="#configuration-mode-pages" title="Link to this heading"></a></h4>
+<p>The configuration mode folder and the articles cover the specific level of
+the commands. The exact level depends on the command. This should provide
+stability for URLs used in the forum or blogpost.</p>
+<p>For example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">zone</span></code> is written in <code class="docutils literal notranslate"><span class="pre">firewall/zone.rst</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">interfaces</span> <span class="pre">ethernet</span></code> is written in <code class="docutils literal notranslate"><span class="pre">interfaces/ethernet.rst</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>The article starts with a short introduction about the command or the
+technology. Please include some helpful links or background information.</p>
+<p>An optional section follows. Some commands have requirements like compatible
+hardware (e.g. Wifi) or some commands you have to set before. For
+example, it is recommended to set a route-map before configuring BGP.</p>
+<p>In the configuration part of the page, all possible configuration options
+should be documented. Use <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">cfgcmd::</span></code> described above.</p>
+<p>Related operation command must be documented in the next part of the article.
+Use <code class="docutils literal notranslate"><span class="pre">::opcmd..</span></code> for these commands.</p>
+<p>If there some troubleshooting guides related to the commands. Explain it in the
+next optional part.</p>
+</section>
+<section id="operation-mode-pages">
+<h4>Operation mode pages<a class="headerlink" href="#operation-mode-pages" title="Link to this heading"></a></h4>
+<p>Operation mode commands that do not fit in a related configuration mode command
+must be documented in this part of the documentation.</p>
+<p>General concepts for troubleshooting and detailed process descriptions belong
+here.</p>
+</section>
+<section id="anything-else">
+<h4>Anything else<a class="headerlink" href="#anything-else" title="Link to this heading"></a></h4>
+<p>Anything else that is not a configuration or an operation command has no
+predefined structure.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="contributing/testing.html" class="btn btn-neutral float-left" title="Testing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="coverage.html" class="btn btn-neutral float-right" title="Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

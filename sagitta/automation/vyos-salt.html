@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salt &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Command Scripting" href="command-scripting.html" />
+    <link rel="prev" title="Netmiko" href="vyos-netmiko.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">VyOS Automation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vyos-api.html">VyOS API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/index.html">VyOS Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-napalm.html">Napalm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Salt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#netmiko-proxy">Netmiko-proxy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="command-scripting.html">Command Scripting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-init.html">VyOS cloud-init</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Automation</a></li>
+      <li class="breadcrumb-item active">Salt</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/automation/vyos-salt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><section id="salt">
+<h1>Salt<a class="headerlink" href="#salt" title="Link to this heading"></a></h1>
+<p>VyOS supports op-mode and configuration via <a class="reference external" href="https://docs.saltproject.io/en/latest/contents.html">salt</a>.</p>
+<p>Without proxy it requires VyOS minion configuration
+and supports op-mode data:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service salt-minion id &#39;r14&#39;
+set service salt-minion master &#39;192.0.2.250&#39;
+</pre></div>
+</div>
+<p>Check salt-keys on the salt master</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt-key --list-all
+Accepted Keys:
+r11
+Denied Keys:
+Unaccepted Keys:
+r14
+Rejected Keys:
+</pre></div>
+</div>
+<p>Accept minion key</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt-key --accept r14
+The following keys are going to be accepted:
+Unaccepted Keys:
+r14
+Proceed? [n/Y] y
+Key for minion r14 accepted.
+</pre></div>
+</div>
+<p>Check that salt master can communicate with minions</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt &#39;*&#39; test.ping
+r14:
+    True
+r11:
+    True
+</pre></div>
+</div>
+<p>At this step we can get some op-mode information from VyOS nodes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt &#39;*&#39; network.interface eth0
+r11:
+    |_
+      ----------
+      address:
+          192.0.2.11
+      broadcast:
+          192.0.2.255
+      label:
+          eth0
+      netmask:
+          255.255.255.0
+r14:
+    |_
+      ----------
+      address:
+          192.0.2.14
+      broadcast:
+          192.0.2.255
+      label:
+          eth0
+      netmask:
+          255.255.255.0
+
+
+/ # salt r14 network.arp
+r14:
+    ----------
+    aa:bb:cc:dd:f3:db:
+        192.0.2.1
+    aa:bb:cc:dd:2e:80:
+        203.0.113.1
+</pre></div>
+</div>
+<section id="netmiko-proxy">
+<h2>Netmiko-proxy<a class="headerlink" href="#netmiko-proxy" title="Link to this heading"></a></h2>
+<p>It is possible to configure VyOS via <a class="reference external" href="https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.netmiko_mod.html#module-salt.modules.netmiko_mod">netmiko</a> proxy module.
+It requires a minion with installed packet  <code class="docutils literal notranslate"><span class="pre">python3-netmiko</span></code> module
+who has a connection to VyOS nodes. Salt-minion have to communicate
+with salt master</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<p>Salt master configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # cat /etc/salt/master
+file_roots:
+  base:
+    - /srv/salt/states
+
+pillar_roots:
+  base:
+    - /srv/salt/pillars
+</pre></div>
+</div>
+<p>Structure of /srv/salt:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # tree /srv/salt/
+/srv/salt/
+|___ pillars
+|      |__ r11-proxy.sls
+|      |__ top.sls
+|___ states
+       |__ commands.txt
+</pre></div>
+</div>
+<p>top.sls</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # cat /srv/salt/pillars/top.sls
+base:
+  r11-proxy:
+    - r11-proxy
+</pre></div>
+</div>
+<p>r11-proxy.sls Includes parameters for connecting to salt-proxy minion</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # cat /srv/salt/pillars/r11-proxy.sls
+proxy:
+  proxytype: netmiko # how to connect to proxy minion, change it
+  device_type: vyos  #
+  host: 192.0.2.250
+  username: user
+  password: secret_passwd
+</pre></div>
+</div>
+<p>commands.txt</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # cat /srv/salt/states/commands.txt
+set interfaces ethernet eth0 description &#39;WAN&#39;
+set interfaces ethernet eth1 description &#39;LAN&#39;
+</pre></div>
+</div>
+<p>Check that proxy minion is alive:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt r11-proxy test.ping
+r11-proxy:
+    True
+/ #
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<p>Example of op-mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt r11-proxy netmiko.send_command &#39;show interfaces ethernet eth0 brief&#39; host=192.0.2.14 device_type=vyos username=vyos password=vyos
+r11-proxy:
+    Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+    Interface        IP Address                        S/L  Description
+    ---------        ----------                        ---  -----------
+    eth0             192.0.2.14/24                     u/u  Upstream
+/ #
+</pre></div>
+</div>
+<p>Example of configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt r11-proxy netmiko.send_config config_commands=[&#39;set interfaces ethernet eth0 description Link_to_WAN&#39;] commit=True host=192.0.2.14 device_type=vyos username=vyos password=vyos
+r11-proxy:
+    configure
+    set interfaces ethernet eth0 description Link_to_WAN
+    [edit]
+    vyos@r14# commit
+    [edit]
+    vyos@r14#
+/ #
+</pre></div>
+</div>
+<p>Example of configuration commands from the file “/srv/salt/states/commands.txt”</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/ # salt r11-proxy netmiko.send_config config_file=salt://commands.txt commit=True host=192.0.2.11 device_type=vyos username=vyos password=vyos
+r11-proxy:
+    configure
+    set interfaces ethernet eth0 description &#39;WAN&#39;
+    [edit]
+    vyos@r1# set interfaces ethernet eth1 description &#39;LAN&#39;
+    [edit]
+    vyos@r1# commit
+    [edit]
+    vyos@r1#
+/ #
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vyos-netmiko.html" class="btn btn-neutral float-left" title="Netmiko" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="command-scripting.html" class="btn btn-neutral float-right" title="Command Scripting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

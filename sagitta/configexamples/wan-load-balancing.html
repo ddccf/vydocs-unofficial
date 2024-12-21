@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAN Load Balancer examples &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="PPPoE IPv6 Basic Setup for Home Network" href="pppoe-ipv6-basic.html" />
+    <link rel="prev" title="High Availability Walkthrough" href="ha.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="zone-policy.html">Zone-Policy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WAN Load Balancer examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1-distributing-load-evenly">Example 1: Distributing load evenly</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-static-routes-to-ping-targets">Create static routes to ping targets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-the-load-balancer">Configure the load balancer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2-failover-based-on-interface-weights">Example 2: Failover based on interface weights</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wan-example2-overwiew">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-interface-weight-based-configuration">Create interface weight based configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3-failover-based-on-rule-order">Example 3: Failover based on rule order</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wan-example3-overwiew">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-rule-order-based-configuration">Create rule order based configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example-4-failover-based-on-rule-order-priority-traffic">Example 4: Failover based on rule order - priority traffic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wan-example4-overwiew">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-rule-order-based-configuration-with-low-speed-secondary-link">Create rule order based configuration with low speed secondary link</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example-5-exclude-traffic-from-load-balancing">Example 5: Exclude traffic from load balancing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#adding-a-rule-for-the-second-interface">Adding a rule for the second interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">WAN Load Balancer examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/wan-load-balancing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <span class="target" id="wan-load-balancing"></span><section id="wan-load-balancer-examples">
+<h1>WAN Load Balancer examples<a class="headerlink" href="#wan-load-balancer-examples" title="Link to this heading"></a></h1>
+<section id="example-1-distributing-load-evenly">
+<h2>Example 1: Distributing load evenly<a class="headerlink" href="#example-1-distributing-load-evenly" title="Link to this heading"></a></h2>
+<p>The setup used in this example is shown in the following diagram:</p>
+<a class="reference internal image-reference" href="../images/Wan_load_balancing1.png"><img alt="Network Topology Diagram" class="align-center" src="../images/Wan_load_balancing1.png" style="width: 80%;" />
+</a>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>All traffic coming in through eth2 is balanced between eth0 and eth1
+on the router.</p></li>
+<li><p>Pings will be sent to four targets for health testing (33.44.55.66,
+44.55.66.77, 55.66.77.88 and 66.77.88.99).</p></li>
+<li><p>All outgoing packets are assigned the source address of the assigned
+interface (SNAT).</p></li>
+<li><p>eth0 is set to be removed from the load balancer’s interface pool
+after 5 ping failures, eth1 will be removed after 4 ping failures.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="create-static-routes-to-ping-targets">
+<h3>Create static routes to ping targets<a class="headerlink" href="#create-static-routes-to-ping-targets" title="Link to this heading"></a></h3>
+<p>Create static routes through the two ISPs towards the ping targets and
+commit the changes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 33.44.55.66/32 next-hop 11.22.33.1
+set protocols static route 44.55.66.77/32 next-hop 11.22.33.1
+set protocols static route 55.66.77.88/32 next-hop 22.33.44.1
+set protocols static route 66.77.88.99/32 next-hop 22.33.44.1
+</pre></div>
+</div>
+</section>
+<section id="configure-the-load-balancer">
+<h3>Configure the load balancer<a class="headerlink" href="#configure-the-load-balancer" title="Link to this heading"></a></h3>
+<p>Configure the WAN load balancer with the parameters described above:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan interface-health eth0 failure-count 5
+set load-balancing wan interface-health eth0 nexthop 11.22.33.1
+set load-balancing wan interface-health eth0 test 10 type ping
+set load-balancing wan interface-health eth0 test 10 target 33.44.55.66
+set load-balancing wan interface-health eth0 test 20 type ping
+set load-balancing wan interface-health eth0 test 20 target 44.55.66.77
+set load-balancing wan interface-health eth1 failure-count 4
+set load-balancing wan interface-health eth1 nexthop 22.33.44.1
+set load-balancing wan interface-health eth1 test 10 type ping
+set load-balancing wan interface-health eth1 test 10 target 55.66.77.88
+set load-balancing wan interface-health eth1 test 20 type ping
+set load-balancing wan interface-health eth1 test 20 target 66.77.88.99
+set load-balancing wan rule 10 inbound-interface eth2
+set load-balancing wan rule 10 interface eth0
+set load-balancing wan rule 10 interface eth1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-2-failover-based-on-interface-weights">
+<h2>Example 2: Failover based on interface weights<a class="headerlink" href="#example-2-failover-based-on-interface-weights" title="Link to this heading"></a></h2>
+<p>This example uses the failover mode.</p>
+<section id="wan-example2-overwiew">
+<span id="id1"></span><h3>Overview<a class="headerlink" href="#wan-example2-overwiew" title="Link to this heading"></a></h3>
+<p>In this example, eth0 is the primary interface and eth1 is the secondary
+interface. To provide simple failover functionality. If eth0 fails, eth1
+takes over.</p>
+</section>
+<section id="create-interface-weight-based-configuration">
+<h3>Create interface weight based configuration<a class="headerlink" href="#create-interface-weight-based-configuration" title="Link to this heading"></a></h3>
+<p>The configuration steps are the same as in the previous example, except
+rule 10. So we keep the configuration, remove rule 10 and add a new rule
+for the failover mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>delete load-balancing wan rule 10
+set load-balancing wan rule 10 failover
+set load-balancing wan rule 10 inbound-interface eth2
+set load-balancing wan rule 10 interface eth0 weight 10
+set load-balancing wan rule 10 interface eth1 weight 1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-3-failover-based-on-rule-order">
+<h2>Example 3: Failover based on rule order<a class="headerlink" href="#example-3-failover-based-on-rule-order" title="Link to this heading"></a></h2>
+<p>The previous example used the failover command to send traffic through
+eth1 if eth0 fails. In this example, failover functionality is provided
+by rule order.</p>
+<section id="wan-example3-overwiew">
+<span id="id2"></span><h3>Overview<a class="headerlink" href="#wan-example3-overwiew" title="Link to this heading"></a></h3>
+<p>Two rules will be created, the first rule directs traffic coming in
+from eth2 to eth0 and the second rule directs the traffic to eth1. If
+eth0 fails the first rule is bypassed and the second rule matches,
+directing traffic to eth1.</p>
+</section>
+<section id="create-rule-order-based-configuration">
+<h3>Create rule order based configuration<a class="headerlink" href="#create-rule-order-based-configuration" title="Link to this heading"></a></h3>
+<p>We keep the configuration from the previous example, delete rule 10
+and create the two new rules as described:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>delete load-balancing wan rule 10
+set load-balancing wan rule 10 inbound-interface eth2
+set load-balancing wan rule 10 interface eth0
+set load-balancing wan rule 20 inbound-interface eth2
+set load-balancing wan rule 20 interface eth1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-4-failover-based-on-rule-order-priority-traffic">
+<h2>Example 4: Failover based on rule order - priority traffic<a class="headerlink" href="#example-4-failover-based-on-rule-order-priority-traffic" title="Link to this heading"></a></h2>
+<p>A rule order for prioritizing traffic is useful in scenarios where the
+secondary link has a lower speed and should only carry high priority
+traffic. It is assumed for this example that eth1 is connected to a
+slower connection than eth0 and should prioritize VoIP traffic.</p>
+<section id="wan-example4-overwiew">
+<span id="id3"></span><h3>Overview<a class="headerlink" href="#wan-example4-overwiew" title="Link to this heading"></a></h3>
+<p>A rule order for prioritizing traffic is useful in scenarios where the
+secondary link has a lower speed and should only carry high priority
+traffic. It is assumed for this example that eth1 is connected to a
+slower connection than eth0 and should prioritize VoIP traffic.</p>
+</section>
+<section id="create-rule-order-based-configuration-with-low-speed-secondary-link">
+<h3>Create rule order based configuration with low speed secondary link<a class="headerlink" href="#create-rule-order-based-configuration-with-low-speed-secondary-link" title="Link to this heading"></a></h3>
+<p>We keep the configuration from the previous example, delete rule 20 and
+create a new rule as described:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>delete load-balancing wan rule 20
+set load-balancing wan rule 20 inbound-interface eth2
+set load-balancing wan rule 20 interface eth1
+set load-balancing wan rule 20 destination port sip
+set load-balancing wan rule 20 protocol tcp
+set protocols static route 0.0.0.0/0 next-hop 11.22.33.1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-5-exclude-traffic-from-load-balancing">
+<h2>Example 5: Exclude traffic from load balancing<a class="headerlink" href="#example-5-exclude-traffic-from-load-balancing" title="Link to this heading"></a></h2>
+<p>In this example two LAN interfaces exist in different subnets instead
+of one like in the previous examples:</p>
+<a class="reference internal image-reference" href="../images/Wan_load_balancing_exclude1.png"><img alt="Network Topology Diagram" class="align-center" src="../images/Wan_load_balancing_exclude1.png" style="width: 80%;" />
+</a>
+<section id="adding-a-rule-for-the-second-interface">
+<h3>Adding a rule for the second interface<a class="headerlink" href="#adding-a-rule-for-the-second-interface" title="Link to this heading"></a></h3>
+<p>Based on the previous example, another rule for traffic from the second
+interface eth3 can be added to the load balancer. However, traffic meant
+to flow between the LAN subnets will be sent to eth0 and eth1 as well.
+To prevent this, another rule is required. This rule excludes traffic
+between the local subnets from the load balancer. It also excludes
+locally-sources packets (required for web caching with load balancing).
+eth+ is used as an alias that refers to all ethernet interfaces:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule 5 exclude
+set load-balancing wan rule 5 inbound-interface eth+
+set load-balancing wan rule 5 destination address 10.0.0.0/8
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ha.html" class="btn btn-neutral float-left" title="High Availability Walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pppoe-ipv6-basic.html" class="btn btn-neutral float-right" title="PPPoE IPv6 Basic Setup for Home Network" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

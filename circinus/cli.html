@@ -1,0 +1,1194 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Line Interface &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="static/vyos-logo-icon.png"/>
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=719443cf"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/design-tabs.js?v=f930bc37"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Configuration Guide" href="configuration/index.html" />
+    <link rel="prev" title="Quick Start" href="quick-start.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            VyOS
+              <img src="static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operational-mode">Operational Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#operational-mode-command-families">Operational mode command families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clear">clear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reset">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#restart">restart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#force">force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#execute">execute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#show">show</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitor">monitor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-mode">Configuration Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-overview">Configuration Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command Line Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="sources/cli.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-line-interface">
+<span id="cli"></span><h1>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h1>
+<p>The VyOS <abbr title="Command-Line Interface">CLI</abbr> comprises an operational and a
+configuration mode.</p>
+<section id="operational-mode">
+<h2>Operational Mode<a class="headerlink" href="#operational-mode" title="Link to this heading"></a></h2>
+<p>Operational mode allows for commands to perform operational system tasks and
+view system and service status, while configuration mode allows for the
+modification of system configuration.</p>
+<p>The CLI provides a built-in help system. In the CLI the <code class="docutils literal notranslate"><span class="pre">?</span></code> key may be used
+to display available commands. The <code class="docutils literal notranslate"><span class="pre">TAB</span></code> key can be used to auto-complete
+commands and will present the help system upon a conflict or unknown value.</p>
+<p>For example typing <code class="docutils literal notranslate"><span class="pre">sh</span></code> followed by the <code class="docutils literal notranslate"><span class="pre">TAB</span></code> key will complete to
+<code class="docutils literal notranslate"><span class="pre">show</span></code>. Pressing <code class="docutils literal notranslate"><span class="pre">TAB</span></code> a second time will display the possible
+sub-commands of the <code class="docutils literal notranslate"><span class="pre">show</span></code> command.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ s[tab]
+set   show
+</pre></div>
+</div>
+<p>Example showing possible show commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show [tab]
+Possible completions:
+  arp           Show Address Resolution Protocol (ARP) information
+  bridge        Show bridging information
+  cluster       Show clustering information
+  configuration Show running configuration
+  conntrack     Show conntrack entries in the conntrack table
+  conntrack-sync
+                Show connection syncing information
+  date          Show system date and time
+  dhcp          Show Dynamic Host Configuration Protocol (DHCP) information
+  dhcpv6        Show status related to DHCPv6
+  disk          Show status of disk device
+  dns           Show Domain Name Server (DNS) information
+  file          Show files for a particular image
+  firewall      Show firewall information
+  flow-accounting
+                Show flow accounting statistics
+  hardware      Show system hardware details
+  history       show command history
+  host          Show host information
+  incoming      Show ethernet input-policy information
+: q
+</pre></div>
+</div>
+<p>You can scroll up with the keys <code class="docutils literal notranslate"><span class="pre">[Shift]+[PageUp]</span></code> and scroll down with
+<code class="docutils literal notranslate"><span class="pre">[Shift]+[PageDown]</span></code>.</p>
+<p>When the output of a command results in more lines than can be displayed on the
+terminal screen the output is paginated as indicated by a <code class="docutils literal notranslate"><span class="pre">:</span></code> prompt.</p>
+<dl class="simple">
+<dt>When viewing in page mode the following commands are available:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> key can be used to cancel output</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">space</span></code> will scroll down one page</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">b</span></code> will scroll back one page</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">return</span></code> will scroll down one line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">up-arrow</span></code> and <code class="docutils literal notranslate"><span class="pre">down-arrow</span></code> will scroll up or down one line at a
+time respectively</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left-arrow</span></code> and <code class="docutils literal notranslate"><span class="pre">right-arrow</span></code> can be used to scroll left or right
+in the event that the output has lines which exceed the terminal size.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="operational-mode-command-families">
+<h3>Operational mode command families<a class="headerlink" href="#operational-mode-command-families" title="Link to this heading"></a></h3>
+<p>Many operational mode commands in VyOS are placed in families such as
+<code class="docutils literal notranslate"><span class="pre">show</span></code>, <code class="docutils literal notranslate"><span class="pre">clear</span></code>, or <code class="docutils literal notranslate"><span class="pre">reset</span></code>. Every such family has a specific
+meaning to allow the user to guess how the command is going to behave —
+in particular, whether it will be disruptive to the system or not.</p>
+<p>Note that this convention was not always followed with perfect
+consistency and some commands may still be in wrong families, so you
+should always check the command help and documentation if you are not
+sure what exactly it does.</p>
+<section id="clear">
+<h4>clear<a class="headerlink" href="#clear" title="Link to this heading"></a></h4>
+<p>“Clear” commands are completely non-disruptive to any system operations.
+Generally, they can be used freely without hesitation.</p>
+<p>Most often their purpose is to remove or reset various debug and
+diagnostic information such as system logs and packet counters.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">console</span></code> — clears the screen.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">interfaces</span> <span class="pre">ethernet</span> <span class="pre">eth0</span> <span class="pre">counters</span></code> — zeroes packet counters
+on <code class="docutils literal notranslate"><span class="pre">eth0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">log</span></code> — deletes all system log entries.</p></li>
+</ul>
+</section>
+<section id="reset">
+<h4>reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h4>
+<p>“Reset” commands can be locally-disruptive. They may, for example,
+terminate a single user session or a session with a dynamic routing
+protocol peer.</p>
+<p>They should be used with caution since they may have a significant
+impact on a particular users in the network.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">pppoe-server</span> <span class="pre">username</span> <span class="pre">jsmith</span></code> — terminate all PPPoE sessions
+from user <code class="docutils literal notranslate"><span class="pre">jsmith</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">bgp</span> <span class="pre">192.0.2.54</span></code> — terminates the BGP session with neighbor
+192.0.2.54.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">vpn</span> <span class="pre">ipsec</span> <span class="pre">site-to-site</span> <span class="pre">peer</span> <span class="pre">vpn.example.com</span></code> — terminates
+IPsec tunnels to <code class="docutils literal notranslate"><span class="pre">vpn.example.com</span></code>.</p></li>
+</ul>
+</section>
+<section id="restart">
+<h4>restart<a class="headerlink" href="#restart" title="Link to this heading"></a></h4>
+<p>“Restart” operations may disrupt an entire subsystem. Most often they
+initiate a restart of a server process, which causes it to be
+unavailable for a brief period and resets all the process state.</p>
+<p>They should be used with extreme caution.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">dhcp</span> <span class="pre">server</span></code> — restarts the IPv4 DHCP server process (DHCP
+requests are not served while it is restarting).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">ipsec</span></code> — restarts the IPsec process (which forces all
+sessions and all IPsec process state to reset).</p></li>
+</ul>
+</section>
+<section id="force">
+<h4>force<a class="headerlink" href="#force" title="Link to this heading"></a></h4>
+<p>“Force” commands force the system to perform an action that it might
+perform by itself at a later point.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">force</span> <span class="pre">arp</span> <span class="pre">request</span> <span class="pre">interface</span> <span class="pre">eth1</span> <span class="pre">address</span> <span class="pre">10.3.0.2</span></code> — send a
+gratuitious ARP request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force</span> <span class="pre">root-partition-auto-resize</span></code> — grow the root filesystem to
+the size of the system partition (this is also done on startup, but
+this command can do it without a reboot).</p></li>
+</ul>
+</section>
+<section id="execute">
+<h4>execute<a class="headerlink" href="#execute" title="Link to this heading"></a></h4>
+<p>“Execute” commands are for executing various diagnostic and auxilliary
+actions that the system would never perform by itself.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">execute</span> <span class="pre">wake-on-lan</span> <span class="pre">interface</span> <span class="pre">&lt;intf&gt;</span> <span class="pre">host</span> <span class="pre">&lt;MAC&gt;</span></code> — send a
+Wake-On-LAN packet to a host.</p></li>
+</ul>
+</section>
+<section id="show">
+<h4>show<a class="headerlink" href="#show" title="Link to this heading"></a></h4>
+<p>“Show” commands display various system information. They may
+occasionally use a pager for long outputs, that you can quit by pressing
+the Q button. Their output is always finite, however.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">system</span> <span class="pre">login</span></code> — displays current system users.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">route</span></code> — displays the IPv4 routing table.</p></li>
+</ul>
+</section>
+<section id="monitor">
+<h4>monitor<a class="headerlink" href="#monitor" title="Link to this heading"></a></h4>
+<p>“Monitor” commands initiate various monitoring operations that may
+output information continuously, until terminated with <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code> or
+disabled.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">monitor</span> <span class="pre">log</span></code> — continuously outputs latest system logs.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="configuration-mode">
+<h2>Configuration Mode<a class="headerlink" href="#configuration-mode" title="Link to this heading"></a></h2>
+<p>To enter configuration mode use the <code class="docutils literal notranslate"><span class="pre">configure</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ configure
+[edit]
+vyos@vyos:~#
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Prompt changes from <code class="docutils literal notranslate"><span class="pre">$</span></code> to <code class="docutils literal notranslate"><span class="pre">#</span></code>. To exit configuration mode,
+type <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~# exit
+exit
+vyos@vyos:~$
+</pre></div>
+</div>
+<p>See the configuration section of this document for more information on
+configuration mode.</p>
+</section>
+</section>
+<section id="configuration-overview">
+<span id="id1"></span><h1>Configuration Overview<a class="headerlink" href="#configuration-overview" title="Link to this heading"></a></h1>
+<p>VyOS makes use of a unified configuration file for the entire system’s
+configuration: <code class="docutils literal notranslate"><span class="pre">/config/config.boot</span></code>. This allows easy template
+creation, backup, and replication of system configuration. A system can
+thus also be easily cloned by simply copying the required configuration
+files.</p>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Link to this heading"></a></h2>
+<p>A VyOS system has three major types of configurations:</p>
+<ul class="simple">
+<li><p><strong>Active</strong> or <strong>running configuration</strong> is the system configuration
+that is loaded  and currently active (used by VyOS). Any change in
+the configuration will have to be committed to belong to the
+active/running configuration.</p></li>
+<li><p><strong>Working configuration</strong> is the one that is currently being modified
+in configuration mode. Changes made to the working configuration do
+not go into effect until the changes are committed with the
+<code class="docutils literal notranslate"><span class="pre">commit</span></code> command. At which time the working configuration will
+become the active or running configuration.</p></li>
+<li><p><strong>Saved configuration</strong> is the one saved to a file using the
+<code class="docutils literal notranslate"><span class="pre">save</span></code> command. It allows you to keep safe a configuration for
+future uses. There can be multiple configuration files. The default or
+“boot” configuration is saved and loaded from the file
+<code class="docutils literal notranslate"><span class="pre">/config/config.boot</span></code>.</p></li>
+</ul>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-configuration">
+show configuration</span>
+<a class="cmdlink" href="#opcmd-show-configuration" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>View the current active configuration, also known as the running
+configuration, from the operational mode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show configuration
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 00:53:00:00:aa:01
+    }
+    loopback lo {
+    }
+}
+service {
+    ssh {
+        port 22
+    }
+}
+system {
+    config-management {
+        commit-revisions 20
+    }
+    console {
+        device ttyS0 {
+            speed 9600
+        }
+    }
+    login {
+        user vyos {
+            authentication {
+                encrypted-password ****************
+            }
+            level admin
+        }
+    }
+    ntp {
+        server 0.pool.ntp.org {
+        }
+        server 1.pool.ntp.org {
+        }
+        server 2.pool.ntp.org {
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level notice
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>By default, the configuration is displayed in a hierarchy like the above
+example, this is only one of the possible ways to display the
+configuration. When the configuration is generated and the device is
+configured, changes are added through a collection of <code class="docutils literal notranslate"><span class="pre">set</span></code> and
+<code class="docutils literal notranslate"><span class="pre">delete</span></code> commands.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-configuration-commands">
+show configuration commands</span>
+<a class="cmdlink" href="#opcmd-show-configuration-commands" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Get a collection of all the set commands required which led to the
+running configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show configuration commands
+set interfaces ethernet eth0 address &#39;dhcp&#39;
+set interfaces ethernet eth0 hw-id &#39;00:53:dd:44:3b:0f&#39;
+set interfaces loopback &#39;lo&#39;
+set service ssh port &#39;22&#39;
+set system config-management commit-revisions &#39;20&#39;
+set system console device ttyS0 speed &#39;9600&#39;
+set system login user vyos authentication encrypted-password &#39;$6$Vt68...QzF0&#39;
+set system login user vyos level &#39;admin&#39;
+set system ntp server &#39;0.pool.ntp.org&#39;
+set system ntp server &#39;1.pool.ntp.org&#39;
+set system ntp server &#39;2.pool.ntp.org&#39;
+set system syslog global facility all level &#39;notice&#39;
+set system syslog global facility protocols level &#39;debug&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both these <code class="docutils literal notranslate"><span class="pre">show</span></code> commands should be executed when in operational
+mode, they do not work directly in configuration mode. There is a
+special way on how to :ref:run_opmode_from_config_mode.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">configuration</span> <span class="pre">commands</span> <span class="pre">|</span> <span class="pre">strip-private</span></code>
+command when you want to hide private data. You may want to do so if
+you want to share your configuration on the <a class="reference external" href="https://forum.vyos.io">forum</a>.</p>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-configuration-json">
+show configuration json</span>
+<a class="cmdlink" href="#opcmd-show-configuration-json" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>View the current active configuration in JSON format.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;interfaces&quot;: {&quot;ethernet&quot;: {&quot;eth0&quot;: {&quot;address&quot;: [&quot;192.0.2.11/24&quot;, &quot;192.0.2.35/24&quot;], &quot;hw-id&quot;: &quot;52:54:00:48:a0:c6&quot;}, &quot;eth1&quot;: {&quot;address&quot;: [&quot;203.0.113.1/24&quot;], &quot;hw-id&quot;: &quot;52:54:00:fc:50:0b&quot;}}, &quot;loopback&quot;: {&quot;lo&quot;: {}}}, &quot;protocols&quot;: {&quot;static&quot;: {&quot;route&quot;: {&quot;0.0.0.0/0&quot;: {&quot;next-hop&quot;: {&quot;192.0.2.254&quot;: {}}}}}}, &quot;service&quot;: {&quot;ssh&quot;: {&quot;disable-host-validation&quot;: {}}}, &quot;system&quot;: {&quot;config-management&quot;: {&quot;commit-revisions&quot;: &quot;100&quot;}, &quot;console&quot;: {&quot;device&quot;: {&quot;ttyS0&quot;: {&quot;speed&quot;: &quot;115200&quot;}}}, &quot;host-name&quot;: &quot;r11-vyos&quot;, &quot;login&quot;: {&quot;user&quot;: {&quot;vyos&quot;: {&quot;authentication&quot;: {&quot;encrypted-password&quot;: &quot;$6$Vt68...F0&quot;, &quot;plaintext-password&quot;: &quot;&quot;, &quot;public-keys&quot;: {&quot;vyos@vyos&quot;: {&quot;key&quot;: &quot;AAAAxxx=&quot;, &quot;type&quot;: &quot;ssh-rsa&quot;}}}}}}, &quot;name-server&quot;: [&quot;203.0.113.254&quot;], &quot;ntp&quot;: {&quot;server&quot;: {&quot;time1.vyos.net&quot;: {}, &quot;time2.vyos.net&quot;: {}, &quot;time3.vyos.net&quot;: {}}}, &quot;syslog&quot;: {&quot;global&quot;: {&quot;facility&quot;: {&quot;all&quot;: {&quot;level&quot;: &quot;info&quot;}, &quot;protocols&quot;: {&quot;level&quot;: &quot;debug&quot;}}}}, &quot;time-zone&quot;: &quot;America/New_York&quot;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-configuration-json-pretty">
+show configuration json pretty</span>
+<a class="cmdlink" href="#opcmd-show-configuration-json-pretty" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>View the current active configuration in readable JSON format.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;interfaces&quot;: {
+        &quot;ethernet&quot;: {
+            &quot;eth0&quot;: {
+                &quot;address&quot;: [
+                    &quot;192.0.2.11/24&quot;,
+                    &quot;192.0.2.35/24&quot;
+                ],
+                &quot;hw-id&quot;: &quot;52:54:00:48:a0:c6&quot;
+            },
+            &quot;eth1&quot;: {
+                &quot;address&quot;: [
+                    &quot;203.0.113.1/24&quot;
+                ],
+                &quot;hw-id&quot;: &quot;52:54:00:fc:50:0b&quot;
+            }
+        },
+        &quot;loopback&quot;: {
+            &quot;lo&quot;: {}
+        }
+    },
+    &quot;protocols&quot;: {
+        &quot;static&quot;: {
+            &quot;route&quot;: {
+                &quot;0.0.0.0/0&quot;: {
+                    &quot;next-hop&quot;: {
+                        &quot;192.0.2.254&quot;: {}
+                    }
+                }
+            }
+        }
+    },
+    &quot;service&quot;: {
+        &quot;ssh&quot;: {
+            &quot;disable-host-validation&quot;: {}
+        }
+    },
+    &quot;system&quot;: {
+        &quot;config-management&quot;: {
+            &quot;commit-revisions&quot;: &quot;100&quot;
+        },
+        &quot;console&quot;: {
+            &quot;device&quot;: {
+                &quot;ttyS0&quot;: {
+                    &quot;speed&quot;: &quot;115200&quot;
+                }
+            }
+        },
+        &quot;host-name&quot;: &quot;r11-vyos&quot;,
+        &quot;login&quot;: {
+            &quot;user&quot;: {
+                &quot;vyos&quot;: {
+                    &quot;authentication&quot;: {
+                        &quot;encrypted-password&quot;: &quot;$6$Vt68...F0&quot;,
+                        &quot;plaintext-password&quot;: &quot;&quot;,
+                        &quot;public-keys&quot;: {
+                            &quot;vyos@vyos&quot;: {
+                                &quot;key&quot;: &quot;AAAAxxx=&quot;,
+                                &quot;type&quot;: &quot;ssh-rsa&quot;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        &quot;name-server&quot;: [
+            &quot;203.0.113.254&quot;
+        ],
+        &quot;ntp&quot;: {
+            &quot;server&quot;: {
+                &quot;time1.vyos.net&quot;: {},
+                &quot;time2.vyos.net&quot;: {},
+                &quot;time3.vyos.net&quot;: {}
+           }
+        },
+        &quot;syslog&quot;: {
+            &quot;global&quot;: {
+                &quot;facility&quot;: {
+                    &quot;all&quot;: {
+                        &quot;level&quot;: &quot;info&quot;
+                    },
+                    &quot;protocols&quot;: {
+                        &quot;level&quot;: &quot;debug&quot;
+                    }
+                }
+            }
+        },
+        &quot;time-zone&quot;: &quot;America/New_York&quot;
+    }
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>When entering the configuration mode you are navigating inside a tree
+structure, to enter configuration mode enter the command
+<code class="docutils literal notranslate"><span class="pre">configure</span></code> when in operational mode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos$ configure
+[edit]
+vyos@vyos#
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When going into configuration mode, prompt changes from
+<code class="docutils literal notranslate"><span class="pre">$</span></code> to <code class="docutils literal notranslate"><span class="pre">#</span></code>.</p>
+</div>
+<p>All commands executed here are relative to the configuration level you
+have entered. You can do everything from the top level, but commands
+will be quite lengthy when manually typing them.</p>
+<p>The current hierarchy level can be changed by the <code class="docutils literal notranslate"><span class="pre">edit</span></code>
+command.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit]
+vyos@vyos# edit interfaces ethernet eth0
+
+[edit interfaces ethernet eth0]
+vyos@vyos#
+</pre></div>
+</div>
+<p>You are now in a sublevel relative to <code class="docutils literal notranslate"><span class="pre">interfaces</span> <span class="pre">ethernet</span> <span class="pre">eth0</span></code>, all
+commands executed from this point on are relative to this sublevel. Use
+either the <code class="docutils literal notranslate"><span class="pre">top</span></code> or <code class="docutils literal notranslate"><span class="pre">exit</span></code> command to go back to the top
+of the hierarchy. You can also use the <code class="docutils literal notranslate"><span class="pre">up</span></code> command to move only
+one level up at a time.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-show">
+show</span>
+<a class="cmdlink" href="#cfgcmd-show" title="Permalink to this Command"></a></div></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">show</span></code> command within configuration mode will show the
+working configuration indicating line changes with <code class="docutils literal notranslate"><span class="pre">+</span></code> for additions,
+<code class="docutils literal notranslate"><span class="pre">&gt;</span></code> for replacements and <code class="docutils literal notranslate"><span class="pre">-</span></code> for deletions.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ configure
+[edit]
+vyos@vyos# show interfaces
+ ethernet eth0 {
+     description MY_OLD_DESCRIPTION
+     disable
+     hw-id 00:53:dd:44:3b:03
+ }
+ loopback lo {
+ }
+[edit]
+vyos@vyos# set interfaces ethernet eth0 address dhcp
+[edit]
+vyos@vyos# set interfaces ethernet eth0 description MY_NEW_DESCRIPTION
+[edit]
+vyos@vyos# delete interfaces ethernet eth0 disable
+[edit]
+vyos@vyos# show interfaces
+ ethernet eth0 {
++    address dhcp
+&gt;    description MY_NEW_DESCRIPTION
+-    disable
+     hw-id 00:53:dd:44:3b:03
+ }
+ loopback lo {
+ }
+</pre></div>
+</div>
+<p>It is also possible to display all <code class="docutils literal notranslate"><span class="pre">set</span></code> commands within configuration
+mode using <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">|</span> <span class="pre">commands</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show interfaces ethernet eth0 | commands
+set address dhcp
+set hw-id 00:53:ad:44:3b:03
+</pre></div>
+</div>
+<p>These commands are also relative to the level you are inside and only
+relevant configuration blocks will be displayed when entering a
+sub-level.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit interfaces ethernet eth0]
+vyos@vyos# show
+ address dhcp
+ hw-id 00:53:ad:44:3b:03
+</pre></div>
+</div>
+<p>Exiting from the configuration mode is done via the <code class="docutils literal notranslate"><span class="pre">exit</span></code>
+command from the top level, executing <code class="docutils literal notranslate"><span class="pre">exit</span></code> from within a
+sub-level takes you back to the top level.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit interfaces ethernet eth0]
+vyos@vyos# exit
+[edit]
+vyos@vyos# exit
+Warning: configuration changes have not been saved.
+</pre></div>
+</div>
+<p>The configuration can be edited by the use of <code class="docutils literal notranslate"><span class="pre">set</span></code> and
+<code class="docutils literal notranslate"><span class="pre">delete</span></code> commands from within configuration mode.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set">
+set</span>
+<a class="cmdlink" href="#cfgcmd-set" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to set the value of a parameter or to create a new
+element.</p>
+</div>
+</div>
+<p>Configuration commands are flattened from the tree into ‘one-liner’
+commands shown in <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">configuration</span> <span class="pre">commands</span></code> from operation
+mode. Commands are relative to the level where they are executed and all
+redundant information from the current level is removed from the command
+entered.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit]
+vyos@vyos# set interface ethernet eth0 address 192.0.2.100/24
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit interfaces ethernet eth0]
+vyos@vyos# set address 203.0.113.6/24
+</pre></div>
+</div>
+<p>These two commands above are essentially the same, just executed from
+different levels in the hierarchy.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-delete">
+delete</span>
+<a class="cmdlink" href="#cfgcmd-delete" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>To delete a configuration entry use the <code class="docutils literal notranslate"><span class="pre">delete</span></code> command,
+this also deletes all sub-levels under the current level you’ve
+specified in the <code class="docutils literal notranslate"><span class="pre">delete</span></code> command. Deleting an entry will
+also result in the element reverting back to its default value if one
+exists.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit interfaces ethernet eth0]
+vyos@vyos# delete address 192.0.2.100/24
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-commit">
+commit</span>
+<a class="cmdlink" href="#cfgcmd-commit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Any change you do on the configuration, will not take effect until
+committed using the <code class="docutils literal notranslate"><span class="pre">commit</span></code> command in configuration mode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# commit
+[edit]
+vyos@vyos# exit
+Warning: configuration changes have not been saved.
+vyos@vyos:~$
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can specify a commit message with
+<code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">comment</span> <span class="pre">&lt;message&gt;</span></code>.</p>
+</div>
+<div class="cmd cmd-cfg" id="save">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-save">
+save</span>
+<a class="cmdlink" href="#cfgcmd-save" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to preserve configuration changes upon reboot. By
+default it is stored at <em>/config/config.boot</em>. In the case you want
+to store the configuration file somewhere else, you can add a local
+path, a SCP address, a FTP address or a TFTP address.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# save
+Saving configuration to &#39;/config/config.boot&#39;...
+Done
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# save [tab]
+Possible completions:
+  &lt;Enter&gt;       Save to system config file
+  &lt;file&gt;        Save to file on local machine
+  scp://&lt;user&gt;:&lt;passwd&gt;@&lt;host&gt;:/&lt;file&gt; Save to file on remote machine
+  ftp://&lt;user&gt;:&lt;passwd&gt;@&lt;host&gt;/&lt;file&gt; Save to file on remote machine
+  tftp://&lt;host&gt;/&lt;file&gt;      Save to file on remote machine
+vyos@vyos# save tftp://192.168.0.100/vyos-test.config.boot
+Saving configuration to &#39;tftp://192.168.0.100/vyos-test.config.boot&#39;...
+######################################################################## 100.0%
+Done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-exit-discard">
+exit [discard]</span>
+<a class="cmdlink" href="#cfgcmd-exit-discard" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configuration mode can not be exited while uncommitted changes exist.
+To exit configuration mode without applying changes, the
+<code class="docutils literal notranslate"><span class="pre">exit</span> <span class="pre">discard</span></code> command must be used.</p>
+<p>All changes in the working config will thus be lost.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# exit
+Cannot exit: configuration modified.
+Use &#39;exit discard&#39; to discard the changes and exit.
+[edit]
+vyos@vyos# exit discard
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-commit-confirm-minutes">
+commit-confirm &lt;minutes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-commit-confirm-minutes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to temporarily commit your changes and set the
+number of minutes available for confirmation. <code class="docutils literal notranslate"><span class="pre">confirm</span></code> must
+be entered within those minutes, otherwise the system will revert
+into a previous configuration. The default value is 10 minutes.</p>
+<p>The definition of ‘revert’ and ‘a previous configuration’ depends on
+the setting:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set system config-management commit-confirm action
+Possible completions:
+reload               Reload previous configuration if not confirmed
+reboot               Reboot to saved configuration if not confirmed (default)
+</pre></div>
+</div>
+<p>Note that ‘reload’ loads the most recent completed configuration and does
+not require a reboot.</p>
+<p>What if you are doing something dangerous? Suppose you want to setup
+a firewall, and you are not sure there are no mistakes that will lock
+you out of your system. You can use confirmed commit. If you issue
+the <code class="docutils literal notranslate"><span class="pre">commit-confirm</span></code> command, your changes will be committed, and if
+you don’t issue  the <code class="docutils literal notranslate"><span class="pre">confirm</span></code> command in 10 minutes, your
+system will reboot into previous config revision.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router# set firewall interface eth0 local name FromWorld
+vyos@router# commit-confirm
+commit confirm will be automatically reboot in 10 minutes unless confirmed
+Proceed? [confirm]y
+[edit]
+vyos@router# confirm
+[edit]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-copy">
+copy</span>
+<a class="cmdlink" href="#cfgcmd-copy" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Copy a configuration element.</p>
+<p>You can copy and remove configuration subtrees. Suppose you set up a
+firewall ruleset <code class="docutils literal notranslate"><span class="pre">FromWorld</span></code> with one rule that allows traffic from
+specific subnet. Now you want to setup a similar rule, but for
+different subnet. Change your edit level to
+<code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">name</span> <span class="pre">FromWorld</span></code> and use <code class="docutils literal notranslate"><span class="pre">copy</span> <span class="pre">rule</span> <span class="pre">10</span> <span class="pre">to</span> <span class="pre">rule</span> <span class="pre">20</span></code>, then
+modify rule 20.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router# show firewall name FromWorld
+ default-action drop
+ rule 10 {
+     action accept
+     source {
+         address 203.0.113.0/24
+     }
+ }
+[edit]
+vyos@router# edit firewall name FromWorld
+[edit firewall name FromWorld]
+vyos@router# copy rule 10 to rule 20
+[edit firewall name FromWorld]
+vyos@router# set rule 20 source address 198.51.100.0/24
+[edit firewall name FromWorld]
+vyos@router# commit
+[edit firewall name FromWorld]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-rename">
+rename</span>
+<a class="cmdlink" href="#cfgcmd-rename" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Rename a configuration element.</p>
+<p>You can also rename config subtrees:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router# rename rule 10 to rule 5
+[edit firewall name FromWorld]
+vyos@router# commit
+[edit firewall name FromWorld]
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">show</span></code> command respects your edit level and from this
+level you can view the modified firewall ruleset with just <code class="docutils literal notranslate"><span class="pre">show</span></code>
+with no parameters.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router# show
+ default-action drop
+ rule 5 {
+     action accept
+     source {
+         address 203.0.113.0/24
+     }
+ }
+ rule 20 {
+     action accept
+     source {
+         address 198.51.100.0/24
+     }
+ }
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-comment-config-node-comment-text">
+comment &lt;config node&gt; “comment text”</span>
+<a class="cmdlink" href="#cfgcmd-comment-config-node-comment-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add comment as an annotation to a configuration node.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">comment</span></code> command allows you to insert a comment above the
+<code class="docutils literal notranslate"><span class="pre">&lt;config</span> <span class="pre">node&gt;</span></code> configuration section. When shown, comments are
+enclosed with <code class="docutils literal notranslate"><span class="pre">/*</span></code> and <code class="docutils literal notranslate"><span class="pre">*/</span></code> as open/close delimiters. Comments
+need to be committed, just like other config changes.</p>
+<p>To remove an existing comment from your current configuration,
+specify an empty string enclosed in double quote marks (<code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>) as
+the comment text.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# comment firewall all-ping &quot;Yes I know this VyOS is cool&quot;
+vyos@vyos# commit
+vyos@vyos# show
+ firewall {
+     /* Yes I know this VyOS is cool */
+     all-ping enable
+     broadcast-ping disable
+     ...
+ }
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An important thing to note is that since the comment is
+added on top of the section, it will not appear if the <code class="docutils literal notranslate"><span class="pre">show</span>
+<span class="pre">&lt;section&gt;</span></code> command is used. With the above example, the <cite>show
+firewall</cite> command would return starting after the <code class="docutils literal notranslate"><span class="pre">firewall</span>
+<span class="pre">{</span></code> line, hiding the comment.</p>
+</div>
+</div>
+</div>
+<p id="run-opmode-from-config-mode">When inside configuration mode you are not directly able to execute
+operational commands.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-run">
+run</span>
+<a class="cmdlink" href="#cfgcmd-run" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Access to these commands are possible through the use of the
+<code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">[command]</span></code> command. From this command you will have access to
+everything accessible from operational mode.</p>
+<p>Command completion and syntax help with <code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">[tab]</span></code> will also
+work.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[edit]
+vyos@vyos# run show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             0.0.0.0/0                         u/u
+</pre></div>
+</div>
+</div>
+</div>
+<p>VyOS comes with an integrated versioning system for the system
+configuration. It automatically maintains a backup of every previous
+configuration which has been committed to the system. The configurations
+are versioned locally for rollback but they can also be stored on a
+remote host for archiving/backup reasons.</p>
+<p>Revisions are stored on disk. You can view, compare and rollback them to
+any previous revisions if something goes wrong.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-system-commit">
+show system commit</span>
+<a class="cmdlink" href="#opcmd-show-system-commit" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>View all existing revisions on the local system.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show system commit
+0   2015-03-30 08:53:03 by vyos via cli
+1   2015-03-30 08:52:20 by vyos via cli
+2   2015-03-26 21:26:01 by root via boot-config-loader
+3   2015-03-26 20:43:18 by root via boot-config-loader
+4   2015-03-25 11:06:14 by root via boot-config-loader
+5   2015-03-25 01:04:28 by root via boot-config-loader
+6   2015-03-25 00:16:47 by vyos via cli
+7   2015-03-24 23:43:45 by root via boot-config-loader
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-config-management-commit-revisions-n">
+set system config-management commit-revisions &lt;N&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-config-management-commit-revisions-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>You can specify the number of revisions stored on disk. N can be in
+the range of 0 - 65535. When the number of revisions exceeds the
+configured value, the oldest revision is removed. The default setting
+for this value is to store 100 revisions locally.</p>
+</div>
+</div>
+<p>VyOS lets you compare different configurations.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-compare-saved-n-m">
+compare &lt;saved | N&gt; &lt;M&gt;</span>
+<a class="cmdlink" href="#cfgcmd-compare-saved-n-m" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to spot what the differences are between different
+configurations.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# compare [tab]
+Possible completions:
+  &lt;Enter&gt;  Compare working &amp; active configurations
+  saved            Compare working &amp; saved configurations
+  &lt;N&gt;              Compare working with revision N
+  &lt;N&gt; &lt;M&gt;  Compare revision N with M
+  Revisions:
+    0         2013-12-17 20:01:37 root by boot-config-loader
+    1         2013-12-13 15:59:31 root by boot-config-loader
+    2         2013-12-12 21:56:22 vyos by cli
+    3         2013-12-12 21:55:11 vyos by cli
+    4         2013-12-12 21:27:54 vyos by cli
+    5         2013-12-12 21:23:29 vyos by cli
+    6         2013-12-12 21:13:59 root by boot-config-loader
+    7         2013-12-12 16:25:19 vyos by cli
+    8         2013-12-12 15:44:36 vyos by cli
+    9         2013-12-12 15:42:07 root by boot-config-loader
+    10   2013-12-12 15:42:06 root by init
+</pre></div>
+</div>
+<p>The command <code class="docutils literal notranslate"><span class="pre">compare</span></code> allows you to compare different type of
+configurations. It also lets you compare different revisions through
+the <code class="docutils literal notranslate"><span class="pre">compare</span> <span class="pre">N</span> <span class="pre">M</span></code> command, where N and M are revision
+numbers. The output will describe how the configuration N is when
+compared to M indicating with a plus sign (<code class="docutils literal notranslate"><span class="pre">+</span></code>) the additional
+parts N has when compared to M, and indicating with a minus sign
+(<code class="docutils literal notranslate"><span class="pre">-</span></code>) the lacking parts N misses when compared to M.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# compare 0 6
+[edit interfaces]
++dummy dum1 {
++    address 10.189.0.1/31
++}
+[edit interfaces ethernet eth0]
++vif 99 {
++    address 10.199.0.1/31
++}
+-vif 900 {
+-    address 192.0.2.4/24
+-}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-system-commit-diff-number">
+show system commit diff &lt;number&gt;</span>
+<a class="cmdlink" href="#opcmd-show-system-commit-diff-number" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show commit revision difference.</p>
+</div>
+</div>
+<p>The command above also lets you see the difference between two commits.
+By default the difference with the running config is shown.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@router# run show system commit diff 4
+[edit system]
++ipv6 {
++    disable-forwarding
++}
+</pre></div>
+</div>
+<p>This means four commits ago we did <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">ipv6</span> <span class="pre">disable-forwarding</span></code>.</p>
+<p>You can rollback configuration changes using the rollback command. This
+will apply the selected revision and trigger a system reboot.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-rollback-n">
+rollback &lt;N&gt;</span>
+<a class="cmdlink" href="#cfgcmd-rollback-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Rollback to revision N (currently requires reboot)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# compare 1
+[edit system]
+&gt;host-name vyos-1
+[edit]
+
+vyos@vyos# rollback 1
+Proceed with reboot? [confirm][y]
+Broadcast message from root@vyos-1 (pts/0) (Tue Dec 17 21:07:45 2013):
+The system is going down for reboot NOW!
+</pre></div>
+</div>
+</div>
+</div>
+<p>VyOS can upload the configuration to a remote location after each call
+to <code class="docutils literal notranslate"><span class="pre">commit</span></code>. You will have to set the commit-archive location.
+TFTP, FTP, SCP and SFTP servers are supported. Every time a
+<code class="docutils literal notranslate"><span class="pre">commit</span></code> is successful the <code class="docutils literal notranslate"><span class="pre">config.boot</span></code> file will be copied
+to the defined destination(s). The filename used on the remote host will
+be <code class="docutils literal notranslate"><span class="pre">config.boot-hostname.YYYYMMDD_HHMMSS</span></code>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-config-management-commit-archive-location-uri">
+set system config-management commit-archive location &lt;URI&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-config-management-commit-archive-location-uri" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify remote location of commit archive as any of the below
+<abbr title="Uniform Resource Identifier">URI</abbr></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">http://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;:/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">https://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;:/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ftp://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sftp://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scp://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;:/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tftp://&lt;host&gt;/&lt;dir&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git+https://&lt;user&gt;:&lt;passwd&gt;&#64;&lt;host&gt;/&lt;path&gt;</span></code></p></li>
+</ul>
+<p>Since username and password are part of the URI, they need to be
+properly url encoded if containing special characters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of revisions don’t affect the commit-archive.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using Git as destination for the commit archive the
+<code class="docutils literal notranslate"><span class="pre">source-address</span></code> CLI option has no effect.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may find VyOS not allowing the secure connection because
+it cannot verify the legitimacy of the remote server. You can use
+the workaround below to quickly add the remote host’s SSH
+fingerprint to your <code class="docutils literal notranslate"><span class="pre">~/.ssh/known_hosts</span></code> file:</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# ssh-keyscan &lt;host&gt; &gt;&gt; ~/.ssh/known_hosts
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">save</span></code> and <code class="docutils literal notranslate"><span class="pre">load</span></code> commands if you want to manually
+manage specific configuration files.</p>
+<p>When using the <a class="reference internal" href="#save">save</a> command, you can add a specific location where
+to store your configuration file. And, when needed it, you will be able
+to load it with the <code class="docutils literal notranslate"><span class="pre">load</span></code> command:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-load-uri">
+load &lt;URI&gt;</span>
+<a class="cmdlink" href="#cfgcmd-load-uri" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Use this command to load a configuration which will replace the
+running configuration. Define the location of the configuration file
+to be loaded. You can use a path to a local file, an SCP address, an
+SFTP address, an FTP address, an HTTP address, an HTTPS address or a
+TFTP address.</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# load
+Possible completions:
+  &lt;Enter&gt;                                  Load from system config file
+  &lt;file&gt;                                   Load from file on local machine
+  scp://&lt;user&gt;:&lt;passwd&gt;@&lt;host&gt;:/&lt;file&gt;     Load from file on remote machine
+  sftp://&lt;user&gt;:&lt;passwd&gt;@&lt;host&gt;/&lt;file&gt;     Load from file on remote machine
+  ftp://&lt;user&gt;:&lt;passwd&gt;@&lt;host&gt;/&lt;file&gt;      Load from file on remote machine
+  http://&lt;host&gt;/&lt;file&gt;                     Load from file on remote machine
+  https://&lt;host&gt;/&lt;file&gt;                    Load from file on remote machine
+  tftp://&lt;host&gt;/&lt;file&gt;                     Load from file on remote machine
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the case you want to completely delete your configuration and restore
+the default one, you can enter the following command in configuration
+mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load /opt/vyatta/etc/config.boot.default
+</pre></div>
+</div>
+<p>You will be asked if you want to continue. If you accept, you will have
+to use <code class="docutils literal notranslate"><span class="pre">commit</span></code> if you want to make the changes active.</p>
+<p>Then you may want to <code class="docutils literal notranslate"><span class="pre">save</span></code> in order to delete the saved
+configuration too.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are remotely connected, you will lose your connection.
+You may want to copy first the config, edit it to ensure
+connectivity, and load the edited config.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quick-start.html" class="btn btn-neutral float-left" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration/index.html" class="btn btn-neutral float-right" title="Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

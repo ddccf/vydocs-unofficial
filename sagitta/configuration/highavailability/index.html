@@ -1,0 +1,667 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>High availability &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Interfaces" href="../interfaces/index.html" />
+    <link rel="prev" title="Zone Based Firewall" href="../firewall/zone.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">High availability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-setup">Basic setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ipv6-support">IPv6 support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#address">Address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disabling-a-vrrp-group">Disabling a VRRP group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exclude-address">Exclude address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-vrrp-group-priority">Setting VRRP group priority</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sync-groups">Sync groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preemption">Preemption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#track">Track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unicast-vrrp">Unicast VRRP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rfc3768-compatibility">rfc3768-compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-options">Global options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gratuitous-arp">Gratuitous ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version">Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scripting">Scripting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#health-check-scripts">Health check scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transition-scripts">Transition scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-server">Virtual-server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algorithm">Algorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#forward-method">Forward method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#health-check">Health-check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fwmark">Fwmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#real-server">Real server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+      <li class="breadcrumb-item active">High availability</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/highavailability/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="high-availability">
+<span id="id1"></span><h1>High availability<a class="headerlink" href="#high-availability" title="Link to this heading"></a></h1>
+<p>VRRP (Virtual Router Redundancy Protocol) provides active/backup redundancy for
+routers. Every VRRP router has a physical IP/IPv6 address, and a virtual
+address. On startup, routers elect the master, and the router with the highest
+priority becomes the master and assigns the virtual address to its interface.
+All routers with lower priorities become backup routers. The master then starts
+sending keepalive packets to notify other routers that it’s available. If the
+master fails and stops sending keepalive packets, the router with the next
+highest priority becomes the new master and takes over the virtual address.</p>
+<p>VRRP keepalive packets use multicast, and VRRP setups are limited to a single
+datalink layer segment. You can setup multiple VRRP groups
+(also called virtual routers). Virtual routers are identified by a
+VRID (Virtual Router IDentifier). If you setup multiple groups on the same
+interface, their VRIDs must be unique if they use the same address family,
+but it’s possible (even if not recommended for readability reasons) to use
+duplicate VRIDs on different interfaces.</p>
+<section id="basic-setup">
+<h2>Basic setup<a class="headerlink" href="#basic-setup" title="Link to this heading"></a></h2>
+<p>VRRP groups are created with the
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">high-availability</span> <span class="pre">vrrp</span> <span class="pre">group</span> <span class="pre">$GROUP_NAME</span></code> commands. The required
+parameters are interface, vrid, and address.</p>
+<p>minimal config</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo vrid 10
+set high-availability vrrp group Foo interface eth0
+set high-availability vrrp group Foo address 192.0.2.1/24
+</pre></div>
+</div>
+<p>You can verify your VRRP group status with the operational mode
+<code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">show</span> <span class="pre">vrrp</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show vrrp
+Name        Interface      VRID  State    Last Transition
+----------  -----------  ------  -------  -----------------
+Foo         eth1             10  MASTER   2s
+</pre></div>
+</div>
+</section>
+<section id="ipv6-support">
+<h2>IPv6 support<a class="headerlink" href="#ipv6-support" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">address</span></code> parameter can be either an IPv4 or IPv6 address, but you can
+not mix IPv4 and IPv6 in the same group, and will need to create groups with
+different VRIDs specially for IPv4 and IPv6.
+If you want to use IPv4 + IPv6 address you can use option <code class="docutils literal notranslate"><span class="pre">excluded-address</span></code></p>
+</section>
+<section id="address">
+<h2>Address<a class="headerlink" href="#address" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">address</span></code> can be configured either on the VRRP interface or on not VRRP
+interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo address 192.0.2.1/24
+set high-availability vrrp group Foo address 203.0.113.22/24 interface eth2
+set high-availability vrrp group Foo address 198.51.100.33/24 interface eth3
+</pre></div>
+</div>
+</section>
+<section id="disabling-a-vrrp-group">
+<h2>Disabling a VRRP group<a class="headerlink" href="#disabling-a-vrrp-group" title="Link to this heading"></a></h2>
+<p>You can disable a VRRP group with <code class="docutils literal notranslate"><span class="pre">disable</span></code> option:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo disable
+</pre></div>
+</div>
+<p>A disabled group will be removed from the VRRP process and your router will not
+participate in VRRP for that VRID. It will disappear from operational mode
+commands output, rather than enter the backup state.</p>
+</section>
+<section id="exclude-address">
+<h2>Exclude address<a class="headerlink" href="#exclude-address" title="Link to this heading"></a></h2>
+<p>Exclude IP addresses from <code class="docutils literal notranslate"><span class="pre">VRRP</span> <span class="pre">packets</span></code>. This option <code class="docutils literal notranslate"><span class="pre">excluded-address</span></code> is
+used when you want to set IPv4 + IPv6 addresses on the same virtual interface
+or when used more than 20 IP addresses.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo excluded-address &#39;203.0.113.254/24&#39;
+set high-availability vrrp group Foo excluded-address &#39;2001:db8:aa::1/64&#39;
+set high-availability vrrp group Foo excluded-address &#39;2001:db8:22::1/64&#39;
+</pre></div>
+</div>
+</section>
+<section id="setting-vrrp-group-priority">
+<h2>Setting VRRP group priority<a class="headerlink" href="#setting-vrrp-group-priority" title="Link to this heading"></a></h2>
+<p>VRRP priority can be set with <code class="docutils literal notranslate"><span class="pre">priority</span></code> option:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo priority 200
+</pre></div>
+</div>
+<p>The priority must be an integer number from 1 to 255. Higher priority value
+increases router’s precedence in the master elections.</p>
+</section>
+<section id="sync-groups">
+<h2>Sync groups<a class="headerlink" href="#sync-groups" title="Link to this heading"></a></h2>
+<p>A sync group allows VRRP groups to transition together.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>edit high-availability vrrp
+set sync-group MAIN member VLAN9
+set sync-group MAIN member VLAN20
+</pre></div>
+</div>
+<p>In the following example, when VLAN9 transitions, VLAN20 will also transition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vrrp {
+    group VLAN9 {
+        interface eth0.9
+        address 10.9.1.1/24
+        priority 200
+        vrid 9
+    }
+    group VLAN20 {
+        interface eth0.20
+        priority 200
+        address 10.20.20.1/24
+        vrid 20
+    }
+    sync-group MAIN {
+        member VLAN20
+        member VLAN9
+    }
+}
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All items in a sync group should be similarly configured.
+If one VRRP group is set to a different preemption delay or priority,
+it would result in an endless transition loop.</p>
+</div>
+</section>
+<section id="preemption">
+<h2>Preemption<a class="headerlink" href="#preemption" title="Link to this heading"></a></h2>
+<p>VRRP can use two modes: preemptive and non-preemptive. In the preemptive mode,
+if a router with a higher priority fails and then comes back, routers with lower
+priority will give up their master status. In non-preemptive mode, the newly
+elected master will keep the master status and the virtual address indefinitely.</p>
+<p>By default VRRP uses preemption. You can disable it with the “no-preempt”
+option:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo no-preempt
+</pre></div>
+</div>
+<p>You can also configure the time interval for preemption with the “preempt-delay”
+option. For example, to set the higher priority router to take over in 180
+seconds, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo preempt-delay 180
+</pre></div>
+</div>
+</section>
+<section id="track">
+<h2>Track<a class="headerlink" href="#track" title="Link to this heading"></a></h2>
+<p>Track option to track non VRRP interface states. VRRP changes status to
+<code class="docutils literal notranslate"><span class="pre">FAULT</span></code> if one of the track interfaces in state <code class="docutils literal notranslate"><span class="pre">down</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo track interface eth0
+set high-availability vrrp group Foo track interface eth1
+</pre></div>
+</div>
+<p>Ignore VRRP main interface faults</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo track exclude-vrrp-interface
+</pre></div>
+</div>
+</section>
+<section id="unicast-vrrp">
+<h2>Unicast VRRP<a class="headerlink" href="#unicast-vrrp" title="Link to this heading"></a></h2>
+<p>By default VRRP uses multicast packets. If your network does not support
+multicast for whatever reason, you can make VRRP use unicast communication
+instead.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo peer-address 192.0.2.10
+set high-availability vrrp group Foo hello-source-address 192.0.2.15
+</pre></div>
+</div>
+</section>
+<section id="rfc3768-compatibility">
+<h2>rfc3768-compatibility<a class="headerlink" href="#rfc3768-compatibility" title="Link to this heading"></a></h2>
+<p>RFC 3768 defines a virtual MAC address to each VRRP virtual router.
+This virtual router MAC address will be used as the source in all periodic VRRP
+messages sent by the active node. When the rfc3768-compatibility option is set,
+a new VRRP interface is created, to which the MAC address and the virtual IP
+address is automatically assigned.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo rfc3768-compatibility
+</pre></div>
+</div>
+<p>Verification</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$show interfaces ethernet eth0v10
+eth0v10@eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue
+state UP group default qlen 1000
+link/ether 00:00:5e:00:01:0a brd ff:ff:ff:ff:ff:ff
+inet 172.25.0.247/16 scope global eth0v10
+valid_lft forever preferred_lft forever
+</pre></div>
+</div>
+</section>
+<section id="global-options">
+<h2>Global options<a class="headerlink" href="#global-options" title="Link to this heading"></a></h2>
+<p>On most scenarios, there’s no need to change specific parameters, and using
+default configuration is enough. But there are cases were extra configuration
+is needed.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-startup-delay-1-600">
+set high-availability vrrp global-parameters startup_delay &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-startup-delay-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This option specifies a delay in seconds before vrrp instances start up
+after keepalived starts.</p>
+</div>
+</div>
+</section>
+<section id="gratuitous-arp">
+<h2>Gratuitous ARP<a class="headerlink" href="#gratuitous-arp" title="Link to this heading"></a></h2>
+<p>These configuration is not mandatory and in most cases there’s no
+need to configure it. But if necessary, Gratuitous ARP can be configured in
+<code class="docutils literal notranslate"><span class="pre">global-parameters</span></code> and/or in <code class="docutils literal notranslate"><span class="pre">group</span></code> section.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-garp-interval-0-000-1000">
+set high-availability vrrp global-parameters garp interval &lt;0.000-1000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-garp-interval-0-000-1000" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-group-name-garp-interval-0-000-1000">
+set high-availability vrrp group &lt;name&gt; garp interval &lt;0.000-1000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-group-name-garp-interval-0-000-1000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set delay between gratuitous ARP messages sent on an interface.</p>
+<p>0 if not defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-delay-1-255">
+set high-availability vrrp global-parameters garp master-delay &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-delay-1-255" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-group-name-garp-master-delay-1-255">
+set high-availability vrrp group &lt;name&gt; garp master-delay &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-group-name-garp-master-delay-1-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set delay for second set of gratuitous ARPs after transition to MASTER.</p>
+<p>5 if not defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-refresh-1-600">
+set high-availability vrrp global-parameters garp master-refresh &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-refresh-1-600" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-group-name-garp-master-refresh-1-600">
+set high-availability vrrp group &lt;name&gt; garp master-refresh &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-group-name-garp-master-refresh-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set minimum time interval for refreshing gratuitous ARPs while MASTER.</p>
+<p>0 if not defined, which means no refreshing.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-refresh-repeat-1-600">
+set high-availability vrrp global-parameters garp master-refresh-repeat &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-refresh-repeat-1-600" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-group-name-garp-master-refresh-repeat-1-600">
+set high-availability vrrp group &lt;name&gt; garp master-refresh-repeat &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-group-name-garp-master-refresh-repeat-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set number of gratuitous ARP messages to send at a time while MASTER.</p>
+<p>1 if not defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-repeat-1-600">
+set high-availability vrrp global-parameters garp master-repeat &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-garp-master-repeat-1-600" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-group-name-garp-master-repeat-1-600">
+set high-availability vrrp group &lt;name&gt; garp master-repeat &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-group-name-garp-master-repeat-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set number of gratuitous ARP messages to send at a time after transition to
+MASTER.</p>
+<p>5 if not defined.</p>
+</div>
+</div>
+</section>
+<section id="version">
+<h2>Version<a class="headerlink" href="#version" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-high-availability-vrrp-global-parameters-version-2-3">
+set high-availability vrrp global-parameters version 2|3</span>
+<a class="cmdlink" href="#cfgcmd-set-high-availability-vrrp-global-parameters-version-2-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the default VRRP version to use. This defaults to 2, but IPv6 instances
+will always use version 3.</p>
+</div>
+</div>
+</section>
+<section id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Link to this heading"></a></h2>
+<p>VRRP functionality can be extended with scripts. VyOS supports two kinds of
+scripts: health check scripts and transition scripts. Health check scripts
+execute custom checks in addition to the master router reachability. Transition
+scripts are executed when VRRP state changes from master to backup or fault and
+vice versa and can be used to enable or disable certain services, for example.</p>
+<section id="health-check-scripts">
+<h3>Health check scripts<a class="headerlink" href="#health-check-scripts" title="Link to this heading"></a></h3>
+<p>This setup will make the VRRP process execute the
+<code class="docutils literal notranslate"><span class="pre">/config/scripts/vrrp-check.sh</span> <span class="pre">script</span></code> every 60 seconds, and transition the
+group to the fault state if it fails (i.e. exits with non-zero status) three
+times:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo health-check script /config/scripts/vrrp-check.sh
+set high-availability vrrp group Foo health-check interval 60
+set high-availability vrrp group Foo health-check failure-count 3
+</pre></div>
+</div>
+<p>When the vrrp group is a member of the sync group will use only
+the sync group health check script.
+This example shows how to configure it for the sync group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp sync-group Bar health-check script /config/scripts/vrrp-check.sh
+set high-availability vrrp sync-group Bar health-check interval 60
+set high-availability vrrp sync-group Bar health-check failure-count 3
+</pre></div>
+</div>
+</section>
+<section id="transition-scripts">
+<h3>Transition scripts<a class="headerlink" href="#transition-scripts" title="Link to this heading"></a></h3>
+<p>Transition scripts can help you implement various fixups, such as starting and
+stopping services, or even modifying the VyOS config on VRRP transition.
+This setup will make the VRRP process execute the
+<code class="docutils literal notranslate"><span class="pre">/config/scripts/vrrp-fail.sh</span></code> with argument <code class="docutils literal notranslate"><span class="pre">Foo</span></code> when VRRP fails,
+and the <code class="docutils literal notranslate"><span class="pre">/config/scripts/vrrp-master.sh</span></code> when the router becomes the master:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group Foo transition-script backup &quot;/config/scripts/vrrp-fail.sh Foo&quot;
+set high-availability vrrp group Foo transition-script fault &quot;/config/scripts/vrrp-fail.sh Foo&quot;
+set high-availability vrrp group Foo transition-script master &quot;/config/scripts/vrrp-master.sh Foo&quot;
+</pre></div>
+</div>
+<p>To know more about scripting, check the <a class="reference internal" href="../../automation/command-scripting.html#command-scripting"><span class="std std-ref">Command Scripting</span></a> section.</p>
+</section>
+</section>
+<section id="virtual-server">
+<h2>Virtual-server<a class="headerlink" href="#virtual-server" title="Link to this heading"></a></h2>
+<div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><p>Virtual Server allows to Load-balance traffic destination virtual-address:port
+between several real servers.</p>
+<section id="algorithm">
+<h3>Algorithm<a class="headerlink" href="#algorithm" title="Link to this heading"></a></h3>
+<p>Load-balancing schedule algorithm:</p>
+<ul class="simple">
+<li><p>round-robin</p></li>
+<li><p>weighted-round-robin</p></li>
+<li><p>least-connection</p></li>
+<li><p>weighted-least-connection</p></li>
+<li><p>source-hashing</p></li>
+<li><p>destination-hashing</p></li>
+<li><p>locality-based-least-connection</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability virtual-server 203.0.113.1 algorithm &#39;least-connection&#39;
+</pre></div>
+</div>
+</section>
+<section id="forward-method">
+<h3>Forward method<a class="headerlink" href="#forward-method" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>NAT</p></li>
+<li><p>direct</p></li>
+<li><p>tunnel</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability virtual-server 203.0.113.1 forward-method &#39;nat&#39;
+</pre></div>
+</div>
+</section>
+<section id="health-check">
+<h3>Health-check<a class="headerlink" href="#health-check" title="Link to this heading"></a></h3>
+<p>Custom health-check script allows checking real-server availability</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability virtual-server 203.0.113.1 real-server 192.0.2.11 health-check script &lt;path-to-script&gt;
+</pre></div>
+</div>
+</section>
+<section id="fwmark">
+<h3>Fwmark<a class="headerlink" href="#fwmark" title="Link to this heading"></a></h3>
+<p>Firewall mark. It possible to loadbalancing traffic based on <code class="docutils literal notranslate"><span class="pre">fwmark</span></code> value</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability virtual-server 203.0.113.1 fwmark &#39;111&#39;
+</pre></div>
+</div>
+</section>
+<section id="real-server">
+<h3>Real server<a class="headerlink" href="#real-server" title="Link to this heading"></a></h3>
+<p>Real server IP address and port</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability virtual-server 203.0.113.1 real-server 192.0.2.11 port &#39;80&#39;
+</pre></div>
+</div>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>Virtual-server can be configured with VRRP virtual address or without VRRP.</p>
+<p>In the next example all traffic destined to <code class="docutils literal notranslate"><span class="pre">203.0.113.1</span></code> and port <code class="docutils literal notranslate"><span class="pre">8280</span></code>
+protocol TCP is balanced between 2 real servers <code class="docutils literal notranslate"><span class="pre">192.0.2.11</span></code> and
+<code class="docutils literal notranslate"><span class="pre">192.0.2.12</span></code> to port <code class="docutils literal notranslate"><span class="pre">80</span></code></p>
+<p>Real server is auto-excluded if port check with this server fail.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address &#39;203.0.113.11/24&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.1/24&#39;
+set high-availability vrrp group FOO interface &#39;eth0&#39;
+set high-availability vrrp group FOO no-preempt
+set high-availability vrrp group FOO priority &#39;150&#39;
+set high-availability vrrp group FOO address &#39;203.0.113.1/24&#39;
+set high-availability vrrp group FOO vrid &#39;10&#39;
+
+set high-availability virtual-server 203.0.113.1 algorithm &#39;source-hashing&#39;
+set high-availability virtual-server 203.0.113.1 delay-loop &#39;10&#39;
+set high-availability virtual-server 203.0.113.1 forward-method &#39;nat&#39;
+set high-availability virtual-server 203.0.113.1 persistence-timeout &#39;180&#39;
+set high-availability virtual-server 203.0.113.1 port &#39;8280&#39;
+set high-availability virtual-server 203.0.113.1 protocol &#39;tcp&#39;
+set high-availability virtual-server 203.0.113.1 real-server 192.0.2.11 port &#39;80&#39;
+set high-availability virtual-server 203.0.113.1 real-server 192.0.2.12 port &#39;80&#39;
+</pre></div>
+</div>
+<p>A firewall mark <code class="docutils literal notranslate"><span class="pre">fwmark</span></code> allows using multiple ports for high-availability
+virtual-server.
+It uses fwmark value.</p>
+<p>In this example all traffic destined to ports “80, 2222, 8888” protocol TCP
+marks to fwmark “111” and balanced between 2 real servers.
+Port “0” is required if multiple ports are used.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address &#39;dhcp&#39;
+set interfaces ethernet eth0 description &#39;WAN&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.1/24&#39;
+set interfaces ethernet eth1 description &#39;LAN&#39;
+
+set policy route PR interface &#39;eth0&#39;
+set policy route PR rule 10 destination port &#39;80,2222,8888&#39;
+set policy route PR rule 10 protocol &#39;tcp&#39;
+set policy route PR rule 10 set mark &#39;111&#39;
+
+set high-availability virtual-server vyos fwmark &#39;111&#39;
+set high-availability virtual-server vyos protocol &#39;tcp&#39;
+set high-availability virtual-server vyos real-server 192.0.2.11 health-check script &#39;/config/scripts/check-real-server-first.sh&#39;
+set high-availability virtual-server vyos real-server 192.0.2.11 port &#39;0&#39;
+set high-availability virtual-server vyos real-server 192.0.2.12 health-check script &#39;/config/scripts/check-real-server-second.sh&#39;
+set high-availability virtual-server vyos real-server 192.0.2.12 port &#39;0&#39;
+
+set nat source rule 100 outbound-interface &#39;eth0&#39;
+set nat source rule 100 source address &#39;192.0.2.0/24&#39;
+set nat source rule 100 translation address &#39;masquerade&#39;
+</pre></div>
+</div>
+<p>Op-mode check virtual-server status</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@r14:~$ run show virtual-server
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn
+FWM  111 lc persistent 300
+  -&gt; 192.0.2.11:0                 Masq    1      0          0
+  -&gt; 192.0.2.12:0                 Masq    1      1          0
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../firewall/zone.html" class="btn btn-neutral float-left" title="Zone Based Firewall" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../interfaces/index.html" class="btn btn-neutral float-right" title="Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

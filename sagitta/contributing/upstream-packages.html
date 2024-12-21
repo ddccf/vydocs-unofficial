@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upstream packages &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Debugging" href="debugging.html" />
+    <link rel="prev" title="Issues/Feature requests" href="issues-features.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Upstream packages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vyos-netplug">vyos-netplug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keepalived">keepalived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#strongswan">strongswan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mdns-repeater">mdns-repeater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#udp-broadcast-relay">udp-broadcast-relay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hvinfo">hvinfo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Upstream packages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/contributing/upstream-packages.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="upstream-packages">
+<span id="id1"></span><h1>Upstream packages<a class="headerlink" href="#upstream-packages" title="Link to this heading"></a></h1>
+<p>Many base system packages are pulled straight from Debian’s main and contrib
+repositories, but there are exceptions.</p>
+<p>This chapter lists those exceptions and gives you a brief overview what we
+have done on those packages. If you only want to build yourself a fresh ISO
+you can completely skip this chapter. It may become interesting once you have
+a VyOS deep dive.</p>
+<section id="vyos-netplug">
+<h2>vyos-netplug<a class="headerlink" href="#vyos-netplug" title="Link to this heading"></a></h2>
+<p>Due to issues in the upstream version that sometimes set interfaces down, a
+modified version is used.</p>
+<p>The source is located at <a class="reference external" href="https://github.com/vyos/vyos-netplug">https://github.com/vyos/vyos-netplug</a></p>
+<p>In the future, we may switch to using systemd infrastructure instead. Building
+it doesn’t require a special procedure.</p>
+</section>
+<section id="keepalived">
+<h2>keepalived<a class="headerlink" href="#keepalived" title="Link to this heading"></a></h2>
+<p>Keepalived normally isn’t updated to newer feature releases between Debian
+versions, so we are building it from source.</p>
+<p>Debian does keep their package in git, but it’s upstream tarball imported into
+git without its original commit history. To be able to merge new tags in, we
+keep a fork of the upstream repository with packaging files imported from
+Debian at <a class="reference external" href="https://github.com/vyos/keepalived-upstream">https://github.com/vyos/keepalived-upstream</a></p>
+</section>
+<section id="strongswan">
+<h2>strongswan<a class="headerlink" href="#strongswan" title="Link to this heading"></a></h2>
+<p>Our StrongSWAN build differs from the upstream:</p>
+<ul class="simple">
+<li><p>strongswan-nm package build is disabled since we don’t use NetworkManager</p></li>
+<li><p>Patches for DMVPN are merged in</p></li>
+</ul>
+<p>The source is at <a class="reference external" href="https://github.com/vyos/vyos-strongswan">https://github.com/vyos/vyos-strongswan</a></p>
+<p>DMVPN patches are added by this commit:
+<a class="reference external" href="https://github.com/vyos/vyos-strongswan/commit/1cf12b0f2f921bfc51affa3b81226">https://github.com/vyos/vyos-strongswan/commit/1cf12b0f2f921bfc51affa3b81226</a></p>
+<p>Our op mode scripts use the python-vici module, which is not included in
+Debian’s build, and isn’t quite easy to integrate in that build. For this
+reason we debianize that module by hand now, using this procedure:</p>
+<ol class="arabic simple" start="0">
+<li><p>Install <a class="reference external" href="https://pypi.org/project/stdeb/">https://pypi.org/project/stdeb/</a></p></li>
+<li><p><cite>cd vyos-strongswan</cite></p></li>
+<li><p><cite>./configure –enable-python-eggs</cite></p></li>
+<li><p><cite>cd src/libcharon/plugins/vici/python</cite></p></li>
+<li><p><cite>make</cite></p></li>
+<li><p><cite>python3 setup.py –command-packages=stdeb.command bdist_deb</cite></p></li>
+</ol>
+<p>The package ends up in deb_dist dir.</p>
+</section>
+<section id="mdns-repeater">
+<h2>mdns-repeater<a class="headerlink" href="#mdns-repeater" title="Link to this heading"></a></h2>
+<p>This package doesn’t exist in Debian. A debianized fork is kept at
+<a class="reference external" href="https://github.com/vyos/mdns-repeater">https://github.com/vyos/mdns-repeater</a></p>
+<p>No special build procedure is required.</p>
+</section>
+<section id="udp-broadcast-relay">
+<h2>udp-broadcast-relay<a class="headerlink" href="#udp-broadcast-relay" title="Link to this heading"></a></h2>
+<p>This package doesn’t exist in Debian. A debianized fork is kept at
+<a class="reference external" href="https://github.com/vyos/udp-broadcast-relay">https://github.com/vyos/udp-broadcast-relay</a></p>
+<p>No special build procedure is required.</p>
+</section>
+<section id="hvinfo">
+<h2>hvinfo<a class="headerlink" href="#hvinfo" title="Link to this heading"></a></h2>
+<p>A fork with packaging changes for VyOS is kept at <a class="reference external" href="https://github.com/vyos/hvinfo">https://github.com/vyos/hvinfo</a></p>
+<p>The original repo is at <a class="reference external" href="https://github.com/dmbaturin/hvinfo">https://github.com/dmbaturin/hvinfo</a></p>
+<p>It’s an Ada program and requires GNAT and gprbuild for building, dependencies
+are properly specified so just follow debuild’s suggestions.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="issues-features.html" class="btn btn-neutral float-left" title="Issues/Feature requests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="debugging.html" class="btn btn-neutral float-right" title="Debugging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

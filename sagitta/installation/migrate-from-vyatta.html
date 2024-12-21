@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migrate from Vyatta Core &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Quick Start" href="../quick-start.html" />
+    <link rel="prev" title="Image Management" href="image.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtual/index.html">Running VyOS in Virtual Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud/index.html">Running VyOS in Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-on-baremetal.html">Running on Bare Metal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image Management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Migrate from Vyatta Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vyatta-release-compatibility">Vyatta release compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#upgrade-procedure">Upgrade procedure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Migrate from Vyatta Core</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/installation/migrate-from-vyatta.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="migrate-from-vyatta-core">
+<span id="migrate-from-vyatta"></span><h1>Migrate from Vyatta Core<a class="headerlink" href="#migrate-from-vyatta-core" title="Link to this heading"></a></h1>
+<p>VyOS 1.x line aims to preserve backward compatibility and provide a safe
+upgrade path for existing Vyatta Core users. You may think of VyOS 1.0.0 as
+VC7.0.</p>
+<section id="vyatta-release-compatibility">
+<h2>Vyatta release compatibility<a class="headerlink" href="#vyatta-release-compatibility" title="Link to this heading"></a></h2>
+<p>Vyatta Core releases from 6.5 to 6.6 should be 100% compatible.</p>
+<p>Vyatta Core 6.4 and earlier may have incompatibilities. In Vyatta 6.5 the
+“modify” firewall was removed and replaced with the <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">policy</span> <span class="pre">route</span></code>
+command family, old configs can not be automatically converted. You will have
+to adapt it to post-6.5 Vyatta syntax manually.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also, in Vyatta Core 6.5 remote access VPN interfaces have been
+renamed from <code class="docutils literal notranslate"><span class="pre">pppX</span></code>  to <code class="docutils literal notranslate"><span class="pre">l2tpX</span></code> and <code class="docutils literal notranslate"><span class="pre">pptpX</span></code>. If you are using
+zone based firewalling in Vyatta Core pre-6.5 versions, make sure to change
+interface names in rules for remote access VPN.</p>
+</div>
+</section>
+<section id="upgrade-procedure">
+<h2>Upgrade procedure<a class="headerlink" href="#upgrade-procedure" title="Link to this heading"></a></h2>
+<p>You just use <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">system</span> <span class="pre">image</span></code>, as if it was a new VC release (see
+<a class="reference internal" href="update.html#update-vyos"><span class="std std-ref">Update VyOS</span></a> for additional information). The only thing you want to do
+is to verify the new images digital signature. You will have to add the public
+key manually once as it is not shipped the first time.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyatta@vyatta:~$ wget http://wiki.vyos.net/so3group_maintainers.key
+Connecting to vyos.net (x.x.x.x:80)
+so3group_maintainers 100% |*************************|  3125  --:--:-- ETA
+vyatta@vyatta:~$ sudo apt-key add so3group_maintainers.key
+OK
+vyatta@vyatta:~$
+</pre></div>
+</div>
+<p>For completion the key below corresponds to the key listed in the URL above.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+mQINBFIIUZwBEADGl+wkZpYytQxd6LnjDZZScziBKYJbjInetYeS0SUrgpqnPkzL
+2CiGfPczLwpYY0zWxpUhTvqjFsE5yDpgs0sPXIgUTFE1qfZQE+WD1I1EUM6sp/38
+2xKQ9QaNc8oHuYINLYYmNYra6ZjIGtQP9WOX//IDYB3fhdwlmiW2z0hux2OnPWdh
+hPZAmSrx5AiXFEEREJ1cAQyvYk7hgIRvM/rdQMUm+u4/z+S4mxCHE10KzlqOGhRv
+hA8WQxHCVusMFGwXoKHxYf9OQpV7lsfOCODfXOMP/L9kHQ5/gBsLL5hHst+o/3VG
+ec0QuVrVkBBehgrqhfJW2noq+9gTooURGImQHEOyE0xpJdFrrgk5Ii9RqQwdVRzI
+ZPbqbo8uuldZIRJRGnfx+vAR9812yo38NVZ/X0P/hkkrx+UeGVgpC/ao5XLRiOzL
+7ZBMWLA6FVmZ7mkpqdzuMXX5548ApACm6EKErULIhTYDGDzFxA3cf6gr5VVi4usD
+wglVs+FHuiLehmuuPTMoVcT2R6+Ht44hG3BmQmKzh/SSEa1g9gKgrhZrMdIyK4hu
+GvMqLw9z9BgJbWB3BgXOUdlkXLDwBvVpEcWsPJgxSjAvjAbLLE4YkKAdYU8bQ0Pd
+JuN485tcXxgQCadFZB0gcipQAvVf4b810HrY88g6FldfauHxiACOlXscZwARAQAB
+tDBTTzMgR3JvdXAgTWFpbnRhaW5lcnMgPG1haW50YWluZXJzQHNvM2dyb3VwLm5l
+dD6JAjgEEwECACIFAlIIUZwCGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJ
+ELdE4lqkQubp8GsQAKntoRFG6bWX/4WPw7Vo7kIF5kWcmv3lVb0AQkacscWope7T
+Iq0VcgpAycJue2bSS9LAsvNtpVkQmFawbwFjqB3CC5NbPNQ4Kf+gswKa+yaHwejo
+7dkslAwxgXHe5g76DG7CVLMsMg6zVDFYuzeksPywls/OJBIpkuGqeXy9tAHjQzjA
+SlZV3Gsx7azESjiVQ73EUBt2OXkwN4TN9TEHAnVsrNIXHwFl1VfFsSG1Q6uZDtkk
+CB4DZJKN4RzCY2QSwMAqRRC2OXdwk5IAk8wwCGoFpp0UV6CO9YCeOaqJderEcBA4
+MGHqdiPDIbH5wvckjZzFznU/Paz3MwPwBdtN+WSKvwf+JItSiUqm8Dy2Pl/1cnux
+1g1I4WQlXUVaS/MDusqL7tbS8k5A5a2+YVMxShWH9BhXZwNXzEihl4sm8Hrg5SvZ
+givJj2y93WoL69Wq0/86wkkH2xcrz4gsiUcQf5YXU/RHXOLnPR29/pg8TS0L7sST
+dv0X23C2IpfqYoqN7YZ3K0Wczhi0yLPCrc27IczuHgjt/8ICda11xhB1t/pUbvnX
+oksehaLp8O3uU8GyAsTfUgpijZFc/3jIadOl0L9NGUbYYgPzFeaZTa/njeEbz3wX
+PZMn278sbL9UhupI5Hx7eREbKzV4VPVKz81ndKNMXyuJHXv2R0xou3nvuo1WuQIN
+BFIIUZwBEADAhoYPDCSogG41Naq+wFkG+IPszqe0dW/UWg0xrZDT0UblwDSd4OGY
+7FATMIhjOUyFxk6+XKA5CDCWP8Npkl0modTL59uVWNxU1vUKincc/j4ipHQeAhE6
+fvZkrprvADD8TYIGesl/3EGNc7bzc5ZqX71hKPHG+autRtgFSOR2PSXD9MlJXIBb
+RzHAXxlh72zvsGadcxLJm4pSWXitkR/5Wc3e0IippKdzGwZnCDpNmcBGtSTFgixP
+JqyRZFVCPWs7jr/oQeZnq65wJp1KD2HvhhKHJfsPrnNjLSm1SQVh8hXzE9odcv6N
+mJB7tNXywuROBt6a01ojBa9J3zuMYQj3iQl2MhxtHylKVBjr7NjZ4evZbLsRMxY1
+hYk7sl+ZxCPFeOZ9D2ppU/CUDXCS095I1x+s+VuiUNf/3yd8ahCWDXVp9nsXyYjm
+2pHIxb2F6r8Vd4AjlD2MQwszECS88INF3l/9ksIHEMKuuW+JAC9FiZ7k4IGcIltv
+If/V2TgE6t6qoWIlmLhMTjOyJpwnokY1nIuXHH7yp+HsuqnYnf/dgLnt4czPLeHO
++TdIDHhUym0AKlCcbdgn0C6EJVTnA8BFgFjiIOMAeT0rhATg0W/cND8KQcX4V9wM
+nHSEsgSEuP9H+67xuRx5Imuh5ntecrcuCYSNuOneUXWPThDKQPO9lQARAQABiQIf
+BBgBAgAJBQJSCFGcAhsMAAoJELdE4lqkQubpc+0P/0IzUx8nTpF0/ii2TA0YCOgj
+tviM6PRTVPrFcxijNeXiIMHZYrALYUvXxXGp1IZBP3IcOyuZNp2WLqF/f9a3cIr1
+9b/LJPrwopGqV3K30lormk7hH0s3IXbhd0ZYWvRj+5kQ8TFRAFfPwjlItzjYJmYX
+AGJmM9PxJID/4LgWSfQ/ZfNu7MJ7+2goQLu9b6x7UC1FlE4q1lcjBvHjVPM//S9G
+lGAHaysyTjVu88W2wwBpBrO1MQnDvqFRddXPOIWp0jecBMUd4E0fB36yuStsXZT3
+RN4V8vKRBYXuqHhiTwZeh153cHZk2EZBwz5A6DJubMaGdJTesHW5Qf2goph0pmjC
++XuXn8J6tc5nFDf8DP4AFVMtqa3Brj2fodWd0Zzxq3AVsbX144c1oqJUhO4t3+ie
+8fD/6/jx4iuPCQTfyhHG+zGfyUb2LQ+OVLW1WYTxH5tzHaZUmZFdV2I1kuhuvZ1t
+WRlmTnHZOnEb3+t8KCRWzRMfweTzXfRRKBC0/QpeX1r5pbaMHH8zF/J5PKmL0+jg
++DS8JSbSfv7Ke6rplf7lHYaDumAFZfxXuQkajzLZbX0E5Xu5BNz4Vq6LGBj7LDXL
+gswIK8FFgZB+W8zwOqUV1vjIr9wkdLifXXezKpTeYpFDGLdfsK+uNAtGyvI61TDi
+Pr6fWpIruuc7Gg9rUF0L
+=VQTr
+-----END PGP PUBLIC KEY BLOCK-----
+</pre></div>
+</div>
+<p>Next add the VyOS image.</p>
+<p>This example uses VyOS 1.0.0, however, it’s better to install the latest
+release.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyatta@vyatta:~$ show system image
+The system currently has the following image(s) installed:
+  1: VC6.6R1 (default boot) (running image)
+
+vyatta@vyatta:~$ add system image https://downloads.vyos.io/release/legacy/1.0.0/vyos-1.0.0-amd64.iso
+ Trying to fetch ISO file from https://downloads.vyos.io/release/legacy/1.0.0/vyos-1.0.0-amd64.iso
+   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                  Dload  Upload   Total   Spent    Left  Speed
+ 100  223M  100  223M    0     0   960k      0  0:03:57  0:03:57 --:--:--  657k
+ ISO download succeeded.
+ Checking for digital signature file...
+   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                  Dload  Upload   Total   Spent    Left  Speed
+ 100   836  100   836    0     0   4197      0 --:--:-- --:--:-- --:--:--  4287
+ Found it.  Checking digital signature...
+ gpg: directory `/root/.gnupg&#39; created
+ gpg: new configuration file `/root/.gnupg/gpg.conf&#39; created
+ gpg: WARNING: options in `/root/.gnupg/gpg.conf&#39; are not yet active during this run
+ gpg: keyring `/root/.gnupg/pubring.gpg&#39; created
+ gpg: Signature made Sun Dec 22 16:51:42 2013 GMT using RSA key ID A442E6E9
+ gpg: /root/.gnupg/trustdb.gpg: trustdb created
+ gpg: Good signature from &quot;SO3 Group Maintainers &lt;maintainers@so3group.net&gt;&quot;
+ gpg: WARNING: This key is not certified with a trusted signature!
+ gpg:          There is no indication that the signature belongs to the owner.
+ Primary key fingerprint: DD5B B405 35E7 F6E3 4278  1ABF B744 E25A A442 E6E9
+ Digital signature is valid.
+ Checking MD5 checksums of files on the ISO image...OK.
+ Done!
+
+ What would you like to name this image? [1.0.0]: [return]
+ OK.  This image will be named: 1.0.0
+ Installing &quot;1.0.0&quot; image.
+ Copying new release files...
+
+ Would you like to save the current configuration
+ directory and config file? (Yes/No) [Yes]: [return]
+ Copying current configuration...
+
+ Would you like to save the SSH host keys from your
+ current configuration? (Yes/No) [Yes]: [return]
+ Copying SSH keys...
+ Setting up grub configuration...
+ Done.
+
+ vyatta@vyatta:~$ show system image
+ The system currently has the following image(s) installed:
+
+    1: 1.0.0 (default boot)
+    2: VC6.6R1 (running image)
+</pre></div>
+</div>
+<p>Upon reboot, you should have a working installation of VyOS.</p>
+<p>You can go back to your Vyatta install using the <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">image</span>
+<span class="pre">default-boot</span></code> command and selecting the your previous Vyatta Core image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Future releases of VyOS will break the direct upgrade path from
+Vyatta core. Please upgrade through an intermediate VyOS version e.g. VyOS
+1.2. After this you can continue upgrading to newer releases once you bootet
+into VyOS 1.2 once.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="image.html" class="btn btn-neutral float-left" title="Image Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../quick-start.html" class="btn btn-neutral float-right" title="Quick Start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

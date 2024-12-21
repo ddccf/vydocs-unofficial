@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNS Forwarding &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Event Handler" href="eventhandler.html" />
+    <link rel="prev" title="DHCP Server" href="dhcp-server.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DNS Forwarding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-dns">Dynamic DNS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dns-dynmaic-config">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">DNS Forwarding</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/dns.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dns-forwarding">
+<span id="id1"></span><h1>DNS Forwarding<a class="headerlink" href="#dns-forwarding" title="Link to this heading"></a></h1>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>VyOS provides DNS infrastructure for small networks. It is designed to be
+lightweight and have a small footprint, suitable for resource constrained
+routers and firewalls. For this we utilize PowerDNS recursor.</p>
+<p>The VyOS DNS forwarder does not require an upstream DNS server. It can serve as
+a full recursive DNS server - but it can also forward queries to configurable
+upstream DNS servers. By not configuring any upstream DNS servers you also
+avoid being tracked by the provider of your upstream DNS server.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-system">
+set service dns forwarding system</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-system" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Forward incoming DNS queries to the DNS servers configured under the <code class="docutils literal notranslate"><span class="pre">system</span>
+<span class="pre">name-server</span></code> nodes.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-dhcp-interface">
+set service dns forwarding dhcp &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-dhcp-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Interfaces whose DHCP client nameservers to forward requests to.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-name-server-address-port-port">
+set service dns forwarding name-server &lt;address&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-name-server-address-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Send all DNS queries to the IPv4/IPv6 DNS server specified under <cite>&lt;address&gt;</cite>
+on optional port specified under <cite>&lt;port&gt;</cite>. The port defaults to 53. You can
+configure multiple nameservers here.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-domain-domain-name-name-server-address">
+set service dns forwarding domain &lt;domain-name&gt; name-server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-domain-domain-name-name-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Forward received queries for a particular domain
+(specified via <cite>domain-name</cite>) to a given nameserver. Multiple nameservers
+can be specified. You can use this feature for a DNS split-horizon
+configuration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This also works for reverse-lookup zones (<code class="docutils literal notranslate"><span class="pre">18.172.in-addr.arpa</span></code>).</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-domain-domain-name-addnta">
+set service dns forwarding domain &lt;domain-name&gt; addnta</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-domain-domain-name-addnta" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add NTA (negative trust anchor) for this domain. This must be set if the
+domain does not support DNSSEC.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-domain-domain-name-recursion-desired">
+set service dns forwarding domain &lt;domain-name&gt; recursion-desired</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-domain-domain-name-recursion-desired" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the “recursion desired” bit in requests to the upstream nameserver.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-allow-from-network">
+set service dns forwarding allow-from &lt;network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-allow-from-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Given the fact that open DNS recursors could be used on DDoS amplification
+attacks, you must configure the networks which are allowed to use this
+recursor. A network of <code class="docutils literal notranslate"><span class="pre">0.0.0.0/0</span></code> or <code class="docutils literal notranslate"><span class="pre">::/0</span></code> would allow all IPv4 and
+IPv6 networks to query this server. This is generally a bad idea.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-dnssec-off-process-no-validate-process-log-fail-validate">
+set service dns forwarding dnssec &lt;off | process-no-validate | process | log-fail | validate&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-dnssec-off-process-no-validate-process-log-fail-validate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The PowerDNS recursor has 5 different levels of DNSSEC processing, which can
+be set with the dnssec setting. In order from least to most processing, these
+are:</p>
+<ul class="simple">
+<li><p><strong>off</strong> In this mode, no DNSSEC processing takes place. The recursor will
+not set the DNSSEC OK (DO) bit in the outgoing queries and will ignore the
+DO and AD bits in queries.</p></li>
+<li><p><strong>process-no-validate</strong> In this mode the recursor acts as a “security
+aware, non-validating” nameserver, meaning it will set the DO-bit on
+outgoing queries and will provide DNSSEC related RRsets (NSEC, RRSIG) to
+clients that ask for them (by means of a DO-bit in the query), except for
+zones provided through the auth-zones setting. It will not do any
+validation in this mode, not even when requested by the client.</p></li>
+<li><p><strong>process</strong> When dnssec is set to process the behavior is similar to
+process-no-validate. However, the recursor will try to validate the data
+if at least one of the DO or AD bits is set in the query; in that case,
+it will set the AD-bit in the response when the data is validated
+successfully, or send SERVFAIL when the validation comes up bogus.</p></li>
+<li><p><strong>log-fail</strong> In this mode, the recursor will attempt to validate all data
+it retrieves from authoritative servers, regardless of the client’s DNSSEC
+desires, and will log the validation result. This mode can be used to
+determine the extra load and amount of possibly bogus answers before
+turning on full-blown validation. Responses to client queries are the same
+as with process.</p></li>
+<li><p><strong>validate</strong> The highest mode of DNSSEC processing. In this mode, all
+queries will be validated and will be answered with a SERVFAIL in case of
+bogus data, regardless of the client’s request.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The popular Unix/Linux <code class="docutils literal notranslate"><span class="pre">dig</span></code> tool sets the AD-bit in the query.
+This might lead to unexpected query results when testing. Set <code class="docutils literal notranslate"><span class="pre">+noad</span></code>
+on the <code class="docutils literal notranslate"><span class="pre">dig</span></code> command line when this is the case.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CD</span></code>-bit is honored correctly for process and validate. For
+log-fail, failures will be logged too.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-ignore-hosts-file">
+set service dns forwarding ignore-hosts-file</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-ignore-hosts-file" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Do not use the local <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code> file in name resolution. VyOS DHCP
+server will use this file to add resolvers to assigned addresses.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-cache-size-0-2147483647">
+set service dns forwarding cache-size &lt;0-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-cache-size-0-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum number of DNS cache entries. 1 million per CPU core will generally
+suffice for most installations.</p>
+<p>This defaults to 10000.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-negative-ttl-0-7200">
+set service dns forwarding negative-ttl &lt;0-7200&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-negative-ttl-0-7200" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A query for which there is authoritatively no answer is cached to quickly
+deny a record’s existence later on, without putting a heavy load on the
+remote server. In practice, caches can become saturated with hundreds of
+thousands of hosts which are tried only once.</p>
+<p>This setting, which defaults to 3600 seconds, puts a maximum on the amount
+of time negative entries are cached.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-timeout-10-60000">
+set service dns forwarding timeout &lt;10-60000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-timeout-10-60000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The number of milliseconds to wait for a remote authoritative server to
+respond before timing out and responding with SERVFAIL.</p>
+<p>This setting defaults to 1500 and is valid between 10 and 60000.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-listen-address-address">
+set service dns forwarding listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The local IPv4 or IPv6 addresses to bind the DNS forwarder to. The forwarder
+will listen on this address for incoming connections.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-source-address-address">
+set service dns forwarding source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The local IPv4 or IPv6 addresses to use as a source address for sending queries.
+The forwarder will send forwarded outbound DNS requests from this address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-forwarding-no-serve-rfc1918">
+set service dns forwarding no-serve-rfc1918</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-forwarding-no-serve-rfc1918" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This makes the server authoritatively not aware of: 10.in-addr.arpa,
+168.192.in-addr.arpa, 16-31.172.in-addr.arpa, which enabling upstream
+DNS server(s) to be used for reverse lookups of these zones.</p>
+</div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>A VyOS router with two interfaces - eth0 (WAN) and eth1 (LAN) - is required to
+implement a split-horizon DNS configuration for example.com.</p>
+<p>In this scenario:</p>
+<ul class="simple">
+<li><p>All DNS requests for example.com must be forwarded to a DNS server
+at 192.0.2.254 and 2001:db8:cafe::1</p></li>
+<li><p>All other DNS requests will be forwarded to a different set of DNS servers at
+192.0.2.1, 192.0.2.2, 2001:db8::1:ffff and 2001:db8::2:ffff</p></li>
+<li><p>The VyOS DNS forwarder will only listen for requests on the eth1 (LAN)
+interface addresses - 192.168.1.254 for IPv4 and 2001:db8::ffff for IPv6</p></li>
+<li><p>The VyOS DNS forwarder will only accept lookup requests from the
+LAN subnets - 192.168.1.0/24 and 2001:db8::/64</p></li>
+<li><p>The VyOS DNS forwarder will pass reverse lookups for  10.in-addr.arpa,
+168.192.in-addr.arpa, 16-31.172.in-addr.arpa zones to upstream server.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service dns forwarding domain example.com name-server 192.0.2.254
+set service dns forwarding domain example.com name-server 2001:db8:cafe::1
+set service dns forwarding name-server 192.0.2.1
+set service dns forwarding name-server 192.0.2.2
+set service dns forwarding name-server 192.0.2.3 port 853
+set service dns forwarding name-server 2001:db8::1:ffff
+set service dns forwarding name-server 2001:db8::2:ffff
+set service dns forwarding name-server 2001:db8::3:ffff port 8053
+set service dns forwarding listen-address 192.168.1.254
+set service dns forwarding listen-address 2001:db8::ffff
+set service dns forwarding allow-from 192.168.1.0/24
+set service dns forwarding allow-from 2001:db8::/64
+set service dns forwarding no-serve-rfc1918
+</pre></div>
+</div>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-dns-forwarding-all-domain">
+reset dns forwarding &lt;all | domain&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-dns-forwarding-all-domain" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Resets the local DNS forwarding cache database. You can reset the cache
+for all entries or only for entries to a specific domain.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-dns-forwarding">
+restart dns forwarding</span>
+<a class="cmdlink" href="#opcmd-restart-dns-forwarding" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restarts the DNS recursor process. This also invalidates the local DNS
+forwarding cache.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="dynamic-dns">
+<span id="id2"></span><h1>Dynamic DNS<a class="headerlink" href="#dynamic-dns" title="Link to this heading"></a></h1>
+<p>VyOS is able to update a remote DNS record when an interface gets a new IP
+address. In order to do so, VyOS includes <a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a>, a Perl script written for
+this only one purpose.</p>
+<p><a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> uses two methods to update a DNS record. The first one will send
+updates directly to the DNS daemon, in compliance with <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2136.html"><strong>RFC 2136</strong></a>. The second
+one involves a third party service, like DynDNS.com or any other such
+service provider. This method uses HTTP requests to transmit the new IP address. You
+can configure both in VyOS.</p>
+<section id="dns-dynmaic-config">
+<span id="id3"></span><h2>Configuration<a class="headerlink" href="#dns-dynmaic-config" title="Link to this heading"></a></h2>
+<section id="rfc-2136-based">
+<h3><span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2136.html"><strong>RFC 2136</strong></a> Based<a class="headerlink" href="#rfc-2136-based" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-address-interface-interface">
+set service dns dynamic name &lt;service-name&gt; address interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-address-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create new dynamic DNS update configuration which will update the IP
+address assigned to <cite>&lt;interface&gt;</cite> on the service you configured under
+<cite>&lt;service-name&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-description-text">
+set service dns dynamic name &lt;service-name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set description <cite>&lt;text&gt;</cite> for dynamic DNS service being configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-key-filename">
+set service dns dynamic name &lt;service-name&gt; key &lt;filename&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-key-filename" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>File identified by <cite>&lt;filename&gt;</cite> containing the TSIG authentication key for RFC2136
+nsupdate on remote DNS server.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-server-server">
+set service dns dynamic name &lt;service-name&gt; server &lt;server&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-server-server" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the DNS <cite>&lt;server&gt;</cite> IP/FQDN used when updating this dynamic
+assignment.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-zone-zone">
+set service dns dynamic name &lt;service-name&gt; zone &lt;zone&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-zone-zone" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure DNS <cite>&lt;zone&gt;</cite> to be updated.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-host-name-record">
+set service dns dynamic name &lt;service-name&gt; host-name &lt;record&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-host-name-record" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure DNS <cite>&lt;record&gt;</cite> which should be updated. This can be set multiple times.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-ttl-ttl">
+set service dns dynamic name &lt;service-name&gt; ttl &lt;ttl&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-ttl-ttl" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure optional TTL value on the given resource record. This defaults to
+600 seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-interval-60-3600">
+set service dns dynamic interval &lt;60-3600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-interval-60-3600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify interval in seconds to wait between Dynamic DNS updates.
+The default is  300 seconds.</p>
+</div>
+</div>
+<section id="dns-dynmaic-example">
+<span id="id4"></span><h4>Example<a class="headerlink" href="#dns-dynmaic-example" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Register DNS record <code class="docutils literal notranslate"><span class="pre">example.vyos.io</span></code> on DNS server <code class="docutils literal notranslate"><span class="pre">ns1.vyos.io</span></code></p></li>
+<li><p>Use auth key file at <code class="docutils literal notranslate"><span class="pre">/config/auth/my.key</span></code></p></li>
+<li><p>Set TTL to 300 seconds</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Configuration commands entered:
+#
+set service dns dynamic name &#39;VyOS-DNS&#39; address interface &#39;eth0&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; description &#39;RFC 2136 dynamic dns service&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; key &#39;/config/auth/my.key&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; server &#39;ns1.vyos.io&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; zone &#39;vyos.io&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; host-name &#39;example.vyos.io&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; protocol &#39;nsupdate&#39;
+set service dns dynamic name &#39;VyOS-DNS&#39; ttl &#39;300&#39;
+
+# Resulting config:
+#
+vyos@vyos# show service dns dynamic
+ name VyOS-DNS {
+     address {
+         interface eth0
+     }
+     description &quot;RFC 2136 dynamic dns service&quot;
+     host-name example.vyos.io
+     key /config/auth/my.key
+     protocol nsupdate
+     server ns1.vyos.io
+     ttl 300
+     zone vyos.io
+ }
+</pre></div>
+</div>
+<p>This will render the following <a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> configuration entry:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ddclient configuration for interface &quot;eth0&quot;:
+#
+
+# Web service dynamic DNS configuration for VyOS-DNS: [nsupdate, example.vyos.io]
+use=if, \
+if=eth0, \
+protocol=nsupdate, \
+server=ns1.vyos.io, \
+zone=vyos.io, \
+password=&#39;/config/auth/my.key&#39;, \
+ttl=300 \
+example.vyos.io
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also keep different DNS zone updated. Just create a new
+config node: <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">dns</span> <span class="pre">dynamic</span> <span class="pre">interface</span> <span class="pre">&lt;interface&gt;</span> <span class="pre">rfc2136</span>
+<span class="pre">&lt;other-service-name&gt;</span></code></p>
+</div>
+</section>
+</section>
+<section id="http-based-services">
+<h3>HTTP based services<a class="headerlink" href="#http-based-services" title="Link to this heading"></a></h3>
+<p>VyOS is also able to use any service relying on protocols supported by ddclient.</p>
+<p>To use such a service, one must define a login, password, one or multiple
+hostnames, protocol and server.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-address-interface-interface">
+set service dns dynamic name &lt;service-name&gt; address interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-address-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create new dynamic DNS update configuration which will update the IP
+address assigned to <cite>&lt;interface&gt;</cite> on the service you configured under
+<cite>&lt;service-name&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-description-text">
+set service dns dynamic name &lt;service-name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set description <cite>&lt;text&gt;</cite> for dynamic DNS service being configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-host-name-hostname">
+set service dns dynamic name &lt;service-name&gt; host-name &lt;hostname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-host-name-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Setup the dynamic DNS hostname <cite>&lt;hostname&gt;</cite> associated with the DynDNS
+provider identified by <cite>&lt;service-name&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-username-username">
+set service dns dynamic name &lt;service-name&gt; username &lt;username&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-username-username" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <cite>&lt;username&gt;</cite> used when authenticating the update request for
+DynDNS service identified by <cite>&lt;service-name&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-password-password">
+set service dns dynamic name &lt;service-name&gt; password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <cite>&lt;password&gt;</cite> used when authenticating the update request for
+DynDNS service identified by <cite>&lt;service-name&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-protocol-protocol">
+set service dns dynamic name &lt;service-name&gt; protocol &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-protocol-protocol" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When a <code class="docutils literal notranslate"><span class="pre">custom</span></code> DynDNS provider is used, the protocol used for communicating
+to the provider must be specified under <cite>&lt;protocol&gt;</cite>. See the embedded
+completion helper when entering above command for available protocols.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-server-server">
+set service dns dynamic name &lt;service-name&gt; server &lt;server&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-server-server" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When a <code class="docutils literal notranslate"><span class="pre">custom</span></code> DynDNS provider is used the <cite>&lt;server&gt;</cite> where update
+requests are being sent to must be specified.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-ip-version-ipv6">
+set service dns dynamic name &lt;service-name&gt; ip-version ‘ipv6’</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-ip-version-ipv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allow explicit IPv6 address for the interface.</p>
+</div>
+</div>
+<section id="id5">
+<h4>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
+<p>Use deSEC (dedyn.io) as your preferred provider:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service dns dynamic name dedyn description &#39;deSEC dynamic dns service&#39;
+set service dns dynamic name dedyn username &#39;myusername&#39;
+set service dns dynamic name dedyn password &#39;mypassword&#39;
+set service dns dynamic name dedyn host-name &#39;myhostname.dedyn.io&#39;
+set service dns dynamic name dedyn protocol &#39;dyndns2&#39;
+set service dns dynamic name dedyn server &#39;update.dedyn.io&#39;
+set service dns dynamic name dedyn address interface &#39;eth0&#39;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Multiple services can be used per interface. Just specify as many
+services per interface as you like!</p>
+</div>
+</section>
+<section id="example-ipv6-only">
+<h4>Example IPv6 only:<a class="headerlink" href="#example-ipv6-only" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service dns dynamic name dedyn description &#39;deSEC ipv6 dynamic dns service&#39;
+set service dns dynamic name dedyn username &#39;myusername&#39;
+set service dns dynamic name dedyn password &#39;mypassword&#39;
+set service dns dynamic name dedyn host-name &#39;myhostname.dedyn.io&#39;
+set service dns dynamic name dedyn protocol &#39;dyndns2&#39;
+set service dns dynamic name dedyn ip-version &#39;ipv6&#39;
+set service dns dynamic name dedyn server &#39;update6.dedyn.io&#39;
+set service dns dynamic name dedyn address interface &#39;eth0&#39;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-behind-nat">
+<h3>Running Behind NAT<a class="headerlink" href="#running-behind-nat" title="Link to this heading"></a></h3>
+<p>By default, <a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> will update a dynamic dns record using the IP address
+directly attached to the interface. If your VyOS instance is behind NAT, your
+record will be updated to point to your internal IP.</p>
+<p><a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> has another way to determine the WAN IP address. This is controlled
+by:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-address-web-url">
+set service dns dynamic name &lt;service-name&gt; address web &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-address-web-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use configured <cite>&lt;url&gt;</cite> to determine your IP address. <a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> will load
+<cite>&lt;url&gt;</cite> and tries to extract your IP address from the response.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-dns-dynamic-name-service-name-address-web-skip-pattern">
+set service dns dynamic name &lt;service-name&gt; address web skip &lt;pattern&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-dns-dynamic-name-service-name-address-web-skip-pattern" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><a class="reference external" href="https://github.com/ddclient/ddclient">ddclient</a> will skip any address located before the string set in <cite>&lt;pattern&gt;</cite>.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dhcp-server.html" class="btn btn-neutral float-left" title="DHCP Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="eventhandler.html" class="btn btn-neutral float-right" title="Event Handler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIM – Protocol Independent Multicast &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PIM6 - Protocol Independent Multicast for IPv6" href="pim6.html" />
+    <link rel="prev" title="OSPF" href="ospf.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PIM – Protocol Independent Multicast</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pim-sm-pim-sparse-mode">PIM-SM - PIM Sparse Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#igmp-internet-group-management-protocol">IGMP - Internet Group Management Protocol)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html#arp">ARP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">PIM – Protocol Independent Multicast</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/pim.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pim-protocol-independent-multicast">
+<span id="pim"></span><h1>PIM – Protocol Independent Multicast<a class="headerlink" href="#pim-protocol-independent-multicast" title="Link to this heading"></a></h1>
+<p>VyOS supports <abbr title="PIM Sparse Mode">PIM-SM</abbr> as well as
+<abbr title="Internet Group Management Protocol">IGMP</abbr> v2 and v3</p>
+<p><abbr title="Protocol Independent Multicast">PIM</abbr> must be configured in every
+interface of every participating router. Every router must also have the
+location of the Rendevouz Point manually configured. Then, unidirectional
+shared trees rooted at the Rendevouz Point will automatically be built
+for multicast distribution.</p>
+<p>Traffic from multicast sources will go to the Rendezvous Point, and
+receivers will pull it from a shared tree using <abbr title="Internet Group Management Protocol">IGMP</abbr>.</p>
+<p>Multicast receivers will talk IGMP to their local router, so, besides
+having PIM configured in every router, IGMP must also be configured in
+any router where there could be a multicast receiver locally connected.</p>
+<p>VyOS supports both IGMP version 2 and version 3 (which allows
+source-specific multicast).</p>
+<section id="pim-sm-pim-sparse-mode">
+<h2>PIM-SM - PIM Sparse Mode<a class="headerlink" href="#pim-sm-pim-sparse-mode" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-ecmp">
+set protocols pim ecmp</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-ecmp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If PIM has the a choice of ECMP nexthops for a particular
+<abbr title="Reverse Path Forwarding">RPF</abbr>, PIM will cause S,G flows to be
+spread out amongst the nexthops. If this command is not specified then
+the first nexthop found will be used.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-ecmp-rebalance">
+set protocols pim ecmp rebalance</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-ecmp-rebalance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If PIM is using ECMP and an interface goes down, cause PIM to rebalance all
+S,G flows across the remaining nexthops. If this command is not configured
+PIM only modifies those S,G flows that were using the interface that went
+down.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-join-prune-interval-n">
+set protocols pim join-prune-interval &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-join-prune-interval-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Modify the join/prune interval that PIM uses to the new value. Time is
+specified in seconds.</p>
+<p>The default time is 60 seconds.</p>
+<p>If you enter a value smaller than 60 seconds be aware that this can and
+will affect convergence at scale.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-keep-alive-timer-n">
+set protocols pim keep-alive-timer &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-keep-alive-timer-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Modify the time out value for a S,G flow from 1-65535 seconds. If choosing
+a value below 31 seconds be aware that some hardware platforms cannot see
+data flowing in better than 30 second chunks.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-packets-n">
+set protocols pim packets &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-packets-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When processing packets from a neighbor process the number of packets
+incoming at one time before moving on to the next task.</p>
+<p>The default value is 3 packets.</p>
+<p>This command is only useful at scale when you can possibly have a large
+number of PIM control packets flowing.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-register-accept-list-prefix-list">
+set protocols pim register-accept-list &lt;prefix-list&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-register-accept-list-prefix-list" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When PIM receives a register packet the source of the packet will be compared
+to the prefix-list specified, and if a permit is received normal processing
+continues. If a deny is returned for the source address of the register packet
+a register stop message is sent to the source.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-register-suppress-time-n">
+set protocols pim register-suppress-time &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-register-suppress-time-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Modify the time that pim will register suppress a FHR will send register
+notifications to the kernel.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-rp-address-group-group">
+set protocols pim rp &lt;address&gt; group &lt;group&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-rp-address-group-group" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>In order to use PIM, it is necessary to configure a <abbr title="Rendezvous Point">RP</abbr>
+for join messages to be sent to. Currently the only methodology to do this is
+via static rendezvous point commands.</p>
+<p>All routers in the PIM network must agree on these values.</p>
+<p>The first ip address is the RP’s address and the second value is the matching
+prefix of group ranges covered.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-rp-keep-alive-timer-n">
+set protocols pim rp keep-alive-timer &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-rp-keep-alive-timer-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Modify the time out value for a S,G flow from 1-65535 seconds at
+<abbr title="Rendezvous Point">RP</abbr>. The normal keepalive period for the KAT(S,G)
+defaults to 210 seconds. However, at the <abbr title="Rendezvous Point">RP</abbr>, the
+keepalive period must be at least the Register_Suppression_Time, or the RP
+may time out the (S,G) state before the next Null-Register arrives.
+Thus, the KAT(S,G) is set to max(Keepalive_Period, RP_Keepalive_Period)
+when a Register-Stop is sent.</p>
+<p>If choosing a value below 31 seconds be aware that some hardware platforms
+cannot see data flowing in better than 30 second chunks.</p>
+<p>See <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7761.html#section-4.1"><strong>RFC 7761 Section 4.1</strong></a> for details.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-no-v6-secondary">
+set protocols pim no-v6-secondary</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-no-v6-secondary" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When sending PIM hello packets tell PIM to not send any v6 secondary
+addresses on the interface. This information is used to allow PIM to use v6
+nexthops in it’s decision for <abbr title="Reverse Path Forwarding">RPF</abbr> lookup
+if this option is not set (default).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-spt-switchover-infinity-and-beyond-prefix-list-list">
+set protocols pim spt-switchover infinity-and-beyond [prefix-list &lt;list&gt;]</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-spt-switchover-infinity-and-beyond-prefix-list-list" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>On the last hop router if it is desired to not switch over to the SPT tree
+configure this command.</p>
+<p>Optional parameter prefix-list can be use to control which groups to switch or
+not switch. If a group is PERMIT as per the prefix-list, then the SPT switchover
+does not happen for it and if it is DENY, then the SPT switchover happens.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-ssm-prefix-list-list">
+set protocols pim ssm prefix-list &lt;list&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-ssm-prefix-list-list" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify a range of group addresses via a prefix-list that forces PIM to never
+do <abbr title="Source-Specific Multicast">SSM</abbr> over.</p>
+</div>
+</div>
+<section id="interface-specific-commands">
+<h3>Interface specific commands<a class="headerlink" href="#interface-specific-commands" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-bfd-profile-name">
+set protocols pim interface &lt;interface&gt; bfd [profile &lt;name&gt;]</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-bfd-profile-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Automatically create BFD session for each RIP peer discovered in this
+interface. When the BFD session monitor signalize that the link is down
+the RIP peer is removed and all the learned routes associated with that
+peer are removed.</p>
+<p>If optional profile parameter is used, select a BFD profile for the BFD
+sessions created via this interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-dr-priority-n">
+set protocols pim interface &lt;interface&gt; dr-priority &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-dr-priority-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the <abbr title="Designated Router">DR</abbr> Priority for the interface.
+This command is useful to allow the user to influence what node becomes
+the DR for a LAN segment.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-hello-n">
+set protocols pim interface &lt;interface&gt; hello &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-hello-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the PIM hello and hold interval for a interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-no-bsm">
+set protocols pim interface &lt;interface&gt; no-bsm</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-no-bsm" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Tell PIM that we would not like to use this interface to process
+bootstrap messages.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-no-unicast-bsm">
+set protocols pim interface &lt;interface&gt; no-unicast-bsm</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-no-unicast-bsm" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Tell PIM that we would not like to use this interface to process
+unicast bootstrap messages.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-passive">
+set protocols pim interface &lt;interface&gt; passive</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-passive" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<blockquote>
+<div><p>Disable sending and receiving PIM control packets on the interface.</p>
+</div></blockquote>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-source-address-ip-address">
+set protocols pim interface &lt;interface&gt; source-address &lt;ip-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-source-address-ip-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If you have multiple addresses configured on a particular interface and would
+like PIM to use a specific source address associated with that interface.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="igmp-internet-group-management-protocol">
+<h2>IGMP - Internet Group Management Protocol)<a class="headerlink" href="#igmp-internet-group-management-protocol" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-igmp-watermark-warning-n">
+set protocols pim igmp watermark-warning &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-igmp-watermark-warning-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure watermark warning generation for an IGMP group limit. Generates
+warning once the configured group limit is reached while adding new groups.</p>
+</div>
+</div>
+<section id="pim-igmp-interface-commands">
+<span id="id1"></span><h3>Interface specific commands<a class="headerlink" href="#pim-igmp-interface-commands" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-igmp-join-multicast-address-source-address-ip-address">
+set protocols pim interface &lt;interface&gt; igmp join &lt;multicast-address&gt; source-address &lt;IP-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-igmp-join-multicast-address-source-address-ip-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to allow the selected interface to join a multicast
+group defining the multicast address you want to join and the source
+IP address too.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-igmp-query-interval-seconds">
+set protocols pim interface &lt;interface&gt; igmp query-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-igmp-query-interval-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure in the selected interface the IGMP
+host query interval (1-1800) in seconds that PIM will use.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-igmp-query-max-response-time-n">
+set protocols pim interface &lt;interface&gt; igmp query-max-response-time &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-igmp-query-max-response-time-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure in the selected interface the IGMP
+query response timeout value (10-250) in deciseconds. If a report is
+not returned in the specified time, it will be assumed the (S,G) or
+(*,G) state <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7761.html#section-4.1"><strong>RFC 7761 Section 4.1</strong></a> has timed out.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim-interface-interface-igmp-version-version-number">
+set protocols pim interface &lt;interface&gt; igmp version &lt;version-number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim-interface-interface-igmp-version-version-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define in the selected interface whether you
+choose IGMP version 2 or 3.</p>
+<p>The default value is 3.</p>
+</div>
+</div>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<p>In the following example we can see a basic multicast setup:</p>
+<a class="reference internal image-reference" href="../../images/multicast-basic.png"><img alt="Network Topology Diagram" class="align-center" src="../../images/multicast-basic.png" style="width: 90%;" />
+</a>
+<p><strong>Router 1</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth2 address &#39;172.16.0.2/24&#39;
+set interfaces ethernet eth1 address &#39;100.64.0.1/24&#39;
+set protocols ospf area 0 network &#39;172.16.0.0/24&#39;
+set protocols ospf area 0 network &#39;100.64.0.0/24&#39;
+set protocols igmp interface eth1
+set protocols pim interface eth1
+set protocols pim interface eth2
+set protocols pim rp address 172.16.255.1 group &#39;224.0.0.0/4&#39;
+</pre></div>
+</div>
+<p><strong>Router 3</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address &#39;172.16.255.1/24&#39;
+set interfaces ethernet eth0 address &#39;172.16.0.1/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.1.1/24&#39;
+set protocols ospf area 0 network &#39;172.16.0.0/24&#39;
+set protocols ospf area 0 network &#39;172.16.255.0/24&#39;
+set protocols ospf area 0 network &#39;172.16.1.0/24&#39;
+set protocols pim interface dum0
+set protocols pim interface eth0
+set protocols pim interface eth1
+set protocols pim rp address 172.16.255.1 group &#39;224.0.0.0/4&#39;
+</pre></div>
+</div>
+<p><strong>Router 2</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth1 address &#39;10.0.0.1/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.1.2/24&#39;
+set protocols ospf area 0 network &#39;10.0.0.0/24&#39;
+set protocols ospf area 0 network &#39;172.16.1.0/24&#39;
+set protocols pim interface eth1
+set protocols pim interface eth2
+set protocols pim rp address 172.16.255.1 group &#39;224.0.0.0/4&#39;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ospf.html" class="btn btn-neutral float-left" title="OSPF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pim6.html" class="btn btn-neutral float-right" title="PIM6 - Protocol Independent Multicast for IPv6" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

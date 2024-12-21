@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PKI &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Protocols" href="../protocols/index.html" />
+    <link rel="prev" title="BGP Example" href="../policy/examples.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PKI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-generation">Key Generation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#certificate-authority-ca">Certificate Authority (CA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#certificates">Certificates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#diffie-hellman-parameters">Diffie-Hellman parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openvpn">OpenVPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wireguard">WireGuard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#key-usage-cli">Key usage (CLI)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ca-certificate-authority">CA (Certificate Authority)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server-certificate">Server Certificate</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+      <li class="breadcrumb-item active">PKI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/pki/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><section id="pki">
+<span id="id1"></span><h1>PKI<a class="headerlink" href="#pki" title="Link to this heading"></a></h1>
+<p>VyOS 1.4 changed the way in how encrytion keys or certificates are stored on the
+system. In the pre VyOS 1.4 era, certificates got stored under /config and every
+service referenced a file. That made copying a running configuration from system
+A to system B a bit harder, as you had to copy the files and their permissions
+by hand.</p>
+<p><a class="reference external" href="https://vyos.dev/T3642">T3642</a> describes a new CLI subsystem that serves as a “certstore” to
+all services requiring any kind of encryption key(s). In short, public and
+private certificates are now stored in PKCS#8 format in the regular VyOS CLI.
+Keys can now be added, edited, and deleted using the regular set/edit/delete
+CLI commands.</p>
+<p>VyOS not only can now manage certificates issued by 3rd party Certificate
+Authorities, it can also act as a CA on its own. You can create your own root
+CA and sign keys with it by making use of some simple op-mode commands.</p>
+<p>Don’t be afraid that you need to re-do your configuration. Key transformation is
+handled, as always, by our migration scripts, so this will be a smooth transition
+for you!</p>
+<section id="key-generation">
+<h2>Key Generation<a class="headerlink" href="#key-generation" title="Link to this heading"></a></h2>
+<section id="certificate-authority-ca">
+<h3>Certificate Authority (CA)<a class="headerlink" href="#certificate-authority-ca" title="Link to this heading"></a></h3>
+<p>VyOS now also has the ability to create CAs, keys, Diffie-Hellman and other
+keypairs from an easy to access operational level command.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-ca">
+generate pki ca</span>
+<a class="cmdlink" href="#opcmd-generate-pki-ca" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new <abbr title="Certificate Authority">CA</abbr> and output the CAs public and
+private key on the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-ca-install-name">
+generate pki ca install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-ca-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new <abbr title="Certificate Authority">CA</abbr> and output the CAs public and
+private key on the console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-ca-sign-ca-name">
+generate pki ca sign &lt;ca-name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-ca-sign-ca-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new subordinate <abbr title="Certificate Authority">CA</abbr> and sign it using
+the private key referenced by <cite>ca-name</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-ca-sign-ca-name-install-name">
+generate pki ca sign &lt;ca-name&gt; install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-ca-sign-ca-name-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new subordinate <abbr title="Certificate Authority">CA</abbr> and sign it using
+the private key referenced by <cite>name</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="certificates">
+<h3>Certificates<a class="headerlink" href="#certificates" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate">
+generate pki certificate</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new public/private keypair and output the certificate on the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate-install-name">
+generate pki certificate install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new public/private keypair and output the certificate on the console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate-self-signed">
+generate pki certificate self-signed</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate-self-signed" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new self-signed certificate. The public/private is then shown on the
+console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate-self-signed-install-name">
+generate pki certificate self-signed install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate-self-signed-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new self-signed certificate. The public/private is then shown on the
+console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate-sign-ca-name">
+generate pki certificate sign &lt;ca-name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate-sign-ca-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new public/private keypair which is signed by the CA referenced by
+<cite>ca-name</cite>. The signed certificate is then output to the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-certificate-sign-ca-name-install-name">
+generate pki certificate sign &lt;ca-name&gt; install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-certificate-sign-ca-name-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Create a new public/private keypair which is signed by the CA referenced by
+<cite>ca-name</cite>. The signed certificate is then output to the console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="diffie-hellman-parameters">
+<h3>Diffie-Hellman parameters<a class="headerlink" href="#diffie-hellman-parameters" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-dh">
+generate pki dh</span>
+<a class="cmdlink" href="#opcmd-generate-pki-dh" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a new set of <abbr title="Diffie-Hellman">DH</abbr> parameters. The key size
+is requested by the CLI and defaults to 2048 bit.</p>
+<p>The generated parameters are then output to the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-dh-install-name">
+generate pki dh install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-dh-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a new set of <abbr title="Diffie-Hellman">DH</abbr> parameters. The key size
+is requested by the CLI and defaults to 2048 bit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="openvpn">
+<h3>OpenVPN<a class="headerlink" href="#openvpn" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-openvpn-shared-secret">
+generate pki openvpn shared-secret</span>
+<a class="cmdlink" href="#opcmd-generate-pki-openvpn-shared-secret" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Genearate a new OpenVPN shared secret. The generated secred is the output to
+the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-openvpn-shared-secret-install-name">
+generate pki openvpn shared-secret install &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-openvpn-shared-secret-install-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Genearate a new OpenVPN shared secret. The generated secred is the output to
+the console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">name</span></code> is used for the VyOS CLI command to identify this key. This
+key <code class="docutils literal notranslate"><span class="pre">name</span></code> is then used in the CLI configuration to reference the key
+instance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="wireguard">
+<h3>WireGuard<a class="headerlink" href="#wireguard" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-key-pair">
+generate pki wireguard key-pair</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-key-pair" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a new WireGuard public/private key portion and output the result to
+the console.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-key-pair-install-interface">
+generate pki wireguard key-pair install &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-key-pair-install-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a new WireGuard public/private key portion and output the result to
+the console.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">interface</span></code> is used for the VyOS CLI command to identify the WireGuard
+interface where this private key is to be used.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-pre-shared-key">
+generate pki wireguard pre-shared-key</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-pre-shared-key" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a WireGuard pre-shared secret used for peers to communicate.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-pre-shared-key-install-peer">
+generate pki wireguard pre-shared-key install &lt;peer&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-pre-shared-key-install-peer" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generate a WireGuard pre-shared secret used for peers to communicate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the command above, the output is in a format which can
+be used to directly import the key into the VyOS CLI by simply copy-pasting
+the output from op-mode into configuration mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">peer</span></code> is used for the VyOS CLI command to identify the WireGuard peer where
+this secred is to be used.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="key-usage-cli">
+<h2>Key usage (CLI)<a class="headerlink" href="#key-usage-cli" title="Link to this heading"></a></h2>
+<section id="ca-certificate-authority">
+<h3>CA (Certificate Authority)<a class="headerlink" href="#ca-certificate-authority" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-ca-name-certificate">
+set pki ca &lt;name&gt; certificate</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-ca-name-certificate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add the public CA certificate for the CA named <cite>name</cite> to the VyOS CLI.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When loading the certificate you need to manually strip the
+<code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">CERTIFICATE-----</span></code> and <code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">CERTIFICATE-----</span></code> tags.
+Also, the certificate/key needs to be presented in a single line without
+line breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>), this can be done using the following shell command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+2</span> <span class="pre">ca.pem</span> <span class="pre">|</span> <span class="pre">head</span> <span class="pre">-n</span> <span class="pre">-1</span> <span class="pre">|</span> <span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'\n'</span></code></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-ca-name-crl">
+set pki ca &lt;name&gt; crl</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-ca-name-crl" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Certificate revocation list in PEM format.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-ca-name-description">
+set pki ca &lt;name&gt; description</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-ca-name-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A human readable description what this CA is about.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-ca-name-private-key">
+set pki ca &lt;name&gt; private key</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-ca-name-private-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add the CAs private key to the VyOS CLI. This should never leave the system,
+and is only required if you use VyOS as your certificate generator as
+mentioned above.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When loading the certificate you need to manually strip the
+<code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">KEY-----</span></code> and <code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">KEY-----</span></code> tags. Also, the
+certificate/key needs to be presented in a single line without line
+breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>), this can be done using the following shell command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+2</span> <span class="pre">ca.key</span> <span class="pre">|</span> <span class="pre">head</span> <span class="pre">-n</span> <span class="pre">-1</span> <span class="pre">|</span> <span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'\n'</span></code></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-ca-name-private-password-protected">
+set pki ca &lt;name&gt; private password-protected</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-ca-name-private-password-protected" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mark the CAs private key as password protected. User is asked for the password
+when the key is referenced.</p>
+</div>
+</div>
+</section>
+<section id="server-certificate">
+<h3>Server Certificate<a class="headerlink" href="#server-certificate" title="Link to this heading"></a></h3>
+<p>After we have imported the CA certificate(s) we can now import and add
+certificates used by services on this router.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-certificate">
+set pki certificate &lt;name&gt; certificate</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-certificate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add public key portion for the certificate named <cite>name</cite> to the VyOS CLI.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When loading the certificate you need to manually strip the
+<code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">CERTIFICATE-----</span></code> and <code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">CERTIFICATE-----</span></code> tags.
+Also, the certificate/key needs to be presented in a single line without
+line breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>), this can be done using the following shell command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+2</span> <span class="pre">cert.pem</span> <span class="pre">|</span> <span class="pre">head</span> <span class="pre">-n</span> <span class="pre">-1</span> <span class="pre">|</span> <span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'\n'</span></code></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-description">
+set pki certificate &lt;name&gt; description</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A human readable description what this certificate is about.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-private-key">
+set pki certificate &lt;name&gt; private key</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-private-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add the private key portion of this certificate to the CLI. This should never
+leave the system as it is used to decrypt the data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When loading the certificate you need to manually strip the
+<code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">KEY-----</span></code> and <code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">KEY-----</span></code> tags. Also, the
+certificate/key needs to be presented in a single line without line
+breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>), this can be done using the following shell command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+2</span> <span class="pre">cert.key</span> <span class="pre">|</span> <span class="pre">head</span> <span class="pre">-n</span> <span class="pre">-1</span> <span class="pre">|</span> <span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'\n'</span></code></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-private-password-protected">
+set pki certificate &lt;name&gt; private password-protected</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-private-password-protected" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mark the private key as password protected. User is asked for the password
+when the key is referenced.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-revoke">
+set pki certificate &lt;name&gt; revoke</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-revoke" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If CA is present, this certificate will be included in generated CRLs</p>
+</div>
+</div>
+<section id="acme">
+<h4>ACME<a class="headerlink" href="#acme" title="Link to this heading"></a></h4>
+<p>The VyOS PKI subsystem can also be used to automatically retrieve Certificates
+using the <abbr title="Automatic Certificate Management Environment">ACME</abbr> protocol.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-acme-domain-name-name">
+set pki certificate &lt;name&gt; acme domain-name &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-acme-domain-name-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Domain names to apply, multiple domain-names can be specified.</p>
+<p>This is a mandatory option</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-acme-email-address">
+set pki certificate &lt;name&gt; acme email &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-acme-email-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Email used for registration and recovery contact.</p>
+<p>This is a mandatory option</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-acme-listen-address-address">
+set pki certificate &lt;name&gt; acme listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-acme-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The address the server listens to during http-01 challenge</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-acme-rsa-key-size-2048-3072-4096">
+set pki certificate &lt;name&gt; acme rsa-key-size &lt;2048 | 3072 | 4096&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-acme-rsa-key-size-2048-3072-4096" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Size of the RSA key.</p>
+<p>This options defaults to 2048</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-pki-certificate-name-acme-url-url">
+set pki certificate &lt;name&gt; acme url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-pki-certificate-name-acme-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>ACME Directory Resource URI.</p>
+<p>This defaults to <a class="reference external" href="https://acme-v02.api.letsencrypt.org/directory">https://acme-v02.api.letsencrypt.org/directory</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>During initial deployment we recommend using the staging API
+of LetsEncrypt to prevent and blacklisting of your system. The API
+endpoint is <a class="reference external" href="https://acme-staging-v02.api.letsencrypt.org/directory">https://acme-staging-v02.api.letsencrypt.org/directory</a></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<p>VyOS operational mode commands are not only available for generating keys but
+also to display them.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pki-ca">
+show pki ca</span>
+<a class="cmdlink" href="#opcmd-show-pki-ca" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a list of installed <abbr title="Certificate Authority">CA</abbr> certificates.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show pki ca
+Certificate Authorities:
+Name            Subject                                                  Issuer CN          Issued               Expiry               Private Key    Parent
+--------------  -------------------------------------------------------  -----------------  -------------------  -------------------  -------------  --------------
+DST_Root_CA_X3  CN=ISRG Root X1,O=Internet Security Research Group,C=US  CN=DST Root CA X3  2021-01-20 19:14:03  2024-09-30 18:14:03  No             N/A
+R3              CN=R3,O=Let&#39;s Encrypt,C=US                               CN=ISRG Root X1    2020-09-04 00:00:00  2025-09-15 16:00:00  No             DST_Root_CA_X3
+vyos_rw         CN=VyOS RW CA,O=VyOS,L=Some-City,ST=Some-State,C=GB      CN=VyOS RW CA      2021-07-05 13:46:03  2026-07-04 13:46:03  Yes            N/A
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pki-ca-name">
+show pki ca &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-pki-ca-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show only information for specified Certificate Authority.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pki-certificate">
+show pki certificate</span>
+<a class="cmdlink" href="#opcmd-show-pki-certificate" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a list of installed certificates</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show pki certificate
+Certificates:
+Name       Type    Subject CN             Issuer CN      Issued               Expiry               Revoked    Private Key    CA Present
+---------  ------  ---------------------  -------------  -------------------  -------------------  ---------  -------------  -------------
+ac2        Server  CN=ac2.vyos.net        CN=R3          2021-07-05 07:29:59  2021-10-03 07:29:58  No         Yes            Yes (R3)
+rw_server  Server  CN=VyOS RW             CN=VyOS RW CA  2021-07-05 13:48:02  2022-07-05 13:48:02  No         Yes            Yes (vyos_rw)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pki-certificate-name">
+show pki certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-pki-certificate-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show only information for specified certificate.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pki-crl">
+show pki crl</span>
+<a class="cmdlink" href="#opcmd-show-pki-crl" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a list of installed <abbr title="Certificate Revocation List">CRLs</abbr>.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-renew-certbot">
+renew certbot</span>
+<a class="cmdlink" href="#opcmd-renew-certbot" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Manually trigger certificate renewal. This will be done twice a day.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../policy/examples.html" class="btn btn-neutral float-left" title="BGP Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../protocols/index.html" class="btn btn-neutral float-right" title="Protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

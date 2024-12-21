@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenConnect &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PPTP-Server" href="pptp.html" />
+    <link rel="prev" title="L2TP" href="l2tp.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">IPsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OpenConnect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verification">Verification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dmvpn.html">DMVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="site2site_ipsec.html">Site-to-Site</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">OpenConnect</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/vpn/openconnect.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="openconnect">
+<span id="vpn-openconnect"></span><h1>OpenConnect<a class="headerlink" href="#openconnect" title="Link to this heading"></a></h1>
+<p>OpenConnect-compatible server feature is available from this release.
+Openconnect VPN supports SSL connection and offers full network access. SSL VPN
+network extension connects the end-user system to the corporate network with
+access controls based only on network layer information, such as destination IP
+address and port number. So, it provides safe communication for all types of
+device traffic across public networks and private networks, also encrypts the
+traffic with SSL protocol.</p>
+<p>The remote user will use the openconnect client to connect to the router and
+will receive an IP address from a VPN pool, allowing full access to the
+network.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="ssl-certificates">
+<h3>SSL Certificates<a class="headerlink" href="#ssl-certificates" title="Link to this heading"></a></h3>
+<p>We need to generate the certificate which authenticates users who attempt to
+access the network resource through the SSL VPN tunnels. The following commands
+will create a self signed certificates and will be stored in configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>run generate pki ca install &lt;CA name&gt;
+run generate pki certificate sign &lt;CA name&gt; install &lt;Server name&gt;
+</pre></div>
+</div>
+<p>We can also create the certificates using Cerbort which is an easy-to-use
+client that fetches a certificate from Let’s Encrypt an open certificate
+authority launched by the EFF, Mozilla, and others and deploys it to a web
+server.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo certbot certonly --standalone --preferred-challenges http -d &lt;domain name&gt;
+</pre></div>
+</div>
+</section>
+<section id="server-configuration">
+<h3>Server Configuration<a class="headerlink" href="#server-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn openconnect authentication local-users username &lt;user&gt; password &lt;pass&gt;
+set vpn openconnect authentication mode &lt;local password|radius&gt;
+set vpn openconnect network-settings client-ip-settings subnet &lt;subnet&gt;
+set vpn openconnect network-settings name-server &lt;address&gt;
+set vpn openconnect network-settings name-server &lt;address&gt;
+set vpn openconnect ssl ca-certificate &lt;pki-ca-name&gt;
+set vpn openconnect ssl certificate &lt;pki-cert-name&gt;
+set vpn openconnect ssl passphrase &lt;pki-password&gt;
+</pre></div>
+</div>
+</section>
+<section id="fa-otp-support">
+<h3>2FA OTP support<a class="headerlink" href="#fa-otp-support" title="Link to this heading"></a></h3>
+<p>Instead of password only authentication, 2FA password
+authentication + OTP key can be used. Alternatively, OTP authentication only,
+without a password, can be used.
+To do this, an OTP configuration must be added to the configuration above:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn openconnect authentication mode local &lt;password-otp|otp&gt;
+set vpn openconnect authentication local-users username &lt;user&gt; otp &lt;key&gt;
+set vpn openconnect authentication local-users username &lt;user&gt; interval &lt;interval (optional)&gt;
+set vpn openconnect authentication local-users username &lt;user&gt; otp-length &lt;otp-length (optional)&gt;
+set vpn openconnect authentication local-users username &lt;user&gt; token-type &lt;token-type (optional)&gt;
+</pre></div>
+</div>
+<p>For generating an OTP key in VyOS, you can use the CLI command
+(operational mode):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>generate openconnect username &lt;user&gt; otp-key hotp-time
+</pre></div>
+</div>
+</section>
+</section>
+<section id="verification">
+<h2>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ sh openconnect-server sessions
+interface    username    ip             remote IP    RX       TX         state      uptime
+-----------  ----------  -------------  -----------  -------  ---------  ---------  --------
+sslvpn0      tst         172.20.20.198  192.168.6.1  0 bytes  152 bytes  connected  3s
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is compatible with Cisco (R) AnyConnect (R) clients.</p>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<section id="ssl-certificates-generation">
+<h3>SSL Certificates generation<a class="headerlink" href="#ssl-certificates-generation" title="Link to this heading"></a></h3>
+<p>Follow the instructions to generate CA cert (in configuration mode):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run generate pki ca install ca-ocserv
+Enter private key type: [rsa, dsa, ec] (Default: rsa)
+Enter private key bits: (Default: 2048)
+Enter country code: (Default: GB) US
+Enter state: (Default: Some-State) Delaware
+Enter locality: (Default: Some-City) Mycity
+Enter organization name: (Default: VyOS) MyORG
+Enter common name: (Default: vyos.io) oc-ca
+Enter how many days certificate will be valid: (Default: 1825) 3650
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N] N
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+[edit]
+</pre></div>
+</div>
+<p>Follow the instructions to generate server cert (in configuration mode):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run generate pki certificate sign ca-ocserv install srv-ocserv
+Do you already have a certificate request? [y/N] N
+Enter private key type: [rsa, dsa, ec] (Default: rsa)
+Enter private key bits: (Default: 2048)
+Enter country code: (Default: GB) US
+Enter state: (Default: Some-State) Delaware
+Enter locality: (Default: Some-City) Mycity
+Enter organization name: (Default: VyOS) MyORG
+Enter common name: (Default: vyos.io) oc-srv
+Do you want to configure Subject Alternative Names? [y/N] N
+Enter how many days certificate will be valid: (Default: 365) 1830
+Enter certificate type: (client, server) (Default: server)
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N] N
+2 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+[edit]
+</pre></div>
+</div>
+<p>Each of the install command should be applied to the configuration and commited
+before using under the openconnect configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# commit
+[edit]
+vyos@vyos# save
+Saving configuration to &#39;/config/config.boot&#39;...
+Done
+[edit]
+</pre></div>
+</div>
+</section>
+<section id="openconnect-configuration">
+<h3>Openconnect Configuration<a class="headerlink" href="#openconnect-configuration" title="Link to this heading"></a></h3>
+<p>Simple setup with one user added and password authentication:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn openconnect authentication local-users username tst password &#39;OC_bad_Secret&#39;
+set vpn openconnect authentication mode local password
+set vpn openconnect network-settings client-ip-settings subnet &#39;172.20.20.0/24&#39;
+set vpn openconnect network-settings name-server &#39;10.1.1.1&#39;
+set vpn openconnect network-settings name-server &#39;10.1.1.2&#39;
+set vpn openconnect ssl ca-certificate &#39;ca-ocserv&#39;
+set vpn openconnect ssl certificate &#39;srv-ocserv&#39;
+</pre></div>
+</div>
+</section>
+<section id="adding-a-2fa-with-an-otp-key">
+<h3>Adding a 2FA with an OTP-key<a class="headerlink" href="#adding-a-2fa-with-an-otp-key" title="Link to this heading"></a></h3>
+<p>First the OTP keys must be generated and sent to the user and to the
+configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate openconnect username tst otp-key hotp-time
+# You can share it with the user, he just needs to scan the QR in his OTP app
+# username:  tst
+# OTP KEY:  5PA4SGYTQSGOBO3H3EQSSNCUNZAYAPH2
+# OTP URL:  otpauth://totp/tst@vyos?secret=5PA4SGYTQSGOBO3H3EQSSNCUNZAYAPH2&amp;digits=6&amp;period=30
+█████████████████████████████████████████
+█████████████████████████████████████████
+████ ▄▄▄▄▄ █▀ ██▄▀ ▄█▄▀▀▄▄▄▄██ ▄▄▄▄▄ ████
+████ █   █ █▀ █▄▄▀▀▀▄█  ▄▄▀▄ █ █   █ ████
+████ █▄▄▄█ █▀█▀▄▄▀  ▄▀ █▀ ▀▄██ █▄▄▄█ ████
+████▄▄▄▄▄▄▄█▄█▄▀ ▀▄█ ▀ ▀ ▀ █▄█▄▄▄▄▄▄▄████
+████  ▄▄▄▀▄▄  ▄███▀▄▀█▄██▀ ▀▄ ▀▄█ ▀ ▀████
+████ ▀▀ ▀ ▄█▄ ▀ ▀▄ ▄█▀ ▄█ ▄▀▀▄██    █████
+████▄ █▄▀▀▄█▀ ▀█▄█▄▄▄▄ ▄▀█▀▀█ ▀ ▄ ▀█▀████
+█████  ▀█▀▄▄ █ ▀▄▄  ▄█▄    ▀█▀▀ █▀ ▄█████
+████▀██▀█▄▄ ▀▀▀▀█▄▀ ▀█▄▄▀▀▀ ▀ ▀█▄██▀▀████
+████▄ ▄ ▄▀▄██▀█ ▄ ▀▄██ ▄▄  ▀▀▄█▄██ ▄█████
+████▀▀ ▄▀ ▄ ▀█▀█▀█  █▀█▄▄▀█▀█▄██▄▄█ ▀████
+████ █ ▀█▄▄█▄ ▀ ▄▄▀▀  ▀ █▄█▀████ █▀ ▀████
+████▄██▄██▄█▀ ▄▀ ▄▄▀▄  ▄▀█ ▄ ▄▄▄ ▀█▄ ████
+████ ▄▄▄▄▄ █▄  ▀█▄█ ▄ ▀ ▄ ▄  █▄█ ▄▀▄█████
+████ █   █ █ ▀▄██▄▄▀█▄▀▄██▄▀  ▄  ▀██▀████
+████ █▄▄▄█ █ ██▀▄▄  ▀▄▄▀█▀ ▀█ ▄▀█ ▀██████
+████▄▄▄▄▄▄▄█▄███▄███▄█▄▄▄▄█▄▄█▄██▄█▄█████
+█████████████████████████████████████████
+█████████████████████████████████████████
+# To add this OTP key to configuration, run the following commands:
+set vpn openconnect authentication local-users username tst otp key &#39;ebc1c91b13848ce0bb67d9212934546e41803cfa&#39;
+</pre></div>
+</div>
+<p>Next it is necessary to configure 2FA for OpenConnect:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn openconnect authentication mode local password-otp
+set vpn openconnect authentication local-users username tst otp key &#39;ebc1c91b13848ce0bb67d9212934546e41803cfa&#39;
+</pre></div>
+</div>
+<p>Now when connecting the user will first be asked for the password
+and then the OTP key.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When using Time-based one-time password (TOTP) (OTP HOTP-time),
+be sure that the time on the server and the
+OTP token generator are synchronized by NTP</p>
+</div>
+<p>To display the configured OTP user settings, use the command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>show openconnect-server user &lt;username&gt; otp &lt;full|key-b32|key-hex|qrcode|uri&gt;
+</pre></div>
+</div>
+</section>
+<section id="identity-based-configuration">
+<h3>Identity Based Configuration<a class="headerlink" href="#identity-based-configuration" title="Link to this heading"></a></h3>
+<p>OpenConnect supports a subset of it’s configuration options to be applied on a
+per user/group basis, for configuration purposes we refer to this functionality
+as “Identity based config”. The following <a class="reference external" href="https://ocserv.gitlab.io/www/manual.html#:~:text=Configuration%20files%20that%20will%20be%20applied%20per%20user%20connection%20or%0A%23%20per%20group">OpenConnect Server Manual</a>
+outlines the set of configuration options that are allowed. This can be
+leveraged to apply different sets of configs to different users or groups of
+users.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo mkdir -p /config/auth/ocserv/config-per-user
+sudo touch /config/auth/ocserv/default-user.conf
+
+set vpn set vpn openconnect authentication identity-based-config mode user
+set vpn openconnect authentication identity-based-config directory /config/auth/ocserv/config-per-user
+set vpn openconnect authentication identity-based-config default-config /config/auth/ocserv/default-user.conf
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The above directory and default-config must be a child directory
+of /config/auth, since files outside this directory are not persisted after an
+image upgrade.</p>
+</div>
+<p>Once you commit the above changes you can create a config file in the
+/config/auth/ocserv/config-per-user directory that matches a username of a
+user you have created e.g. “tst”. Now when logging in with the “tst” user the
+config options you set in this file will be loaded.</p>
+<p>Be sure to set a sane default config in the default config file, this will be
+loaded in the case that a user is authenticated and no file is found in the
+configured directory matching the users username/group.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo nano /config/auth/ocserv/config-per-user/tst
+</pre></div>
+</div>
+<p>The same configuration options apply when Identity based config is configured
+in group mode except that group mode can only be used with RADIUS
+authentication.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>OpenConnect server matches the filename in a case sensitive
+manner, make sure the username/group name you configure matches the
+filename exactly.</p>
+</div>
+</section>
+<section id="configuring-radius-accounting">
+<h3>Configuring RADIUS accounting<a class="headerlink" href="#configuring-radius-accounting" title="Link to this heading"></a></h3>
+<p>OpenConnect can be configured to send accounting information to a
+RADIUS server to capture user session data such as time of
+connect/disconnect, data transferred, and so on.</p>
+<p>Configure an accounting server and enable accounting with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn openconnect accounting mode radius
+set vpn openconnect accounting radius server 172.20.20.10
+set vpn openconnect accounting radius server 172.20.20.10 port 1813
+set vpn openconnect accounting radius server 172.20.20.10 key your_radius_secret
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The RADIUS accounting feature must be used with the OpenConnect
+authentication mode RADIUS. It cannot be used with local authentication.
+You must configure the OpenConnect authentication mode to “radius”.</p>
+</div>
+<p>An example of the data captured by a FREERADIUS server with sql accounting:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mysql&gt; SELECT username, nasipaddress, acctstarttime, acctstoptime, acctinputoctets, acctoutputoctets, callingstationid, framedipaddress, connectinfo_start FROM radacct;
++----------+---------------+---------------------+---------------------+-----------------+------------------+-------------------+-----------------+-----------------------------------+
+| username | nasipaddress  | acctstarttime       | acctstoptime        | acctinputoctets | acctoutputoctets | callingstationid  | framedipaddress | connectinfo_start                 |
++----------+---------------+---------------------+---------------------+-----------------+------------------+-------------------+-----------------+-----------------------------------+
+| test     | 198.51.100.15 | 2023-01-13 00:59:15 | 2023-01-13 00:59:21 |           10606 |              152 | 192.168.6.1       | 172.20.20.198   | Open AnyConnect VPN Agent v8.05-1 |
++----------+---------------+---------------------+---------------------+-----------------+------------------+-------------------+-----------------+-----------------------------------+
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="l2tp.html" class="btn btn-neutral float-left" title="L2TP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pptp.html" class="btn btn-neutral float-right" title="PPTP-Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

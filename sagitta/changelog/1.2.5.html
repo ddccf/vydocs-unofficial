@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.2.5 &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="1.2.4" href="1.2.4.html" />
+    <link rel="prev" title="1.2.6-S1" href="1.2.6.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Changelog</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.5.html">1.5 Circinus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.4.html">1.4 Sagitta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.3.html">1.3 Equuleus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.6.html">1.2.6-S1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.6.html#id1">1.2.6</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resolved-issues">Resolved issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.4.html">1.2.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.3.html">1.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.2.html">1.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.2.1.html">1.2.1</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Changelog</a></li>
+      <li class="breadcrumb-item active">1.2.5</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/changelog/1.2.5.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>1.2.5<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>1.2.5 is a maintenance release made in April 2020.</p>
+<section id="resolved-issues">
+<h2>Resolved issues<a class="headerlink" href="#resolved-issues" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://vyos.dev/T1020">T1020</a> OSPF Stops distributing default route after a while</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1228">T1228</a> pppoe default-route force option not working (Rel 1.2.0-rc11)</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1301">T1301</a> bgp peer-groups don’t work when “no-ipv4-unicast” is enabled.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1341">T1341</a> Adding rate-limiter for pppoe server users</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1376">T1376</a> Incorrect DHCP lease counting</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1392">T1392</a> Large firewall rulesets cause the system to lose configuration
+and crash at startup</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1416">T1416</a> 2 dhcp server run in failover mode can’t sync hostname with
+each other</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1452">T1452</a> accel-pppoe - add vendor option to shaper</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1490">T1490</a> BGP configuration (is lost|not applied) when updating
+1.1.8 -&gt; 1.2.1</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1780">T1780</a> Adding ipsec ike closeaction</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1803">T1803</a> Unbind NTP while it’s not requested…</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1821">T1821</a> “authentication mode radius” has no effect for PPPoE server</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1827">T1827</a> Increase default gc_thresh</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1828">T1828</a> Missing completion helper for “set system syslog host
+192.0.2.1 facility all protocol”</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1832">T1832</a> radvd adding feature DNSSL branch.example.com example.com to
+existing package</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1837">T1837</a> PPPoE unrecognized option ‘replacedefaultroute’</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1851">T1851</a> wireguard - changing the pubkey on an existing peer seems to
+destroy the running config.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1858">T1858</a> l2tp: Delete depricated outside-nexthop and add gateway-address</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1864">T1864</a> Lower IPSec DPD timeout lower limit from 10s -&gt; 2s</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1879">T1879</a> Extend Dynamic DNS XML definition value help strings and
+validators</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1881">T1881</a> Execute permissions are removed from custom SNMP scripts at
+commit time</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1884">T1884</a> Keeping VRRP transition-script native behaviour and adding
+stop-script</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1891">T1891</a> Router announcements broken on boot</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1900">T1900</a> Enable SNMP for VRRP.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1902">T1902</a> Add redistribute non main table in bgp</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1909">T1909</a> Incorrect behaviour of static routes with overlapping networks</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1913">T1913</a> “system ipv6 blacklist” command has no effect</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1914">T1914</a> IPv6 multipath hash policy does not apply</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1917">T1917</a> Update WireGuard to Debian release 0.0.20191219-1</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1934">T1934</a> Change default hostname when deploy from OVA without params.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1935">T1935</a> NIC identification and usage problem in Hyper-V environments</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1936">T1936</a> pppoe-server CLI control features</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1964">T1964</a> SNMP Script-extensions allows names with spaces, but commit
+fails</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1967">T1967</a> BGP parameter “enforce-first-as” does not work anymore</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1970">T1970</a> Correct adding interfaces on boot</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1971">T1971</a> Missing modules in initrd.img for PXE boot</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T1998">T1998</a> Update FRR to 7.3</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2001">T2001</a> Error when router reboot</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2032">T2032</a> Monitor bandwidth bits</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2059">T2059</a> Set source-validation on bond vif don’t work</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2066">T2066</a> PPPoE interface can be created multiple times - last wins</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2069">T2069</a> PPPoE-client does not works with service-name option</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2077">T2077</a> ISO build from crux branch is failing</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2079">T2079</a> Update Linux Kernel to v4.19.106</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2087">T2087</a> Add maxfail 0 option to pppoe configuration.</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2100">T2100</a> BGP route adverisement wih checks rib</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2120">T2120</a> “reset vpn ipsec-peer” doesn’t work with named peers</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2197">T2197</a> Cant add vif-s interface into a bridge</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2228">T2228</a> WireGuard does not allow ports &lt; 1024 to be used</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2252">T2252</a> HTTP API add system image can return ‘504 Gateway Time-out’</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2272">T2272</a> Set system flow-accounting disable-imt has syntax error</p></li>
+<li><p><a class="reference external" href="https://vyos.dev/T2276">T2276</a> PPPoE server vulnerability</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="1.2.6.html" class="btn btn-neutral float-left" title="1.2.6-S1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="1.2.4.html" class="btn btn-neutral float-right" title="1.2.4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

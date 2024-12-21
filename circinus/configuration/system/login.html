@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login/User Management &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="System DNS" href="name-server.html" />
+    <link rel="prev" title="System Display (LCD)" href="lcd.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acceleration.html">Acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack.html">Conntrack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Serial Console</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow-accounting.html">Flow Accounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frr.html">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host-name.html">Host Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ip.html">IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd.html">System Display (LCD)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Login/User Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#local">Local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#radius">RADIUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tacacs">TACACS+</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#login-banner">Login Banner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limits">Limits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="name-server.html">System DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html">System Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">sFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syslog.html">Syslog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysctl.html">Sysctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task-scheduler.html">Task Scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time-zone.html">Time Zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default-route.html">Default Gateway/Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">System</a></li>
+      <li class="breadcrumb-item active">Login/User Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/system/login.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="login-user-management">
+<span id="user-management"></span><h1>Login/User Management<a class="headerlink" href="#login-user-management" title="Link to this heading"></a></h1>
+<p>The default VyOS user account (<cite>vyos</cite>), as well as newly created user accounts,
+have all capabilities to configure the system. All accounts have sudo
+capabilities and therefore can operate as root on the system.</p>
+<p>Both local administered and remote administered <abbr title="Remote Authentication Dial-In User Service">RADIUS</abbr> accounts are supported.</p>
+<section id="local">
+<h2>Local<a class="headerlink" href="#local" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-name-full-name-string">
+set system login user &lt;name&gt; full-name “&lt;string&gt;”</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-name-full-name-string" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create new system user with username <cite>&lt;name&gt;</cite> and real-name specified by
+<cite>&lt;string&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-name-authentication-plaintext-password-password">
+set system login user &lt;name&gt; authentication plaintext-password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-name-authentication-plaintext-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the plaintext password user by user <cite>&lt;name&gt;</cite> on this system. The
+plaintext password will be automatically transferred into a secure hashed
+password and not saved anywhere in plaintext.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-name-authentication-encrypted-password-password">
+set system login user &lt;name&gt; authentication encrypted-password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-name-authentication-encrypted-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Setup encrypted password for given username. This is useful for
+transferring a hashed password from system to system.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-name-disable">
+set system login user &lt;name&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-name-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable (lock) account. User will not be able to log in.</p>
+</div>
+</div>
+<section id="key-based-authentication">
+<span id="ssh-key-based-authentication"></span><h3>Key Based Authentication<a class="headerlink" href="#key-based-authentication" title="Link to this heading"></a></h3>
+<p>It is highly recommended to use SSH key authentication. By default there is
+only one user (<code class="docutils literal notranslate"><span class="pre">vyos</span></code>), and you can assign any number of keys to that user.
+You can generate a ssh key with the <code class="docutils literal notranslate"><span class="pre">ssh-keygen</span></code> command on your local
+machine, which will (by default) save it as <code class="docutils literal notranslate"><span class="pre">~/.ssh/id_rsa.pub</span></code>.</p>
+<p>Every SSH key comes in three parts:</p>
+<p><code class="docutils literal notranslate"><span class="pre">ssh-rsa</span> <span class="pre">AAAAB3NzaC1yc2EAAAABAA...VBD5lKwEWB</span> <span class="pre">username&#64;host.example.com</span></code></p>
+<p>Only the type (<code class="docutils literal notranslate"><span class="pre">ssh-rsa</span></code>) and the key (<code class="docutils literal notranslate"><span class="pre">AAAB3N...</span></code>) are used. Note that the
+key will usually be several hundred characters long, and you will need to copy
+and paste it. Some terminal emulators may accidentally split this over several
+lines. Be attentive when you paste it that it only pastes as a single line.
+The third part is simply an identifier, and is for your own reference.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>SSH <a class="reference internal" href="../service/ssh.html#ssh-operation"><span class="std std-ref">Operation</span></a></p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-key-key">
+set system login user &lt;username&gt; authentication public-keys &lt;identifier&gt; key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Assign the SSH public key portion <cite>&lt;key&gt;</cite> identified by per-key
+<cite>&lt;identifier&gt;</cite> to the local user <cite>&lt;username&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-type-type">
+set system login user &lt;username&gt; authentication public-keys &lt;identifier&gt; type &lt;type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-type-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Every SSH public key portion referenced by <cite>&lt;identifier&gt;</cite> requires the
+configuration of the <cite>&lt;type&gt;</cite> of public-key used. This type can be any of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp256</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp384</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp521</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh-dss</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh-ed25519</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh-rsa</span></code></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can assign multiple keys to the same user by using a unique
+identifier per SSH key.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-options-options">
+set system login user &lt;username&gt; authentication public-keys &lt;identifier&gt; options &lt;options&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-public-keys-identifier-options-options" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the options for this public key. See the ssh <code class="docutils literal notranslate"><span class="pre">authorized_keys</span></code> man
+page for details of what you can specify here. To place a <code class="docutils literal notranslate"><span class="pre">&quot;</span></code>
+character in the options field, use <code class="docutils literal notranslate"><span class="pre">&amp;quot;</span></code>, for example
+<code class="docutils literal notranslate"><span class="pre">from=&amp;quot;10.0.0.0/24&amp;quot;</span></code> to restrict where the user
+may connect from when using this key.</p>
+</div>
+</div>
+</section>
+<section id="mfa-2fa-authentication-using-otp-one-time-passwords">
+<h3>MFA/2FA authentication using OTP (one time passwords)<a class="headerlink" href="#mfa-2fa-authentication-using-otp-one-time-passwords" title="Link to this heading"></a></h3>
+<p>It is possible to enhance authentication security by using the <abbr title="Two-factor authentication">2FA</abbr>/<abbr title="Multi-factor authentication">MFA</abbr> feature
+together with <abbr title="One-Time-Pad">OTP</abbr> on VyOS. <abbr title="Two-factor authentication">2FA</abbr>/<abbr title="Multi-factor authentication">MFA</abbr> is configured
+independently per each user. If an OTP key is configured for a user, 2FA/MFA
+is automatically enabled for that particular user. If a user does not have an
+OTP key configured, there is no 2FA/MFA check for that user.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-otp-key-key">
+set system login user &lt;username&gt; authentication otp key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-otp-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable OTP 2FA for user <cite>username</cite> with default settings, using the BASE32
+encoded 2FA/MFA key specified by <cite>&lt;key&gt;</cite>.</p>
+</div>
+</div>
+<section id="optional-default-settings">
+<h4>Optional/default settings<a class="headerlink" href="#optional-default-settings" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-otp-rate-limit-limit">
+set system login user &lt;username&gt; authentication otp rate-limit &lt;limit&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-otp-rate-limit-limit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Limit logins to <cite>&lt;limit&gt;</cite> per every <code class="docutils literal notranslate"><span class="pre">rate-time</span></code> seconds. Rate limit
+must be between 1 and 10 attempts.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-otp-rate-time-seconds">
+set system login user &lt;username&gt; authentication otp rate-time &lt;seconds&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-otp-rate-time-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Limit logins to <code class="docutils literal notranslate"><span class="pre">rate-limit</span></code> attemps per every <cite>&lt;seconds&gt;</cite>. Rate time must
+be between 15 and 600 seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-username-authentication-otp-window-size-size">
+set system login user &lt;username&gt; authentication otp window-size &lt;size&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-username-authentication-otp-window-size-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set window of concurrently valid codes.</p>
+<p>By default, a new token is generated every 30 seconds by the mobile
+application. In order to compensate for possible time-skew between
+the client and the server, an extra token before and after the current
+time is allowed. This allows for a time skew of up to 30 seconds
+between authentication server and client.</p>
+<p>For example, if problems with poor time synchronization are experienced,
+the window can be increased from its default size of 3 permitted codes
+(one previous code, the current code, the next code) to 17 permitted codes
+(the 8 previous codes, the current code, and the 8 next codes). This will
+permit for a time skew of up to 4 minutes between client and server.</p>
+<p>The window size must be between 1 and 21.</p>
+</div>
+</div>
+</section>
+<section id="otp-key-generation">
+<h4>OTP-key generation<a class="headerlink" href="#otp-key-generation" title="Link to this heading"></a></h4>
+<p>The following command can be used to generate the OTP key as well
+as the CLI commands to configure them:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-generate-system-login-username-username-otp-key-hotp-time-rate-limit-1-10-rate-time-15-600-window-size-1-21">
+generate system login username &lt;username&gt; otp-key hotp-time rate-limit &lt;1-10&gt; rate-time &lt;15-600&gt; window-size &lt;1-21&gt;</span>
+<a class="cmdlink" href="#cfgcmd-generate-system-login-username-username-otp-key-hotp-time-rate-limit-1-10-rate-time-15-600-window-size-1-21" title="Permalink to this Command"></a></div></div>
+<p>An example of key generation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate system login username otptester otp-key hotp-time rate-limit 2 rate-time 20 window-size 5
+# You can share it with the user, he just needs to scan the QR in his OTP app
+# username:  otptester
+# OTP KEY:  J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY
+# OTP URL:  otpauth://totp/otptester@vyos?secret=J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY&amp;digits=6&amp;period=30
+█████████████████████████████████████████████
+█████████████████████████████████████████████
+████ ▄▄▄▄▄ █▀█ █▄   ▀▄▀▄█▀▄  ▀█▀ █ ▄▄▄▄▄ ████
+████ █   █ █▀▀▀█ ▄▀ █▄▀ ▀▄ ▄ ▀  ▄█ █   █ ████
+████ █▄▄▄█ █▀ █▀▀██▄▄ █ █ ██ ▀▄▀ █ █▄▄▄█ ████
+████▄▄▄▄▄▄▄█▄▀ ▀▄█ █ ▀ █ █ █ █▄█▄█▄▄▄▄▄▄▄████
+████ ▄   █▄ ▄ ▀▄▀▀▀▀▄▀▄▀▄▄▄▀▀▄▄▄  █ █▄█ █████
+████▄▄ ██▀▄▄▄▀▀█▀ ▄ ▄▄▄ ▄▀ ▀ █ ▄ ▄ ██▄█  ████
+█████▄  ██▄▄▀█▄█▄█▄ ▀█▄▀▄ ▀█▀▄ █▄▄▄ ▄   ▄████
+████▀▀▄   ▄█▀▄▀ ▄█▀█▀▄▄▄▀█▄ ██▄▄▄  ▀█ █  ████
+████ ▄▀▄█▀▄▄█▀▀▄▀▀▀▀█ ▄▀▄▀ ▄█ ▀▄  ▄ ▄▀ █▄████
+████▄ ██ ▀▄▀▀ ▄█▀ ▄ ██ ▀█▄█ ▄█ ▄ ▀▄   ▄▄ ████
+████▄█▀▀▄ ▄▄ █▄█▄█▄ █▄▄▀▄▄▀▀▄▄██▀ ▄▀▄▄ ▀▄████
+████▀▄▀ ▄ ▄▀█ ▄ ▄█▀ █  ▀▄▄  ▄█▀ ▄▄   ▀▄▄ ████
+████  ▀███▄ █▄█▄▀▀▀▀▄ ▄█▄▄▀ ▀███ ▄▄█▄▄  ▄████
+████ ███▀ ▄▄▀▀██▀ ▄▀▄█▄▄▄ ██▄▄▀▄▀  ███▄ ▄████
+████▄████▄▄▄▀▄ █▄█▄▀▄▄▄▄██▀ ▄▀ ▄ ▄▄▄ █▄▄█████
+████ ▄▄▄▄▄ █▄▄▄ ▄█▀█▀▀▀▀█▀█▀ █▄█ █▄█ ▄█  ████
+████ █   █ █ ██▄▀▀▀▀▄▄▄▀ ▄▄▄  ▀ ▄    ▄ ▄▄████
+████ █▄▄▄█ █ ▀▀█▀ ▄▄█ █▄▄██▀▀█▀ █▄▀▄██▄█ ████
+████▄▄▄▄▄▄▄█▄█▄█▄█▄▄▄▄▄█▄▄▄█▄██████▄██▄▄▄████
+█████████████████████████████████████████████
+█████████████████████████████████████████████
+# To add this OTP key to configuration, run the following commands:
+set system login user otptester authentication otp key &#39;J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY&#39;
+set system login user otptester authentication otp rate-limit &#39;2&#39;
+set system login user otptester authentication otp rate-time &#39;20&#39;
+set system login user otptester authentication otp window-size &#39;5&#39;
+</pre></div>
+</div>
+</section>
+<section id="display-otp-key-for-user">
+<h4>Display OTP key for user<a class="headerlink" href="#display-otp-key-for-user" title="Link to this heading"></a></h4>
+<p>To display the configured OTP user key, use the command:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-sh-system-login-authentication-user-username-otp-full-key-b32-qrcode-uri">
+sh system login authentication user &lt;username&gt; otp &lt;full|key-b32|qrcode|uri&gt;</span>
+<a class="cmdlink" href="#cfgcmd-sh-system-login-authentication-user-username-otp-full-key-b32-qrcode-uri" title="Permalink to this Command"></a></div></div>
+<p>An example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ sh system login authentication user otptester otp full
+# You can share it with the user, he just needs to scan the QR in his OTP app
+# username: otptester
+# OTP KEY: J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY
+# OTP URL: otpauth://totp/otptester@vyos?secret=J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY&amp;digits=6&amp;period=30
+█████████████████████████████████████████████
+█████████████████████████████████████████████
+████ ▄▄▄▄▄ █▀█ █▄   ▀▄▀▄█▀▄  ▀█▀ █ ▄▄▄▄▄ ████
+████ █   █ █▀▀▀█ ▄▀ █▄▀ ▀▄ ▄ ▀  ▄█ █   █ ████
+████ █▄▄▄█ █▀ █▀▀██▄▄ █ █ ██ ▀▄▀ █ █▄▄▄█ ████
+████▄▄▄▄▄▄▄█▄▀ ▀▄█ █ ▀ █ █ █ █▄█▄█▄▄▄▄▄▄▄████
+████ ▄   █▄ ▄ ▀▄▀▀▀▀▄▀▄▀▄▄▄▀▀▄▄▄  █ █▄█ █████
+████▄▄ ██▀▄▄▄▀▀█▀ ▄ ▄▄▄ ▄▀ ▀ █ ▄ ▄ ██▄█  ████
+█████▄  ██▄▄▀█▄█▄█▄ ▀█▄▀▄ ▀█▀▄ █▄▄▄ ▄   ▄████
+████▀▀▄   ▄█▀▄▀ ▄█▀█▀▄▄▄▀█▄ ██▄▄▄  ▀█ █  ████
+████ ▄▀▄█▀▄▄█▀▀▄▀▀▀▀█ ▄▀▄▀ ▄█ ▀▄  ▄ ▄▀ █▄████
+████▄ ██ ▀▄▀▀ ▄█▀ ▄ ██ ▀█▄█ ▄█ ▄ ▀▄   ▄▄ ████
+████▄█▀▀▄ ▄▄ █▄█▄█▄ █▄▄▀▄▄▀▀▄▄██▀ ▄▀▄▄ ▀▄████
+████▀▄▀ ▄ ▄▀█ ▄ ▄█▀ █  ▀▄▄  ▄█▀ ▄▄   ▀▄▄ ████
+████  ▀███▄ █▄█▄▀▀▀▀▄ ▄█▄▄▀ ▀███ ▄▄█▄▄  ▄████
+████ ███▀ ▄▄▀▀██▀ ▄▀▄█▄▄▄ ██▄▄▀▄▀  ███▄ ▄████
+████▄████▄▄▄▀▄ █▄█▄▀▄▄▄▄██▀ ▄▀ ▄ ▄▄▄ █▄▄█████
+████ ▄▄▄▄▄ █▄▄▄ ▄█▀█▀▀▀▀█▀█▀ █▄█ █▄█ ▄█  ████
+████ █   █ █ ██▄▀▀▀▀▄▄▄▀ ▄▄▄  ▀ ▄    ▄ ▄▄████
+████ █▄▄▄█ █ ▀▀█▀ ▄▄█ █▄▄██▀▀█▀ █▄▀▄██▄█ ████
+████▄▄▄▄▄▄▄█▄█▄█▄█▄▄▄▄▄█▄▄▄█▄██████▄██▄▄▄████
+█████████████████████████████████████████████
+█████████████████████████████████████████████
+# To add this OTP key to configuration, run the following commands:
+set system login user otptester authentication otp key &#39;J5A64ERPMGJOZXY6FMHHLKXKANNI6TCY&#39;
+set system login user otptester authentication otp rate-limit &#39;2&#39;
+set system login user otptester authentication otp rate-time &#39;20&#39;
+set system login user otptester authentication otp window-size &#39;5&#39;
+</pre></div>
+</div>
+<p>Once a user has 2FA/OTP configured against their account, they must login
+using their password with the OTP code appended to it.
+For example: If the users password is vyosrocks and the OTP code is 817454
+then they would enter their password as vyosrocks817454</p>
+</section>
+</section>
+</section>
+<section id="radius">
+<h2>RADIUS<a class="headerlink" href="#radius" title="Link to this heading"></a></h2>
+<p>In large deployments it is not reasonable to configure each user individually
+on every system. VyOS supports using <abbr title="Remote Authentication Dial-In User Service">RADIUS</abbr> servers as backend for user authentication.</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-server-address-key-secret">
+set system login radius server &lt;address&gt; key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-server-address-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the IP <cite>&lt;address&gt;</cite> of the RADIUS server user with the pre-shared-secret
+given in <cite>&lt;secret&gt;</cite>.</p>
+<p>Multiple servers can be specified.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-server-address-port-port">
+set system login radius server &lt;address&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-server-address-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the discrete port under which the RADIUS server can be reached.</p>
+<p>This defaults to 1812.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-server-address-disable">
+set system login radius server &lt;address&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-server-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Temporary disable this RADIUS server. It won’t be queried.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-server-address-timeout-timeout">
+set system login radius server &lt;address&gt; timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-server-address-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Setup the <cite>&lt;timeout&gt;</cite> in seconds when querying the RADIUS server.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-source-address-address">
+set system login radius source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>RADIUS servers could be hardened by only allowing certain IP addresses to
+connect. As of this the source address of each RADIUS query can be
+configured.</p>
+<p>If unset, incoming connections to the RADIUS server will use the nearest
+interface address pointing towards the server - making it error prone on
+e.g. OSPF networks when a link fails and a backup route is taken.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-radius-vrf-name">
+set system login radius vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-radius-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source all connections to the RADIUS servers from given VRF <cite>&lt;name&gt;</cite>.</p>
+</div>
+</div>
+</section>
+<section id="configuration-example">
+<h3>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system login radius server 192.168.0.2 key &#39;test-vyos&#39;
+set system login radius server 192.168.0.2 port &#39;1812&#39;
+set system login radius server 192.168.0.2 timeout &#39;5&#39;
+set system login radius source-address &#39;192.168.0.1&#39;
+
+
+ If there is no communication between VyOS and RADIUS server users can
+ authenticate from local user accounts. During authentication from the local
+ accounts users can observe some timeouts. Timeout in seconds depends on
+ the configured timeout option.
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to have admin users to authenticate via RADIUS it is
+essential to sent the <code class="docutils literal notranslate"><span class="pre">Cisco-AV-Pair</span> <span class="pre">shell:priv-lvl=15</span></code> attribute. Without
+the attribute you will only get regular, non privilegued, system users.</p>
+</div>
+</section>
+</section>
+<section id="tacacs">
+<h2>TACACS+<a class="headerlink" href="#tacacs" title="Link to this heading"></a></h2>
+<p>In addition to <abbr title="Remote Authentication Dial-In User Service">RADIUS</abbr>,
+<abbr title="Terminal Access Controller Access Control System">TACACS</abbr> can also be
+found in large deployments.</p>
+<p>TACACS is defined in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc8907.html"><strong>RFC 8907</strong></a>.</p>
+<section id="tacacs-configuration">
+<span id="id1"></span><h3>Configuration<a class="headerlink" href="#tacacs-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-key-secret">
+set system login tacas server &lt;address&gt; key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the IP <cite>&lt;address&gt;</cite> of the TACACS server user with the pre-shared-secret
+given in <cite>&lt;secret&gt;</cite>.</p>
+<p>Multiple servers can be specified.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-port-port">
+set system login tacas server &lt;address&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the discrete port under which the TACACS server can be reached.</p>
+<p>This defaults to 49.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-disable">
+set system login tacas server &lt;address&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Temporary disable this TACACS server. It won’t be queried.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-timeout-timeout">
+set system login tacas server &lt;address&gt; timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Setup the <cite>&lt;timeout&gt;</cite> in seconds when querying the TACACS server.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-source-address-address">
+set system login tacas source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>TACACS servers could be hardened by only allowing certain IP addresses to
+connect. As of this the source address of each TACACS query can be
+configured.</p>
+<p>If unset, incoming connections to the TACACS server will use the nearest
+interface address pointing towards the server - making it error prone on
+e.g. OSPF networks when a link fails and a backup route is taken.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-vrf-name">
+set system login tacas vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source all connections to the TACACS servers from given VRF <cite>&lt;name&gt;</cite>.</p>
+</div>
+</div>
+</section>
+<section id="login-tacacs-example">
+<span id="id2"></span><h3>Configuration Example<a class="headerlink" href="#login-tacacs-example" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system login tacacs server 192.168.0.2 key &#39;test-vyos&#39;
+set system login tacacs server 192.168.0.2 port &#39;49&#39;
+set system login tacacs source-address &#39;192.168.0.1&#39;
+
+
+ If there is no communication between VyOS and TACACS server users can
+ authenticate from local user accounts.
+</pre></div>
+</div>
+</section>
+</section>
+<section id="login-banner">
+<h2>Login Banner<a class="headerlink" href="#login-banner" title="Link to this heading"></a></h2>
+<p>You are able to set post-login or pre-login banner messages to display certain
+information for this system.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-banner-pre-login-message">
+set system login banner pre-login &lt;message&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-banner-pre-login-message" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <cite>&lt;message&gt;</cite> which is shown during SSH connect and before a user is
+logged in.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-banner-post-login-message">
+set system login banner post-login &lt;message&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-banner-post-login-message" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <cite>&lt;message&gt;</cite> which is shown after user has logged in to the system.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To create a new line in your login message you need to escape the new
+line character by using <code class="docutils literal notranslate"><span class="pre">\\n</span></code>.</p>
+</div>
+</section>
+<section id="limits">
+<h2>Limits<a class="headerlink" href="#limits" title="Link to this heading"></a></h2>
+<p>Login limits</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-max-login-session-number">
+set system login max-login-session &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-max-login-session-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a limit on the maximum number of concurrent logged-in users on
+the system.</p>
+<p>This option must be used with <code class="docutils literal notranslate"><span class="pre">timeout</span></code> option.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-timeout-timeout">
+set system login timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure session timeout after which the user will be logged out.</p>
+</div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>In the following example, both <cite>User1</cite> and <cite>User2</cite> will be able to SSH into
+VyOS as user <code class="docutils literal notranslate"><span class="pre">vyos</span></code> using their very own keys. <cite>User1</cite> is restricted to only
+be able to connect from a single IP address. In addition if password base login
+is wanted for the <code class="docutils literal notranslate"><span class="pre">vyos</span></code> user a 2FA/MFA keycode is required in addition to
+the password.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system login user vyos authentication public-keys &#39;User1&#39; key &quot;AAAAB3Nz...KwEW&quot;
+set system login user vyos authentication public-keys &#39;User1&#39; type ssh-rsa
+set system login user vyos authentication public-keys &#39;User1&#39; options &quot;from=&amp;quot;192.168.0.100&amp;quot;&quot;
+
+set system login user vyos authentication public-keys &#39;User2&#39; key &quot;AAAAQ39x...fbV3&quot;
+set system login user vyos authentication public-keys &#39;User2&#39; type ssh-rsa
+
+set system login user vyos authentication otp key OHZ3OJ7U2N25BK4G7SOFFJTZDTCFUUE2
+set system login user vyos authentication plaintext-password vyos
+</pre></div>
+</div>
+<section id="tacacs-example">
+<h3>TACACS Example<a class="headerlink" href="#tacacs-example" title="Link to this heading"></a></h3>
+<p>We use a vontainer providing the TACACS serve rin this example.</p>
+<p>Load the container image in op-mode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>add container image lfkeitel/tacacs_plus:latest
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container network tac-test prefix &#39;100.64.0.0/24&#39;
+
+set container name tacacs1 image &#39;lfkeitel/tacacs_plus:latest&#39;
+set container name tacacs1 network tac-test address &#39;100.64.0.11&#39;
+
+set container name tacacs2 image &#39;lfkeitel/tacacs_plus:latest&#39;
+set container name tacacs2 network tac-test address &#39;100.64.0.12&#39;
+
+set system login tacacs server 100.64.0.11 key &#39;tac_plus_key&#39;
+set system login tacacs server 100.64.0.12 key &#39;tac_plus_key&#39;
+
+commit
+</pre></div>
+</div>
+<p>You can now SSH into your system using admin/admin as a default user supplied
+from the <code class="docutils literal notranslate"><span class="pre">lfkeitel/tacacs_plus:latest</span></code> container.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lcd.html" class="btn btn-neutral float-left" title="System Display (LCD)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="name-server.html" class="btn btn-neutral float-right" title="System DNS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

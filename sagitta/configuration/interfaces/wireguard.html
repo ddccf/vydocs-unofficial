@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WireGuard &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PPPoE" href="pppoe.html" />
+    <link rel="prev" title="OpenVPN" href="openvpn.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / Link Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">GENEVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tpv3.html">L2TPv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">WireGuard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#site-to-site-vpn">Site to Site VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keypairs">Keypairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interface-configuration">Interface configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firewall-exceptions">Firewall Exceptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remote-access-roadwarrior-example">Remote Access “RoadWarrior” Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operational-commands">Operational Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remote-access-roadwarrior-clients">Remote Access “RoadWarrior” clients</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN - Pseudo Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tunnel.html">Tunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-ethernet.html">Virtual Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI - Virtual Tunnel Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">WLAN/WIFI - Wireless LAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wwan.html">WWAN - Wireless Wide-Area-Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">WireGuard</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/interfaces/wireguard.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="wireguard">
+<span id="id1"></span><h1>WireGuard<a class="headerlink" href="#wireguard" title="Link to this heading"></a></h1>
+<p>WireGuard is an extremely simple yet fast and modern VPN that utilizes
+state-of-the-art cryptography. See <a class="reference external" href="https://www.wireguard.com">https://www.wireguard.com</a> for more
+information.</p>
+<section id="site-to-site-vpn">
+<h2>Site to Site VPN<a class="headerlink" href="#site-to-site-vpn" title="Link to this heading"></a></h2>
+<p>This diagram corresponds with the example site to site configuration below.</p>
+<figure class="align-default">
+<img alt="../../images/wireguard_site2site_diagram.jpg" src="../../images/wireguard_site2site_diagram.jpg" />
+</figure>
+</section>
+<section id="keypairs">
+<h2>Keypairs<a class="headerlink" href="#keypairs" title="Link to this heading"></a></h2>
+<p>WireGuard requires the generation of a keypair, which includes a private key to
+decrypt incoming traffic, and a public key for peer(s) to encrypt traffic.</p>
+<section id="generate-keypair">
+<h3>Generate Keypair<a class="headerlink" href="#generate-keypair" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-key-pair">
+generate pki wireguard key-pair</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-key-pair" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>It generates the keypair, which includes the public and private parts.
+The key is not stored on the system - only a keypair is generated.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate pki wireguard key-pair
+Private key: iJJyEARGK52Ls1GYRCcFvPuTj7WyWYDo//BknoDU0XY=
+Public key: EKY0dxRrSD98QHjfHOK13mZ5PJ7hnddRZt5woB3szyw=
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-key-pair-install-interface-interface">
+generate pki wireguard key-pair install interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-key-pair-install-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Generates a keypair, which includes the public and private parts, and build
+a configuration command to install this key to <code class="docutils literal notranslate"><span class="pre">interface</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate pki wireguard key-pair install interface wg10
+&quot;generate&quot; CLI command executed from operational level.
+Generated private-key is not stored to CLI, use configure mode commands to install key:
+
+set interfaces wireguard wg10 private-key &#39;4Krkv8h6NkAYMMaBWI957yYDJDMvj9URTHstdlOcDU0=&#39;
+
+Corresponding public-key to use on peer system is: &#39;UxDsYT6EnpTIOKUzvMlw2p0sNOKQvFxEdSVrnNrX1Ro=&#39;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this command is invoked from configure mode with the <code class="docutils literal notranslate"><span class="pre">run</span></code>
+prefix the key is automatically installed to the appropriate interface:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run generate pki wireguard key-pair install interface wg10
+&quot;generate&quot; CLI command executed from config session.
+Generated private-key was imported to CLI!
+
+Use the following command to verify: show interfaces wireguard wg10
+Corresponding public-key to use on peer system is: &#39;7d9KwabjLhHpJiEJeIGd0CBlao/eTwFOh6xyCovTfG8=&#39;
+
+vyos@vyos# compare
+[edit interfaces]
++wireguard wg10 {
++    private-key CJweb8FC6BU3Loj4PC2pn5V82cDjIPs7G1saW0ZfLWc=
++}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wireguard-interface-public-key">
+show interfaces wireguard &lt;interface&gt; public-key</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wireguard-interface-public-key" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Retrieve public key portion from configured WIreGuard interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wireguard wg01 public-key
+EKY0dxRrSD98QHjfHOK13mZ5PJ7hnddRZt5woB3szyw=
+</pre></div>
+</div>
+</div>
+</div>
+<section id="optional">
+<h4>Optional<a class="headerlink" href="#optional" title="Link to this heading"></a></h4>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-preshared-key">
+generate pki wireguard preshared-key</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-preshared-key" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>An additional layer of symmetric-key crypto can be used on top of the
+asymmetric crypto.</p>
+<p>This is optional.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate pki wireguard preshared-key
+Pre-shared key: OHH2EwZfMNK+1L6BXbYw3bKCtMrfjpR4mCAEeBlFnRs=
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-pki-wireguard-preshared-key-install-interface-interface-peer-peer">
+generate pki wireguard preshared-key install interface &lt;interface&gt; peer &lt;peer&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-pki-wireguard-preshared-key-install-interface-interface-peer-peer" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>An additional layer of symmetric-key crypto can be used on top of the
+asymmetric crypto. This command automatically creates for you the required
+CLI command to install this PSK for a given peer.</p>
+<p>This is optional.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate pki wireguard preshared-key install interface wg10 peer foo
+&quot;generate&quot; CLI command executed from operational level.
+Generated preshared-key is not stored to CLI, use configure mode commands to install key:
+
+set interfaces wireguard wg10 peer foo preshared-key &#39;32vQ1w1yFKTna8n7Gu7EimubSe2Y63m8bafz55EG3Ro=&#39;
+
+Pre-shared key: +LuaZ8W6DjsDFJFX3jJzoNqrsXHhvq08JztM9z8LHCs=
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this command is invoked from configure mode with the <code class="docutils literal notranslate"><span class="pre">run</span></code>
+prefix the key is automatically installed to the appropriate interface:</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="interface-configuration">
+<h2>Interface configuration<a class="headerlink" href="#interface-configuration" title="Link to this heading"></a></h2>
+<p>The next step is to configure your local side as well as the policy based
+trusted destination addresses. If you only initiate a connection, the listen
+port and address/port is optional; however, if you act like a server and
+endpoints initiate the connections to your system, you need to define a port
+your clients can connect to, otherwise the port is randomly chosen and may
+make connection difficult with firewall rules, since the port may be different
+each time the system is rebooted.</p>
+<p>You will also need the public key of your peer as well as the network(s) you
+want to tunnel (allowed-ips) to configure a WireGuard tunnel. The public key
+below is always the public key from your peer, not your local one.</p>
+<p><strong>local side - commands</strong></p>
+<ul class="simple">
+<li><p>WireGuard interface itself uses address 10.1.0.1/30</p></li>
+<li><p>We only allow the 192.168.2.0/24 subnet to travel over the tunnel</p></li>
+<li><p>Our remote end of the tunnel for peer <cite>to-wg02</cite> is reachable at 192.0.2.1
+port 51820</p></li>
+<li><p>The remote peer <cite>to-wg02</cite> uses XMrlPykaxhdAAiSjhtPlvi30NVkvLQliQuKP7AI7CyI=
+as its public key portion</p></li>
+<li><p>We listen on port 51820</p></li>
+<li><p>We route all traffic for the 192.168.2.0/24 network to interface <cite>wg01</cite></p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 address &#39;10.1.0.1/30&#39;
+set interfaces wireguard wg01 description &#39;VPN-to-wg02&#39;
+set interfaces wireguard wg01 peer to-wg02 allowed-ips &#39;192.168.2.0/24&#39;
+set interfaces wireguard wg01 peer to-wg02 address &#39;192.0.2.1&#39;
+set interfaces wireguard wg01 peer to-wg02 port &#39;51820&#39;
+set interfaces wireguard wg01 peer to-wg02 public-key &#39;XMrlPykaxhdAAiSjhtPlvi30NVkvLQliQuKP7AI7CyI=&#39;
+set interfaces wireguard wg01 port &#39;51820&#39;
+
+set protocols static route 192.168.2.0/24 interface wg01
+</pre></div>
+</div>
+<p>The last step is to define an interface route for 192.168.2.0/24 to get through
+the WireGuard interface <cite>wg01</cite>. Multiple IPs or networks can be defined and
+routed. The last check is allowed-ips which either prevents or allows the
+traffic.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You can not assign the same allowed-ips statement to multiple
+WireGuard peers. This a design decision. For more information please
+check the <a class="reference external" href="https://lists.zx2c4.com/pipermail/wireguard/2018-December/003704.html">WireGuard mailing list</a>.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wireguard-interface-private-key-private-key">
+set interfaces wireguard &lt;interface&gt; private-key &lt;private-key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wireguard-interface-private-key-private-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Associates the previously generated private key to a specific WireGuard
+interface. The private key can be generate via the command</p>
+<p><code class="docutils literal notranslate"><span class="pre">generate</span> <span class="pre">pki</span> <span class="pre">wireguard</span> <span class="pre">key-pair</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 private-key &#39;iJJyEARGK52Ls1GYRCcFvPuTj7WyWYDo//BknoDU0XY=&#39;
+</pre></div>
+</div>
+<p>The command <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span> <span class="pre">wireguard</span> <span class="pre">wg01</span> <span class="pre">public-key</span></code> will then show the
+public key, which needs to be shared with the peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wireguard-interface-per-client-thread">
+set interfaces wireguard &lt;interface&gt; per-client-thread</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wireguard-interface-per-client-thread" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provides a per-device control to enable/disable the threaded mode for
+all the NAPI instances of the given network device, without the need for
+a device up/down.</p>
+<p>If CLI option is not specified, this feature is disabled.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 per-client-thread
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>remote side - commands</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wireguard wg01 address &#39;10.1.0.2/30&#39;
+set interfaces wireguard wg01 description &#39;VPN-to-wg01&#39;
+set interfaces wireguard wg01 peer to-wg01 allowed-ips &#39;192.168.1.0/24&#39;
+set interfaces wireguard wg01 peer to-wg01 address &#39;192.0.2.2&#39;
+set interfaces wireguard wg01 peer to-wg01 port &#39;51820&#39;
+set interfaces wireguard wg01 peer to-wg01 public-key &#39;EKY0dxRrSD98QHjfHOK13mZ5PJ7hnddRZt5woB3szyw=&#39;
+set interfaces wireguard wg01 port &#39;51820&#39;
+set interfaces wireguard wg01 private-key &#39;OLTQY3HuK5qWDgVs6fJR093SwPgOmCKkDI1+vJLGoFU=&#39;
+
+set protocols static route 192.168.1.0/24 interface wg01
+</pre></div>
+</div>
+</section>
+<section id="firewall-exceptions">
+<h2>Firewall Exceptions<a class="headerlink" href="#firewall-exceptions" title="Link to this heading"></a></h2>
+<p>For the WireGuard traffic to pass through the WAN interface, you must create a
+firewall exception.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall name OUTSIDE_LOCAL rule 10 action accept
+set firewall name OUTSIDE_LOCAL rule 10 description &#39;Allow established/related&#39;
+set firewall name OUTSIDE_LOCAL rule 10 state established enable
+set firewall name OUTSIDE_LOCAL rule 10 state related enable
+set firewall name OUTSIDE_LOCAL rule 20 action accept
+set firewall name OUTSIDE_LOCAL rule 20 description WireGuard_IN
+set firewall name OUTSIDE_LOCAL rule 20 destination port 51820
+set firewall name OUTSIDE_LOCAL rule 20 log enable
+set firewall name OUTSIDE_LOCAL rule 20 protocol udp
+set firewall name OUTSIDE_LOCAL rule 20 source
+</pre></div>
+</div>
+<p>You should also ensure that the OUTISDE_LOCAL firewall group is applied to the
+WAN interface and a direction (local).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 firewall local name &#39;OUTSIDE-LOCAL&#39;
+</pre></div>
+</div>
+<p>Assure that your firewall rules allow the traffic, in which case you have a
+working VPN using WireGuard.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>wg01# ping 192.168.1.1
+PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=1.16 ms
+64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=1.77 ms
+
+wg02# ping 192.168.2.1
+PING 192.168.2.1 (192.168.2.1) 56(84) bytes of data.
+64 bytes from 192.168.2.1: icmp_seq=1 ttl=64 time=4.40 ms
+64 bytes from 192.168.2.1: icmp_seq=2 ttl=64 time=1.02 ms
+</pre></div>
+</div>
+<p>An additional layer of symmetric-key crypto can be used on top of the
+asymmetric crypto. This is optional.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate pki wireguard preshared-key
+Pre-shared key: rvVDOoc2IYEnV+k5p7TNAmHBMEGTHbPU8Qqg8c/sUqc=
+</pre></div>
+</div>
+<p>Copy the key, as it is not stored on the local filesystem. Because it
+is a symmetric key, only you and your peer should have knowledge of
+its content. Make sure you distribute the key in a safe manner,</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>wg01# set interfaces wireguard wg01 peer to-wg02 preshared-key &#39;rvVDOoc2IYEnV+k5p7TNAmHBMEGTHbPU8Qqg8c/sUqc=&#39;
+wg02# set interfaces wireguard wg01 peer to-wg01 preshared-key &#39;rvVDOoc2IYEnV+k5p7TNAmHBMEGTHbPU8Qqg8c/sUqc=&#39;
+</pre></div>
+</div>
+</section>
+<section id="remote-access-roadwarrior-example">
+<h2>Remote Access “RoadWarrior” Example<a class="headerlink" href="#remote-access-roadwarrior-example" title="Link to this heading"></a></h2>
+<p>With WireGuard, a Road Warrior VPN config is similar to a site-to-site
+VPN. It just lacks the <code class="docutils literal notranslate"><span class="pre">address</span></code> and <code class="docutils literal notranslate"><span class="pre">port</span></code> statements.</p>
+<p>In the following example, the IPs for the remote clients are defined in
+the peers. This allows the peers to interact with one another. In
+comparison to the site-to-site example the <code class="docutils literal notranslate"><span class="pre">persistent-keepalive</span></code>
+flag is set to 15 seconds to assure the connection is kept alive.
+This is mainly relevant if one of the peers is behind NAT and can’t
+be connected to if the connection is lost. To be effective this
+value needs to be lower than the UDP timeout.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>wireguard wg01 {
+    address 10.172.24.1/24
+    address 2001:db8:470:22::1/64
+    description RoadWarrior
+    peer MacBook {
+        allowed-ips 10.172.24.30/32
+        allowed-ips 2001:db8:470:22::30/128
+        persistent-keepalive 15
+        pubkey F5MbW7ye7DsoxdOaixjdrudshjjxN5UdNV+pGFHqehc=
+    }
+    peer iPhone {
+        allowed-ips 10.172.24.20/32
+        allowed-ips 2001:db8:470:22::20/128
+        persistent-keepalive 15
+        pubkey BknHcLFo8nOo8Dwq2CjaC/TedchKQ0ebxC7GYn7Al00=
+    }
+    port 2224
+    private-key OLTQY3HuK5qWDgVs6fJR093SwPgOmCKkDI1+vJLGoFU=
+}
+</pre></div>
+</div>
+<p>The following is the config for the iPhone peer above. It’s important to
+note that the <code class="docutils literal notranslate"><span class="pre">AllowedIPs</span></code> wildcard setting directs all IPv4 and IPv6 traffic
+through the connection.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Interface]
+PrivateKey = ARAKLSDJsadlkfjasdfiowqeruriowqeuasdf=
+Address = 10.172.24.20/24, 2001:db8:470:22::20/64
+DNS = 10.0.0.53, 10.0.0.54
+
+[Peer]
+PublicKey = RIbtUTCfgzNjnLNPQ/ulkGnnB2vMWHm7l2H/xUfbyjc=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 192.0.2.1:2224
+PersistentKeepalive = 25
+</pre></div>
+</div>
+<p>However, split-tunneling can be achieved by specifying the remote subnets.
+This ensures that only traffic destined for the remote site is sent over the
+tunnel. All other traffic is unaffected.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Interface]
+PrivateKey = 8Iasdfweirousd1EVGUk5XsT+wYFZ9mhPnQhmjzaJE6Go=
+Address = 10.172.24.30/24, 2001:db8:470:22::30/64
+
+[Peer]
+PublicKey = RIbtUTCfgzNjnLNPQ/ulkGnnB2vMWHm7l2H/xUfbyjc=
+AllowedIPs = 10.172.24.30/24, 2001:db8:470:22::/64
+Endpoint = 192.0.2.1:2224
+PersistentKeepalive = 25
+</pre></div>
+</div>
+</section>
+<section id="operational-commands">
+<h2>Operational Commands<a class="headerlink" href="#operational-commands" title="Link to this heading"></a></h2>
+<section id="status">
+<h3>Status<a class="headerlink" href="#status" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wireguard-wg01-summary">
+show interfaces wireguard wg01 summary</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wireguard-wg01-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show info about the Wireguard service.
+It also shows the latest handshake.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wireguard wg01 summary
+interface: wg01
+  public key:
+  private key: (hidden)
+  listening port: 51820
+
+peer: &lt;peer pubkey&gt;
+  endpoint: &lt;peer public IP&gt;
+  allowed ips: 10.69.69.2/32
+  latest handshake: 23 hours, 45 minutes, 26 seconds ago
+  transfer: 1.26 MiB received, 6.47 MiB sent
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wireguard">
+show interfaces wireguard</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wireguard" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Get a list of all wireguard interfaces</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+wg01             10.0.0.1/24                       u/u
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wireguard-interface">
+show interfaces wireguard &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wireguard-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show general information about specific WireGuard interface</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wireguard wg01
+interface: wg01
+  address: 10.0.0.1/24
+  public key: h1HkYlSuHdJN6Qv4Hz4bBzjGg5WUty+U1L7DJsZy1iE=
+  private key: (hidden)
+  listening port: 41751
+
+    RX:  bytes  packets  errors  dropped  overrun       mcast
+             0        0       0        0        0           0
+    TX:  bytes  packets  errors  dropped  carrier  collisions
+             0        0       0        0        0           0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="remote-access-roadwarrior-clients">
+<h2>Remote Access “RoadWarrior” clients<a class="headerlink" href="#remote-access-roadwarrior-clients" title="Link to this heading"></a></h2>
+<p>Some users tend to connect their mobile devices using WireGuard to their VyOS
+router. To ease deployment one can generate a “per mobile” configuration from
+the VyOS CLI.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>From a security perspective, it is not recommended to let a third
+party create and share the private key for a secured connection.
+You should create the private portion on your own and only hand out the
+public key. Please keep this in mind when using this convenience feature.</p>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-wireguard-client-config-name-interface-interface-server-ip-fqdn-address-client-ip">
+generate wireguard client-config &lt;name&gt; interface &lt;interface&gt; server  &lt;ip|fqdn&gt; address &lt;client-ip&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-wireguard-client-config-name-interface-interface-server-ip-fqdn-address-client-ip" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Using this command, you will create a new client configuration which can
+connect to <code class="docutils literal notranslate"><span class="pre">interface</span></code> on this router. The public key from the specified
+interface is automatically extracted and embedded into the configuration.</p>
+<p>The command also generates a configuration snipped which can be copy/pasted
+into the VyOS CLI if needed. The supplied <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> on the CLI will become
+the peer name in the snippet.</p>
+<p>In addition you will specifiy the IP address or FQDN for the client where it
+will connect to. The address parameter can be used up to two times and is used
+to assign the clients specific IPv4 (/32) or IPv6 (/128) address.</p>
+<figure class="align-default">
+<img alt="WireGuard Client QR code" src="../../images/wireguard_qrcode.jpg" />
+</figure>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="openvpn.html" class="btn btn-neutral float-left" title="OpenVPN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pppoe.html" class="btn btn-neutral float-right" title="PPPoE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

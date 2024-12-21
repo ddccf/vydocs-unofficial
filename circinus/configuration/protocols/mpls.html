@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPLS &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Multicast" href="multicast.html" />
+    <link rel="prev" title="IS-IS" href="isis.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MPLS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#label-distribution-protocol">Label Distribution Protocol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-options">Configuration Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operational-mode-commands">Operational Mode Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">MPLS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/mpls.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mpls">
+<span id="id1"></span><h1>MPLS<a class="headerlink" href="#mpls" title="Link to this heading"></a></h1>
+<p><abbr title="Multi-Protocol Label Switching">MPLS</abbr> is a packet forwarding paradigm
+which differs from regular IP forwarding. Instead of IP addresses being used to
+make the decision on finding the exit interface, a router will instead use an
+exact match on a 32 bit/4 byte header called the MPLS label. This label is
+inserted between the ethernet (layer 2) header and the IP (layer 3) header.
+One can statically or dynamically assign label allocations, but we will focus
+on dynamic allocation of labels using some sort of label distribution protocol
+(such as the aptly named Label Distribution Protocol / LDP, Resource Reservation
+Protocol / RSVP, or Segment Routing through OSPF/ISIS). These protocols allow
+for the creation of a unidirectional/unicast path called a labeled switched
+path (initialized as LSP) throughout the network that operates very much like
+a tunnel through the network. An easy way of thinking about how an MPLS LSP
+actually forwards traffic throughout a network is to think of a GRE tunnel.
+They are not the same in how they operate, but they are the same in how they
+handle the tunneled packet. It would be good to think of MPLS as a tunneling
+technology that can be used to transport many different types of packets, to
+aid in traffic engineering by allowing one to specify paths throughout the
+network (using RSVP or SR), and to generally allow for easier intra/inter
+network transport of data packets.</p>
+<p>For more information on how MPLS label switching works, please go visit
+<a class="reference external" href="https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching">Wikipedia (MPLS)</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MPLS support in VyOS is not finished yet, and therefore its
+functionality is limited. Currently there is no support for MPLS enabled VPN
+services such as L2VPNs and mVPNs. RSVP support is also not present as the
+underlying routing stack (FRR) does not implement it. Currently VyOS
+implements LDP as described in RFC 5036; other LDP standard are the
+following ones: RFC 6720, RFC 6667, RFC 5919, RFC 5561, RFC 7552, RFC 4447.
+Because MPLS is already available (FRR also supports RFC 3031).</p>
+</div>
+<section id="label-distribution-protocol">
+<h2>Label Distribution Protocol<a class="headerlink" href="#label-distribution-protocol" title="Link to this heading"></a></h2>
+<p>The <abbr title="Multi-Protocol Label Switching">MPLS</abbr> architecture does not assume
+a single protocol to create MPLS paths. VyOS supports the Label Distribution
+Protocol (LDP) as implemented by FRR, based on <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5036.html"><strong>RFC 5036</strong></a>.</p>
+<p><abbr title="Label Distribution Protocol">LDP</abbr> is a TCP based MPLS signaling protocol
+that distributes labels creating MPLS label switched paths in a dynamic manner.
+LDP is not a routing protocol, as it relies on other routing protocols for
+forwarding decisions. LDP cannot bootstrap itself, and therefore relies on said
+routing protocols for communication with other routers that use LDP.</p>
+<p>In order to allow for LDP on the local router to exchange label advertisements
+with other routers, a TCP session will be established between automatically
+discovered and statically assigned routers. LDP will try to establish a TCP
+session to the <strong>transport address</strong> of other routers. Therefore for LDP to
+function properly please make sure the transport address is shown in the
+routing table and reachable to traffic at all times.</p>
+<p>It is highly recommended to use the same address for both the LDP router-id and
+the discovery transport address, but for VyOS MPLS LDP to work both parameters
+must be explicitly set in the configuration.</p>
+<p>Another thing to keep in mind with LDP is that much like BGP, it is a protocol
+that runs on top of TCP. It however does not have an ability to do something
+like a refresh capability like BGPs route refresh capability. Therefore one
+might have to reset the neighbor for a capability change or a configuration
+change to work.</p>
+</section>
+<section id="configuration-options">
+<h2>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-interface-interface">
+set protocols mpls interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable MPLS processing on the interface you define.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-interface-interface">
+set protocols mpls ldp interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable LDP on the interface you define.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-router-id-address">
+set protocols mpls ldp router-id &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-router-id-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure the IP address used as the LDP router-id of the
+local device.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-transport-ipv4-address-address">
+set protocols mpls ldp discovery transport-ipv4-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-transport-ipv4-address-address" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-transport-ipv6-address-address">
+set protocols mpls ldp discovery transport-ipv6-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-transport-ipv6-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to set the IPv4 or IPv6 transport-address used by LDP.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-neighbor-address-password-password">
+set protocols mpls ldp neighbor &lt;address&gt; password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-neighbor-address-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure authentication for LDP peers. Set the
+IP address of the LDP peer and a password that should be shared in
+order to become neighbors.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-neighbor-address-session-holdtime-seconds">
+set protocols mpls ldp neighbor &lt;address&gt; session-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-neighbor-address-session-holdtime-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure a specific session hold time for LDP peers.
+Set the IP address of the LDP peer and a session hold time that should be
+configured for it. You may have to reset the neighbor for this to work.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-neighbor-address-ttl-security-disable-hop-count">
+set protocols mpls ldp neighbor &lt;address&gt; ttl-security &lt;disable | hop count&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-neighbor-address-ttl-security-disable-hop-count" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable, disable, or specify hop count for TTL security
+for LDP peers. By default the value is set to 255 (or max TTL).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv4-interval-seconds">
+set protocols mpls ldp discovery hello-ipv4-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv4-interval-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv4-holdtime-seconds">
+set protocols mpls ldp discovery hello-ipv4-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv4-holdtime-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv6-interval-seconds">
+set protocols mpls ldp discovery hello-ipv6-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv6-interval-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv6-holdtime-seconds">
+set protocols mpls ldp discovery hello-ipv6-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-hello-ipv6-holdtime-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use these commands if you would like to set the discovery hello and hold time
+parameters.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-session-ipv4-holdtime-seconds">
+set protocols mpls ldp discovery session-ipv4-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-session-ipv4-holdtime-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-discovery-session-ipv6-holdtime-seconds">
+set protocols mpls ldp discovery session-ipv6-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-discovery-session-ipv6-holdtime-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command if you would like to set the TCP session hold time intervals.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-import-ipv4-import-filter-filter-access-list-access-list-number">
+set protocols mpls ldp import ipv4 import-filter filter-access-list &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-import-ipv4-import-filter-filter-access-list-access-list-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-import-ipv6-import-filter-filter-access-list6-access-list-number">
+set protocols mpls ldp import ipv6 import-filter filter-access-list6 &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-import-ipv6-import-filter-filter-access-list6-access-list-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use these commands to control the importing of forwarding equivalence classes
+(FECs) for LDP from neighbors. This would be useful for example on only
+accepting the labeled routes that are needed and not ones that are not
+needed, such as accepting loopback interfaces and rejecting all others.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-export-ipv4-export-filter-filter-access-list-access-list-number">
+set protocols mpls ldp export ipv4 export-filter filter-access-list &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-export-ipv4-export-filter-filter-access-list-access-list-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-export-ipv6-export-filter-filter-access-list6-access-list-number">
+set protocols mpls ldp export ipv6 export-filter filter-access-list6 &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-export-ipv6-export-filter-filter-access-list6-access-list-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use these commands to control the exporting of forwarding equivalence classes
+(FECs) for LDP to neighbors. This would be useful for example on only
+announcing the labeled routes that are needed and not ones that are not
+needed, such as announcing loopback interfaces and no others.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-export-ipv4-explicit-null">
+set protocols mpls ldp export ipv4 explicit-null</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-export-ipv4-explicit-null" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-export-ipv6-explicit-null">
+set protocols mpls ldp export ipv6 explicit-null</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-export-ipv6-explicit-null" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command if you would like for the router to advertise FECs with a
+label of 0 for explicit null operations.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-allocation-ipv4-access-list-access-list-number">
+set protocols mpls ldp allocation ipv4 access-list &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-allocation-ipv4-access-list-access-list-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-allocation-ipv6-access-list6-access-list-number">
+set protocols mpls ldp allocation ipv6 access-list6 &lt;access list number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-allocation-ipv6-access-list6-access-list-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command if you would like to control the local FEC allocations for
+LDP. A good example would be for your local router to not allocate a label for
+everything. Just a label for what it’s useful. A good example would be just a
+loopback label.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-parameters-cisco-interop-tlv">
+set protocols mpls ldp parameters cisco-interop-tlv</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-parameters-cisco-interop-tlv" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to use a Cisco non-compliant format to send and interpret
+the Dual-Stack capability TLV for IPv6 LDP communications. This is related to
+<span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7552.html"><strong>RFC 7552</strong></a>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-parameters-ordered-control">
+set protocols mpls ldp parameters ordered-control</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-parameters-ordered-control" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to use ordered label distribution control mode. FRR
+by default uses independent label distribution control mode for label
+distribution.  This is related to <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5036.html"><strong>RFC 5036</strong></a>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-parameters-transport-prefer-ipv4">
+set protocols mpls ldp parameters transport-prefer-ipv4</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-parameters-transport-prefer-ipv4" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to prefer IPv4 for TCP peer transport connection for LDP
+when both an IPv4 and IPv6 LDP address are configured on the same interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-enable">
+set protocols mpls ldp targeted-neighbor ipv4 enable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-enable" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-enable">
+set protocols mpls ldp targeted-neighbor ipv6 enable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-enable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable targeted LDP sessions to the local router. The
+router will then respond to any sessions that are trying to connect to it that
+are not a link local type of TCP connection.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-address-address">
+set protocols mpls ldp targeted-neighbor ipv4 address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-address-address" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-address-address">
+set protocols mpls ldp targeted-neighbor ipv6 address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable the local router to try and connect with a targeted
+LDP session to another router.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-hello-holdtime-seconds">
+set protocols mpls ldp targeted-neighbor ipv4 hello-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-hello-holdtime-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-hello-interval-seconds">
+set protocols mpls ldp targeted-neighbor ipv4 hello-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv4-hello-interval-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-hello-holdtime-seconds">
+set protocols mpls ldp targeted-neighbor ipv6 hello-holdtime &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-hello-holdtime-seconds" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-hello-interval-seconds">
+set protocols mpls ldp targeted-neighbor ipv6 hello-interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-mpls-ldp-targeted-neighbor-ipv6-hello-interval-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use these commands if you would like to set the discovery hello and hold time
+parameters for the targeted LDP neighbors.</p>
+</div>
+</div>
+<section id="sample-configuration-to-setup-ldp-on-vyos">
+<h3>Sample configuration to setup LDP on VyOS<a class="headerlink" href="#sample-configuration-to-setup-ldp-on-vyos" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf area 0 network &#39;192.168.255.252/32&#39;                      &lt;--- Routing for loopback
+set protocols ospf area 0 network &#39;192.168.0.5/32&#39;                          &lt;--- Routing for an interface connecting to the network
+set protocols ospf parameters router-id &#39;192.168.255.252&#39;                   &lt;--- Router ID setting for OSPF
+set protocols mpls interface &#39;eth1&#39;                                         &lt;--- Enable MPLS for an interface connecting to network
+set protocols mpls ldp discovery transport-ipv4-address &#39;192.168.255.252&#39;   &lt;--- Transport address for LDP for TCP sessions to connect to
+set protocols mpls ldp interface &#39;eth1&#39;                                     &lt;--- Enable LDP for an interface connecting to network
+set protocols mpls ldp interface &#39;lo&#39;                                       &lt;--- Enable LDP on loopback for future services connectivity
+set protocols mpls ldp router-id &#39;192.168.255.252&#39;                          &lt;--- Router ID setting for LDP
+set interfaces ethernet eth1 address &#39;192.168.0.5/31&#39;                       &lt;--- Interface IP for connecting to network
+set interfaces loopback lo address &#39;192.168.255.252/32&#39;                     &lt;--- Interface loopback IP for router ID and other uses
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operational-mode-commands">
+<h2>Operational Mode Commands<a class="headerlink" href="#operational-mode-commands" title="Link to this heading"></a></h2>
+<p>When LDP is working, you will be able to see label information in the outcome
+of <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">route</span></code>. Besides that information, there are also specific <em>show</em>
+commands for LDP:</p>
+<section id="show">
+<h3>Show<a class="headerlink" href="#show" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-mpls-ldp-binding">
+show mpls ldp binding</span>
+<a class="cmdlink" href="#opcmd-show-mpls-ldp-binding" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to see the Label Information Base.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-mpls-ldp-discovery">
+show mpls ldp discovery</span>
+<a class="cmdlink" href="#opcmd-show-mpls-ldp-discovery" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to see discovery hello information</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-mpls-ldp-interface">
+show mpls ldp interface</span>
+<a class="cmdlink" href="#opcmd-show-mpls-ldp-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to see LDP interface information</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-mpls-ldp-neighbor">
+show mpls ldp neighbor</span>
+<a class="cmdlink" href="#opcmd-show-mpls-ldp-neighbor" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to see LDP neighbor information</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-mpls-ldp-neighbor-detail">
+show mpls ldp neighbor detail</span>
+<a class="cmdlink" href="#opcmd-show-mpls-ldp-neighbor-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to see detailed LDP neighbor information</p>
+</div>
+</div>
+</section>
+<section id="reset">
+<h3>Reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-mpls-ldp-neighbor-ipv4-or-ipv6-address">
+reset mpls ldp neighbor &lt;IPv4 or IPv6 address&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-mpls-ldp-neighbor-ipv4-or-ipv6-address" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to reset an LDP neighbor/TCP session that is established</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="isis.html" class="btn btn-neutral float-left" title="IS-IS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multicast.html" class="btn btn-neutral float-right" title="Multicast" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

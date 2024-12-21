@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site-to-Site IPSec VPN to Cisco using FlexVPN &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="DHCP Relay trough GRE-Bridge" href="autotest/DHCPRelay_through_GRE/DHCPRelay_through_GRE.html" />
+    <link rel="prev" title="Policy-Based Site-to-Site VPN and Firewall Configuration" href="policy-based-ipsec-and-firewall.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Site-to-Site IPSec VPN to Cisco using FlexVPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vyos">VyOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cisco">Cisco</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#verification">Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Site-to-Site IPSec VPN to Cisco using FlexVPN</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/site-2-site-cisco.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="site-to-site-ipsec-vpn-to-cisco-using-flexvpn">
+<span id="examples-site-2-site-cisco"></span><h1>Site-to-Site IPSec VPN to Cisco using FlexVPN<a class="headerlink" href="#site-to-site-ipsec-vpn-to-cisco-using-flexvpn" title="Link to this heading"></a></h1>
+<p>This guide shows a sample configuration for FlexVPN site-to-site Internet
+Protocol Security (IPsec)/Generic Routing Encapsulation (GRE) tunnel.</p>
+<p>FlexVPN is a newer “solution” for deployment of VPNs and it utilizes IKEv2 as
+the key exchange protocol. The result is a flexible and scalable VPN solution
+that can be easily adapted to fit various network needs. It can also support a
+variety of encryption methods, including AES and 3DES.</p>
+<p>The lab was built using EVE-NG.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="vyos">
+<h3>VyOS<a class="headerlink" href="#vyos" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>GRE:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun1 encapsulation &#39;gre&#39;
+set interfaces tunnel tun1 ip adjust-mss &#39;1336&#39;
+set interfaces tunnel tun1 mtu &#39;1376&#39;
+set interfaces tunnel tun1 remote &#39;10.1.1.6&#39;
+set interfaces tunnel tun1 source-address &#39;88.2.2.1&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>IPsec:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk vyos_cisco_l id &#39;vyos.net’
+set vpn ipsec authentication psk vyos_cisco_l id &#39;cisco.hub.net&#39;
+set vpn ipsec authentication psk vyos_cisco_l secret &#39;secret&#39;
+set vpn ipsec esp-group e1 lifetime &#39;3600&#39;
+set vpn ipsec esp-group e1 mode &#39;tunnel&#39;
+set vpn ipsec esp-group e1 pfs &#39;disable&#39;
+set vpn ipsec esp-group e1 proposal 1 encryption &#39;aes128&#39;
+set vpn ipsec esp-group e1 proposal 1 hash &#39;sha256&#39;
+set vpn ipsec ike-group i1 key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group i1 lifetime &#39;28800&#39;
+set vpn ipsec ike-group i1 proposal 1 dh-group &#39;5&#39;
+set vpn ipsec ike-group i1 proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group i1 proposal 1 hash &#39;sha256&#39;
+set vpn ipsec interface &#39;eth2&#39;
+set vpn ipsec options disable-route-autoinstall
+set vpn ipsec options flexvpn
+set vpn ipsec options interface &#39;tun1&#39;
+set vpn ipsec options virtual-ip
+set vpn ipsec site-to-site peer cisco_hub authentication local-id &#39;vyos.net&#39;
+set vpn ipsec site-to-site peer cisco_hub authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer cisco_hub authentication remote-id &#39;cisco.hub.net&#39;
+set vpn ipsec site-to-site peer cisco_hub connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer cisco_hub default-esp-group &#39;e1&#39;
+set vpn ipsec site-to-site peer cisco_hub ike-group &#39;i1&#39;
+set vpn ipsec site-to-site peer cisco_hub local-address &#39;88.2.2.1&#39;
+set vpn ipsec site-to-site peer cisco_hub remote-address &#39;10.1.1.6&#39;
+set vpn ipsec site-to-site peer cisco_hub tunnel 1 local prefix &#39;88.2.2.1/32&#39;
+set vpn ipsec site-to-site peer cisco_hub tunnel 1 protocol &#39;gre&#39;
+set vpn ipsec site-to-site peer cisco_hub tunnel 1 remote prefix &#39;10.1.1.6/32&#39;
+set vpn ipsec site-to-site peer cisco_hub virtual-address &#39;0.0.0.0&#39;
+</pre></div>
+</div>
+</section>
+<section id="cisco">
+<h3>Cisco<a class="headerlink" href="#cisco" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>aaa new-model
+!
+!
+aaa authorization network default local
+!
+crypto ikev2 name-mangler GET_DOMAIN
+ fqdn all
+ email all
+!
+!
+crypto ikev2 authorization policy vyos
+ pool mypool
+ aaa attribute list mylist
+ route set interface
+ route accept any tag 100 distance 5
+!
+crypto ikev2 keyring mykeys
+ peer peer1
+  identity fqdn vyos.net
+  pre-shared-key local secret
+  pre-shared-key remote secret
+crypto ikev2 profile my_profile
+ match identity remote fqdn vyos.net
+ identity local fqdn cisco.hub.net
+ authentication remote pre-share
+ authentication local pre-share
+ keyring local mykeys
+ dpd 10 3 periodic
+ aaa authorization group psk list local name-mangler GET_DOMAIN
+ aaa authorization user psk cached
+ virtual-template 1
+!
+!
+!
+crypto ipsec transform-set TSET esp-aes esp-sha256-hmac
+ mode tunnel
+!
+!
+crypto ipsec profile my-ipsec-profile
+ set transform-set TSET
+ set ikev2-profile my_profile
+!
+interface Virtual-Template1 type tunnel
+ no ip address
+ ip mtu 1376
+ ip nhrp network-id 1
+ ip nhrp shortcut virtual-template 1
+ ip tcp adjust-mss 1336
+ tunnel path-mtu-discovery
+ tunnel protection ipsec profile my-ipsec-profile
+ !
+ ip local pool my_pool 172.16.122.1 172.16.122.254
+</pre></div>
+</div>
+<p>Since the tunnel is a point-to-point GRE tunnel, it behaves like any other
+point-to-point interface (for example: serial, dialer), and it is possible to
+run any Interior Gateway Protocol (IGP)/Exterior Gateway Protocol (EGP) over
+the link in order to exchange routing information</p>
+</section>
+</section>
+<section id="verification">
+<h2>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos$ show interfaces
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             -                                 u/u
+eth1             -                                 u/u
+eth2             88.2.2.1/24                       u/u
+eth3             172.16.1.2/24                     u/u
+lo               127.0.0.1/8                       u/u
+                 ::1/128
+tun1             172.16.122.2/32                   u/u
+
+vyos@vyos:~$ show vpn ipsec sa
+Connection          State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID              Proposal
+------------------  -------  --------  --------------  ----------------  ----------------  ---------------------  -----------------------------
+cisco_hub-tunnel-1  up       44m17s    35K/31K         382/367           10.1.1.6          cisco.hub.net  AES_CBC_128/HMAC_SHA2_256_128
+
+
+Hub#sh crypto ikev2 sa detailed
+ IPv4 Crypto IKEv2  SA
+
+Tunnel-id Local                 Remote                fvrf/ivrf            Status
+5         10.1.1.6/4500         88.2.2.1/4500         none/none               READY
+      Encr: AES-CBC, keysize: 256, PRF: SHA256, Hash: SHA256, DH Grp:5, Auth sign: PSK, Auth verify: PSK
+      Life/Active Time: 86400/2694 sec
+      CE id: 0, Session-id: 2
+      Status Description: Negotiation done
+      Local spi: C94EE2DC92A60C47       Remote spi: 9AF0EF151BECF14C
+      Local id: cisco.hub.net
+      Remote id: vyos.net
+      Local req msg id:  269            Remote req msg id:  0
+      Local next msg id: 269            Remote next msg id: 0
+      Local req queued:  269            Remote req queued:  0
+      Local window:      5              Remote window:      1
+      DPD configured for 10 seconds, retry 3
+      Fragmentation not configured.
+      Extended Authentication not configured.
+      NAT-T is not detected
+      Cisco Trust Security SGT is disabled
+      Assigned host addr: 172.16.122.2
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="policy-based-ipsec-and-firewall.html" class="btn btn-neutral float-left" title="Policy-Based Site-to-Site VPN and Firewall Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autotest/DHCPRelay_through_GRE/DHCPRelay_through_GRE.html" class="btn btn-neutral float-right" title="DHCP Relay trough GRE-Bridge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

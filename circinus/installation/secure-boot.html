@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Boot &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Migrate from Vyatta Core" href="migrate-from-vyatta.html" />
+    <link rel="prev" title="Image Management" href="image.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtual/index.html">Virtual Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud/index.html">Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bare-metal.html">Bare Metal Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image Management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Secure Boot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-update">Image Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux-kernel">Linux Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshoot">Troubleshoot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Secure Boot</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/installation/secure-boot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="secure-boot">
+<span id="id1"></span><h1>Secure Boot<a class="headerlink" href="#secure-boot" title="Link to this heading"></a></h1>
+<p>Initial UEFI secure boot support is available (<a class="reference external" href="https://vyos.dev/T861">T861</a>). We utilize
+<code class="docutils literal notranslate"><span class="pre">shim</span></code> from Debian 12 (Bookworm) which is properly signed by the UEFI
+SecureBoot key from Microsoft.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is yet no signed version of <code class="docutils literal notranslate"><span class="pre">shim</span></code> for VyOS, thus we
+provide no signed image for secure boot yet. If you are interested in
+secure boot you can build an image on your own.</p>
+</div>
+<p>To generate a custom ISO with your own secure boot keys, run the following
+commands prior to your ISO image build:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>vyos-build
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keyout<span class="w"> </span>data/live-build-config/includes.chroot/var/lib/shim-signed/mok/MOK.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span>data/live-build-config/includes.chroot/var/lib/shim-signed/mok/MOK.der<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-outform<span class="w"> </span>DER<span class="w"> </span>-days<span class="w"> </span><span class="m">36500</span><span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=MyMOK/&quot;</span><span class="w"> </span>-nodes
+openssl<span class="w"> </span>x509<span class="w"> </span>-inform<span class="w"> </span>der<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-in<span class="w"> </span>data/live-build-config/includes.chroot/var/lib/shim-signed/mok/MOK.der<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span>data/live-build-config/includes.chroot/var/lib/shim-signed/mok/MOK.pem
+</pre></div>
+</div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>As our version of <code class="docutils literal notranslate"><span class="pre">shim</span></code> is not signed by Microsoft we need to enroll the
+previously generated <abbr title="Machine Owner Key">MOK</abbr> to the system.</p>
+<p>First of all you will need to disable UEFI secure boot for the installation.</p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_01.png" />
+</figure>
+<p>Proceed with the regular VyOS <a class="reference internal" href="install.html#permanent-installation"><span class="std std-ref">installation</span></a> on
+your system, but instead of the final <code class="docutils literal notranslate"><span class="pre">reboot</span></code> we will enroll the
+<abbr title="Machine Owner Key">MOK</abbr>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ install mok
+input password:
+input password again:
+</pre></div>
+</div>
+<p>The requested <code class="docutils literal notranslate"><span class="pre">input</span> <span class="pre">password</span></code> can be user chosen and is only needed after
+rebooting the system into MOK Manager to permanently install the keys.</p>
+<p>With the next reboot, MOK Manager will automatically launch</p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_02.png" />
+</figure>
+<p>Select <code class="docutils literal notranslate"><span class="pre">Enroll</span> <span class="pre">MOK</span></code></p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_03.png" />
+</figure>
+<p>You can now view the key to be installed and <code class="docutils literal notranslate"><span class="pre">continue</span></code> with the Key installation</p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_04.png" />
+</figure>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_05.png" />
+</figure>
+<p>Now you will need the password previously defined</p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_06.png" />
+</figure>
+<p>Now reboot and re-enable UEFI secure boot.</p>
+<figure class="align-default">
+<img alt="Disable UEFI secure boot" src="../images/uefi_secureboot_07.png" />
+</figure>
+<p>VyOS will now launch in UEFI secure boot mode. This can be double-checked by running
+either one of the commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show secure-boot
+SecureBoot enabled
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show log kernel | match Secure
+Oct 08 19:15:41 kernel: Secure boot enabled
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$    show version
+Version:          VyOS 1.5-secureboot
+Release train:    current
+Release flavor:   generic
+
+Built by:         autobuild@vyos.net
+Built on:         Tue 08 Oct 2024 18:00 UTC
+Build UUID:       5702ca38-e6f4-470f-b89e-ffc29baee474
+Build commit ID:  9eb61d3b6cf426
+
+Architecture:     x86_64
+Boot via:         installed image
+System type:      KVM guest
+Secure Boot:      enabled   &lt;-- UEFI secure boot indicator
+
+Hardware vendor:  QEMU
+Hardware model:   Standard PC (i440FX + PIIX, 1996)
+Hardware S/N:
+Hardware UUID:    1f6e7f5c-fb52-4c33-96c9-782fbea36436
+
+Copyright:        VyOS maintainers and contributors
+</pre></div>
+</div>
+</section>
+<section id="image-update">
+<h2>Image Update<a class="headerlink" href="#image-update" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is yet no signed version of <code class="docutils literal notranslate"><span class="pre">shim</span></code> for VyOS, thus we
+provide no signed image for secure boot yet. If you are interested in
+secure boot you can build an image on your own.</p>
+</div>
+<p>During image installation you will install your <abbr title="Machine Owner Key">MOK</abbr> into the UEFI variables to add trust to this key. After enabling
+secure boot support in UEFI again, you can only boot into your signed image.</p>
+<p>It is no longer possible to boot into a CI generated rolling release as those
+are currently not signed by a trusted party (<a class="reference external" href="https://vyos.dev/T861">T861</a> work in progress).
+This also means that you need to sign all your successor builds you build on
+your own with the exact same key, otherwise you will see:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>error: bad shim signature
+error: you need to load the kernel first
+</pre></div>
+</div>
+</section>
+<section id="linux-kernel">
+<h2>Linux Kernel<a class="headerlink" href="#linux-kernel" title="Link to this heading"></a></h2>
+<p>In order to add an additional layer of security that can already be used in nonesecure
+boot images already is ephem,eral key signing of the Linux Kernel modules.</p>
+<p><a class="reference external" href="https://patchwork.kernel.org/project/linux-integrity/patch/20210218220011.67625-5-nayna&#64;linux.ibm.com/">https://patchwork.kernel.org/project/linux-integrity/patch/20210218220011.67625-5-nayna&#64;linux.ibm.com/</a></p>
+<p>Whenever our CI system builds a Kernel package and the required 3rd party modules,
+we will generate a temporary (ephemeral) public/private key-pair that’s used for signing the
+modules. The public key portion is embedded into the Kernel binary to verify the loaded
+modules.</p>
+<p>After the Kernel CI build completes, the generated key is discarded - meaning we can no londer
+sign additional modules with out key. Our Kernel configuration also contains the option
+<code class="docutils literal notranslate"><span class="pre">CONFIG_MODULE_SIG_FORCE=y</span></code> which means that we enforce all modules to be signed. If you
+try to load an unsigned module, it will be rejected with the following error:</p>
+<p><code class="docutils literal notranslate"><span class="pre">insmod:</span> <span class="pre">ERROR:</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">insert</span> <span class="pre">module</span> <span class="pre">malicious.ko:</span> <span class="pre">Key</span> <span class="pre">was</span> <span class="pre">rejected</span> <span class="pre">by</span> <span class="pre">service</span></code></p>
+<p>Thos we close the door to load any malicious stuff after the image was assembled into the
+Kernel as module. You can of course disable this behavior on custom builds.</p>
+</section>
+<section id="troubleshoot">
+<h2>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Link to this heading"></a></h2>
+<p>In most of the cases if something goes wrong you will see the following error message
+during system boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>error: bad shim signature
+error: you need to load the kernel first
+</pre></div>
+</div>
+<p>This means that the Machine Owner Key used to sign the Kernel is not trusted by your
+UEFI. You need to install the MOK via <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">mok</span></code> as stated above.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="image.html" class="btn btn-neutral float-left" title="Image Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="migrate-from-vyatta.html" class="btn btn-neutral float-right" title="Migrate from Vyatta Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

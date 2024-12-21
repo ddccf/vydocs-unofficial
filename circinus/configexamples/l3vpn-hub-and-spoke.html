@@ -1,0 +1,1330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L3VPN for Hub-and-Spoke connectivity with VyOS &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="PPPoE over L2TP" href="lac-lns.html" />
+    <link rel="prev" title="PPPoE IPv6 Basic Setup for Home Network" href="pppoe-ipv6-basic.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">L3VPN for Hub-and-Spoke connectivity with VyOS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#topology">Topology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-does-it-work">How does it work?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-configuring-igp-and-enabling-mpls-ldp">Step-1: Configuring IGP and enabling MPLS LDP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-configuring-ibgp-for-l3vpn-control-plane">Step-2: Configuring iBGP for L3VPN control-plane</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-configuring-l3vpn-vrfs-on-pe-nodes">Step-3: Configuring L3VPN VRFs on PE nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-configuring-ce-nodes">Step-4: Configuring CE nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-5-verification">Step-5: Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">L3VPN for Hub-and-Spoke connectivity with VyOS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/l3vpn-hub-and-spoke.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="l3vpn-for-hub-and-spoke-connectivity-with-vyos">
+<h1>L3VPN for Hub-and-Spoke connectivity with VyOS<a class="headerlink" href="#l3vpn-for-hub-and-spoke-connectivity-with-vyos" title="Link to this heading"></a></h1>
+<p>IP/MPLS technology is widely used by various service providers and large
+enterprises in order to achieve better network scalability, manageability
+and flexibility. It also provides the possibility to deliver different
+services for the customers in a seamless manner.
+Layer 3 VPN (L3VPN) is a type of VPN mode that is built and delivered
+through OSI layer 3 networking technologies. Often the border gateway
+protocol (BGP) is used to send and receive VPN-related data that is
+responsible for the control plane. L3VPN utilizes virtual routing and
+forwarding (VRF) techniques to receive and deliver user data as well as
+separate data planes of the end-users. It is built using a combination of
+IP- and MPLS-based information. Generally, L3VPNs are used to send data
+on back-end VPN infrastructures, such as for VPN connections between data
+centres, HQs and branches.</p>
+<p>An L3VPN consists of multiple access links, multiple VPN routing and
+forwarding (VRF) tables, and multiple MPLS paths or multiple P2MP LSPs.
+An L3VPN can be configured to connect two or more customer sites.
+In hub-and-spoke MPLS L3VPN environments, the spoke routers need to have
+unique Route Distinguishers (RDs). In order to use the hub site as a
+transit point for connectivity in such an environment, the spoke sites
+export their routes to the hub. Spokes can talk to hubs, but never have
+direct paths to other spokes. All traffic between spokes is controlled
+and delivered over the hub site.</p>
+<p>To deploy a Layer3 VPN with MPLS on VyOS, we should meet a couple
+requirements in order to properly implement the solution.
+We’ll use the following nodes in our LAB environment:</p>
+<ul class="simple">
+<li><p>2 x Route reflectors (VyOS-RRx)</p></li>
+<li><p>4 x Provider routers (VyOS-Px)</p></li>
+<li><p>3 x Provider Edge (VyOs-PEx)</p></li>
+<li><p>3 x Customer Edge (VyOS-CEx)</p></li>
+</ul>
+<p>The following software was used in the creation of this document:</p>
+<ul class="simple">
+<li><p>Operating system: VyOS</p></li>
+<li><p>Version: 1.4-rolling-202110310317</p></li>
+<li><p>Image name: vyos-1.4-rolling-202110310317-amd64.iso</p></li>
+</ul>
+<p><strong>NOTE:</strong> VyOS Router (tested with VyOS 1.4-rolling-202110310317)
+–  The configurations below are specifically for VyOS 1.4.x.</p>
+<p>General information can be found in the <a class="reference internal" href="../configuration/vrf/index.html#l3vpn-vrfs"><span class="std std-ref">L3VPN VRFs</span></a> chapter.</p>
+<section id="topology">
+<h2>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../images/L3VPN_hub_and_spoke.png"><img alt="Network Topology Diagram" class="align-center" src="../images/L3VPN_hub_and_spoke.png" style="width: 80%;" />
+</a>
+</section>
+<section id="how-does-it-work">
+<h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Link to this heading"></a></h2>
+<p>As we know the main assumption of L3VPN “Hub and Spoke” is, that the traffic
+between spokes have to pass via hub, in our scenario VyOS-PE2 is the Hub PE
+and the VyOS-CE1-HUB is the central customer office device that is responsible
+for controlling access between all spokes and announcing its network prefixes
+(10.0.0.100/32). VyOS-PE2 has the main VRF (its name is BLUE_HUB), its
+own Route-Distinguisher(RD) and route-target import/export lists.
+Multiprotocol-BGP(MP-BGP) delivers L3VPN related control-plane information to
+the nodes across network where PEs Spokes import the route-target 60535:1030
+(this is export route-target of vrf BLUE_HUB) and export its own route-target
+60535:1011(this is vrf BLUE_SPOKE export route-target). Therefore, the
+Customer edge nodes can only learn the network prefixes of the HUB site
+[10.0.0.100/32]. For this example VyOS-CE1 has network prefixes
+[10.0.0.80/32] / VyOS-CE2 has network prefixes [10.0.0.90/32].
+Route-Reflector devices VyOS-RR1 and VyOS-RR2 are used to simplify network
+routes exchange and minimize iBGP peerings between devices.</p>
+<p>L3VPN configuration parameters table:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Node</p></td>
+<td><p>Role</p></td>
+<td><p>VRF</p></td>
+<td><p>RD</p></td>
+<td><p>RT import</p></td>
+<td><p>RT export</p></td>
+</tr>
+<tr class="row-even"><td><p>VyOS-PE2</p></td>
+<td><p>Hub</p></td>
+<td><p>BLUE_HUB</p></td>
+<td><p>10.80.80.1:1011</p></td>
+<td><p>65035:1011
+65035:1030</p></td>
+<td><p>65035:1030</p></td>
+</tr>
+<tr class="row-odd"><td><p>VyOS-PE1</p></td>
+<td><p>Spoke</p></td>
+<td><p>BLUE_SPOKE</p></td>
+<td><p>10.50.50.1:1011</p></td>
+<td><p>65035:1030</p></td>
+<td><p>65035:1011</p></td>
+</tr>
+<tr class="row-even"><td><p>VyOS-PE3</p></td>
+<td><p>Spoke</p></td>
+<td><p>BLUE_SPOKE</p></td>
+<td><p>10.60.60.1:1011</p></td>
+<td><p>65035:1030</p></td>
+<td><p>65035:1011</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="step-1-configuring-igp-and-enabling-mpls-ldp">
+<h3>Step-1: Configuring IGP and enabling MPLS LDP<a class="headerlink" href="#step-1-configuring-igp-and-enabling-mpls-ldp" title="Link to this heading"></a></h3>
+<p>At the first step we need to configure the IP/MPLS backbone network using OSPF
+as IGP protocol and LDP as label-switching protocol for the base connectivity
+between <strong>P</strong> (rovider), <strong>P</strong> (rovider) <strong>E</strong> (dge) and <strong>R</strong> (oute) <strong>R</strong>
+(eflector) nodes:</p>
+<ul class="simple">
+<li><p>VyOS-P1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.3/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.30.1/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.40.1/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.90.1/24&#39;
+set interfaces ethernet eth3 address &#39;172.16.10.1/24&#39;
+set interfaces ethernet eth5 address &#39;172.16.100.1/24&#39;
+
+# protocols ospf+ldp
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls interface &#39;eth3&#39;
+set protocols mpls interface &#39;eth5&#39;
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.3&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth2&#39;
+set protocols mpls ldp interface &#39;eth3&#39;
+set protocols mpls ldp interface &#39;eth5&#39;
+set protocols mpls ldp router-id &#39;10.0.0.3&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.3
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-P2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.4/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.30.2/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.20.1/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.120.1/24&#39;
+set interfaces ethernet eth3 address &#39;172.16.60.1/24&#39;
+
+# protocols ospf+ldp
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls interface &#39;eth3&#39;
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.4&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth2&#39;
+set protocols mpls ldp interface &#39;eth3&#39;
+set protocols mpls ldp router-id &#39;10.0.0.4&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.4&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-P3:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.5/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.110.1/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.40.2/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.50.1/24&#39;
+set interfaces ethernet eth3 address &#39;172.16.70.1/24&#39;
+
+# protocols ospf + ldp
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls interface &#39;eth3&#39;
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.5&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth2&#39;
+set protocols mpls ldp interface &#39;eth3&#39;
+set protocols mpls ldp router-id &#39;10.0.0.5&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.5&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-P4:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.6/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.80.2/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.130.1/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.50.2/24&#39;
+set interfaces ethernet eth3 address &#39;172.16.60.2/24&#39;
+set interfaces ethernet eth5 address &#39;172.16.140.1/24&#39;
+
+
+# protocols ospf + ldp
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls interface &#39;eth3&#39;
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls interface &#39;eth5&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.6&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth2&#39;
+set protocols mpls ldp interface &#39;eth3&#39;
+set protocols mpls ldp interface &#39;eth5&#39;
+set protocols mpls ldp router-id &#39;10.0.0.6&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.6&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.7/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.90.2/24&#39;
+
+# protocols  ospf + ldp
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.7&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp router-id &#39;10.0.0.7&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.7&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.8/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.110.2/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.100.2/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.80.1/24&#39;
+
+# protocols  ospf + ldp
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.8&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp router-id &#39;10.0.0.8&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.8&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE3:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum10 address &#39;10.0.0.10/32&#39;
+set interfaces ethernet eth0 address &#39;172.16.140.2/24&#39;
+
+# protocols ospf + ldp
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.10&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp router-id &#39;10.0.0.10&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.10&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-RR1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces ethernet eth1 address &#39;172.16.20.2/24&#39;
+set interfaces ethernet eth2 address &#39;172.16.10.2/24&#39;
+set interfaces dummy dum10 address &#39;10.0.0.1/32&#39;
+
+# protocols ospf + ldp
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls interface &#39;eth2&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.1&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth2&#39;
+set protocols mpls ldp router-id &#39;10.0.0.1&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.1&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-RR2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces ethernet eth0 address &#39;172.16.80.1/24&#39;
+set interfaces ethernet eth1 address &#39;172.16.70.2/24&#39;
+set interfaces dummy dum10 address &#39;10.0.0.2/32&#39;
+
+# protocols ospf + ldp
+set protocols mpls interface &#39;eth0&#39;
+set protocols mpls interface &#39;eth1&#39;
+set protocols mpls ldp discovery transport-ipv4-address &#39;10.0.0.2&#39;
+set protocols mpls ldp interface &#39;eth1&#39;
+set protocols mpls ldp interface &#39;eth0&#39;
+set protocols mpls ldp router-id &#39;10.0.0.2&#39;
+set protocols ospf area 0 network &#39;0.0.0.0/0&#39;
+set protocols ospf parameters abr-type &#39;cisco&#39;
+set protocols ospf parameters router-id &#39;10.0.0.2&#39;
+</pre></div>
+</div>
+</section>
+<section id="step-2-configuring-ibgp-for-l3vpn-control-plane">
+<h3>Step-2: Configuring iBGP for L3VPN control-plane<a class="headerlink" href="#step-2-configuring-ibgp-for-l3vpn-control-plane" title="Link to this heading"></a></h3>
+<p>At this step we are going to enable iBGP protocol on MPLS nodes and
+Route Reflectors (two routers for redundancy) that will deliver IPv4
+VPN (L3VPN) routes between them:</p>
+<ul class="simple">
+<li><p>VyOS-RR1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as &#39;65001&#39;
+set protocols bgp neighbor 10.0.0.7 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.7 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.8 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.8 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.10 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.10 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp parameters cluster-id &#39;10.0.0.1&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.0.0.1&#39;
+set protocols bgp peer-group RR_VPNv4 remote-as &#39;65001&#39;
+set protocols bgp peer-group RR_VPNv4 update-source &#39;dum10&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-RR2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as &#39;65001&#39;
+set protocols bgp neighbor 10.0.0.7 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.7 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.8 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.8 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.10 address-family ipv4-vpn route-reflector-client
+set protocols bgp neighbor 10.0.0.10 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp parameters cluster-id &#39;10.0.0.1&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.0.0.2&#39;
+set protocols bgp peer-group RR_VPNv4 remote-as &#39;65001&#39;
+set protocols bgp peer-group RR_VPNv4 update-source &#39;dum10&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as &#39;65001&#39;
+set protocols bgp neighbor 10.0.0.1 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.1 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.2 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.2 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.0.0.7&#39;
+set protocols bgp peer-group RR_VPNv4 remote-as &#39;65001&#39;
+set protocols bgp peer-group RR_VPNv4 update-source &#39;dum10&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as &#39;65001&#39;
+set protocols bgp neighbor 10.0.0.1 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.1 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.2 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.2 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.0.0.8&#39;
+set protocols bgp peer-group RR_VPNv4 remote-as &#39;65001&#39;
+set protocols bgp peer-group RR_VPNv4 update-source &#39;dum10&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE3:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols bgp system-as &#39;65001&#39;
+set protocols bgp neighbor 10.0.0.1 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.1 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp neighbor 10.0.0.2 address-family ipv4-vpn nexthop-self
+set protocols bgp neighbor 10.0.0.2 peer-group &#39;RR_VPNv4&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.0.0.10&#39;
+set protocols bgp peer-group RR_VPNv4 remote-as &#39;65001&#39;
+set protocols bgp peer-group RR_VPNv4 update-source &#39;dum10&#39;
+</pre></div>
+</div>
+</section>
+<section id="step-3-configuring-l3vpn-vrfs-on-pe-nodes">
+<h3>Step-3: Configuring L3VPN VRFs on PE nodes<a class="headerlink" href="#step-3-configuring-l3vpn-vrfs-on-pe-nodes" title="Link to this heading"></a></h3>
+<p>This section provides configuration steps for setting up VRFs on our
+PE nodes including CE facing interfaces, BGP, rd and route-target
+import/export based on the pre-defined parameters.</p>
+<ul class="simple">
+<li><p>VyOS-PE1:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># VRF settings
+set vrf name BLUE_SPOKE table &#39;200&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast export vpn
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast import vpn
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast label vpn export &#39;auto&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast network 10.50.50.0/24
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast rd vpn export &#39;10.50.50.1:1011&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast redistribute connected
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast route-target vpn export &#39;65035:1011&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast route-target vpn import &#39;65035:1030&#39;
+set vrf name BLUE_SPOKE protocols bgp system-as &#39;65001&#39;
+set vrf name BLUE_SPOKE protocols bgp neighbor 10.50.50.2 address-family ipv4-unicast as-override
+set vrf name BLUE_SPOKE protocols bgp neighbor 10.50.50.2 remote-as &#39;65035&#39;
+
+# interfaces
+set interfaces ethernet eth3 address &#39;10.50.50.1/24&#39;
+set interfaces ethernet eth3 vrf &#39;BLUE_SPOKE&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE2:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># VRF settings
+set vrf name BLUE_HUB table &#39;400&#39;
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast export vpn
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast import vpn
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast label vpn export &#39;auto&#39;
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast network 10.80.80.0/24
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast rd vpn export &#39;10.80.80.1:1011&#39;
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast redistribute connected
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast route-target vpn export &#39;65035:1030&#39;
+set vrf name BLUE_HUB protocols bgp address-family ipv4-unicast route-target vpn import &#39;65035:1011 65050:2011 65035:1030&#39;
+set vrf name BLUE_HUB protocols bgp system-as &#39;65001&#39;
+set vrf name BLUE_HUB protocols bgp neighbor 10.80.80.2 address-family ipv4-unicast as-override
+set vrf name BLUE_HUB protocols bgp neighbor 10.80.80.2 remote-as &#39;65035&#39;
+
+# interfaces
+set interfaces ethernet eth3 address &#39;10.80.80.1/24&#39;
+set interfaces ethernet eth3 vrf &#39;BLUE_HUB&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-PE3:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># VRF settings
+set vrf name BLUE_SPOKE table &#39;200&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast export vpn
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast import vpn
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast label vpn export &#39;auto&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast network 10.60.60.0/24
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast rd vpn export &#39;10.60.60.1:1011&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast redistribute connected
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast route-target vpn export &#39;65035:1011&#39;
+set vrf name BLUE_SPOKE protocols bgp address-family ipv4-unicast route-target vpn import &#39;65035:1030&#39;
+set vrf name BLUE_SPOKE protocols bgp system-as &#39;65001&#39;
+set vrf name BLUE_SPOKE protocols bgp neighbor 10.60.60.2 address-family ipv4-unicast as-override
+set vrf name BLUE_SPOKE protocols bgp neighbor 10.60.60.2 remote-as &#39;65035&#39;
+
+# interfaces
+set interfaces ethernet eth3 address &#39;10.60.60.1/24&#39;
+set interfaces ethernet eth3 vrf &#39;BLUE_SPOKE&#39;
+</pre></div>
+</div>
+</section>
+<section id="step-4-configuring-ce-nodes">
+<h3>Step-4: Configuring CE nodes<a class="headerlink" href="#step-4-configuring-ce-nodes" title="Link to this heading"></a></h3>
+<p>Dynamic routing used between CE and PE nodes and eBGP peering
+established for the route exchanging between them. All routes
+received by PEs are then exported to L3VPN and delivered from
+Spoke sites to Hub and vise-versa based on previously
+configured L3VPN parameters.</p>
+<ul class="simple">
+<li><p>VyOS-CE1-SPOKE:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum20 address &#39;10.0.0.80/32&#39;
+set interfaces ethernet eth0 address &#39;10.50.50.2/24&#39;
+
+# BGP for peering with PE
+set protocols bgp system-as 65035
+set protocols bgp address-family ipv4-unicast network 10.0.0.80/32
+set protocols bgp neighbor 10.50.50.1 ebgp-multihop &#39;2&#39;
+set protocols bgp neighbor 10.50.50.1 remote-as &#39;65001&#39;
+set protocols bgp neighbor 10.50.50.1 update-source &#39;eth0&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.50.50.2&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-CE1-HUB:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum20 address &#39;10.0.0.100/32&#39;
+set interfaces ethernet eth0 address &#39;10.80.80.2/24&#39;
+
+# BGP for peering with PE
+set protocols bgp system-as 65035
+set protocols bgp address-family ipv4-unicast network 10.0.0.100/32
+set protocols bgp address-family ipv4-unicast redistribute connected
+set protocols bgp neighbor 10.80.80.1 ebgp-multihop &#39;2&#39;
+set protocols bgp neighbor 10.80.80.1 remote-as &#39;65001&#39;
+set protocols bgp neighbor 10.80.80.1 update-source &#39;eth0&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.80.80.2&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-CE2-SPOKE:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># interfaces
+set interfaces dummy dum20 address &#39;10.0.0.90/32&#39;
+set interfaces ethernet eth0 address &#39;10.60.60.2/24&#39;
+
+# BGP for peering with PE
+set protocols bgp system-as 65035
+set protocols bgp address-family ipv4-unicast network 10.0.0.90/32
+set protocols bgp neighbor 10.60.60.1 ebgp-multihop &#39;2&#39;
+set protocols bgp neighbor 10.60.60.1 remote-as &#39;65001&#39;
+set protocols bgp neighbor 10.60.60.1 update-source &#39;eth0&#39;
+set protocols bgp parameters log-neighbor-changes
+set protocols bgp parameters router-id &#39;10.60.60.2&#39;
+</pre></div>
+</div>
+</section>
+<section id="step-5-verification">
+<h3>Step-5: Verification<a class="headerlink" href="#step-5-verification" title="Link to this heading"></a></h3>
+<p>This section describes verification commands for MPLS/BGP/LDP
+protocols and L3VPN related routes as well as diagnosis and
+reachability checks between CE nodes.</p>
+<p>Let’s check IPv4 routing and MPLS information on provider nodes
+(same procedure for all P nodes):</p>
+<ul class="simple">
+<li><p>“show ip ospf neighbor” for checking ospf relationship</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-P1:~$  show ip ospf neighbor
+
+Neighbor ID  Pri State               Dead Time Address       Interface            RXmtL RqstL DBsmL
+10.0.0.4             1 Full/Backup           34.718s   172.16.30.2   eth0:172.16.30.1       0          0       0
+10.0.0.5             1 Full/Backup           35.132s   172.16.40.2   eth1:172.16.40.1       0          0       0
+10.0.0.7             1 Full/Backup           34.764s   172.16.90.2   eth2:172.16.90.1       0          0       0
+10.0.0.1             1 Full/Backup           35.642s   172.16.10.2   eth3:172.16.10.1       0          0       0
+10.0.0.8             1 Full/Backup           35.484s   172.16.100.2  eth5:172.16.100.1      0          0     0
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“show mpls ldp neighbor “ for checking ldp neighbors</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-P1:~$ show mpls ldp neighbor
+AF   ID              State              Remote Address       Uptime
+ipv4 10.0.0.1        OPERATIONAL 10.0.0.1            07w5d06h
+ipv4 10.0.0.4        OPERATIONAL 10.0.0.4            09w3d00h
+ipv4 10.0.0.5        OPERATIONAL 10.0.0.5            09w2d23h
+ipv4 10.0.0.7        OPERATIONAL 10.0.0.7            03w0d01h
+ipv4 10.0.0.8        OPERATIONAL 10.0.0.8            01w3d02h
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“show mpls ldp binding” for checking mpls label assignment</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-P1:~$ show mpls ldp discovery
+AF   Destination             Nexthop         Local    Label Remote Label  In Use
+ipv4 10.0.0.1/32             10.0.0.1        23                    imp-null          yes
+ipv4 10.0.0.1/32             10.0.0.4        23                    20                no
+ipv4 10.0.0.1/32             10.0.0.5        23                    17                no
+ipv4 10.0.0.1/32             10.0.0.7        23                    16                no
+ipv4 10.0.0.1/32             10.0.0.8        23                    16                no
+ipv4 10.0.0.2/32             10.0.0.1        20                    16                no
+ipv4 10.0.0.2/32             10.0.0.4        20                    22                no
+ipv4 10.0.0.2/32             10.0.0.5        20                    24                yes
+ipv4 10.0.0.2/32             10.0.0.7        20                    17                no
+ipv4 10.0.0.2/32             10.0.0.8        20                    17                no
+ipv4 10.0.0.3/32             10.0.0.1        imp-null              17                no
+ipv4 10.0.0.3/32             10.0.0.4        imp-null              16                no
+ipv4 10.0.0.3/32             10.0.0.5        imp-null              18                no
+ipv4 10.0.0.3/32             10.0.0.7        imp-null              18                no
+ipv4 10.0.0.3/32             10.0.0.8        imp-null              18                no
+ipv4 10.0.0.4/32             10.0.0.1        16                    18                no
+ipv4 10.0.0.4/32             10.0.0.4        16                    imp-null          yes
+ipv4 10.0.0.4/32             10.0.0.5        16                    19                no
+ipv4 10.0.0.4/32             10.0.0.7        16                    19                no
+ipv4 10.0.0.4/32             10.0.0.8        16                    19                no
+ipv4 10.0.0.5/32             10.0.0.1        21                    19                no
+ipv4 10.0.0.5/32             10.0.0.4        21                    17                no
+ipv4 10.0.0.5/32             10.0.0.5        21                    imp-null          yes
+ipv4 10.0.0.5/32             10.0.0.7        21                    20                no
+ipv4 10.0.0.5/32             10.0.0.8        21                    20                no
+ipv4 10.0.0.6/32             10.0.0.1        17                    20                no
+ipv4 10.0.0.6/32             10.0.0.4        17                    23                yes
+ipv4 10.0.0.6/32             10.0.0.5        17                    21                yes
+ipv4 10.0.0.6/32             10.0.0.7        17                    21                no
+ipv4 10.0.0.6/32             10.0.0.8        17                    21                no
+ipv4 10.0.0.7/32             10.0.0.1        22                    21                no
+ipv4 10.0.0.7/32             10.0.0.4        22                    18                no
+ipv4 10.0.0.7/32             10.0.0.5        22                    20                no
+ipv4 10.0.0.7/32             10.0.0.7        22                    imp-null          yes
+ipv4 10.0.0.7/32             10.0.0.8        22                    22                no
+ipv4 10.0.0.8/32             10.0.0.1        24                    22                no
+ipv4 10.0.0.8/32             10.0.0.4        24                    19                no
+ipv4 10.0.0.8/32             10.0.0.5        24                    16                no
+ipv4 10.0.0.8/32             10.0.0.7        24                    22                no
+ipv4 10.0.0.8/32             10.0.0.8        24                    imp-null          yes
+ipv4 10.0.0.9/32             10.0.0.1        18                    23                no
+ipv4 10.0.0.9/32             10.0.0.4        18                    21                yes
+ipv4 10.0.0.9/32             10.0.0.5        18                    22                no
+ipv4 10.0.0.9/32             10.0.0.7        18                    23                no
+ipv4 10.0.0.9/32             10.0.0.8        18                    23                no
+ipv4 10.0.0.10/32    10.0.0.1        19                    24                no
+ipv4 10.0.0.10/32    10.0.0.4        19                    24                yes
+ipv4 10.0.0.10/32    10.0.0.5        19                    23                yes
+ipv4 10.0.0.10/32    10.0.0.7        19                    24                no
+ipv4 10.0.0.10/32    10.0.0.8        19                    24                no
+</pre></div>
+</div>
+<p>Now we’re checking iBGP status and routes from route-reflector
+nodes to other devices:</p>
+<ul class="simple">
+<li><p>“show bgp ipv4 vpn summary” for checking BGP VPNv4 neighbors:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-RR1:~$ show bgp ipv4 vpn summary
+BGP router identifier 10.0.0.1, local AS number 65001 vrf-id 0
+BGP table version 0
+RIB entries 9, using 1728 bytes of memory
+Peers 4, using 85 KiB of memory
+Peer groups 1, using 64 bytes of memory
+
+Neighbor     V       AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+10.0.0.7             4       65001   7719    7733                  0    0    0   5d07h56m            2       10
+10.0.0.8             4       65001   7715    7724                  0    0    0   5d08h28m            4       10
+10.0.0.9             4       65001   7713    7724                  0    0    0   5d08h28m            2       10
+10.0.0.10    4       65001   7713    7724                  0    0    0   5d08h28m            2       10
+
+Total number of neighbors 4
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“show bgp ipv4 vpn”  for checking all VPNv4 prefixes information:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-RR1:~$ show bgp ipv4 vpn
+BGP table version is 2, local router ID is 10.0.0.1, vrf id 0
+Default local pref 100, local AS 65001
+Status codes:  s suppressed, d damped, h history, * valid, &gt; best, = multipath,
+             i internal, r RIB-failure, S Stale, R Removed
+Nexthop codes: @NNN nexthop&#39;s vrf id, &lt; announce-nh-self
+Origin codes:  i - IGP, e - EGP, ? - incomplete
+
+   Network           Next Hop                Metric LocPrf Weight Path
+Route Distinguisher: 10.50.50.1:1011
+*&gt;i10.50.50.0/24     10.0.0.7                0       100     0 i
+     UN=10.0.0.7 EC{65035:1011} label=80 type=bgp, subtype=0
+*&gt;i80.80.80.80/32   10.0.0.7                 0       100     0 65035 i
+     UN=10.0.0.7 EC{65035:1011} label=80 type=bgp, subtype=0
+Route Distinguisher: 10.60.60.1:1011
+*&gt;i10.60.60.0/24     10.0.0.10               0       100     0 i
+     UN=10.0.0.10 EC{65035:1011} label=80 type=bgp, subtype=0
+*&gt;i90.90.90.90/32   10.0.0.10                0       100     0 65035 i
+     UN=10.0.0.10 EC{65035:1011} label=80 type=bgp, subtype=0
+Route Distinguisher: 10.80.80.1:1011
+*&gt;i10.80.80.0/24     10.0.0.8                0       100     0 i
+     UN=10.0.0.8 EC{65035:1030} label=80 type=bgp, subtype=0
+*&gt;i100.100.100.100/32
+                     10.0.0.8                0       100     0 65035 i
+     UN=10.0.0.8 EC{65035:1030} label=80 type=bgp, subtype=0
+Route Distinguisher: 172.16.80.1:2011
+*&gt;i10.110.110.0/24  10.0.0.8                 0       100     0 65050 i
+     UN=10.0.0.8 EC{65050:2011} label=81 type=bgp, subtype=0
+*&gt;i172.16.80.0/24   10.0.0.8                 0       100     0 i
+     UN=10.0.0.8 EC{65050:2011} label=81 type=bgp, subtype=0
+Route Distinguisher: 172.16.100.1:2011
+*&gt;i10.210.210.0/24  10.0.0.9                 0       100     0 65050 i
+     UN=10.0.0.9 EC{65050:2011} label=80 type=bgp, subtype=0
+*&gt;i172.16.100.0/24  10.0.0.9                 0       100     0 i
+     UN=10.0.0.9 EC{65050:2011} label=80 type=bgp, subtype=0
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“show bgp ipv4 vpn x.x.x.x/x” for checking best path selected
+for specific VPNv4 destination</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-RR1:~$ show bgp  ipv4 vpn 10.0.0.100/32
+BGP routing table entry for 10.80.80.1:1011:10.0.0.100/32
+not allocated
+Paths: (1 available, best #1)
+  Advertised to non peer-group peers:
+  10.0.0.7 10.0.0.8 10.0.0.9 10.0.0.10
+  65035, (Received from a RR-client)
+     10.0.0.8 from 10.0.0.8 (10.0.0.8)
+     Origin incomplete, metric 0, localpref 100, valid, internal, best (First path received)
+     Extended Community: RT:65035:1030
+     Remote label: 80
+     Last update: Tue Oct 19 13:45:32 202
+</pre></div>
+</div>
+<p>Also we can verify how PE devices receives VPNv4 networks from the RRs
+and installing them to the specific customer VRFs:</p>
+<ul class="simple">
+<li><p>“show bgp ipv4 vpn summary” for checking iBGP neighbors against
+route-reflector devices:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE1:~$ show bgp ipv4 vpn summary
+BGP router identifier 10.0.0.7, local AS number 65001 vrf-id 0
+BGP table version 0
+RIB entries 9, using 1728 bytes of memory
+Peers 2, using 43 KiB of memory
+Peer groups 1, using 64 bytes of memory
+
+Neighbor     V       AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+10.0.0.1             4       65001   8812    8794               0       0       0   01:18:42         8       2
+10.0.0.2             4       65001   8800    8792               0       0       0   6d02h27m         8       2
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp vrf all” for checking all the prefix learning on BGP</dt><dd><p>within VRFs:</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE1:~$ show  bgp vrf all
+
+Instance default:
+No BGP prefixes displayed, 0 exist
+
+Instance BLUE_SPOKE:
+BGP table version is 8, local router ID is 10.50.50.1, vrf id 6
+Default local pref 100, local AS 65001
+Status codes:  s suppressed, d damped, h history, * valid, &gt; best, = multipath,
+             i internal, r RIB-failure, S Stale, R Removed
+Nexthop codes: @NNN nexthop&#39;s vrf id, &lt; announce-nh-self
+Origin codes:  i - IGP, e - EGP, ? - incomplete
+
+   Network           Next Hop                Metric LocPrf Weight Path
+*  10.50.50.0/24     0.0.0.0                 0       32768 ?
+*&gt;                   0.0.0.0                 0       32768 i
+*&gt; 10.80.80.0/24     10.0.0.8@0&lt;             0       100     0 i
+*                    10.0.0.8@0&lt;             0       100     0 i
+*&gt; 10.0.0.80/32   10.50.50.2                 0               0 65035 i
+*&gt; 10.0.0.100/32
+                     10.0.0.8@0&lt;             0       100     0 65035 ?
+*                    10.0.0.8@0&lt;             0       100     0 65035 ?
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp vrf BLUE_SPOKE summary” for checking EBGP neighbor</dt><dd><p>information between PE and CE:</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE1:~$ show bgp vrf BLUE_SPOKE summary
+
+
+IPv4 Unicast Summary:
+BGP router identifier 10.50.50.1, local AS number 65001 vrf-id 6
+BGP table version 8
+RIB entries 7, using 1344 bytes of memory
+Peers 1, using 21 KiB of memory
+
+Neighbor     V       AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+10.50.50.2   4       65035   9019    9023                  0 0          0   6d06h12m         1       4
+
+Total number of neighbors 1
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show ip route vrf BLUE_SPOKE” for viewing the RIB in our Spoke PE.</dt><dd><p>Using this command we are also able to check the transport and
+customer label (inner/outer) for Hub network prefix (10.0.0.100/32):</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE1:~$ show ip route vrf BLUE_SPOKE
+
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+     O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+     T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+     F - PBR, f - OpenFabric,
+     &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+
+VRF BLUE_SPOKE:
+K&gt;* 0.0.0.0/0 [255/8192] unreachable (ICMP unreachable), 03w0d23h
+C&gt;* 10.50.50.0/24 is directly connected, eth3, 03w0d23h
+B&gt;  10.80.80.0/24 [200/0] via 10.0.0.8 (vrf default) (recursive), label 80, weight 1, 04:22:00
+  *                          via 172.16.90.1, eth0 (vrf default), label 24/80, weight 1, 04:22:00
+B&gt;* 10.0.0.80/32 [20/0] via 10.50.50.2, eth3, weight 1, 6d05h30m
+B&gt;  10.0.0.100/32 [200/0] via 10.0.0.8 (vrf default) (recursive), label 80, weight 1, 04:22:00
+  *                                  via 172.16.90.1, eth0 (vrf default), label 24/80, weight 1, 04:22:00
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp ipv4 vpn x.x.x.x/32” for checking the best-path to the</dt><dd><p>specific VPNv4 destination including extended community and
+remotelabel information. This procedure is the same on all Spoke nodes:</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE1:~$ show bgp ipv4 vpn 10.0.0.100/32
+BGP routing table entry for 10.80.80.1:1011:10.0.0.100/32
+not allocated
+Paths: (2 available, best #1)
+  Not advertised to any peer
+  65035
+     10.0.0.8 from 10.0.0.1 (10.0.0.8)
+     Origin incomplete, metric 0, localpref 100, valid, internal, best (Neighbor IP)
+     Extended Community: RT:65035:1030
+     Originator: 10.0.0.8, Cluster list: 10.0.0.1
+     Remote label: 80
+     Last update: Tue Oct 19 13:45:26 2021
+  65035
+     10.0.0.8 from 10.0.0.2 (10.0.0.8)
+     Origin incomplete, metric 0, localpref 100, valid, internal
+     Extended Community: RT:65035:1030
+     Originator: 10.0.0.8, Cluster list: 10.0.0.1
+     Remote label: 80
+     Last update: Wed Oct 13 12:39:34 202
+</pre></div>
+</div>
+<p>Now, let’s check routing information on out Hub PE:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp ipv4 vpn summary” for checking iBGP neighbors again</dt><dd><p>VyOS-RR1/RR2</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE2:~$ show bgp ipv4 vpn summary
+BGP router identifier 10.0.0.8, local AS number 65001 vrf-id 0
+BGP table version 0
+RIB entries 9, using 1728 bytes of memory
+Peers 2, using 43 KiB of memory
+Peer groups 1, using 64 bytes of memory
+
+Neighbor     V       AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+10.0.0.1             4       65001   15982   15949           0       0       0 05:41:28              6       4
+10.0.0.2             4       65001   9060    9054            0       0       0 6d06h47m              6       4
+
+Total number of neighbors
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“show bgp vrf all” for checking all the prefixes learning on BGP</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE2:~$ show bgp vrf all
+
+Instance default:
+No BGP prefixes displayed, 0 exist
+
+Instance BLUE_HUB:
+BGP table version is 50, local router ID is 10.80.80.1, vrf id 8
+Default local pref 100, local AS 65001
+Status codes:  s suppressed, d damped, h history, * valid, &gt; best, = multipath,
+             i internal, r RIB-failure, S Stale, R Removed
+Nexthop codes: @NNN nexthop&#39;s vrf id, &lt; announce-nh-self
+Origin codes:  i - IGP, e - EGP, ? - incomplete
+
+   Network           Next Hop                Metric LocPrf Weight Path
+*&gt; 10.50.50.0/24     10.0.0.7@0&lt;             0       100     0 i
+*                    10.0.0.7@0&lt;             0       100     0 i
+*&gt; 10.60.60.0/24     10.0.0.10@0&lt;            0       100     0 i
+*                    10.0.0.10@0&lt;            0       100     0 i
+*  10.80.80.0/24     10.80.80.2              0               0 65035 ?
+*                    0.0.0.0                 0       32768 i
+*&gt;                   0.0.0.0                 0       32768 ?
+*&gt; 10.110.110.0/24  172.16.80.2@9&lt;           0               0 65050 i
+*&gt; 10.210.210.0/24  10.0.0.9@0&lt;              0       100     0 65050 i
+*                    10.0.0.9@0&lt;             0       100     0 65050 i
+*&gt; 10.0.0.80/32   10.0.0.7@0&lt;                0       100     0 65035 i
+*                    10.0.0.7@0&lt;             0       100     0 65035 i
+*&gt; 10.0.0.90/32   10.0.0.10@0&lt;               0       100     0 65035 i
+*                    10.0.0.10@0&lt;            0       100     0 65035 i
+*&gt; 10.0.0.100/32
+                     10.80.80.2              0               0 65035 ?
+*&gt; 172.16.80.0/24   0.0.0.0@9&lt;               0       32768 ?
+                     0.0.0.0@9&lt;              0       32768 i
+*&gt; 172.16.100.0/24  10.0.0.9@0&lt;              0       100     0 i
+*                    10.0.0.9@0&lt;             0       100     0 i
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp vrf BLUE_HUB summary” for checking EBGP neighbor</dt><dd><p>CE Hub device</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE2:~$ show bgp vrf BLUE_HUB summary
+
+IPv4 Unicast Summary:
+BGP router identifier 10.80.80.1, local AS number 65001 vrf-id 8
+BGP table version 50
+RIB entries 19, using 3648 bytes of memory
+Peers 1, using 21 KiB of memory
+
+Neighbor     V       AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+10.80.80.2   4       65035   15954   15972              0    0          0   01w4d01h         2       10
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show ip route vrf BLUE_HUB” to view the RIB in our Hub PE.</dt><dd><p>With this command we are able to check the transport and
+customer label (inner/outer) for network spokes prefixes
+10.0.0.80/32 - 10.0.0.90/32</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE2:~$ show ip route vrf BLUE_HUB
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+     O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+     T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+     F - PBR, f - OpenFabric,
+     &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+VRF BLUE_HUB:
+K&gt;* 0.0.0.0/0 [255/8192] unreachable (ICMP unreachable), 01w4d01h
+B&gt;  10.50.50.0/24 [200/0] via 10.0.0.7 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.100.1, eth1 (vrf default), label 22/144, weight 1, 05:53:15
+B&gt;  10.60.60.0/24 [200/0] via 10.0.0.10 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.110.1, eth0 (vrf default), label 23/144, weight 1, 05:53:15
+C&gt;* 10.80.80.0/24 is directly connected, eth3, 01w4d01h
+B&gt;* 10.110.110.0/24 [200/0] via 172.16.80.2, eth2 (vrf GREEN), weight 1, 01w4d01h
+B&gt;  10.210.210.0/24 [200/0] via 10.0.0.9 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.100.1, eth1 (vrf default), label 18/144, weight 1, 05:53:15
+  *                          via 172.16.110.1, eth0 (vrf default), label 22/144, weight 1, 05:53:15
+B&gt;  10.0.0.80/32 [200/0] via 10.0.0.7 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.100.1, eth1 (vrf default), label 22/144, weight 1, 05:53:15
+B&gt;  10.0.0.90/32 [200/0] via 10.0.0.10 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.110.1, eth0 (vrf default), label 23/144, weight 1, 05:53:15
+B&gt;* 10.0.0.100/32 [20/0] via 10.80.80.2, eth3, weight 1, 01w4d01h
+B&gt;* 172.16.80.0/24 [200/0] is directly connected, eth2 (vrf GREEN), weight 1, 01w4d01h
+B&gt;  172.16.100.0/24 [200/0] via 10.0.0.9 (vrf default) (recursive), label 144, weight 1, 05:53:15
+  *                          via 172.16.100.1, eth1 (vrf default), label 18/144, weight 1, 05:53:15
+  *                          via 172.16.110.1, eth0 (vrf default), label 22/144, weight 1, 05:53:15
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>“show bgp ipv4 vpn x.x.x.x/32” for checking best-path,</dt><dd><p>extended community and remote label of specific destination</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@VyOS-PE2:~$ show bgp ipv4 vpn 10.0.0.80/32
+BGP routing table entry for 10.50.50.1:1011:10.0.0.80/32
+not allocated
+Paths: (2 available, best #1)
+  Not advertised to any peer
+  65035
+     10.0.0.7 from 10.0.0.1 (10.0.0.7)
+     Origin IGP, metric 0, localpref 100, valid, internal, best (Neighbor IP)
+     Extended Community: RT:65035:1011
+     Originator: 10.0.0.7, Cluster list: 10.0.0.1
+     Remote label: 144
+     Last update: Tue Oct 19 13:45:30 2021
+  65035
+     10.0.0.7 from 10.0.0.2 (10.0.0.7)
+     Origin IGP, metric 0, localpref 100, valid, internal
+     Extended Community: RT:65035:1011
+     Originator: 10.0.0.7, Cluster list: 10.0.0.1
+     Remote label: 144
+     Last update: Wed Oct 13 12:39:37 2021
+
+vyos@VyOS-PE2:~$ show bgp ipv4 vpn 10.0.0.90/32
+BGP routing table entry for 10.60.60.1:1011:10.0.0.90/32
+not allocated
+Paths: (2 available, best #1)
+  Not advertised to any peer
+  65035
+     10.0.0.10 from 10.0.0.1 (10.0.0.10)
+     Origin IGP, metric 0, localpref 100, valid, internal, best (Neighbor IP)
+     Extended Community: RT:65035:1011
+     Originator: 10.0.0.10, Cluster list: 10.0.0.1
+     Remote label: 144
+     Last update: Tue Oct 19 13:45:30 2021
+  65035
+     10.0.0.10 from 10.0.0.2 (10.0.0.10)
+     Origin IGP, metric 0, localpref 100, valid, internal
+     Extended Community: RT:65035:1011
+     Originator: 10.0.0.10, Cluster list: 10.0.0.1
+     Remote label: 144
+     Last update: Wed Oct 13 12:45:44 2021
+</pre></div>
+</div>
+<p>Finally, let’s check the reachability between CEs:</p>
+<ul class="simple">
+<li><p>VyOS-CE1-SPOKE —–&gt;   VyOS-CE-HUB</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># check rib
+vyos@VyOS-CE1-SPOKE:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+     O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+     T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+     F - PBR, f - OpenFabric,
+     &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+
+B   10.50.50.0/24 [20/0] via 10.50.50.1 inactive, weight 1, 6d07h53m
+C&gt;* 10.50.50.0/24 is directly connected, eth0, 09w0d00h
+B&gt;* 10.80.80.0/24 [20/0] via 10.50.50.1, eth0, weight 1, 6d07h53m
+C&gt;* 10.0.0.80/32 is directly connected, dum20, 09w0d00h
+B&gt;* 10.0.0.100/32 [20/0] via 10.50.50.1, eth0, weight 1, 6d07h53m
+
+# check icmp
+vyos@VyOS-CE1-SPOKE:~$ ping 10.0.0.100 interface 10.0.0.80
+PING 10.0.0.100 (10.0.0.100) from 10.0.0.80 : 56(84) bytes of data.
+64 bytes from 10.0.0.100: icmp_seq=1 ttl=62 time=6.52 ms
+64 bytes from 10.0.0.100: icmp_seq=2 ttl=62 time=4.13 ms
+64 bytes from 10.0.0.100: icmp_seq=3 ttl=62 time=4.04 ms
+64 bytes from 10.0.0.100: icmp_seq=4 ttl=62 time=4.03 ms
+^C
+--- 10.0.0.100 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 8ms
+rtt min/avg/max/mdev = 4.030/4.680/6.518/1.064 ms
+
+# check network path
+vyos@VyOS-CE1-SPOKE:~$ traceroute 10.0.0.100
+traceroute to 10.0.0.100 (10.0.0.100), 30 hops max, 60 byte packets
+ 1  10.50.50.1 (10.50.50.1)  1.041 ms  1.252 ms  1.835 ms
+ 2  * * *
+ 3  10.0.0.100 (10.0.0.100)  9.225 ms  9.159 ms  9.121 m
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-CE-HUB ——-&gt; VyOS-CE1-SPOKE</p></li>
+<li><p>VyOS-CE-HUB ——-&gt; VyOS-CE2-SPOKE</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># check rib
+vyos@VyOS-CE-HUB:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+     O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+     T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+     F - PBR, f - OpenFabric,
+     &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+
+B&gt;* 10.50.50.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h04m
+B&gt;* 10.60.60.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h35m
+C&gt;* 10.80.80.0/24 is directly connected, eth0, 01w6d07h
+B&gt;* 10.110.110.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 01w4d02h
+B&gt;* 10.210.210.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h35m
+B&gt;* 10.0.0.80/32 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h04m
+B&gt;* 10.0.0.90/32 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h35m
+C&gt;* 10.0.0.100/32 is directly connected, dum20, 01w6d07h
+B&gt;* 172.16.80.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 01w4d02h
+B&gt;* 172.16.100.0/24 [20/0] via 10.80.80.1, eth0, weight 1, 6d08h35m
+
+# check icmp
+vyos@VyOS-CE-HUB:~$ ping 10.0.0.80 interface 10.0.0.100 c 4
+PING 10.0.0.80 (10.0.0.80) from 10.0.0.100 : 56(84) bytes of data.
+64 bytes from 10.0.0.80: icmp_seq=1 ttl=62 time=3.31 ms
+64 bytes from 10.0.0.80: icmp_seq=2 ttl=62 time=4.23 ms
+64 bytes from 10.0.0.80: icmp_seq=3 ttl=62 time=3.89 ms
+64 bytes from 10.0.0.80: icmp_seq=4 ttl=62 time=3.22 ms
+
+--- 10.0.0.80 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 9ms
+rtt min/avg/max/mdev = 3.218/3.661/4.226/0.421 ms
+
+vyos@VyOS-CE-HUB:~$ ping 10.0.0.90 interface 10.0.0.100 c 4
+PING 10.0.0.90 (10.0.0.90) from 10.0.0.100 : 56(84) bytes of data.
+64 bytes from 10.0.0.90: icmp_seq=1 ttl=62 time=7.46 ms
+64 bytes from 10.0.0.90: icmp_seq=2 ttl=62 time=4.43 ms
+64 bytes from 10.0.0.90: icmp_seq=3 ttl=62 time=4.60 ms
+^C
+--- 10.0.0.90 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 4.430/5.498/7.463/1.391 ms
+
+# check network path
+vyos@VyOS-CE-HUB:~$ traceroute 10.0.0.80
+traceroute to 10.0.0.80 (10.0.0.80), 30 hops max, 60 byte packets
+ 1  10.80.80.1 (10.80.80.1)  1.563 ms  1.341 ms  1.075 ms
+ 2  * * *
+ 3  10.0.0.80 (10.0.0.80)  8.125 ms  8.019 ms  7.781 ms
+
+vyos@VyOS-CE-HUB:~$ traceroute 10.0.0.90
+traceroute to 10.0.0.90 (10.0.0.90), 30 hops max, 60 byte packets
+ 1  10.80.80.1 (10.80.80.1)  1.305 ms  1.137 ms  1.097 ms
+ 2  * * *
+ 3  * * *
+ 4  10.0.0.90 (10.0.0.90)  9.358 ms  9.325 ms  9.292 ms
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VyOS-CE2-SPOKE ——-&gt;  VyOS-CE-HUB</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># check rib
+vyos@rt-ce2-SPOKE:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+     O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+     T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+     F - PBR, f - OpenFabric,
+     &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+
+B   10.60.60.0/24 [20/0] via 10.60.60.1 inactive, weight 1, 02w6d00h
+C&gt;* 10.60.60.0/24 is directly connected, eth0, 02w6d00h
+B&gt;* 10.80.80.0/24 [20/0] via 10.60.60.1, eth0, weight 1, 6d08h46m
+C&gt;* 10.0.0.90/32 is directly connected, dum20, 02w6d00h
+B&gt;* 10.0.0.100/32 [20/0] via 10.60.60.1, eth0, weight 1, 6d08h46m
+
+# check icmp
+vyos@rt-ce2-SPOKE:~$ ping 10.0.0.100 interface 10.0.0.90 c 4
+PING 10.0.0.100 (10.0.0.100) from 10.0.0.90 : 56(84) bytes of data.
+64 bytes from 10.0.0.100: icmp_seq=1 ttl=62 time=4.97 ms
+64 bytes from 10.0.0.100: icmp_seq=2 ttl=62 time=4.45 ms
+64 bytes from 10.0.0.100: icmp_seq=3 ttl=62 time=4.20 ms
+64 bytes from 10.0.0.100: icmp_seq=4 ttl=62 time=4.29 ms
+
+--- 10.0.0.100 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 9ms
+rtt min/avg/max/mdev = 4.201/4.476/4.971/0.309 ms
+
+# check network path
+vyos@rt-ce2-SPOKE:~$ traceroute 10.0.0.100
+traceroute to 10.0.0.100 (10.0.0.100), 30 hops max, 60 byte packets
+ 1  10.60.60.1 (10.60.60.1)  1.343 ms  1.190 ms  1.152 ms
+ 2  * * *
+ 3  * * *
+ 4  10.0.0.100 (10.0.0.100)  7.504 ms  7.480 ms  7.488 ms
+</pre></div>
+</div>
+<p><strong>Note:</strong> At the moment, trace mpls doesn’t show labels/paths. So we’ll see * * *  for the transit routers of the mpls backbone.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pppoe-ipv6-basic.html" class="btn btn-neutral float-left" title="PPPoE IPv6 Basic Setup for Home Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lac-lns.html" class="btn btn-neutral float-right" title="PPPoE over L2TP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

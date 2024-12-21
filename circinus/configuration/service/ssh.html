@@ -1,0 +1,591 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSH &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="TFTP Server" href="tftp-server.html" />
+    <link rel="prev" title="SNMP" href="snmp.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SSH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-protection">Dynamic-protection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">suricata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">SSH</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/ssh.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ssh">
+<span id="id1"></span><h1>SSH<a class="headerlink" href="#ssh" title="Link to this heading"></a></h1>
+<p><abbr title="Secure Shell">SSH</abbr> is a cryptographic network protocol for operating
+network services securely over an unsecured network. The standard TCP port for
+SSH is 22. The best known example application is for remote login to computer
+systems by users.</p>
+<p>SSH provides a secure channel over an unsecured network in a client-server
+architecture, connecting an SSH client application with an SSH server. Common
+applications include remote command-line login and remote command execution,
+but any network service can be secured with SSH. The protocol specification
+distinguishes between two major versions, referred to as SSH-1 and SSH-2.</p>
+<p>The most visible application of the protocol is for access to shell accounts
+on Unix-like operating systems, but it sees some limited use on Windows as
+well. In 2015, Microsoft announced that they would include native support for
+SSH in a future release.</p>
+<p>SSH was designed as a replacement for Telnet and for unsecured remote shell
+protocols such as the Berkeley rlogin, rsh, and rexec protocols.
+Those protocols send information, notably passwords, in plaintext,
+rendering them susceptible to interception and disclosure using packet
+analysis. The encryption used by SSH is intended to provide confidentiality
+and integrity of data over an unsecured network, such as the Internet.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VyOS 1.1 supported login as user <code class="docutils literal notranslate"><span class="pre">root</span></code>. This has been removed due
+to tighter security in VyOS 1.2.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>SSH <a class="reference internal" href="../system/login.html#ssh-key-based-authentication"><span class="std std-ref">Key Based Authentication</span></a></p>
+</div>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-port-port">
+set service ssh port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enabling SSH only requires you to specify the port <code class="docutils literal notranslate"><span class="pre">&lt;port&gt;</span></code> you want SSH to
+listen on. By default, SSH runs on port 22.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-listen-address-address">
+set service ssh listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify IPv4/IPv6 listen address of SSH server. Multiple addresses can be
+defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-ciphers-cipher">
+set service ssh ciphers &lt;cipher&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-ciphers-cipher" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define allowed ciphers used for the SSH connection. A number of allowed
+ciphers can be specified, use multiple occurrences to allow multiple ciphers.</p>
+<p>List of supported ciphers: <code class="docutils literal notranslate"><span class="pre">3des-cbc</span></code>, <code class="docutils literal notranslate"><span class="pre">aes128-cbc</span></code>, <code class="docutils literal notranslate"><span class="pre">aes192-cbc</span></code>,
+<code class="docutils literal notranslate"><span class="pre">aes256-cbc</span></code>, <code class="docutils literal notranslate"><span class="pre">aes128-ctr</span></code>, <code class="docutils literal notranslate"><span class="pre">aes192-ctr</span></code>, <code class="docutils literal notranslate"><span class="pre">aes256-ctr</span></code>,
+<code class="docutils literal notranslate"><span class="pre">arcfour128</span></code>, <code class="docutils literal notranslate"><span class="pre">arcfour256</span></code>, <code class="docutils literal notranslate"><span class="pre">arcfour</span></code>, <code class="docutils literal notranslate"><span class="pre">blowfish-cbc</span></code>, <code class="docutils literal notranslate"><span class="pre">cast128-cbc</span></code></p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-disable-password-authentication">
+set service ssh disable-password-authentication</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-disable-password-authentication" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable password based authentication. Login via SSH keys only. This hardens
+security!</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-disable-host-validation">
+set service ssh disable-host-validation</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-disable-host-validation" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable the host validation through reverse DNS lookups - can speedup login
+time when reverse lookup is not possible.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-mac-mac">
+set service ssh mac &lt;mac&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-mac-mac" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the available <abbr title="Message Authentication Code">MAC</abbr> algorithms.
+The MAC algorithm is used in protocol version 2 for data integrity protection.
+Multiple algorithms can be provided by using multiple commands, defining
+one algorithm per command.</p>
+<p>List of supported MACs: <code class="docutils literal notranslate"><span class="pre">hmac-md5</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-md5-96</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-ripemd160</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hmac-sha1</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-sha1-96</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-sha2-256</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-sha2-512</span></code>,
+<code class="docutils literal notranslate"><span class="pre">umac-64&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">umac-128&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hmac-md5-etm&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-md5-96-etm&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hmac-ripemd160-etm&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-sha1-etm&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hmac-sha1-96-etm&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">hmac-sha2-256-etm&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hmac-sha2-512-etm&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">umac-64-etm&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">umac-128-etm&#64;openssh.com</span></code></p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-access-control-allow-deny-group-user-name">
+set service ssh access-control &lt;allow | deny&gt; &lt;group | user&gt; &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-access-control-allow-deny-group-user-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add access-control directive to allow or deny users and groups. Directives
+are processed in the following order of precedence: <code class="docutils literal notranslate"><span class="pre">deny-users</span></code>,
+<code class="docutils literal notranslate"><span class="pre">allow-users</span></code>, <code class="docutils literal notranslate"><span class="pre">deny-groups</span></code> and <code class="docutils literal notranslate"><span class="pre">allow-groups</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-client-keepalive-interval-interval">
+set service ssh client-keepalive-interval &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-client-keepalive-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify timeout interval for keepalive message in seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-key-exchange-kex">
+set service ssh key-exchange &lt;kex&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-key-exchange-kex" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify allowed <abbr title="Key Exchange">KEX</abbr> algorithms.</p>
+<p>List of supported algorithms: <code class="docutils literal notranslate"><span class="pre">diffie-hellman-group1-sha1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diffie-hellman-group14-sha1</span></code>, <code class="docutils literal notranslate"><span class="pre">diffie-hellman-group14-sha256</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diffie-hellman-group16-sha512</span></code>, <code class="docutils literal notranslate"><span class="pre">diffie-hellman-group18-sha512</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diffie-hellman-group-exchange-sha1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diffie-hellman-group-exchange-sha256</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ecdh-sha2-nistp256</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdh-sha2-nistp384</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdh-sha2-nistp521</span></code>,
+<code class="docutils literal notranslate"><span class="pre">curve25519-sha256</span></code> and <code class="docutils literal notranslate"><span class="pre">curve25519-sha256&#64;libssh.org</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-loglevel-quiet-fatal-error-info-verbose">
+set service ssh loglevel &lt;quiet | fatal | error | info | verbose&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-loglevel-quiet-fatal-error-info-verbose" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the <code class="docutils literal notranslate"><span class="pre">sshd</span></code> log level. The default is <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-vrf-name">
+set service ssh vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify name of the <abbr title="Virtual Routing and Forwarding">VRF</abbr> instance.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-pubkey-accepted-algorithm-name">
+set service ssh pubkey-accepted-algorithm &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-pubkey-accepted-algorithm-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the signature algorithms that will be accepted for public key
+authentication</p>
+<p>List of supported algorithms: <code class="docutils literal notranslate"><span class="pre">ssh-ed25519</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ssh-ed25519-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">sk-ssh-ed25519&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sk-ssh-ed25519-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp256</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp256-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp384</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp384-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp521</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ecdsa-sha2-nistp521-cert-v01&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sk-ecdsa-sha2-nistp256&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sk-ecdsa-sha2-nistp256-cert-v01&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">webauthn-sk-ecdsa-sha2-nistp256&#64;openssh.com</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ssh-dss</span></code>, <code class="docutils literal notranslate"><span class="pre">ssh-dss-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">ssh-rsa</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ssh-rsa-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">rsa-sha2-256</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rsa-sha2-256-cert-v01&#64;openssh.com</span></code>, <code class="docutils literal notranslate"><span class="pre">rsa-sha2-512</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rsa-sha2-512-cert-v01&#64;openssh.com</span></code></p>
+</div>
+</div>
+</section>
+<section id="dynamic-protection">
+<h2>Dynamic-protection<a class="headerlink" href="#dynamic-protection" title="Link to this heading"></a></h2>
+<p>Protects host from brute-force attacks against
+SSH. Log messages are parsed, line-by-line, for recognized patterns. If an
+attack, such as several login failures within a few seconds, is detected, the
+offending IP is blocked. Offenders are unblocked after a set interval.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-dynamic-protection">
+set service ssh dynamic-protection</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-dynamic-protection" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allow <code class="docutils literal notranslate"><span class="pre">ssh</span></code> dynamic-protection.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-dynamic-protection-allow-from-address-prefix">
+set service ssh dynamic-protection allow-from &lt;address | prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-dynamic-protection-allow-from-address-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Whitelist of addresses and networks. Always allow inbound connections from
+these systems.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-dynamic-protection-block-time-sec">
+set service ssh dynamic-protection block-time &lt;sec&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-dynamic-protection-block-time-sec" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Block source IP in seconds. Subsequent blocks increase by a factor of 1.5
+The default is 120.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-dynamic-protection-detect-time-sec">
+set service ssh dynamic-protection detect-time &lt;sec&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-dynamic-protection-detect-time-sec" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Remember source IP in seconds before reset their score. The default is 1800.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ssh-dynamic-protection-threshold-sec">
+set service ssh dynamic-protection threshold &lt;sec&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ssh-dynamic-protection-threshold-sec" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Block source IP when their cumulative attack score exceeds threshold. The
+default is 30.</p>
+</div>
+</div>
+</section>
+<section id="operation">
+<span id="ssh-operation"></span><h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-ssh">
+restart ssh</span>
+<a class="cmdlink" href="#opcmd-restart-ssh" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart the SSH daemon process, the current session is not affected, only the
+background daemon is restarted.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-ssh-server-key">
+generate ssh server-key</span>
+<a class="cmdlink" href="#opcmd-generate-ssh-server-key" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Re-generated the public/private keyportion which SSH uses to secure
+connections.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Already learned known_hosts files of clients need an update as the
+public key will change.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-ssh-client-key-path-to-private-key">
+generate ssh client-key /path/to/private_key</span>
+<a class="cmdlink" href="#opcmd-generate-ssh-client-key-path-to-private-key" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Re-generated a known pub/private keyfile which can be used to connect to
+other services (e.g. RPKI cache).</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate ssh client-key /config/auth/id_rsa_rpki
+Generating public/private rsa key pair.
+Your identification has been saved in /config/auth/id_rsa_rpki.
+Your public key has been saved in /config/auth/id_rsa_rpki.pub.
+The key fingerprint is:
+SHA256:XGv2PpdOzVCzpmEzJZga8hTRq7B/ZYL3fXaioLFLS5Q vyos@vyos
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+|         oo      |
+|          ..o    |
+|       . o.o.. o.|
+|       o+ooo  o.o|
+|        Eo*  =.o |
+|       o = +.o*+ |
+|        = o *.o.o|
+|       o * +.o+.+|
+|        =.. o=.oo|
++----[SHA256]-----+
+</pre></div>
+</div>
+<p>Two new files <code class="docutils literal notranslate"><span class="pre">/config/auth/id_rsa_rpki</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/config/auth/id_rsa_rpki.pub</span></code>
+will be created.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-public-key-command-user-username-path-location">
+generate public-key-command user &lt;username&gt; path &lt;location&gt;</span>
+<a class="cmdlink" href="#opcmd-generate-public-key-command-user-username-path-location" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<blockquote>
+<div><p>Generate the configuration mode commands to add a public key for
+<a class="reference internal" href="../system/login.html#ssh-key-based-authentication"><span class="std std-ref">Key Based Authentication</span></a>.
+<code class="docutils literal notranslate"><span class="pre">&lt;location&gt;</span></code> can be a local path or a URL pointing at a remote file.</p>
+<p>Supported remote protocols are FTP, FTPS, HTTP, HTTPS, SCP/SFTP and TFTP.</p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>alyssa@vyos:~$ generate public-key-command user alyssa path sftp://example.net/home/alyssa/.ssh/id_rsa.pub
+# To add this key as an embedded key, run the following commands:
+configure
+set system login user alyssa authentication public-keys alyssa@example.net key AAA...
+set system login user alyssa authentication public-keys alyssa@example.net type ssh-rsa
+commit
+save
+exit
+
+ben@vyos:~$ generate public-key-command user ben path ~/.ssh/id_rsa.pub
+# To add this key as an embedded key, run the following commands:
+configure
+set system login user ben authentication public-keys ben@vyos key AAA...
+set system login user ben authentication public-keys ben@vyos type ssh-dss
+commit
+save
+exit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-ssh">
+show log ssh</span>
+<a class="cmdlink" href="#opcmd-show-log-ssh" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show SSH server log.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-monitor-log-ssh">
+monitor log ssh</span>
+<a class="cmdlink" href="#opcmd-monitor-log-ssh" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Follow the SSH server log.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-ssh-dynamic-protection">
+show log ssh dynamic-protection</span>
+<a class="cmdlink" href="#opcmd-show-log-ssh-dynamic-protection" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show SSH dynamic-protection log.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-monitor-log-ssh-dynamic-protection">
+monitor log ssh dynamic-protection</span>
+<a class="cmdlink" href="#opcmd-monitor-log-ssh-dynamic-protection" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Follow the SSH dynamic-protection log.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ssh-dynamic-protection">
+show ssh dynamic-protection</span>
+<a class="cmdlink" href="#opcmd-show-ssh-dynamic-protection" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show list of IPs currently blocked by SSH dynamic-protection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ssh-fingerprints">
+show ssh fingerprints</span>
+<a class="cmdlink" href="#opcmd-show-ssh-fingerprints" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show SSH server public key fingerprints.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ssh-fingerprints-ascii">
+show ssh fingerprints ascii</span>
+<a class="cmdlink" href="#opcmd-show-ssh-fingerprints-ascii" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show SSH server public key fingerprints, including a visual ASCII art representation.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="snmp.html" class="btn btn-neutral float-left" title="SNMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tftp-server.html" class="btn btn-neutral float-right" title="TFTP Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

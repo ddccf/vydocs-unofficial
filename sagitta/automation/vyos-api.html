@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VyOS API &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Ansible" href="vyos-ansible.html" />
+    <link rel="prev" title="VyOS Automation" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">VyOS Automation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">VyOS API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-endpoints">API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#retrieve">/retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reset">/reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reboot">/reboot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#poweroff">/poweroff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#image">/image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#show">/show</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate">/generate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure">/configure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config-file">/config-file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/index.html">VyOS Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-napalm.html">Napalm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-salt.html">Salt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command-scripting.html">Command Scripting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-init.html">VyOS cloud-init</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Automation</a></li>
+      <li class="breadcrumb-item active">VyOS API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/automation/vyos-api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vyos-api">
+<span id="vyosapi"></span><h1>VyOS API<a class="headerlink" href="#vyos-api" title="Link to this heading"></a></h1>
+<p>For configuration and enabling the API see <a class="reference internal" href="../configuration/service/https.html#http-api"><span class="std std-ref">HTTP API</span></a></p>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h2>
+<p>All endpoints only listen on HTTP POST requests and the API KEY must set as
+<code class="docutils literal notranslate"><span class="pre">key</span></code> in the formdata.</p>
+<p>Below see one example for curl and one for python.
+The rest of the documentation is reduced to curl.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;showConfig&quot;, &quot;path&quot;: []}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://vyos/retrieve&quot;</span>
+<span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;op&quot;: &quot;showConfig&quot;, &quot;path&quot;: []}&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;</span>
+        <span class="p">}</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api-endpoints">
+<h2>API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading"></a></h2>
+<section id="retrieve">
+<h3>/retrieve<a class="headerlink" href="#retrieve" title="Link to this heading"></a></h3>
+<p>With the <code class="docutils literal notranslate"><span class="pre">retrieve</span></code> endpoint you get parts or the whole configuration.</p>
+<p>To get the whole configuration, pass an empty list to the <code class="docutils literal notranslate"><span class="pre">path</span></code> field</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;showConfig&quot;, &quot;path&quot;: []}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+
+response (shorted)
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: {
+      &quot;interfaces&quot;: {
+            &quot;ethernet&quot;: {
+               &quot;eth0&quot;: {
+                  &quot;address&quot;: &quot;dhcp&quot;,
+                  &quot;duplex&quot;: &quot;auto&quot;,
+                  &quot;hw-id&quot;: &quot;50:00:00:01:00:00&quot;,
+                  &quot;speed&quot;: &quot;auto&quot;
+               },
+               &quot;eth1&quot;: {
+                  &quot;duplex&quot;: &quot;auto&quot;,
+                  &quot;hw-id&quot;: &quot;50:00:00:01:00:01&quot;,
+                  &quot;speed&quot;: &quot;auto&quot;
+   ...
+   },
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>To only get a part of the configuration, for example <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">syslog</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;showConfig&quot;, &quot;path&quot;: [&quot;system&quot;, &quot;syslog&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: {
+      &quot;global&quot;: {
+            &quot;facility&quot;: {
+               &quot;all&quot;: {
+                  &quot;level&quot;: &quot;info&quot;
+               },
+               &quot;protocols&quot;: {
+                  &quot;level&quot;: &quot;debug&quot;
+               }
+            }
+      }
+   },
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>if you just want the Value of a multi-valued node, use the <code class="docutils literal notranslate"><span class="pre">returnValues</span></code>
+operation.</p>
+<p>For example, get the addresses of a <code class="docutils literal notranslate"><span class="pre">dum0</span></code> interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;returnValues&quot;, &quot;path&quot;: [&quot;interfaces&quot;,&quot;dummy&quot;,&quot;dum0&quot;,&quot;address&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+respone:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: [
+      &quot;10.10.10.10/24&quot;,
+      &quot;10.10.10.11/24&quot;,
+      &quot;10.10.10.12/24&quot;
+   ],
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>To check existence of a configuration path, use the <code class="docutils literal notranslate"><span class="pre">exists</span></code> operation.</p>
+<p>For example, check an existing path:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;exists&quot;, &quot;path&quot;: [&quot;service&quot;,&quot;https&quot;,&quot;api&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: true,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>versus a non-existent path:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/retrieve&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;exists&quot;, &quot;path&quot;: [&quot;service&quot;,&quot;non&quot;,&quot;existent&quot;,&quot;path&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: false,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="reset">
+<h3>/reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">reset</span></code> endpoint run a <code class="docutils literal notranslate"><span class="pre">reset</span></code> command.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/reset&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;reset&quot;, &quot;path&quot;: [&quot;ip&quot;, &quot;bgp&quot;, &quot;192.0.2.11&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+respone:
+{
+  &quot;success&quot;: true,
+  &quot;data&quot;: &quot;&quot;,
+  &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="reboot">
+<h3>/reboot<a class="headerlink" href="#reboot" title="Link to this heading"></a></h3>
+<p>To initiate a reboot use the <code class="docutils literal notranslate"><span class="pre">reboot</span></code> endpoint.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/reboot&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;reboot&quot;, &quot;path&quot;: [&quot;now&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+respone:
+{
+  &quot;success&quot;: true,
+  &quot;data&quot;: &quot;&quot;,
+  &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="poweroff">
+<h3>/poweroff<a class="headerlink" href="#poweroff" title="Link to this heading"></a></h3>
+<p>To power off the system use the <code class="docutils literal notranslate"><span class="pre">poweroff</span></code> endpoint.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/poweroff&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;poweroff&quot;, &quot;path&quot;: [&quot;now&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+respone:
+{
+  &quot;success&quot;: true,
+  &quot;data&quot;: &quot;&quot;,
+  &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="image">
+<h3>/image<a class="headerlink" href="#image" title="Link to this heading"></a></h3>
+<p>To add or delete an image, use the <code class="docutils literal notranslate"><span class="pre">/image</span></code> endpoint.</p>
+<p>add an image</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/image&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;add&quot;, &quot;url&quot;: &quot;https://downloads.vyos.io/rolling/current/amd64/vyos-rolling-latest.iso&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+respone (shorted):
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Trying to fetch ISO file from https://downloads.vyos.io/rolling-latest.iso\n
+            ...
+            Setting up grub configuration...\nDone.\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>delete an image, for example <code class="docutils literal notranslate"><span class="pre">1.3-rolling-202006070117</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/image&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;delete&quot;, &quot;name&quot;: &quot;1.3-rolling-202006070117&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Deleting the \&quot;1.3-rolling-202006070117\&quot; image...\nDone\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="show">
+<h3>/show<a class="headerlink" href="#show" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">/show</span></code> endpoint is to show everything in the operational mode.</p>
+<p>For example, show which images are installed.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/show&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;show&quot;, &quot;path&quot;: [&quot;system&quot;, &quot;image&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;The system currently has the following image(s) installed:\n\n
+             1: 1.4-rolling-202102280559 (default boot)\n
+             2: 1.4-rolling-202102230218\n
+             3: 1.3-beta-202102210443\n\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="generate">
+<h3>/generate<a class="headerlink" href="#generate" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">generate</span></code> endpoint run a <code class="docutils literal notranslate"><span class="pre">generate</span></code> command.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/generate&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;generate&quot;, &quot;path&quot;: [&quot;pki&quot;, &quot;wireguard&quot;, &quot;key-pair&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Private key: CFZR2eyhoVZwk4n3JFPMJx3E145f1EYgDM+ubytXYVY=\n
+            Public key: jjtpPT8ycI1Q0bNtrWuxAkO4k88Xwzg5VHV9xGZ58lU=\n\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="configure">
+<h3>/configure<a class="headerlink" href="#configure" title="Link to this heading"></a></h3>
+<p>You can pass a <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">delete</span></code> or <code class="docutils literal notranslate"><span class="pre">comment</span></code> command to the
+<code class="docutils literal notranslate"><span class="pre">/configure</span></code> endpoint.</p>
+<p><code class="docutils literal notranslate"><span class="pre">set</span></code> a single command</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/configure&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;set&quot;, &quot;path&quot;: [&quot;interfaces&quot;, &quot;dummy&quot;, &quot;dum1&quot;, &quot;address&quot;, &quot;10.11.0.1/32&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">delete</span></code> a single command</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/configure&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;delete&quot;, &quot;path&quot;: [&quot;interfaces&quot;, &quot;dummy&quot;, &quot;dum1&quot;, &quot;address&quot;, &quot;10.11.0.1/32&quot;]}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>The API pushes every request to a session and commit it.
+But some of VyOS components like DHCP and PPPoE Servers, IPSec, VXLAN, and
+other tunnels require full configuration for commit.
+The endpoint will process multiple commands when you pass them as a list to
+the <code class="docutils literal notranslate"><span class="pre">data</span></code> field.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/configure&#39; \
+--form data=&#39;[{&quot;op&quot;: &quot;set&quot;,&quot;path&quot;:[&quot;interfaces&quot;,&quot;vxlan&quot;,&quot;vxlan1&quot;,&quot;remote&quot;,&quot;203.0.113.99&quot;]}, {&quot;op&quot;: &quot;set&quot;,&quot;path&quot;:[&quot;interfaces&quot;,&quot;vxlan&quot;,&quot;vxlan1&quot;,&quot;vni&quot;,&quot;1&quot;]}]&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+<section id="config-file">
+<h3>/config-file<a class="headerlink" href="#config-file" title="Link to this heading"></a></h3>
+<p>The endpoint <code class="docutils literal notranslate"><span class="pre">/config-file</span></code> is to save or load a configuration.</p>
+<p>Save a running configuration to the startup configuration.
+When you don’t specify the file when saving, it saves to
+<code class="docutils literal notranslate"><span class="pre">/config/config.boot</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/config-file&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;save&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Saving configuration to &#39;/config/config.boot&#39;...\nDone\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>Save a running configuration to a file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/config-file&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;save&quot;, &quot;file&quot;: &quot;/config/test.config&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Saving configuration to &#39;/config/test.config&#39;...\nDone\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>To Load a configuration file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/config-file&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;load&quot;, &quot;file&quot;: &quot;/config/test.config&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="VyOS Automation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vyos-ansible.html" class="btn btn-neutral float-right" title="Ansible" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debugging &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="prev" title="Upstream packages" href="upstream-packages.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iso-image-build">ISO image build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-startup">System Startup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kernel">Kernel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#live-system">Live System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#frr">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging-python-code-with-pdb">Debugging Python Code with PDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config-migration-scripts">Config Migration Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-error-on-system-boot">Configuration Error on System Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boot-timing">Boot Timing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#priorities">Priorities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Debugging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/contributing/debugging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="debugging">
+<span id="id1"></span><h1>Debugging<a class="headerlink" href="#debugging" title="Link to this heading"></a></h1>
+<p>There are two flags available to aid in debugging configuration scripts.
+Since configuration loading issues will manifest during boot, the flags are
+passed as kernel boot parameters.</p>
+<section id="iso-image-build">
+<h2>ISO image build<a class="headerlink" href="#iso-image-build" title="Link to this heading"></a></h2>
+<p>When having trouble compiling your own ISO image or debugging Jenkins issues
+you can follow the steps at <a class="reference internal" href="build-vyos.html#iso-build-issues"><span class="std std-ref">ISO Build Issues</span></a>.</p>
+</section>
+<section id="system-startup">
+<h2>System Startup<a class="headerlink" href="#system-startup" title="Link to this heading"></a></h2>
+<p>The system startup can be debugged (like loading in the configuration
+file from <code class="docutils literal notranslate"><span class="pre">/config/config.boot</span></code>. This can be achieve by extending the
+Kernel command-line in the bootloader.</p>
+<section id="kernel">
+<h3>Kernel<a class="headerlink" href="#kernel" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vyos-debug</span></code> - Adding the parameter to the linux boot line will produce
+timing results for the execution of scripts during commit. If one is seeing
+an unexpected delay during manual or boot commit, this may be useful in
+identifying bottlenecks. The internal flag is <code class="docutils literal notranslate"><span class="pre">VYOS_DEBUG</span></code>, and is found
+in <a class="reference external" href="https://github.com/vyos/vyatta-cfg">vyatta-cfg</a>. Output is directed to <code class="docutils literal notranslate"><span class="pre">/var/log/vyatta/cfg-stdout.log</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vyos-config-debug</span></code> - During development, coding errors can lead to a
+commit failure on boot, possibly resulting in a failed initialization of the
+CLI. In this circumstance, the kernel boot parameter <code class="docutils literal notranslate"><span class="pre">vyos-config-debug</span></code>
+will ensure access to the system as user <code class="docutils literal notranslate"><span class="pre">vyos</span></code>, and will log a Python
+stack trace to the file <code class="docutils literal notranslate"><span class="pre">/tmp/boot-config-trace</span></code>.
+File <code class="docutils literal notranslate"><span class="pre">boot-config-trace</span></code> will generate only if config loaded with a failure
+status.</p></li>
+</ul>
+</section>
+</section>
+<section id="live-system">
+<h2>Live System<a class="headerlink" href="#live-system" title="Link to this heading"></a></h2>
+<p>A number of flags can be set up to change the behaviour of VyOS at runtime.
+These flags can be toggled using either environment variables or creating
+files.</p>
+<p>For each feature, a file called <code class="docutils literal notranslate"><span class="pre">vyos.feature.debug</span></code> can be created to
+toggle the feature on. If a parameter is required it can be placed inside
+the file as its first line.</p>
+<p>The file can be placed in <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> for one time debugging (as the file
+will be removed on reboot) or placed in ‘/config’ to stay permanently.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">/tmp/vyos.ifconfig.debug</span></code> can be created to enable
+interface debugging.</p>
+<p>It is also possible to set up the debugging using environment variables.
+In that case, the name will be (in uppercase) VYOS_FEATURE_DEBUG.</p>
+<p>For example running, <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">VYOS_IFCONFIG_DEBUG=&quot;&quot;</span></code> on your vbash,
+will have the same effect as <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">/tmp/vyos.ifconfig.debug</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> - Once set, all commands used, and their responses received
+from the OS, will be presented on the screen for inspection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">command</span></code> - Once set, all commands used, and their responses received
+from the OS, will be presented on the screen for inspection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">developer</span></code> - Should a command fail, instead of printing a message to the
+user explaining how to report issues, the python interpreter will start a
+PBD post-mortem session to allow the developer to debug the issue. As the
+debugger will wait from input from the developer, it has the capacity to
+prevent a router to boot and therefore should only be permanently set up
+on production if you are ready to see the OS fail to boot.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log</span></code> - In some rare cases, it may be useful to see what the OS is doing,
+including during boot. This option sends all commands used by VyOS to a
+file. The default file is <code class="docutils literal notranslate"><span class="pre">/tmp/full-log</span></code> but it can be changed.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In order to retrieve the debug output on the command-line you need to
+disable <code class="docutils literal notranslate"><span class="pre">vyos-configd</span></code> in addition. This can be run either one-time by
+calling <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">vyos-configd</span></code> or make this reboot-safe by
+calling <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">vyos-configd</span></code>.</p>
+</div>
+<section id="frr">
+<h3>FRR<a class="headerlink" href="#frr" title="Link to this heading"></a></h3>
+<p>Recent versions use the <code class="docutils literal notranslate"><span class="pre">vyos.frr</span></code> framework. The Python class is located
+inside our <code class="docutils literal notranslate"><span class="pre">vyos-1x:python/vyos/frr.py</span></code>. It comes with an embedded debugging/
+(print style) debugger as vyos.ifconfig does.</p>
+<p>To enable debugging just run: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">touch</span> <span class="pre">/tmp/vyos.frr.debug</span></code></p>
+</section>
+<section id="debugging-python-code-with-pdb">
+<h3>Debugging Python Code with PDB<a class="headerlink" href="#debugging-python-code-with-pdb" title="Link to this heading"></a></h3>
+<p>Sometimes it might be useful to debug Python code interactively on the live
+system rather than a IDE. This can be achieved using pdb.</p>
+<p>Let us assume you want to debug a Python script that is called by an op-mode
+command. After you found the script by looking up the op-mode-defitions you
+can edit the script in the live system using e.g. vi:
+<code class="docutils literal notranslate"><span class="pre">vi</span> <span class="pre">/usr/libexec/vyos/op_mode/show_xyz.py</span></code></p>
+<p>Insert the following statement right before the section where you want to
+investigate a problem (e.g. a statement you see in a backtrace):
+<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pdb;</span> <span class="pre">pdb.set_trace()</span></code>
+Optionally you can surrounded this statement by an <code class="docutils literal notranslate"><span class="pre">if</span></code> which only triggers
+under the condition you are interested in.</p>
+<p>Once you run <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">xyz</span></code> and your condition is triggered you should be dropped
+into the python debugger:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt; /usr/libexec/vyos/op_mode/show_nat_translations.py(109)process()
+-&gt; rule_type = rule.get(&#39;type&#39;, &#39;&#39;)
+(Pdb)
+</pre></div>
+</div>
+<p>You can type <code class="docutils literal notranslate"><span class="pre">help</span></code> to get an overview of the available commands, and
+<code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">command</span></code> to get more information on each command.</p>
+<p>Useful commands are:</p>
+<ul class="simple">
+<li><p>examine variables using <code class="docutils literal notranslate"><span class="pre">pp(var)</span></code></p></li>
+<li><p>continue execution using <code class="docutils literal notranslate"><span class="pre">cont</span></code></p></li>
+<li><p>get a backtrace using <code class="docutils literal notranslate"><span class="pre">bt</span></code></p></li>
+</ul>
+</section>
+<section id="config-migration-scripts">
+<h3>Config Migration Scripts<a class="headerlink" href="#config-migration-scripts" title="Link to this heading"></a></h3>
+<p>When writing a new configuration migrator it may happen that you see an error
+when you try to invoke it manually on a development system. This error will
+look like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ /opt/vyatta/etc/config-migrate/migrate/ssh/0-to-1 /tmp/config.boot
+Traceback (most recent call last):
+  File &quot;/opt/vyatta/etc/config-migrate/migrate/ssh/0-to-1&quot;, line 31, in &lt;module&gt;
+    config = ConfigTree(config_file)
+  File &quot;/usr/lib/python3/dist-packages/vyos/configtree.py&quot;, line 134, in __init__
+    raise ValueError(&quot;Failed to parse config: {0}&quot;.format(msg))
+ValueError: Failed to parse config: Syntax error on line 240, character 1: Invalid syntax.
+</pre></div>
+</div>
+<p>The reason is that the configuration migration backend is rewritten and uses
+a new form of “magic string” which is applied on demand when real config
+migration is run on boot. When running individual migrators for testing,
+you need to convert the “magic string” on your own by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ /usr/libexec/vyos/run-config-migration.py --virtual --set-vintage vyos /tmp/config.boot
+</pre></div>
+</div>
+</section>
+<section id="configuration-error-on-system-boot">
+<h3>Configuration Error on System Boot<a class="headerlink" href="#configuration-error-on-system-boot" title="Link to this heading"></a></h3>
+<p>Being brave and running the latest rolling releases will sometimes trigger
+bugs due to corner cases we missed in our design. Those bugs should be filed
+via <a class="reference external" href="https://vyos.dev/">Phabricator</a> but you can help us to narrow down the issue. Login to your
+VyOS system and change into configuration mode by typing <code class="docutils literal notranslate"><span class="pre">configure</span></code>. Now
+re-load your boot configuration by simply typing <code class="docutils literal notranslate"><span class="pre">load</span></code> followed by return.</p>
+<p>You should now see a Python backtrace which will help us to handle the issue,
+please attach it to the <a class="reference external" href="https://vyos.dev/">Phabricator</a> task.</p>
+</section>
+<section id="boot-timing">
+<h3>Boot Timing<a class="headerlink" href="#boot-timing" title="Link to this heading"></a></h3>
+<p>During the migration and extensive rewrite of functionality from Perl into
+Python a significant increase in the overall system boottime was noticed. The
+system boot time can be analysed and a graph can be generated in the end which
+shows in detail who called whom during the system startup phase.</p>
+<p>This is done by utilizing the <code class="docutils literal notranslate"><span class="pre">systemd-bootchart</span></code> package which is now
+installed by default on the VyOS 1.3 (equuleus) branch. The configuration is
+also versioned so we get comparable results. <code class="docutils literal notranslate"><span class="pre">systemd-bootchart</span></code> is configured
+using this file: <a class="reference external" href="https://github.com/vyos/vyos-build/blob/current/data/live-build-config/includes.chroot/etc/systemd/bootchart.conf">bootchart.conf</a></p>
+<p>To enable boot time graphing change the Kernel commandline and add the following
+string: <code class="docutils literal notranslate"><span class="pre">init=/usr/lib/systemd/systemd-bootchart</span></code></p>
+<p>This can also be done permanently by changing <code class="docutils literal notranslate"><span class="pre">/boot/grub/grub.cfg</span></code>.</p>
+</section>
+</section>
+<section id="priorities">
+<h2>Priorities<a class="headerlink" href="#priorities" title="Link to this heading"></a></h2>
+<p>VyOS CLI is all about priorities. Every CLI node has a corresponding
+<code class="docutils literal notranslate"><span class="pre">node.def</span></code> file and possibly an attached script that is executed when the
+node is present. Nodes can have a priority, and on system bootup - or any
+other <code class="docutils literal notranslate"><span class="pre">commit</span></code> to the config all scripts are executed from lowest to highest
+priority. This is good as this gives a deterministic behavior.</p>
+<p>To debug issues in priorities or to see what’s going on in the background
+you can use the <code class="docutils literal notranslate"><span class="pre">/opt/vyatta/sbin/priority.pl</span></code> script which lists to you
+the execution order of the scripts.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="upstream-packages.html" class="btn btn-neutral float-left" title="Upstream packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="testing.html" class="btn btn-neutral float-right" title="Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

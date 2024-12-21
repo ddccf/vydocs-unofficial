@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NTP &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PPPoE Server" href="pppoe-server.html" />
+    <link rel="prev" title="Monitoring" href="monitoring.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NTP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">NTP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/ntp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ntp">
+<span id="id1"></span><h1>NTP<a class="headerlink" href="#ntp" title="Link to this heading"></a></h1>
+<p><abbr>NTP (Network Time Protocol</abbr>) is a networking protocol for clock
+synchronization between computer systems over packet-switched, variable-latency
+data networks. In operation since before 1985, NTP is one of the oldest Internet
+protocols in current use.</p>
+<p>NTP is intended to synchronize all participating computers to within a few
+milliseconds of <abbr title="Coordinated Universal Time">UTC</abbr>. It uses the
+intersection algorithm, a modified version of Marzullo’s algorithm, to select
+accurate time servers and is designed to mitigate the effects of variable
+network latency. NTP can usually maintain time to within tens of milliseconds
+over the public Internet, and can achieve better than one millisecond accuracy
+in local area networks under ideal conditions. Asymmetric routes and network
+congestion can cause errors of 100 ms or more.</p>
+<p>The protocol is usually described in terms of a client-server model, but can as
+easily be used in peer-to-peer relationships where both peers consider the other
+to be a potential time source. Implementations send and receive timestamps using
+<abbr title="User Datagram Protocol">UDP</abbr> on port number 123.</p>
+<p>NTP supplies a warning of any impending leap second adjustment, but no
+information about local time zones or daylight saving time is transmitted.</p>
+<p>The current protocol is version 4 (NTPv4), which is a proposed standard as
+documented in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5905.html"><strong>RFC 5905</strong></a>. It is backward compatible with version 3, specified
+in <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1305.html"><strong>RFC 1305</strong></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VyOS 1.4 uses chrony instead of ntpd (see <a class="reference external" href="https://vyos.dev/T3008">T3008</a>) which will
+no longer accept anonymous NTP requests as in VyOS 1.3. All configurations
+will be migrated to keep the anonymous functionality. For new setups if you
+have clients using your VyOS installation as NTP server, you must specify
+the <cite>allow-client</cite> directive.</p>
+</div>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-server-address">
+set service ntp server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure one or more servers for synchronisation. Server name can be either
+an IP address or <abbr title="Fully Qualified Domain Name">FQDN</abbr>.</p>
+<p>There are 3 default NTP server set. You are able to change them.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time1.vyos.net</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time2.vyos.net</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time3.vyos.net</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-server-address-noselect-nts-pool-prefer">
+set service ntp server &lt;address&gt; &lt;noselect | nts | pool | prefer&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-server-address-noselect-nts-pool-prefer" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure one or more attributes to the given NTP server.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">noselect</span></code> marks the server as unused, except for display purposes. The
+server is discarded by the selection algorithm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nts</span></code> enables Network Time Security (NTS) for the server as specified
+in <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc8915.html"><strong>RFC 8915</strong></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pool</span></code> mobilizes persistent client mode association with a number of
+remote servers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prefer</span></code> marks the server as preferred. All other things being equal,
+this host will be chosen for synchronization among a set of correctly
+operating hosts.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-listen-address-address">
+set service ntp listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>NTP process will only listen on the specified IP address. You must specify
+the <cite>&lt;address&gt;</cite> and optionally the permitted clients. Multiple listen
+addresses can be configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-allow-client-address-address">
+set service ntp allow-client address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-allow-client-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>List of networks or client addresses permitted to contact this NTP server.</p>
+<p>Multiple networks/client IP addresses can be configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-vrf-name">
+set service ntp vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify name of the <abbr title="Virtual Routing and Forwarding">VRF</abbr> instance.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-leap-second-ignore-smear-system-timezone">
+set service ntp leap-second [ignore|smear|system|timezone]</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-leap-second-ignore-smear-system-timezone" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define how to handle leap-seconds.</p>
+<ul class="simple">
+<li><p><cite>ignore</cite>: No correction is applied to the clock for the leap second. The
+clock will be corrected later in normal operation when new measurements are
+made and the estimated offset includes the one second error.</p></li>
+<li><p><cite>smear</cite>: When smearing a leap second, the leap status is suppressed on the
+server and the served time is corrected slowly by slewing instead of
+stepping. The clients do not need any special configuration as they do not
+know there is any leap second and they follow the server time which
+eventually brings them back to UTC. Care must be taken to ensure they use
+only NTP servers which smear the leap second in exactly the same way for
+synchronisation.</p></li>
+<li><p><cite>system</cite>: When inserting a leap second, the kernel steps the system clock
+backwards by one second when the clock gets to 00:00:00 UTC. When deleting
+a leap second, it steps forward by one second when the clock gets to
+23:59:59 UTC.</p></li>
+<li><p><cite>timezone</cite>: This directive specifies a timezone in the system timezone
+database which chronyd can use to determine when will the next leap second
+occur and what is the current offset between TAI and UTC. It will
+periodically check if 23:59:59 and 23:59:60 are valid times in the
+timezone. This normally works with the right/UTC timezone which is the
+default</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="monitoring.html" class="btn btn-neutral float-left" title="Monitoring" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pppoe-server.html" class="btn btn-neutral float-right" title="PPPoE Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

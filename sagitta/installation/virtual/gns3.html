@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running on GNS3 &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="EVE-NG" href="eve-ng.html" />
+    <link rel="prev" title="Running on VMware ESXi" href="vmware.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Running VyOS in Virtual Environments</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="libvirt.html">Running on Libvirt Qemu/KVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxmox.html">Running on Proxmox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vmware.html">Running on VMware ESXi</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Running on GNS3</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vm-setup">VM setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-installation">VyOS installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-vm-configuration">VyOS VM configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eve-ng.html">EVE-NG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker.html">Running in Docker Container</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cloud/index.html">Running VyOS in Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-on-baremetal.html">Running on Bare Metal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../image.html">Image Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Installation and Image Management</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Running VyOS in Virtual Environments</a></li>
+      <li class="breadcrumb-item active">Running on GNS3</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/installation/virtual/gns3.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-on-gns3">
+<span id="vyos-on-gns3"></span><h1>Running on GNS3<a class="headerlink" href="#running-on-gns3" title="Link to this heading"></a></h1>
+<p>Sometimes you may want to test VyOS in a lab environment.
+<a class="reference external" href="http://www.gns3.com">GNS3</a> is a network emulation software you
+might use for it.</p>
+<p>This guide will provide the necessary steps for installing
+and setting up VyOS on GNS3.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<p>The following items are required:</p>
+<ul class="simple">
+<li><p>A VyOS installation image (.iso file). You
+can find how to get it on the <a class="reference internal" href="../install.html#installation"><span class="std std-ref">Installation</span></a> page</p></li>
+<li><p>A working GNS3 installation. For further information see the
+<a class="reference external" href="https://docs.gns3.com/">GNS3 documentation</a>.</p></li>
+</ul>
+</section>
+<section id="vm-setup">
+<span id="id1"></span><h2>VM setup<a class="headerlink" href="#vm-setup" title="Link to this heading"></a></h2>
+<p>First, a virtual machine (VM) for the VyOS installation must be created
+in GNS3.</p>
+<p>Go to the GNS3 <strong>File</strong> menu, click <strong>New template</strong> and choose select
+<strong>Manually create a new Template</strong>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-01.png" src="../../images/gns3-01.png" />
+</figure>
+<p>Select <strong>Quemu VMs</strong> and then click on the <code class="docutils literal notranslate"><span class="pre">New</span></code> button.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-02.png" src="../../images/gns3-02.png" />
+</figure>
+<p>Write a name for your VM, for instance “VyOS”, and click <code class="docutils literal notranslate"><span class="pre">Next</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-03.png" src="../../images/gns3-03.png" />
+</figure>
+<p>Select <strong>qemu-system-x86_64</strong> as Quemu binary, then <strong>512MB</strong> of RAM
+and click <code class="docutils literal notranslate"><span class="pre">Next</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-04.png" src="../../images/gns3-04.png" />
+</figure>
+<p>Select <strong>telnet</strong> as your console type and click <code class="docutils literal notranslate"><span class="pre">Next</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-05.png" src="../../images/gns3-05.png" />
+</figure>
+<p>Select <strong>New image</strong> for the base disk image of your VM and click
+<code class="docutils literal notranslate"><span class="pre">Create</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-06.png" src="../../images/gns3-06.png" />
+</figure>
+<p>Use the defaults in the <strong>Binary and format</strong> window and click
+<code class="docutils literal notranslate"><span class="pre">Next</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-07.png" src="../../images/gns3-07.png" />
+</figure>
+<p>Use the defaults in the <strong>Qcow2 options</strong> window and click <code class="docutils literal notranslate"><span class="pre">Next</span></code>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-08.png" src="../../images/gns3-08.png" />
+</figure>
+<p>Set the disk size to 2000 MiB, and click <code class="docutils literal notranslate"><span class="pre">Finish</span></code> to end the <strong>Quemu
+image creator</strong>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-09.png" src="../../images/gns3-09.png" />
+</figure>
+<p>Click <code class="docutils literal notranslate"><span class="pre">Finish</span></code> to end the <strong>New QEMU VM template</strong> wizard.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-10.png" src="../../images/gns3-10.png" />
+</figure>
+<p>Now the VM settings have to be edited.</p>
+<p>Being again at the <strong>Preferences</strong> window, having <strong>Qemu VMs</strong>
+selected and having our new VM selected, click the <code class="docutils literal notranslate"><span class="pre">Edit</span></code> button.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-11.png" src="../../images/gns3-11.png" />
+</figure>
+<p>In the <strong>General settings</strong> tab of your <strong>QEMU VM template
+configuration</strong>, do the following:</p>
+<ul class="simple">
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">Browse...</span></code> button to choose the <strong>Symbol</strong> you want to
+have representing your VM.</p></li>
+<li><p>In <strong>Category</strong> select in which group you want to find your VM.</p></li>
+<li><p>Set the <strong>Boot priority</strong> to <strong>CD/DVD-ROM</strong>.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../images/gns3-12.png" src="../../images/gns3-12.png" />
+</figure>
+<p>At the <strong>HDD</strong> tab, change the Disk interface to <strong>sata</strong> to speed up
+the boot process.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-13.png" src="../../images/gns3-13.png" />
+</figure>
+<p>At the <strong>CD/DVD</strong> tab click on <code class="docutils literal notranslate"><span class="pre">Browse...</span></code> and locate the VyOS image
+you want to install.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-14.png" src="../../images/gns3-14.png" />
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You probably will want to accept to copy the .iso file to your
+default image directory when you are asked.</p>
+</div>
+<p>In the <strong>Network</strong> tab,  set <strong>0</strong> as the number of adapters, set the
+<strong>Name format</strong> to <strong>eth{0}</strong> and the <strong>Type</strong> to <strong>Paravirtualized
+Network I/O (virtio-net-pci)</strong>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-15.png" src="../../images/gns3-15.png" />
+</figure>
+<p>In the <strong>Advanced</strong> tab, unmark the checkbox <strong>Use as a linked base
+VM</strong> and click <code class="docutils literal notranslate"><span class="pre">OK</span></code>, which will save and close the <strong>QEMU VM template
+configuration</strong> window.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-16.png" src="../../images/gns3-16.png" />
+</figure>
+<p>At the general <strong>Preferences</strong> window, click <code class="docutils literal notranslate"><span class="pre">OK</span></code> to save and close.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-17.png" src="../../images/gns3-17.png" />
+</figure>
+</section>
+<section id="vyos-installation">
+<span id="id2"></span><h2>VyOS installation<a class="headerlink" href="#vyos-installation" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Create a new project.</p></li>
+<li><p>Drag the newly created VyOS VM into it.</p></li>
+<li><p>Start the VM.</p></li>
+<li><p>Open a console.
+The console should show the system booting. It will ask for the login
+credentials, you are at the VyOS live system.</p></li>
+<li><p><a class="reference internal" href="../install.html#installation"><span class="std std-ref">Install VyOS</span></a>
+as normal (that is, using the <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">image</span></code> command).</p></li>
+<li><p>After a successful installation, shutdown the VM with the <code class="docutils literal notranslate"><span class="pre">poweroff</span></code>
+command.</p></li>
+<li><p><strong>Delete the VM</strong> from the GNS3 project.</p></li>
+</ul>
+<p>The <em>VyOS-hda.qcow2</em> file now contains a working VyOS image and can be
+used as a template. But it still needs some fixes before we can deploy
+VyOS in our labs.</p>
+</section>
+<section id="vyos-vm-configuration">
+<span id="id3"></span><h2>VyOS VM configuration<a class="headerlink" href="#vyos-vm-configuration" title="Link to this heading"></a></h2>
+<p>To turn the template into a working VyOS machine, further steps are
+necessary as outlined below:</p>
+<p><strong>General settings</strong> tab: Set the boot priority to <strong>HDD</strong></p>
+<figure class="align-default">
+<img alt="../../images/gns3-20.png" src="../../images/gns3-20.png" />
+</figure>
+<p><strong>CD/DVD</strong> tab: Unmount the installation image file by clearing the
+<strong>Image</strong> entry field.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-21.png" src="../../images/gns3-21.png" />
+</figure>
+<p>Set the number of required network adapters, for example <strong>4</strong>.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-215.png" src="../../images/gns3-215.png" />
+</figure>
+<p><strong>Advanced</strong> settings tab: Mark the checkbox <strong>Use as a linked
+base VM</strong> and click <code class="docutils literal notranslate"><span class="pre">OK</span></code> to save the changes.</p>
+<figure class="align-default">
+<img alt="../../images/gns3-22.png" src="../../images/gns3-22.png" />
+</figure>
+<p>The VyOS VM is now ready to be deployed.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vmware.html" class="btn btn-neutral float-left" title="Running on VMware ESXi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="eve-ng.html" class="btn btn-neutral float-right" title="EVE-NG" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

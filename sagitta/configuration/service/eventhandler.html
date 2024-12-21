@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Handler &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="HTTP API" href="https.html" />
+    <link rel="prev" title="DNS Forwarding" href="dns.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Event Handler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#event-handler-technology-overview">Event Handler Technology Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-configure-event-handler">How to configure Event Handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-handler-configuration-steps">Event Handler Configuration Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">Event Handler</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/eventhandler.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="event-handler">
+<span id="id1"></span><h1>Event Handler<a class="headerlink" href="#event-handler" title="Link to this heading"></a></h1>
+<section id="event-handler-technology-overview">
+<h2>Event Handler Technology Overview<a class="headerlink" href="#event-handler-technology-overview" title="Link to this heading"></a></h2>
+<p>Event handler allows you to execute scripts when a string that matches a regex or a regex with
+a service name appears in journald logs. You can pass variables, arguments, and a full matching string to the script.</p>
+</section>
+<section id="how-to-configure-event-handler">
+<h2>How to configure Event Handler<a class="headerlink" href="#how-to-configure-event-handler" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p><a class="reference internal" href="#create-an-event-handler">1. Create an event handler</a></p>
+<p><a class="reference internal" href="#add-regex-to-the-script">2. Add regex to the script</a></p>
+<p><a class="reference internal" href="#add-a-full-path-to-the-script">3. Add a full path to the script</a></p>
+<p><a class="reference internal" href="#add-optional-parameters">4. Add optional parameters</a></p>
+</div></blockquote>
+</section>
+<section id="event-handler-configuration-steps">
+<h2>Event Handler Configuration Steps<a class="headerlink" href="#event-handler-configuration-steps" title="Link to this heading"></a></h2>
+<section id="create-an-event-handler">
+<h3>1. Create an event handler<a class="headerlink" href="#create-an-event-handler" title="Link to this heading"></a></h3>
+<blockquote>
+<div><div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name">
+set service event-handler event &lt;event-handler name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name" title="Permalink to this Command"></a></div></div>
+<p>This is an optional command because the event handler will be automatically created after any of the next commands.</p>
+</div></blockquote>
+</section>
+<section id="add-regex-to-the-script">
+<h3>2. Add regex to the script<a class="headerlink" href="#add-regex-to-the-script" title="Link to this heading"></a></h3>
+<blockquote>
+<div><div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name-filter-pattern-regex">
+set service event-handler event &lt;event-handler name&gt; filter pattern &lt;regex&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name-filter-pattern-regex" title="Permalink to this Command"></a></div></div>
+<p>This is a mandatory command. Sets regular expression to match against log string message.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The regular expression matches if and only if the entire string matches the pattern.</p>
+</div>
+</div></blockquote>
+</section>
+<section id="add-a-full-path-to-the-script">
+<h3>3. Add a full path to the script<a class="headerlink" href="#add-a-full-path-to-the-script" title="Link to this heading"></a></h3>
+<blockquote>
+<div><div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name-script-path-path-to-script">
+set service event-handler event &lt;event-handler name&gt; script path &lt;path to script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name-script-path-path-to-script" title="Permalink to this Command"></a></div></div>
+<p>This is a mandatory command. Sets the full path to the script. The script file must be executable.</p>
+</div></blockquote>
+</section>
+<section id="add-optional-parameters">
+<h3>4. Add optional parameters<a class="headerlink" href="#add-optional-parameters" title="Link to this heading"></a></h3>
+<blockquote>
+<div><div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name-filter-syslog-identifier-sylogid-name">
+set service event-handler event &lt;event-handler name&gt; filter syslog-identifier &lt;sylogid name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name-filter-syslog-identifier-sylogid-name" title="Permalink to this Command"></a></div></div>
+<p>This is an optional command. Filters log messages by syslog-identifier.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name-script-environment-env-name-value-env-value">
+set service event-handler event &lt;event-handler name&gt; script environment &lt;env name&gt; value &lt;env value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name-script-environment-env-name-value-env-value" title="Permalink to this Command"></a></div></div>
+<p>This is an optional command. Adds environment and its value to the script. Use separate commands for each environment.</p>
+<p>One implicit environment exists.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code>: Full message that has triggered the script.</p></li>
+</ul>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-event-handler-event-event-handler-name-script-arguments-arguments">
+set service event-handler event &lt;event-handler name&gt; script arguments &lt;arguments&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-event-handler-event-event-handler-name-script-arguments-arguments" title="Permalink to this Command"></a></div></div>
+<p>This is an optional command. Adds arguments to the script. Arguments must be separated by spaces.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We don’t recomend to use arguments. Using environments is more preffereble.</p>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Event handler that monitors the state of interface eth0.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service event-handler event INTERFACE_STATE_DOWN filter pattern &#39;.*eth0.*,RUNNING,.*-&gt;.*&#39;
+set service event-handler event INTERFACE_STATE_DOWN filter syslog-identifier &#39;netplugd&#39;
+set service event-handler event INTERFACE_STATE_DOWN script environment interface_action value &#39;down&#39;
+set service event-handler event INTERFACE_STATE_DOWN script environment interface_name value &#39;eth2&#39;
+set service event-handler event INTERFACE_STATE_DOWN script path &#39;/config/scripts/eventhandler.py&#39;
+</pre></div>
+</div>
+<p>Event handler script</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/usr/bin/env python3
+#
+# VyOS event-handler script example
+from os import environ
+import subprocess
+from sys import exit
+
+# Perform actions according to requirements
+def process_event() -&gt; None:
+    # Get variables
+    message_text = environ.get(&#39;message&#39;)
+    interface_name = environ.get(&#39;interface_name&#39;)
+    interface_action = environ.get(&#39;interface_action&#39;)
+    # Print the message that triggered this script
+    print(f&#39;Logged message: {message_text}&#39;)
+    # Prepare a command to run
+    command = f&#39;sudo ip link set {interface_name} {interface_action}&#39;.split()
+    # Execute a command
+    subprocess.run(command)
+
+if __name__ == &#39;__main__&#39;:
+    try:
+        # Run script actions and exit
+        process_event()
+        exit(0)
+    except Exception as err:
+        # Exit properly in case if something in the script goes wrong
+        print(f&#39;Error running script: {err}&#39;)
+        exit(1)
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dns.html" class="btn btn-neutral float-left" title="DNS Forwarding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="https.html" class="btn btn-neutral float-right" title="HTTP API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

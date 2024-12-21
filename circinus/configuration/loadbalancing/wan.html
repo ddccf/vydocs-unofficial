@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAN load balancing &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Haproxy" href="haproxy.html" />
+    <link rel="prev" title="Load-balancing" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Load-balancing</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">WAN load balancing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#balancing-rules">Balancing Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#health-checks">Health checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-nat-rules">Source NAT rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sticky-connections">Sticky Connections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#failover">Failover</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#script-execution">Script execution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-and-monitoring">Handling and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="haproxy.html">Haproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Load-balancing</a></li>
+      <li class="breadcrumb-item active">WAN load balancing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/loadbalancing/wan.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="wan-load-balancing">
+<h1>WAN load balancing<a class="headerlink" href="#wan-load-balancing" title="Link to this heading"></a></h1>
+<p>Outbound traffic can be balanced between two or more outbound interfaces.
+If a path fails, traffic is balanced across the remaining healthy paths,
+a recovered path is automatically added back to the routing table and used by
+the load balancer. The load balancer automatically adds routes for each path to
+the routing table and balances traffic across the configured interfaces,
+determined by interface health and weight.</p>
+<p>In a minimal configuration, the following must be provided:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>an interface with a nexthop</p></li>
+<li><p>one rule with a LAN (inbound-interface) and the WAN (interface).</p></li>
+</ul>
+</div></blockquote>
+<p>Let’s assume we have two DHCP WAN interfaces and one LAN (eth2):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan interface-health eth0 nexthop &#39;dhcp&#39;
+set load-balancing wan interface-health eth1 nexthop &#39;dhcp&#39;
+set load-balancing wan rule 1 inbound-interface &#39;eth2&#39;
+set load-balancing wan rule 1 interface eth0
+set load-balancing wan rule 1 interface eth1
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WAN Load Balacing should not be used when dynamic routing protocol is
+used/needed. This feature creates customized routing tables and firewall
+rules, that makes it incompatible to use with routing protocols.</p>
+</div>
+<section id="balancing-rules">
+<h2>Balancing Rules<a class="headerlink" href="#balancing-rules" title="Link to this heading"></a></h2>
+<p>Interfaces, their weight and the type of traffic to be balanced are defined in
+numbered balancing rule sets. The rule sets are executed in numerical order
+against outgoing packets. In case of a match the packet is sent through an
+interface specified in the matching rule. If a packet doesn’t match any rule
+it is sent by using the system routing table. Rule numbers can’t be changed.</p>
+<p>Create a load balancing rule, it can be a number between 1 and 9999:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set load-balancing wan rule 1
+Possible completions:
+description             Description for this rule
+&gt; destination           Destination
+exclude                 Exclude packets matching this rule from wan load balance
+failover                Enable failover for packets matching this rule from wan load balance
+inbound-interface       Inbound interface name (e.g., &quot;eth0&quot;) [REQUIRED]
++&gt; interface            Interface name [REQUIRED]
+&gt; limit                 Enable packet limit for this rule
+per-packet-balancing    Option to match traffic per-packet instead of the default, per-flow
+protocol                Protocol to match
+&gt; source                Source information
+</pre></div>
+</div>
+<section id="interface-weight">
+<h3>Interface weight<a class="headerlink" href="#interface-weight" title="Link to this heading"></a></h3>
+<p>Let’s expand the example from above and add weight to the interfaces.
+The bandwidth from eth0 is larger than eth1. Per default, outbound traffic is
+distributed randomly across available interfaces. Weights can be assigned to
+interfaces to influence the balancing.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule 1 interface eth0 weight 2
+set load-balancing wan rule 1 interface eth1 weight 1
+</pre></div>
+</div>
+<p>66% of traffic is routed to eth0, eth1 gets 33% of traffic.</p>
+</section>
+<section id="rate-limit">
+<h3>Rate limit<a class="headerlink" href="#rate-limit" title="Link to this heading"></a></h3>
+<p>A packet rate limit can be set for a rule to apply the rule to traffic above or
+below a specified threshold. To configure the rate limiting use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule &lt;rule&gt; limit &lt;parameter&gt;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">burst</span></code>: Number of packets allowed to overshoot the limit within <code class="docutils literal notranslate"><span class="pre">period</span></code>.
+Default 5.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">period</span></code>: Time window for rate calculation. Possible values:
+<code class="docutils literal notranslate"><span class="pre">second</span></code> (one second), <code class="docutils literal notranslate"><span class="pre">minute</span></code> (one minute), <code class="docutils literal notranslate"><span class="pre">hour</span></code> (one hour).
+Default is <code class="docutils literal notranslate"><span class="pre">second</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rate</span></code>: Number of packets. Default 5.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code>: <code class="docutils literal notranslate"><span class="pre">below</span></code> or <code class="docutils literal notranslate"><span class="pre">above</span></code> the specified rate limit.</p></li>
+</ul>
+</section>
+<section id="flow-and-packet-based-balancing">
+<h3>Flow and packet-based balancing<a class="headerlink" href="#flow-and-packet-based-balancing" title="Link to this heading"></a></h3>
+<p>Outgoing traffic is balanced in a flow-based manner.
+A connection tracking table is used to track flows by their source address,
+destination address and port. Each flow is assigned to an interface according
+to the defined balancing rules and subsequent packets are sent through the
+same interface. This has the advantage that packets always arrive in order if
+links with different speeds are in use.</p>
+<p>Packet-based balancing can lead to a better balance across interfaces when out
+of order packets are no issue. Per-packet-based balancing can be set for a
+balancing rule with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule &lt;rule&gt; per-packet-balancing
+</pre></div>
+</div>
+</section>
+<section id="exclude-traffic">
+<h3>Exclude traffic<a class="headerlink" href="#exclude-traffic" title="Link to this heading"></a></h3>
+<p>To exclude traffic from load balancing, traffic matching an exclude rule is not
+balanced but routed through the system routing table instead:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule &lt;rule&gt; exclude
+</pre></div>
+</div>
+</section>
+</section>
+<section id="health-checks">
+<h2>Health checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h2>
+<p>The health of interfaces and paths assigned to the load balancer is
+periodically checked by sending ICMP packets (ping) to remote destinations,
+a TTL test or the execution of a user defined script. If an interface fails the
+health check it is removed from the load balancer’s pool of interfaces.
+To enable health checking for an interface:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set load-balancing wan interface-health &lt;interface&gt;
+Possible completions:
+failure-count    Failure count
+nexthop          Outbound interface nexthop address. Can be &#39;dhcp or ip address&#39; [REQUIRED]
+success-count    Success count
++&gt; test          Rule number
+</pre></div>
+</div>
+<p>Specify nexthop on the path to the destination, <code class="docutils literal notranslate"><span class="pre">ipv4-address</span></code> can be set to
+<code class="docutils literal notranslate"><span class="pre">dhcp</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan interface-health &lt;interface&gt; nexthop &lt;ipv4-address&gt;
+</pre></div>
+</div>
+<p>Set the number of health check failures before an interface is marked as
+unavailable, range for number is 1 to 10, default 1. Or set the number of
+successful health checks before an interface is added back to the interface
+pool, range for number is 1 to 10, default 1.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan interface-health &lt;interface&gt; failure-count &lt;number&gt;
+set load-balancing wan interface-health &lt;interface&gt; success-count &lt;number&gt;
+</pre></div>
+</div>
+<p>Each health check is configured in its own test, tests are numbered and
+processed in numeric order. For multi target health checking multiple tests
+can be defined:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set load-balancing wan interface-health eth1 test 0
+Possible completions:
+resp-time    Ping response time (seconds)
+target       Health target address
+test-script  Path to user defined script
+ttl-limit    Ttl limit (hop count)
+type         WLB test type
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resp-time</span></code>: the maximum response time for ping in seconds.
+Range 1…30, default 5</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target</span></code>: the target to be sent ICMP packets to, address can be an IPv4
+address or hostname</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test-script</span></code>: A user defined script must return 0 to be considered
+successful and non-zero to fail. Scripts are located in /config/scripts,
+for different locations the full path needs to be provided</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ttl-limit</span></code>: For the UDP TTL limit test the hop count limit must be
+specified. The limit must be shorter than the path length, an ICMP time
+expired message is needed to be returned for a successful test. default 1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: Specify the type of test. type can be ping, ttl or a user defined
+script</p></li>
+</ul>
+</section>
+<section id="source-nat-rules">
+<h2>Source NAT rules<a class="headerlink" href="#source-nat-rules" title="Link to this heading"></a></h2>
+<p>Per default, interfaces used in a load balancing pool replace the source IP
+of each outgoing packet with its own address to ensure that replies arrive on
+the same interface. This works through automatically generated source NAT (SNAT)
+rules, these rules are only applied to balanced traffic. In cases where this
+behaviour is not desired, the automatic generation of SNAT rules can be
+disabled:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan disable-source-nat
+</pre></div>
+</div>
+</section>
+<section id="sticky-connections">
+<h2>Sticky Connections<a class="headerlink" href="#sticky-connections" title="Link to this heading"></a></h2>
+<p>Inbound connections to a WAN interface can be improperly handled when the reply
+is sent back to the client.</p>
+<a class="reference internal image-reference" href="../../images/sticky-connections.jpg"><img alt="../../images/sticky-connections.jpg" class="align-center" src="../../images/sticky-connections.jpg" style="width: 80%;" />
+</a>
+<p>Upon reception of an incoming packet, when a response is sent, it might be
+desired to ensure that it leaves from the same interface as the inbound one.
+This can be achieved by enabling sticky connections in the load balancing:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan sticky-connections inbound
+</pre></div>
+</div>
+</section>
+<section id="failover">
+<h2>Failover<a class="headerlink" href="#failover" title="Link to this heading"></a></h2>
+<p>In failover mode, one interface is set to be the primary interface and other
+interfaces are secondary or spare. Instead of balancing traffic across all
+healthy interfaces, only the primary interface is used and in case of failure,
+a secondary interface selected from the pool of available interfaces takes over.
+The primary interface is selected based on its weight and health, others become
+secondary interfaces. Secondary interfaces to take over a failed primary
+interface are chosen from the load balancer’s interface pool, depending
+on their weight and health. Interface roles can also be selected based on rule
+order by including interfaces in balancing rules and ordering those rules
+accordingly. To put the load balancer in failover mode, create a failover rule:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan rule &lt;number&gt; failover
+</pre></div>
+</div>
+<p>Because existing sessions do not automatically fail over to a new path,
+the session table can be flushed on each connection state change:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan flush-connections
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Flushing the session table will cause other connections to fall back from
+flow-based to packet-based balancing until each flow is reestablished.</p>
+</div>
+</section>
+<section id="script-execution">
+<h2>Script execution<a class="headerlink" href="#script-execution" title="Link to this heading"></a></h2>
+<p>A script can be run when an interface state change occurs. Scripts are run
+from /config/scripts, for a different location specify the full path:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set load-balancing wan hook script-name
+</pre></div>
+</div>
+<p>Two environment variables are available:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">WLB_INTERFACE_NAME=[interfacename]</span></code>: Interface to be monitored</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WLB_INTERFACE_STATE=[ACTIVE|FAILED]</span></code>: Interface state</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Blocking call with no timeout. System will become unresponsive if script
+does not return!</p>
+</div>
+</section>
+<section id="handling-and-monitoring">
+<h2>Handling and monitoring<a class="headerlink" href="#handling-and-monitoring" title="Link to this heading"></a></h2>
+<p>Show WAN load balancer information including test types and targets.
+A character at the start of each line depicts the state of the test</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">+</span></code> successful</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-</span></code> failed</p></li>
+<li><p>a blank indicates that no test has been carried out</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show wan-load-balance
+Interface:  eth0
+Status:  failed
+Last Status Change:  Tue Jun 11 20:12:19 2019
+-Test:  ping  Target:
+    Last Interface Success:  55s
+    Last Interface Failure:  0s
+    # Interface Failure(s):  5
+
+Interface:  eth1
+Status:  active
+Last Status Change:  Tue Jun 11 20:06:42 2019
++Test:  ping  Target:
+    Last Interface Success:  0s
+    Last Interface Failure:  6m26s
+    # Interface Failure(s):  0
+</pre></div>
+</div>
+<p>Show connection data of load balanced traffic:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show wan-load-balance connection
+conntrack v1.4.2 (conntrack-tools): 3 flow entries have been shown.
+Type    State           Src                     Dst                     Packets Bytes
+tcp     TIME_WAIT       10.1.1.13:38040         203.0.113.2:80          203.0.113.2  192.168.188.71
+udp                     10.1.1.13:41891         198.51.100.3:53         198.51.100.3 192.168.188.71
+udp                     10.1.1.13:55437         198.51.100.3:53         198.51.100.3 192.168.188.71
+</pre></div>
+</div>
+<section id="restart">
+<h3>Restart<a class="headerlink" href="#restart" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>restart wan-load-balance
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Load-balancing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="haproxy.html" class="btn btn-neutral float-right" title="Haproxy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

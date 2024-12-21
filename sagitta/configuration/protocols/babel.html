@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Babel &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="BFD" href="bfd.html" />
+    <link rel="prev" title="Protocols" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Babel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-configuration">General Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optional-configuration">Optional Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interfaces-configuration">Interfaces Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redistribution-configuration">Redistribution Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-example">Configuration Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html#arp">ARP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">Babel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/babel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="babel">
+<span id="id1"></span><h1>Babel<a class="headerlink" href="#babel" title="Link to this heading"></a></h1>
+<p>Babel is a modern routing protocol designed to be robust and efficient
+both in ordinary wired networks and in wireless mesh networks.
+By default, it uses hop-count on wired networks and a variant of ETX
+on wireless links, It can be configured to take radio diversity into account
+and to automatically compute a link’s latency and include it in the metric.
+It is defined in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc8966.html"><strong>RFC 8966</strong></a>.</p>
+<p>Babel a dual stack protocol.
+A single Babel instance is able to perform routing for both IPv4 and IPv6.</p>
+<section id="general-configuration">
+<h2>General Configuration<a class="headerlink" href="#general-configuration" title="Link to this heading"></a></h2>
+<p>VyOS does not have a special command to start the Babel process.
+The Babel process starts when the first Babel enabled interface is configured.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface">
+set protocols babel interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies a Babel enabled interface by interface name. Both
+the sending and receiving of Babel packets will be enabled on the interface
+specified in this command.</p>
+</div>
+</div>
+</section>
+<section id="optional-configuration">
+<h2>Optional Configuration<a class="headerlink" href="#optional-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-parameters-diversity">
+set protocols babel parameters diversity</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-parameters-diversity" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command enables routing using radio frequency diversity.
+This is highly recommended in networks with many wireless nodes.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you enable this, you will probably want to
+set diversity-factor and channel below.</p>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-parameters-diversity-factor-1-256">
+set protocols babel parameters diversity-factor &lt;1-256&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-parameters-diversity-factor-1-256" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets the multiplicative factor used for diversity routing,
+in units of 1/256; lower values cause diversity to play a more important role
+in route selection.
+The default it 256, which means that diversity plays no role in route
+selection; you will probably want to set that to 128 or less on nodes
+with multiple independent radios.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-parameters-resend-delay-milliseconds">
+set protocols babel parameters resend-delay &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-parameters-resend-delay-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the time in milliseconds after which an ‘important’
+request or update will be resent. The default is 2000 ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-parameters-smoothing-half-life-seconds">
+set protocols babel parameters smoothing-half-life &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-parameters-smoothing-half-life-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the time constant, in seconds, of the smoothing
+algorithm used for implementing hysteresis.
+Larger values reduce route oscillation at the cost of very slightly increasing
+convergence time. The value 0 disables hysteresis, and is suitable for wired
+networks. The default is 4 s.</p>
+</div>
+</div>
+</section>
+<section id="interfaces-configuration">
+<h2>Interfaces Configuration<a class="headerlink" href="#interfaces-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-type-auto-wired-wireless">
+set protocols babel interface &lt;interface&gt; type &lt;auto|wired|wireless&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-type-auto-wired-wireless" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets the interface type:</p>
+<p><strong>auto</strong> – automatically determines the interface type.
+<strong>wired</strong> – enables optimisations for wired interfaces.
+<strong>wireless</strong> – disables a number of optimisations that are only correct
+on wired interfaces. Specifying wireless is always correct,
+but may cause slower convergence and extra routing traffic.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-split-horizon-default-disable-enable">
+set protocols babel interface &lt;interface&gt; split-horizon &lt;default|disable|enable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-split-horizon-default-disable-enable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies whether to perform split-horizon on the interface.
+Specifying no babel split-horizon is always correct, while babel split-horizon
+is an optimisation that should only be used on symmetric
+and transitive (wired) networks.</p>
+<p><strong>default</strong> – enable split-horizon on wired interfaces, and disable
+split-horizon on wireless interfaces.
+<strong>enable</strong> – enable split-horizon on this interfaces.
+<strong>disable</strong> – disable split-horizon on this interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-hello-interval-milliseconds">
+set protocols babel interface &lt;interface&gt; hello-interval &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-hello-interval-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the time in milliseconds between two scheduled hellos.
+On wired links, Babel notices a link failure within two hello intervals;
+on wireless links, the link quality value is reestimated at every hello
+interval.
+The default is 4000 ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-update-interval-milliseconds">
+set protocols babel interface &lt;interface&gt; update-interval &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-update-interval-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the time in milliseconds between two scheduled updates.
+Since Babel makes extensive use of triggered updates,
+this can be set to fairly high values on links with little packet loss.
+The default is 20000 ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-rxcost-1-65534">
+set protocols babel interface &lt;interface&gt; rxcost &lt;1-65534&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-rxcost-1-65534" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the base receive cost for this interface.
+For wireless interfaces, it specifies the multiplier used for computing
+the ETX reception cost (default 256);
+for wired interfaces, it specifies the cost that will be advertised to
+neighbours.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-rtt-decay-1-256">
+set protocols babel interface &lt;interface&gt; rtt-decay &lt;1-256&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-rtt-decay-1-256" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the decay factor for the exponential moving average
+of RTT samples, in units of 1/256.
+Higher values discard old samples faster. The default is 42.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-rtt-min-milliseconds">
+set protocols babel interface &lt;interface&gt; rtt-min &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-rtt-min-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the minimum RTT, in milliseconds,
+starting from which we increase the cost to a neighbour.
+The additional cost is linear in (rtt - rtt-min). The default is 10 ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-rtt-max-milliseconds">
+set protocols babel interface &lt;interface&gt; rtt-max &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-rtt-max-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the maximum RTT, in milliseconds, above which
+we don’t increase the cost to a neighbour. The default is 120 ms.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-max-rtt-penalty-milliseconds">
+set protocols babel interface &lt;interface&gt; max-rtt-penalty &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-max-rtt-penalty-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the maximum cost added to a neighbour because of RTT,
+i.e. when the RTT is higher or equal than rtt-max.
+The default is 150.
+Setting it to 0 effectively disables the use of a RTT-based cost.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-enable-timestamps">
+set protocols babel interface &lt;interface&gt; enable-timestamps</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-enable-timestamps" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command enables sending timestamps with each Hello and IHU message
+in order to compute RTT values.
+It is recommended to enable timestamps on tunnel interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-interface-interface-channel-1-254-interfering-noninterfering">
+set protocols babel interface &lt;interface&gt; channel &lt;1-254|interfering|noninterfering&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-interface-interface-channel-1-254-interfering-noninterfering" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command set the channel number that diversity routing uses for this
+interface (see diversity option above).</p>
+<p><strong>1-254</strong> – interfaces with a channel number interfere with
+interfering interfaces and interfaces with the same channel number.
+<strong>interfering</strong> – interfering interfaces are assumed to interfere with all other channels except
+noninterfering channels.
+<strong>noninterfering</strong> – noninterfering interfaces are assumed to only interfere
+with themselves.</p>
+</div>
+</div>
+</section>
+<section id="redistribution-configuration">
+<h2>Redistribution Configuration<a class="headerlink" href="#redistribution-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-redistribute-ipv4-ipv6-route-source">
+set protocols babel redistribute &lt;ipv4|ipv6&gt; &lt;route source&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-redistribute-ipv4-ipv6-route-source" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command redistributes routing information from the given route source
+to the Babel process.</p>
+<p>IPv4 route source: bgp, connected, eigrp, isis, kernel, nhrp, ospf, rip, static.</p>
+<p>IPv6 route source: bgp, connected, eigrp, isis, kernel, nhrp, ospfv3, ripng, static.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-access-list-in-out-number">
+set protocols babel distribute-list &lt;ipv4|ipv6&gt; access-list &lt;in|out&gt; &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-access-list-in-out-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command can be used to filter the Babel routes using access lists.
+<code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> this is the direction in which the access
+lists are applied.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-interface-interface-access-list-in-out-number">
+set protocols babel distribute-list &lt;ipv4|ipv6&gt; interface &lt;interface&gt; access-list &lt;in|out&gt; &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-interface-interface-access-list-in-out-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command allows you apply access lists to a chosen interface to
+filter the Babel routes.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-prefix-list-in-out-name">
+set protocols babel distribute-list &lt;ipv4|ipv6&gt; prefix-list &lt;in|out&gt; &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-prefix-list-in-out-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command can be used to filter the Babel routes using prefix lists.
+<code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> this is the direction in which the prefix
+lists are applied.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-interface-interface-prefix-list-in-out-name">
+set protocols babel distribute-list &lt;ipv4|ipv6&gt; interface &lt;interface&gt; prefix-list &lt;in|out&gt; &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-babel-distribute-list-ipv4-ipv6-interface-interface-prefix-list-in-out-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command allows you apply prefix lists to a chosen interface to
+filter the Babel routes.</p>
+</div>
+</div>
+</section>
+<section id="configuration-example">
+<h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h2>
+<p>Simple Babel configuration using 2 nodes and redistributing connected interfaces.</p>
+<p><strong>Node 1:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address 10.1.1.1/32
+set interfaces loopback lo address fd12:3456:dead:beef::1/128
+set protocols babel interface eth0 type wired
+set protocols babel redistribute ipv4 connected
+set protocols babel redistribute ipv6 connected
+</pre></div>
+</div>
+<p><strong>Node 2:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address 10.2.2.2/32
+set interfaces loopback lo address fd12:3456:beef:dead::2/128
+set protocols babel interface eth0 type wired
+set protocols babel redistribute ipv4 connected
+set protocols babel redistribute ipv6 connected
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Protocols" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bfd.html" class="btn btn-neutral float-right" title="BFD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BGP Example &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PKI" href="../pki/index.html" />
+    <link rel="prev" title="BGP - Large Community List" href="large-community-list.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Policy</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#policy-sections">Policy Sections</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#examples">Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">BGP Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transparent-proxy">Transparent Proxy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-uplinks">Multiple Uplinks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clamp-mss-for-a-specific-ip">Clamp MSS for a specific IP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Policy</a></li>
+      <li class="breadcrumb-item active">BGP Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/policy/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bgp-example">
+<h1>BGP Example<a class="headerlink" href="#bgp-example" title="Link to this heading"></a></h1>
+<p><strong>Policy definition:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create policy
+set policy route-map setmet rule 2 action &#39;permit&#39;
+set policy route-map setmet rule 2 set as-path prepend &#39;2 2 2&#39;
+
+# Apply policy to BGP
+set protocols bgp system-as 1
+set protocols bgp neighbor 203.0.113.2 address-family ipv4-unicast route-map import &#39;setmet&#39;
+set protocols bgp neighbor 203.0.113.2 address-family ipv4-unicast soft-reconfiguration &#39;inbound&#39;
+</pre></div>
+</div>
+<p>Using ‘soft-reconfiguration’ we get the policy update without bouncing the
+neighbor.</p>
+<p><strong>Routes learned before routing policy applied:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vos1:~$ show ip bgp
+BGP table version is 0, local router ID is 192.168.56.101
+Status codes: s suppressed, d damped, h history, * valid, &gt; best, i - internal,
+              r RIB-failure, S Stale, R Removed
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*&gt; 198.51.100.3/32   203.0.113.2           1             0 2 i  &lt; Path
+
+Total number of prefixes 1
+</pre></div>
+</div>
+<p><strong>Routes learned after routing policy applied:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vos1:~$ show ip bgp
+BGP table version is 0, local router ID is 192.168.56.101
+Status codes: s suppressed, d damped, h history, * valid, &gt; best, i - internal,
+              r RIB-failure, S Stale, R Removed
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*&gt; 198.51.100.3/32   203.0.113.2           1             0 2 2 2 2 i
+
+Total number of prefixes 1
+vyos@vos1:~$
+</pre></div>
+</div>
+<p>You now see the longer AS path.</p>
+</section>
+<section id="transparent-proxy">
+<h1>Transparent Proxy<a class="headerlink" href="#transparent-proxy" title="Link to this heading"></a></h1>
+<p>The following example will show how VyOS can be used to redirect web
+traffic to an external transparent proxy:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route FILTER-WEB rule 1000 destination port 80
+set policy route FILTER-WEB rule 1000 protocol tcp
+set policy route FILTER-WEB rule 1000 set table 100
+</pre></div>
+</div>
+<p>This creates a route policy called FILTER-WEB with one rule to set the
+routing table for matching traffic (TCP port 80) to table ID 100
+instead of the default routing table.</p>
+<p>To create routing table 100 and add a new default gateway to be used by
+traffic matching our route policy:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static table 100 route 0.0.0.0/0 next-hop 10.255.0.2
+</pre></div>
+</div>
+<p>This can be confirmed using the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">route</span> <span class="pre">table</span> <span class="pre">100</span></code> operational
+command.</p>
+<p>Finally, to apply the policy route to ingress traffic on our LAN
+interface, we use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route FILTER-WEB interface eth1
+</pre></div>
+</div>
+</section>
+<section id="multiple-uplinks">
+<h1>Multiple Uplinks<a class="headerlink" href="#multiple-uplinks" title="Link to this heading"></a></h1>
+<p>VyOS Policy-Based Routing (PBR) works by matching source IP address
+ranges and forwarding the traffic using different routing tables.</p>
+<p>Routing tables that will be used in this example are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">10</span></code> Routing table used for VLAN 10 (192.168.188.0/24)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">11</span></code> Routing table used for VLAN 11 (192.168.189.0/24)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code> Routing table used by VyOS and other interfaces not
+participating in PBR</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../images/pbr_example_1.png"><img alt="PBR multiple uplinks" src="../../images/pbr_example_1.png" style="width: 426.40000000000003px; height: 549.6px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Policy-Based Routing with multiple ISP uplinks
+(source ./draw.io/pbr_example_1.drawio)</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Add default routes for routing <code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">10</span></code> and <code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">11</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static table 10 route 0.0.0.0/0 next-hop 192.0.1.1
+set protocols static table 11 route 0.0.0.0/0 next-hop 192.0.2.2
+</pre></div>
+</div>
+<p>Add policy route matching VLAN source addresses</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route PBR rule 20 set table &#39;10&#39;
+set policy route PBR rule 20 description &#39;Route VLAN10 traffic to table 10&#39;
+set policy route PBR rule 20 source address &#39;192.168.188.0/24&#39;
+
+set policy route PBR rule 30 set table &#39;11&#39;
+set policy route PBR rule 30 description &#39;Route VLAN11 traffic to table 11&#39;
+set policy route PBR rule 30 source address &#39;192.168.189.0/24&#39;
+</pre></div>
+</div>
+<p>Apply routing policy to <strong>inbound</strong> direction of out VLAN interfaces</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route &#39;PBR&#39; interface eth0.10
+set policy route &#39;PBR&#39; interface eth0.11
+</pre></div>
+</div>
+<p><strong>OPTIONAL:</strong> Exclude Inter-VLAN traffic (between VLAN10 and VLAN11)
+from PBR</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group network-group VLANS-GR description &#39;VLANs networks&#39;
+set firewall group network-group VLANS-GR network &#39;192.168.188.0/24&#39;
+set firewall group network-group VLANS-GR network &#39;192.168.189.0/24&#39;
+
+set policy route PBR rule 10 description &#39;VLAN10 &lt;-&gt; VLAN11 shortcut&#39;
+set policy route PBR rule 10 destination group network-group &#39;VLANS-GR&#39;
+set policy route PBR rule 10 set table &#39;main&#39;
+</pre></div>
+</div>
+<p>These commands allow the VLAN10 and VLAN11 hosts to communicate with
+each other using the main routing table.</p>
+<section id="local-route">
+<h2>Local route<a class="headerlink" href="#local-route" title="Link to this heading"></a></h2>
+<p>The following example allows VyOS to use <abbr title="Policy-Based Routing">PBR</abbr>
+for traffic, which originated from the router itself. That solution for multiple
+ISP’s and VyOS router will respond from the same interface that the packet was
+received. Also, it used, if we want that one VPN tunnel to be through one
+provider, and the second through another.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">203.0.113.254</span></code> IP addreess on VyOS eth1 from ISP1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">192.168.2.254</span></code> IP addreess on VyOS eth2 from ISP2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">10</span></code> Routing table used for ISP1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">11</span></code> Routing table used for ISP2</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy local-route rule 101 set table &#39;10&#39;
+set policy local-route rule 101 source &#39;203.0.113.254&#39;
+set policy local-route rule 102 set table &#39;11&#39;
+set policy local-route rule 102 source &#39;192.0.2.254&#39;
+set protocols static table 10 route 0.0.0.0/0 next-hop &#39;203.0.113.1&#39;
+set protocols static table 11 route 0.0.0.0/0 next-hop &#39;192.0.2.2&#39;
+</pre></div>
+</div>
+<p>Add multiple source IP in one rule with same priority</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy local-route rule 101 set table &#39;10&#39;
+set policy local-route rule 101 source &#39;203.0.113.254&#39;
+set policy local-route rule 101 source &#39;203.0.113.253&#39;
+set policy local-route rule 101 source &#39;198.51.100.0/24&#39;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="clamp-mss-for-a-specific-ip">
+<h1>Clamp MSS for a specific IP<a class="headerlink" href="#clamp-mss-for-a-specific-ip" title="Link to this heading"></a></h1>
+<p>This example shows how to target an MSS clamp (in our example to 1360 bytes)
+to a specific destination IP.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route IP-MSS-CLAMP rule 10 description &#39;Clamp TCP session MSS to 1360 for 198.51.100.30&#39;
+set policy route IP-MSS-CLAMP rule 10 destination address &#39;198.51.100.30/32&#39;
+set policy route IP-MSS-CLAMP rule 10 protocol &#39;tcp&#39;
+set policy route IP-MSS-CLAMP rule 10 set tcp-mss &#39;1360&#39;
+set policy route IP-MSS-CLAMP rule 10 tcp flags &#39;SYN&#39;
+</pre></div>
+</div>
+<p>To apply this policy to the correct interface, configure it on the
+interface the inbound local host will send through to reach our
+destined target host (in our example eth1).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route IP-MSS-CLAMP interface eth1
+</pre></div>
+</div>
+<p>You can view that the policy is being correctly (or incorrectly) utilised
+with the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>show policy route statistics
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="large-community-list.html" class="btn btn-neutral float-left" title="BGP - Large Community List" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pki/index.html" class="btn btn-neutral float-right" title="PKI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAID-1 &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="VyOS Automation" href="../automation/index.html" />
+    <link rel="prev" title="Password Recovery" href="password-recovery.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Operation Mode</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="information.html">Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-options.html">Boot Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="password-recovery.html">Password Recovery</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RAID-1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-implications">Installation Implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#single-disk-install-as-normal">Single disk, install as normal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#empty-2-disk">Empty 2+ Disk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#present-raid-1">Present RAID-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#detecting-and-replacing-a-failed-raid-1-disk">Detecting and Replacing a Failed RAID 1 Disk</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Operation Mode</a></li>
+      <li class="breadcrumb-item active">RAID-1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/operation/raid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="raid-1">
+<span id="raid"></span><h1>RAID-1<a class="headerlink" href="#raid-1" title="Link to this heading"></a></h1>
+<p>A Redundant Array of Independent Disks (RAID) uses two or more hard disk drives
+to improve disk speed, store more data, and/or provide fault tolerance.
+There are several storage schemes possible in a RAID array, each offering a
+different combination of storage, reliability, and/or performance.
+The VyOS system supports a “RAID 1” deployment. RAID 1 allows two or more
+disks to mirror one another to provide system fault tolerance. In a RAID 1
+solution, every sector of one disk is duplicated onto every sector of all
+disks in the array. Provided even one disk in the RAID 1 set is operational,
+the system continues to run, even through disk replacement (provided that the
+hardware supports in-service replacement of drives).
+RAID 1 can be implemented using special hardware or it can be implemented in
+software. The VyOS system supports software RAID 1 on two disks.
+The VyOS implementation of RAID 1 allows the following:</p>
+<ul class="simple">
+<li><p>Detection and reporting of disk failure</p></li>
+<li><p>The ability to maintain system operation with one failed disk</p></li>
+<li><p>The ability to boot the system with one failed disk</p></li>
+<li><p>The ability to replace a failed disk and initiate re-mirroring</p></li>
+<li><p>The ability to monitor the status of remirroring</p></li>
+</ul>
+<section id="installation-implications">
+<span id="raid-instalation"></span><h2>Installation Implications<a class="headerlink" href="#installation-implications" title="Link to this heading"></a></h2>
+<p>The VyOS systems installation utility provides several options for installing
+to a RAID 1 set. You can:</p>
+<ul class="simple">
+<li><p>Use the install system to create the RAID 1 set</p></li>
+<li><p>Use the underlying Linux commands to create a RAID 1 set before running the
+install system command.</p></li>
+<li><p>Use a previously-created RAID 1 set.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before a permanent installation, VyOS runs a live installation</p>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="single-disk-install-as-normal">
+<h3>Single disk, install as normal<a class="headerlink" href="#single-disk-install-as-normal" title="Link to this heading"></a></h3>
+<p>When the VyOS system is installed, it automatically detects the presence of two
+disks not currently part of a RAID array. In these cases, the VyOS
+installation utility automatically offers you the option of configuring RAID 1
+mirroring for the drives, with the following prompt.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like to configure RAID 1 mirroring on them?
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>If you do not want to configure RAID 1 mirroring, enter “No” at the prompt
+and continue with installation in the normal way.</p></li>
+</ul>
+</section>
+<section id="empty-2-disk">
+<h3>Empty 2+ Disk<a class="headerlink" href="#empty-2-disk" title="Link to this heading"></a></h3>
+<p>If VyOS system detect two identical disks that are not currently part of a
+RAID-1 set, the VyOS installation utility automatically offers you the option
+of configuring RAID 1 mirroring for the drives, with the following prompt.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like to configure RAID 1 mirroring on them?
+</pre></div>
+</div>
+<p>1 - To create a new RAID 1 array, enter “Yes” at the prompt. If the system
+detects a filesystem on the partitions being used for RAID 1 it will prompt you
+to indicate whether you want to continue creating the RAID 1 array.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Continue creating array?
+</pre></div>
+</div>
+<p>2 - To overwrite the old filesystem, enter “Yes”.</p>
+<p>3 - The system informs you that all data on both drives will be erased. You are
+prompted to confirm that you want to continue</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Are you sure you want to do this?
+</pre></div>
+</div>
+<p>4 - Enter “Yes” at the prompt to retain the current VyOS configuration once
+installation is complete. Enter “No” to delete the current VyOS
+configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like me to save the data on it before I delete it?
+</pre></div>
+</div>
+<p>5 - Enter “Yes” at the prompt to retain the current VyOS configuration once
+installation is complete. Enter “No” to delete the current VyOS configuration.</p>
+<p>6 - Continue with installation in the normal way.</p>
+</section>
+<section id="present-raid-1">
+<h3>Present RAID-1<a class="headerlink" href="#present-raid-1" title="Link to this heading"></a></h3>
+<p>When the VyOS software on a system with a RAID 1 set already configured,
+the installation utility will detect the array and will display the following
+prompt:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like to use this one?
+</pre></div>
+</div>
+<p>1 - To break apart the current RAID 1 set, enter “No” at the prompt. The</p>
+<p>installation utility detects that there are two identical disks and offers you
+the option of configuring RAID 1 mirroring on them, displaying the following
+prompt:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like to configure RAID 1 mirroring on them?
+</pre></div>
+</div>
+<p>2 - To decline to set up a new RAID 1 configuration on the disks, enter “No”
+at the prompt. The system prompts you to indicate which partition you would
+like the system installed on.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Which partition should I install the root on? [sda1]:
+</pre></div>
+</div>
+<p>3 - Enter the partition where you would like the system installed. The system
+then prompts you to indicate whether you want to save the old configuration
+data. This represents the current VyOS configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Would you like me to save the data on it before I delete it?
+</pre></div>
+</div>
+<p>4 - Enter “Yes” at the prompt to retain the current VyOS configuration once
+installation is complete. Enter “No” to delete the current VyOS configuration.</p>
+<p>5 - Continue with installation in the normal way.</p>
+</section>
+<section id="detecting-and-replacing-a-failed-raid-1-disk">
+<h3>Detecting and Replacing a Failed RAID 1 Disk<a class="headerlink" href="#detecting-and-replacing-a-failed-raid-1-disk" title="Link to this heading"></a></h3>
+<p>The VyOS system automatically detects a disk failure within a RAID 1 set and
+reports it to the system console. You can verify the failure by issuing the
+show raid command.</p>
+<p>To replace a bad disk within a RAID 1 set, perform the following steps:</p>
+<p>1 - Remove the failed disk from the RAID 1 set by issuing the following
+command:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-delete-raid-raid1device-member-diskpartition">
+delete raid &lt;RAID‐1‐device&gt; member &lt;disk‐partition&gt;</span>
+<a class="cmdlink" href="#opcmd-delete-raid-raid1device-member-diskpartition" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>where RAID-1-device is the name of the RAID 1 device (for example, md0) and
+disk-partition is the name of the failed disk partition (for example, sdb2).</p>
+</div>
+</div>
+<p>2- Physically remove the failed disk from the system. If the drives are not
+hot-swappable, then you must shut down the system before removing the disk.</p>
+<p>3 - Replace the failed drive with a drive of the same size or larger.</p>
+<p>4 - Format the new disk for RAID 1 by issuing the following command:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-format-disk-diskdevice1-like-diskdevice2">
+format disk &lt;disk‐device1&gt; like &lt;disk‐device2&gt;</span>
+<a class="cmdlink" href="#opcmd-format-disk-diskdevice1-like-diskdevice2" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>where disk-device1 is the replacement disk (for example, sdb) and
+disk-device2 is the existing healthy disk (for example, sda).</p>
+</div>
+</div>
+<p>5-Add the replacement disk to the RAID 1 set by issuing the following command:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-add-raid-raid1device-member-diskpartition">
+add raid &lt;RAID‐1‐device&gt; member &lt;disk‐partition&gt;</span>
+<a class="cmdlink" href="#opcmd-add-raid-raid1device-member-diskpartition" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>where RAID-1-device is the name of the RAID 1 device (for example, md0) and
+disk-partition is the name of the replacement disk partition
+(for example, sdb2).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<p>This part introduces how to add a disk partition to a RAID-1 set initiates
+mirror synchronization, check and display information.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-add-raid-raid1device-member-diskpartition">
+add raid &lt;RAID‐1‐device&gt; member &lt;disk‐partition&gt;</span>
+<a class="cmdlink" href="#opcmd-add-raid-raid1device-member-diskpartition" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to add a member disk partition to the RAID 1 set. Adding a
+disk partition to a RAID 1 set initiates mirror synchronization, where all
+data on the existing member partition is copied to the new partition.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-format-disk-diskdevice1-like-diskdevice2">
+format disk &lt;disk‐device1&gt; like &lt;disk‐device2&gt;</span>
+<a class="cmdlink" href="#opcmd-format-disk-diskdevice1-like-diskdevice2" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>This command is typically used to prepare a disk to be added to a preexisting
+RAID 1 set (of which disk-device2 is already a member).</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-raid-raid1device">
+show raid &lt;RAID‐1‐device&gt;</span>
+<a class="cmdlink" href="#opcmd-show-raid-raid1device" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>shows output for show raid md0 as sdb1 is being added to the RAID 1
+set and is in the process of being resynchronized.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show raid md0
+/dev/md0:
+      Version : 00.90
+Creation Time : Wed Oct 29 09:19:09 2008
+   Raid Level : raid1
+   Array Size : 1044800 (1020.48 MiB 1069.88 MB)
+Used Dev Size : 1044800 (1020.48 MiB 1069.88 MB)
+ Raid Devices : 2
+Total Devices : 2
+Preferred Minor : 0
+  Persistence : Superblock is persistent
+  Update Time : Wed Oct 29 19:34:23 2008
+        State : active, degraded, recovering
+Active Devices : 1
+Working Devices : 2
+Failed Devices : 0
+Spare Devices : 1
+Rebuild Status : 17% complete
+         UUID : 981abd77:9f8c8dd8:fdbf4de4:3436c70f
+       Events : 0.103
+  Number   Major   Minor   RaidDevice State
+     0       8        1        0      active sync   /dev/sda1
+     2       8       17        1      spare rebuilding   /dev/sdb1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-raid-raid1device">
+show raid &lt;RAID‐1‐device&gt;</span>
+<a class="cmdlink" href="#opcmd-show-raid-raid1device" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to display the formatting of a hard disk.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show disk sda format
+Disk /dev/sda: 1073 MB, 1073741824 bytes
+85 heads, 9 sectors/track, 2741 cylinders
+Units = cylinders of 765 * 512 = 391680 bytes
+Disk identifier: 0x000b7179
+ Device Boot      Start         End      Blocks   Id  System
+/dev/sda1               6        2737     1044922+  fd  Linux raid autodetect
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="password-recovery.html" class="btn btn-neutral float-left" title="Password Recovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../automation/index.html" class="btn btn-neutral float-right" title="VyOS Automation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

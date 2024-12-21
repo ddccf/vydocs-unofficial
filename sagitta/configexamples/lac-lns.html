@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPPoE over L2TP &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Inter-VRF Routing over VRF Lite" href="inter-vrf-routing-vrf-lite.html" />
+    <link rel="prev" title="L3VPN for Hub-and-Spoke connectivity with VyOS" href="l3vpn-hub-and-spoke.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="zone-policy.html">Zone-Policy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PPPoE over L2TP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-topology">Network Topology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configurations">Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lac">LAC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lns">LNS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">PPPoE over L2TP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/configexamples/lac-lns.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pppoe-over-l2tp">
+<span id="examples-lac-lns"></span><h1>PPPoE over L2TP<a class="headerlink" href="#pppoe-over-l2tp" title="Link to this heading"></a></h1>
+<p>This document is to describe a basic setup using PPPoE over L2TP.
+LAC and LNS are components of the broadband topology.
+LAC - L2TP access concentrator
+LNS -  L2TP Network Server
+LAC and LNS forms L2TP tunnel. LAC receives packets from PPPoE clients and
+forward them to LNS. LNS is the termination point that comes from PPP packets
+from the remote client.</p>
+<p>In this example we use VyOS 1.5 as LNS and Cisco IOS as LAC.
+All users with domain <strong>vyos.io</strong> will be tunneled to LNS via L2TP.</p>
+<section id="network-topology">
+<h2>Network Topology<a class="headerlink" href="#network-topology" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../images/lac-lns-diagram.jpg"><img alt="Network Topology Diagram" class="align-center" src="../images/lac-lns-diagram.jpg" style="width: 60%;" />
+</a>
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading"></a></h2>
+<section id="lac">
+<h3>LAC<a class="headerlink" href="#lac" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>aaa new-model
+!
+aaa authentication ppp default local
+!
+vpdn enable
+vpdn aaa attribute nas-ip-address vpdn-nas
+!
+vpdn-group LAC
+ request-dialin
+  protocol l2tp
+  domain vyos.io
+ initiate-to ip 192.168.139.100
+ source-ip 192.168.139.101
+ local name LAC
+ l2tp tunnel password 0 test123
+!
+bba-group pppoe MAIN-BBA
+ virtual-template 1
+!
+interface GigabitEthernet0/0
+ description To LNS
+ ip address 192.168.139.101 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description To PPPoE clients
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+ pppoe enable group MAIN-BBA
+!
+</pre></div>
+</div>
+</section>
+<section id="lns">
+<h3>LNS<a class="headerlink" href="#lns" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address &#39;192.168.139.100/24&#39;
+set nat source rule 100 outbound-interface name &#39;eth0&#39;
+set nat source rule 100 source address &#39;10.0.0.0/24&#39;
+set nat source rule 100 translation address &#39;masquerade&#39;
+set protocols static route 0.0.0.0/0 next-hop 192.168.139.2
+set vpn l2tp remote-access authentication mode &#39;radius&#39;
+set vpn l2tp remote-access authentication radius server 192.168.139.110 key &#39;radiustest&#39;
+set vpn l2tp remote-access client-ip-pool TEST-POOL range &#39;10.0.0.2-10.0.0.100&#39;
+set vpn l2tp remote-access default-pool &#39;TEST-POOL&#39;
+set vpn l2tp remote-access gateway-address &#39;10.0.0.1&#39;
+set vpn l2tp remote-access lns host-name &#39;LAC&#39;
+set vpn l2tp remote-access lns shared-secret &#39;test123&#39;
+set vpn l2tp remote-access name-server &#39;8.8.8.8&#39;
+set vpn l2tp remote-access ppp-options disable-ccp
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This setup requires the Compression Control Protocol (CCP)
+being disabled, the command <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vpn</span> <span class="pre">l2tp</span> <span class="pre">remote-access</span> <span class="pre">ppp-options</span> <span class="pre">disable-ccp</span></code>
+accomplishes that.</p>
+</div>
+</section>
+<section id="client">
+<h3>Client<a class="headerlink" href="#client" title="Link to this heading"></a></h3>
+<p>In this lab we use Windows PPPoE client.</p>
+<a class="reference internal image-reference" href="../images/lac-lns-winclient.jpg"><img alt="Window PPPoE Client Configuration" class="align-center" src="../images/lac-lns-winclient.jpg" style="width: 100%;" />
+</a>
+</section>
+<section id="monitoring">
+<h3>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h3>
+<p>Monitoring on LNS side</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show l2tp-server sessions
+ ifname |   username   |    ip    | ip6 | ip6-dp |   calling-sid   | rate-limit | state  |  uptime  | rx-bytes  | tx-bytes
+--------+--------------+----------+-----+--------+-----------------+------------+--------+----------+-----------+----------
+ l2tp0  | test@vyos.io | 10.0.0.2 |     |        | 192.168.139.101 |            | active | 00:00:35 | 188.4 KiB | 9.3 MiB
+</pre></div>
+</div>
+<p>Monitoring on LAC side</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Router#show pppoe session
+     1 session  in FORWARDED (FWDED) State
+     1 session  total
+Uniq ID  PPPoE  RemMAC          Port                    VT  VA         State
+           SID  LocMAC                                      VA-st      Type
+      1      1  000c.290b.20a6  Gi0/1                    1  N/A        FWDED
+                0c58.88ac.0001
+
+Router#show l2tp
+L2TP Tunnel and Session Information Total tunnels 1 sessions 1
+
+LocTunID   RemTunID   Remote Name   State  Remote Address  Sessn L2TP Class/
+                                                           Count VPDN Group
+23238      2640       LAC           est    192.168.139.100 1     LAC
+
+LocID      RemID      TunID      Username, Intf/      State  Last Chg Uniq ID
+                                 Vcid, Circuit
+25641      25822      23238      test@vyos.io, Gi0/1  est    00:05:36 1
+</pre></div>
+</div>
+<p>Monitoring on RADIUS Server side</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>root@Radius:~# cat /var/log/freeradius/radacct/192.168.139.100/detail-20240221
+Wed Feb 21 13:37:17 2024
+        User-Name = &quot;test@vyos.io&quot;
+        NAS-Port = 0
+        NAS-Port-Id = &quot;l2tp0&quot;
+        NAS-Port-Type = Virtual
+        Service-Type = Framed-User
+        Framed-Protocol = PPP
+        Calling-Station-Id = &quot;192.168.139.101&quot;
+        Called-Station-Id = &quot;192.168.139.100&quot;
+        Acct-Status-Type = Start
+        Acct-Authentic = RADIUS
+        Acct-Session-Id = &quot;45c731e169d9a4f1&quot;
+        Acct-Session-Time = 0
+        Acct-Input-Octets = 0
+        Acct-Output-Octets = 0
+        Acct-Input-Packets = 0
+        Acct-Output-Packets = 0
+        Acct-Input-Gigawords = 0
+        Acct-Output-Gigawords = 0
+        Framed-IP-Address = 10.0.0.2
+        NAS-IP-Address = 192.168.139.100
+        Event-Timestamp = &quot;Feb 21 2024 13:37:17 UTC&quot;
+        Tmp-String-9 = &quot;ai:&quot;
+        Acct-Unique-Session-Id = &quot;ea6a1089816f19c0d0f1819bc61c3318&quot;
+        Timestamp = 1708522637
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="l3vpn-hub-and-spoke.html" class="btn btn-neutral float-left" title="L3VPN for Hub-and-Spoke connectivity with VyOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="inter-vrf-routing-vrf-lite.html" class="btn btn-neutral float-right" title="Inter-VRF Routing over VRF Lite" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPsec &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="L2TP" href="l2tp.html" />
+    <link rel="prev" title="VPN" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">IPsec</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ike-internet-key-exchange-attributes">IKE (Internet Key Exchange) Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#esp-encapsulating-security-payload-attributes">ESP (Encapsulating Security Payload) Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#options-global-ipsec-settings-attributes">Options (Global IPsec settings) Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipsec-policy-matching-gre">IPsec policy matching GRE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ikev2-ipsec-road-warriors-remote-access-vpn">IKEv2 IPSec road-warriors remote-access VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dmvpn.html">DMVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="site2site_ipsec.html">Site-to-Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="remoteaccess_ipsec.html">IPSec IKEv2 Remote Access VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">IPsec</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/vpn/ipsec.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipsec">
+<span id="id1"></span><h1>IPsec<a class="headerlink" href="#ipsec" title="Link to this heading"></a></h1>
+<p><abbr title="Generic Routing Encapsulation">GRE</abbr>, GRE/IPsec (or IPIP/IPsec,
+SIT/IPsec, or any other stateless tunnel protocol over IPsec) is the usual way
+to protect the traffic inside a tunnel.</p>
+<p>An advantage of this scheme is that you get a real interface with its own
+address, which makes it easier to setup static routes or use dynamic routing
+protocols without having to modify IPsec policies. The other advantage is that
+it greatly simplifies router to router communication, which can be tricky with
+plain IPsec because the external outgoing address of the router usually doesn’t
+match the IPsec policy of a typical site-to-site setup and you would need to
+add special configuration for it, or adjust the source address of the outgoing
+traffic of your applications. GRE/IPsec has no such problem and is completely
+transparent for applications.</p>
+<p>GRE/IPIP/SIT and IPsec are widely accepted standards, which make this scheme
+easy to implement between VyOS and virtually any other router.</p>
+<p>For simplicity we’ll assume that the protocol is GRE, it’s not hard to guess
+what needs to be changed to make it work with a different protocol. We assume
+that IPsec will use pre-shared secret authentication and will use AES128/SHA1
+for the cipher and hash. Adjust this as necessary.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VMware users should ensure that a VMXNET3 adapter is used. E1000
+adapters have known issues with GRE processing.</p>
+</div>
+<section id="ike-internet-key-exchange-attributes">
+<h2>IKE (Internet Key Exchange) Attributes<a class="headerlink" href="#ike-internet-key-exchange-attributes" title="Link to this heading"></a></h2>
+<p>IKE performs mutual authentication between two parties and establishes
+an IKE security association (SA) that includes shared secret information
+that can be used to efficiently establish SAs for Encapsulating Security
+Payload (ESP) or Authentication Header (AH) and a set of cryptographic
+algorithms to be used by the SAs to protect the traffic that they carry.
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc5996">https://datatracker.ietf.org/doc/html/rfc5996</a></p>
+<p>In VyOS, IKE attributes are specified through IKE groups.
+Multiple proposals can be specified in a single group.</p>
+<p>VyOS IKE group has the next options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">close-action</span></code> defines the action to take if the remote peer unexpectedly
+closes a CHILD_SA:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">none</span></code> set action to none (default);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trap</span></code> installs a trap policy for the CHILD_SA;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code> tries to immediately re-create the CHILD_SA;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dead-peer-detection</span></code> controls the use of the Dead Peer Detection protocol
+(DPD, RFC 3706) where R_U_THERE notification messages (IKEv1) or empty
+INFORMATIONAL messages (IKEv2) are periodically sent in order to check the
+liveliness of the IPsec peer:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">action</span></code> keep-alive failure action:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">trap</span></code>  installs a trap policy, which will catch matching traffic
+and tries to re-negotiate the tunnel on-demand;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span></code> closes the CHILD_SA and does not take further action (default);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span></code> immediately tries to re-negotiate the CHILD_SA
+under a fresh IKE_SA;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">interval</span></code> keep-alive interval in seconds &lt;2-86400&gt; (default 30);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code> keep-alive timeout in seconds &lt;2-86400&gt; (default 120) IKEv1 only</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ikev2-reauth</span></code> whether rekeying of an IKE_SA should also reauthenticate
+the peer. In IKEv1, reauthentication is always done.
+Setting this parameter enables remote host re-authentication during an IKE
+rekey.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key-exchange</span></code> which protocol should be used to initialize the connection
+If not set both protocols are handled and connections will use IKEv2 when
+initiating, but accept any protocol version when responding:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ikev1</span></code> use IKEv1 for Key Exchange;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ikev2</span></code> use IKEv2 for Key Exchange;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lifetime</span></code> IKE lifetime in seconds &lt;0-86400&gt; (default 28800);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable-mobike</span></code> disables MOBIKE Support. MOBIKE is only available for IKEv2
+and enabled by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> IKEv1 Phase 1 Mode Selection:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code> use Main mode for Key Exchanges in the IKEv1 Protocol
+(Recommended Default);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aggressive</span></code> use Aggressive mode for Key Exchanges in the IKEv1 protocol
+aggressive mode is much more insecure compared to Main mode;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">proposal</span></code> the list of proposals and their parameters:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dh-group</span></code> dh-group;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">encryption</span></code> encryption algorithm;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hash</span></code> hash algorithm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prf</span></code> pseudo-random function.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="esp-encapsulating-security-payload-attributes">
+<h2>ESP (Encapsulating Security Payload) Attributes<a class="headerlink" href="#esp-encapsulating-security-payload-attributes" title="Link to this heading"></a></h2>
+<p>ESP is used to provide confidentiality, data origin authentication,
+connectionless integrity, an anti-replay service (a form of partial sequence
+integrity), and limited traffic flow confidentiality.
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc4303">https://datatracker.ietf.org/doc/html/rfc4303</a></p>
+<p>In VyOS, ESP attributes are specified through ESP groups.
+Multiple proposals can be specified in a single group.</p>
+<p>VyOS ESP group has the next options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compression</span></code>  Enables the  IPComp(IP Payload Compression) protocol which
+allows compressing the content of IP packets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">life-bytes</span></code> ESP life in bytes &lt;1024-26843545600000&gt;.
+Number of bytes transmitted over an IPsec SA before it expires;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">life-packets</span></code> ESP life in packets &lt;1000-26843545600000&gt;.
+Number of packets transmitted over an IPsec SA before it expires;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lifetime</span></code> ESP lifetime in seconds &lt;30-86400&gt; (default 3600).
+How long a particular instance of a connection (a set of
+encryption/authentication keys for user packets) should last,
+from successful negotiation to expiry;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> the type of the connection:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tunnel</span></code> tunnel mode (default);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transport</span></code> transport mode;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pfs</span></code> whether Perfect Forward Secrecy of keys is desired on the
+connection’s keying channel and defines a Diffie-Hellman group for PFS:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code> Inherit Diffie-Hellman group from IKE group (default);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code> Disable PFS;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">dh-group</span> <span class="pre">&gt;</span></code> defines a Diffie-Hellman group for PFS;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">proposal</span></code> ESP-group proposal with number &lt;1-65535&gt;:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">encryption</span></code> encryption algorithm (default 128 bit AES-CBC);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hash</span></code> hash algorithm (default sha1).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable-rekey</span></code> Do not locally initiate a re-key of the SA, remote
+peer must re-key before expiration.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="options-global-ipsec-settings-attributes">
+<h2>Options (Global IPsec settings) Attributes<a class="headerlink" href="#options-global-ipsec-settings-attributes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">disable-route-autoinstall</span></code> Do not automatically install routes to remote</dt><dd><p>networks;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">flexvpn</span></code> Allows FlexVPN vendor ID payload (IKEv2 only). Send the Cisco</dt><dd><p>FlexVPN vendor ID payload (IKEv2 only), which is required in order to make
+Cisco brand devices allow negotiating a local traffic selector (from
+strongSwan’s point of view) that is not the assigned virtual IP address if
+such an address is requested by strongSwan. Sending the Cisco FlexVPN
+vendor ID prevents the peer from narrowing the initiator’s local traffic
+selector and allows it to e.g. negotiate a TS of 0.0.0.0/0 == 0.0.0.0/0
+instead. This has been tested with a “tunnel mode ipsec ipv4” Cisco
+template but should also work for GRE encapsulation;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">interface</span></code> Interface Name to use. The name of the interface on which</dt><dd><p>virtual IP addresses should be installed. If not specified the addresses
+will be installed on the outbound interface;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">virtual-ip</span></code> Allows the installation of virtual-ip addresses. A comma</dt><dd><p>separated list of virtual IPs to request in IKEv2 configuration payloads or
+IKEv1 Mode Config. The wildcard addresses 0.0.0.0 and :: request an
+arbitrary address, specific addresses may be defined. The responder may
+return a different address, or none at all. Define the <code class="docutils literal notranslate"><span class="pre">virtual-address</span></code>
+option to configure the IP address in a site-to-site hierarchy.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ipsec-policy-matching-gre">
+<h2>IPsec policy matching GRE<a class="headerlink" href="#ipsec-policy-matching-gre" title="Link to this heading"></a></h2>
+<p>The first and arguably cleaner option is to make your IPsec policy match GRE
+packets between external addresses of your routers. This is the best option if
+both routers have static external addresses.</p>
+<p>Suppose the LEFT router has external address 192.0.2.10 on its eth0 interface,
+and the RIGHT router is 203.0.113.45</p>
+<p>On the LEFT:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># GRE tunnel
+set interfaces tunnel tun0 encapsulation gre
+set interfaces tunnel tun0 source-address 192.0.2.10
+set interfaces tunnel tun0 remote 203.0.113.45
+set interfaces tunnel tun0 address 10.10.10.1/30
+
+## IPsec
+set vpn ipsec interface eth0
+
+# Pre-shared-secret
+set vpn ipsec authentication psk vyos id 192.0.2.10
+set vpn ipsec authentication psk vyos id 203.0.113.45
+set vpn ipsec authentication psk vyos secret MYSECRETKEY
+
+# IKE group
+set vpn ipsec ike-group MyIKEGroup proposal 1 dh-group &#39;2&#39;
+set vpn ipsec ike-group MyIKEGroup proposal 1 encryption &#39;aes128&#39;
+set vpn ipsec ike-group MyIKEGroup proposal 1 hash &#39;sha1&#39;
+
+# ESP group
+set vpn ipsec esp-group MyESPGroup proposal 1 encryption &#39;aes128&#39;
+set vpn ipsec esp-group MyESPGroup proposal 1 hash &#39;sha1&#39;
+
+# IPsec tunnel
+set vpn ipsec site-to-site peer right authentication mode pre-shared-secret
+set vpn ipsec site-to-site peer right authentication remote-id 203.0.113.45
+
+set vpn ipsec site-to-site peer right ike-group MyIKEGroup
+set vpn ipsec site-to-site peer right default-esp-group MyESPGroup
+
+set vpn ipsec site-to-site peer right local-address 192.0.2.10
+set vpn ipsec site-to-site peer right remote-address 203.0.113.45
+
+# This will match all GRE traffic to the peer
+set vpn ipsec site-to-site peer right tunnel 1 protocol gre
+</pre></div>
+</div>
+<p>On the RIGHT, setup by analogy and swap local and remote addresses.</p>
+<section id="source-tunnel-from-dummy-interface">
+<h3>Source tunnel from dummy interface<a class="headerlink" href="#source-tunnel-from-dummy-interface" title="Link to this heading"></a></h3>
+<p>The scheme above doesn’t work when one of the routers has a dynamic external
+address though. The classic workaround for this is to setup an address on a
+loopback interface and use it as a source address for the GRE tunnel, then setup
+an IPsec policy to match those loopback addresses.</p>
+<p>We assume that the LEFT router has static 192.0.2.10 address on eth0, and the
+RIGHT router has a dynamic address on eth0.</p>
+<p>The peer names RIGHT and LEFT are used as informational text.</p>
+<p><strong>Setting up the GRE tunnel</strong></p>
+<p>On the LEFT:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address 192.168.99.1/32
+
+set interfaces tunnel tun0 encapsulation gre
+set interfaces tunnel tun0 address 10.10.10.1/30
+set interfaces tunnel tun0 source-address 192.168.99.1
+set interfaces tunnel tun0 remote 192.168.99.2
+</pre></div>
+</div>
+<p>On the RIGHT:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address 192.168.99.2/32
+
+set interfaces tunnel tun0 encapsulation gre
+set interfaces tunnel tun0 address 10.10.10.2/30
+set interfaces tunnel tun0 source-address 192.168.99.2
+set interfaces tunnel tun0 remote 192.168.99.1
+</pre></div>
+</div>
+<p><strong>Setting up IPSec</strong></p>
+<p>However, now you need to make IPsec work with dynamic address on one side. The
+tricky part is that pre-shared secret authentication doesn’t work with dynamic
+address, so we’ll have to use RSA keys.</p>
+<p>First, on both routers run the operational command “generate pki key-pair
+install &lt;key-pair name&gt;”. You may choose different length than 2048 of course.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@left# run generate pki key-pair install ipsec-LEFT
+Enter private key type: [rsa, dsa, ec] (Default: rsa)
+Enter private key bits: (Default: 2048)
+Note: If you plan to use the generated key on this router, do not encrypt the private key.
+Do you want to encrypt the private key with a passphrase? [y/N] N
+Configure mode commands to install key pair:
+Do you want to install the public key? [Y/n] Y
+set pki key-pair ipsec-LEFT public key &#39;MIIBIjANBgkqh...&#39;
+Do you want to install the private key? [Y/n] Y
+set pki key-pair ipsec-LEFT private key &#39;MIIEvgIBADAN...&#39;
+[edit]
+</pre></div>
+</div>
+<p>Configuration commands for the private and public key will be displayed on the
+screen which needs to be set on the router first.
+Note the command with the public key
+(set pki key-pair ipsec-LEFT public key ‘MIIBIjANBgkqh…’).
+Then do the same on the opposite router:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@left# run generate pki key-pair install ipsec-RIGHT
+</pre></div>
+</div>
+<p>Note the command with the public key
+(set pki key-pair ipsec-RIGHT public key ‘FAAOCAQ8AMII…’).</p>
+<p>Now the noted public keys should be entered on the opposite routers.</p>
+<p>On the LEFT:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set pki key-pair ipsec-RIGHT public key &#39;FAAOCAQ8AMII...&#39;
+</pre></div>
+</div>
+<p>On the RIGHT:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set pki key-pair ipsec-LEFT public key &#39;MIIBIjANBgkqh...&#39;
+</pre></div>
+</div>
+<p>Now you are ready to setup IPsec. You’ll need to use an ID instead of address
+for the peer.</p>
+<p>On the LEFT (static address):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec interface eth0
+
+set vpn ipsec esp-group MyESPGroup proposal 1 encryption aes128
+set vpn ipsec esp-group MyESPGroup proposal 1 hash sha1
+
+set vpn ipsec ike-group MyIKEGroup proposal 1 dh-group 2
+set vpn ipsec ike-group MyIKEGroup proposal 1 encryption aes128
+set vpn ipsec ike-group MyIKEGroup proposal 1 hash sha1
+
+set vpn ipsec site-to-site peer RIGHT authentication local-id LEFT
+set vpn ipsec site-to-site peer RIGHT authentication mode rsa
+set vpn ipsec site-to-site peer RIGHT authentication rsa local-key ipsec-LEFT
+set vpn ipsec site-to-site peer RIGHT authentication rsa remote-key ipsec-RIGHT
+set vpn ipsec site-to-site peer RIGHT authentication remote-id RIGHT
+set vpn ipsec site-to-site peer RIGHT default-esp-group MyESPGroup
+set vpn ipsec site-to-site peer RIGHT ike-group MyIKEGroup
+set vpn ipsec site-to-site peer RIGHT local-address 192.0.2.10
+set vpn ipsec site-to-site peer RIGHT connection-type respond
+set vpn ipsec site-to-site peer RIGHT tunnel 1 local prefix 192.168.99.1/32  # Additional loopback address on the local
+set vpn ipsec site-to-site peer RIGHT tunnel 1 remote prefix 192.168.99.2/32 # Additional loopback address on the remote
+</pre></div>
+</div>
+<p>On the RIGHT (dynamic address):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec interface eth0
+
+set vpn ipsec esp-group MyESPGroup proposal 1 encryption aes128
+set vpn ipsec esp-group MyESPGroup proposal 1 hash sha1
+
+set vpn ipsec ike-group MyIKEGroup proposal 1 dh-group 2
+set vpn ipsec ike-group MyIKEGroup proposal 1 encryption aes128
+set vpn ipsec ike-group MyIKEGroup proposal 1 hash sha1
+
+set vpn ipsec site-to-site peer LEFT authentication local-id RIGHT
+set vpn ipsec site-to-site peer LEFT authentication mode rsa
+set vpn ipsec site-to-site peer LEFT authentication rsa local-key ipsec-RIGHT
+set vpn ipsec site-to-site peer LEFT authentication rsa remote-key ipsec-LEFT
+set vpn ipsec site-to-site peer LEFT authentication remote-id LEFT
+set vpn ipsec site-to-site peer LEFT connection-type initiate
+set vpn ipsec site-to-site peer LEFT default-esp-group MyESPGroup
+set vpn ipsec site-to-site peer LEFT ike-group MyIKEGroup
+set vpn ipsec site-to-site peer LEFT local-address any
+set vpn ipsec site-to-site peer LEFT remote-address 192.0.2.10
+set vpn ipsec site-to-site peer LEFT tunnel 1 local prefix 192.168.99.2/32  # Additional loopback address on the local
+set vpn ipsec site-to-site peer LEFT tunnel 1 remote prefix 192.168.99.1/32 # Additional loopback address on the remote
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ikev2-ipsec-road-warriors-remote-access-vpn">
+<h2>IKEv2 IPSec road-warriors remote-access VPN<a class="headerlink" href="#ikev2-ipsec-road-warriors-remote-access-vpn" title="Link to this heading"></a></h2>
+<p>Internet Key Exchange version 2, IKEv2 for short, is a request/response
+protocol developed by both Cisco and Microsoft. It is used to establish and
+secure IPv4/IPv6 connections, be it a site-to-site VPN or from a
+road-warrior connecting to a hub site. IKEv2, when run in point-to-multipoint,
+or remote-access/road-warrior mode, secures the server-side with another layer
+by using an x509 signed server certificate.</p>
+<p>Key exchange and payload encryption is still done using IKE and ESP proposals
+as known from IKEv1 but the connections are faster to establish, more reliable,
+and also support roaming from IP to IP (called MOBIKE which makes sure your
+connection does not drop when changing networks from e.g. WIFI to LTE and back).</p>
+<p>This feature closely works together with <a class="reference internal" href="../pki/index.html#pki"><span class="std std-ref">PKI</span></a> subsystem as you required
+a x509 certificate.</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>This example uses CACert as certificate authority.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">pki</span> <span class="n">ca</span> <span class="n">CAcert_Class_3_Root</span> <span class="n">certificate</span> <span class="s1">&#39;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&#39;</span>
+<span class="nb">set</span> <span class="n">pki</span> <span class="n">ca</span> <span class="n">CAcert_Signing_Authority</span> <span class="n">certificate</span> <span class="s1">&#39;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&#39;</span>
+</pre></div>
+</div>
+<p>After you obtain your server certificate you can import it from a file on the
+local filesystem, or paste it into the CLI. Please note that when entering the
+certificate manually you need to strip the <code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">KEY-----</span></code> and
+<code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">KEY-----</span></code> tags. Also, the certificate or key needs to be presented
+in a single line without line breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>).</p>
+<p>To import it from the filesystem use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pki</span> <span class="n">certificate</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="n">file</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cert</span><span class="o">.</span><span class="n">pem</span>
+</pre></div>
+</div>
+<p>In our example the certificate name is called vyos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">pki</span> <span class="n">certificate</span> <span class="n">vyos</span> <span class="n">certificate</span> <span class="s1">&#39;MIIE45s...&#39;</span>
+<span class="nb">set</span> <span class="n">pki</span> <span class="n">certificate</span> <span class="n">vyos</span> <span class="n">private</span> <span class="n">key</span> <span class="s1">&#39;MIIEvgI...&#39;</span>
+</pre></div>
+</div>
+<p>After the PKI certs are all set up we can start configuring our IPSec/IKE
+proposals used for key-exchange end data encryption. The used encryption
+ciphers and integrity algorithms vary from operating system to operating
+system. The ones used in this post are validated to work on both Windows 10
+and iOS/iPadOS 14 to 17.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="n">ESP</span><span class="o">-</span><span class="n">RW</span> <span class="n">compression</span> <span class="s1">&#39;disable&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="n">ESP</span><span class="o">-</span><span class="n">RW</span> <span class="n">lifetime</span> <span class="s1">&#39;3600&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="n">ESP</span><span class="o">-</span><span class="n">RW</span> <span class="n">pfs</span> <span class="s1">&#39;disable&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="n">ESP</span><span class="o">-</span><span class="n">RW</span> <span class="n">proposal</span> <span class="mi">10</span> <span class="n">encryption</span> <span class="s1">&#39;aes128gcm128&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="n">ESP</span><span class="o">-</span><span class="n">RW</span> <span class="n">proposal</span> <span class="mi">10</span> <span class="nb">hash</span> <span class="s1">&#39;sha256&#39;</span>
+
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">key</span><span class="o">-</span><span class="n">exchange</span> <span class="s1">&#39;ikev2&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">lifetime</span> <span class="s1">&#39;7200&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">mobike</span> <span class="s1">&#39;enable&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">proposal</span> <span class="mi">10</span> <span class="n">dh</span><span class="o">-</span><span class="n">group</span> <span class="s1">&#39;14&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">proposal</span> <span class="mi">10</span> <span class="n">encryption</span> <span class="s1">&#39;aes128gcm128&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="n">IKE</span><span class="o">-</span><span class="n">RW</span> <span class="n">proposal</span> <span class="mi">10</span> <span class="nb">hash</span> <span class="s1">&#39;sha256&#39;</span>
+</pre></div>
+</div>
+<p>Every connection/remote-access pool we configure also needs a pool where
+we can draw our client IP addresses from. We provide one IPv4 and IPv6 pool.
+Authorized clients will receive an IPv4 address from the 192.0.2.128/25 prefix
+and an IPv6 address from the 2001:db8:2000::/64 prefix. We can also send some
+DNS nameservers down for our clients to use with their connection.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv4</span> <span class="n">name</span><span class="o">-</span><span class="n">server</span> <span class="s1">&#39;192.0.2.1&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv4</span> <span class="n">prefix</span> <span class="s1">&#39;192.0.2.128/25&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv6</span> <span class="n">name</span><span class="o">-</span><span class="n">server</span> <span class="s1">&#39;2001:db8:1000::1&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv6</span> <span class="n">prefix</span> <span class="s1">&#39;2001:db8:2000::/64&#39;</span>
+</pre></div>
+</div>
+<p>VyOS supports multiple IKEv2 remote-access connections. Every connection can
+have its own dedicated IKE/ESP ciphers, certificates or local listen address
+for e.g. inbound load balancing.</p>
+<p>We configure a new connection named <code class="docutils literal notranslate"><span class="pre">rw</span></code> for road-warrior, that identifies
+itself as <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code> to the clients and uses the <code class="docutils literal notranslate"><span class="pre">vyos</span></code> certificate
+signed by the <cite>CAcert_Class3_Root`</cite> intermediate CA. We select our previously
+specified IKE/ESP groups and also link the IP address pool to draw addresses
+from.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="nb">id</span> <span class="s1">&#39;192.0.2.1&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">server</span><span class="o">-</span><span class="n">mode</span> <span class="s1">&#39;x509&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">x509</span> <span class="n">ca</span><span class="o">-</span><span class="n">certificate</span> <span class="s1">&#39;CAcert_Class_3_Root&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">x509</span> <span class="n">certificate</span> <span class="s1">&#39;vyos&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">esp</span><span class="o">-</span><span class="n">group</span> <span class="s1">&#39;ESP-RW&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">ike</span><span class="o">-</span><span class="n">group</span> <span class="s1">&#39;IKE-RW&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">local</span><span class="o">-</span><span class="n">address</span> <span class="s1">&#39;192.0.2.1&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">pool</span> <span class="s1">&#39;ra-rw-ipv4&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">pool</span> <span class="s1">&#39;ra-rw-ipv6&#39;</span>
+</pre></div>
+</div>
+<p>VyOS also supports (currently) two different modes of authentication, local and
+RADIUS. To create a new local user named <code class="docutils literal notranslate"><span class="pre">vyos</span></code> with password <code class="docutils literal notranslate"><span class="pre">vyos</span></code> use the
+following commands.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">client</span><span class="o">-</span><span class="n">mode</span> <span class="s1">&#39;eap-mschapv2&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">local</span><span class="o">-</span><span class="n">users</span> <span class="n">username</span> <span class="n">vyos</span> <span class="n">password</span> <span class="s1">&#39;vyos&#39;</span>
+</pre></div>
+</div>
+<p>If you feel better forwarding all authentication requests to your enterprises
+RADIUS server, use the commands below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">connection</span> <span class="n">rw</span> <span class="n">authentication</span> <span class="n">client</span><span class="o">-</span><span class="n">mode</span> <span class="s1">&#39;eap-radius&#39;</span>
+<span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">radius</span> <span class="n">server</span> <span class="mf">192.0.2.2</span> <span class="n">key</span> <span class="s1">&#39;secret&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="client-configuration">
+<h3>Client Configuration<a class="headerlink" href="#client-configuration" title="Link to this heading"></a></h3>
+<p>Configuring VyOS to act as your IPSec access concentrator is one thing, but
+you probably need to setup your client connecting to the server so they can
+talk to the IPSec gateway.</p>
+<section id="microsoft-windows-10">
+<h4>Microsoft Windows (10+)<a class="headerlink" href="#microsoft-windows-10" title="Link to this heading"></a></h4>
+<p>Windows 10 does not allow a user to choose the integrity and encryption ciphers
+using the GUI and it uses some older proposals by default. A user can only
+change the proposals on the client side by configuring the IPSec connection
+profile via PowerShell.</p>
+<p>We generate a connection profile used by Windows clients that will connect to
+the “rw” connection on our VyOS server on the VPN servers IP address/fqdn
+<cite>vpn.vyos.net</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Microsoft Windows expects the server name to be also used in the
+server’s certificate common name, so it’s best to use this DNS name for
+your VPN connection.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate ipsec profile windows-remote-access rw remote vpn.vyos.net
+
+ ==== &lt;snip&gt; ====
+ Add-VpnConnection -Name &quot;VyOS IKEv2 VPN&quot; -ServerAddress &quot;vpn.vyos.net&quot; -TunnelType &quot;Ikev2&quot;
+ Set-VpnConnectionIPsecConfiguration -ConnectionName &quot;VyOS IKEv2 VPN&quot; -AuthenticationTransformConstants GCMAES128 -CipherTransformConstants GCMAES128 -EncryptionMethod GCMAES128 -IntegrityCheckMethod SHA256128 -PfsGroup None -DHGroup &quot;Group14&quot; -PassThru -Force
+ ==== &lt;/snip&gt; ====
+</pre></div>
+</div>
+<p>As both Microsoft Windows and Apple iOS/iPadOS only support a certain set of
+encryption ciphers and integrity algorithms we will validate the configured
+IKE/ESP proposals and only list the compatible ones to the user — if multiple
+are defined. If there are no matching proposals found — we can not generate a
+profile for you.</p>
+<p>When first connecting to the new VPN the user is prompted to enter proper
+credentials.</p>
+</section>
+<section id="apple-ios-ipados-14-2">
+<h4>Apple iOS/iPadOS (14.2+)<a class="headerlink" href="#apple-ios-ipados-14-2" title="Link to this heading"></a></h4>
+<p>Like on Microsoft Windows, Apple iOS/iPadOS out of the box does not expose
+all available VPN options via the device GUI.</p>
+<p>If you want, need, and should use more advanced encryption ciphers (default
+is still 3DES) you need to provision your device using a so-called “Device
+Profile”. A profile is a simple text file containing XML nodes with a
+<code class="docutils literal notranslate"><span class="pre">.mobileconfig</span></code> file extension that can be sent and opened on any device
+from an E-Mail.</p>
+<p>Profile generation happens from the operational level and is as simple as
+issuing the following command to create a profile to connect to the IKEv2
+access server at <code class="docutils literal notranslate"><span class="pre">vpn.vyos.net</span></code> with the configuration for the <code class="docutils literal notranslate"><span class="pre">rw</span></code>
+remote-access connection group.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Apple iOS/iPadOS expects the server name to be also used in the
+server’s certificate common name, so it’s best to use this DNS name for
+your VPN connection.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ generate ipsec profile ios-remote-access rw remote vpn.vyos.net
+
+==== &lt;snip&gt; ====
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+...
+&lt;/plist&gt;
+==== &lt;/snip&gt; ====
+</pre></div>
+</div>
+<p>In the end, an XML structure is generated which can be saved as
+<code class="docutils literal notranslate"><span class="pre">vyos.mobileconfig</span></code> and sent to the device by E-Mail where it later can
+be imported.</p>
+<p>During profile import, the user is asked to enter its IPSec credentials
+(username and password) which is stored on the mobile.</p>
+</section>
+</section>
+<section id="operation-mode">
+<h3>Operation Mode<a class="headerlink" href="#operation-mode" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa">
+show vpn ike sa</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa-nat-traversal">
+show vpn ike sa nat-traversal</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa-nat-traversal" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations (SA) that are using
+NAT Traversal.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa-peer-peer-name">
+show vpn ike sa peer &lt;peer_name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa-peer-peer-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations (SA) for a specific
+peer.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-secrets">
+show vpn ike secrets</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-secrets" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all the configured pre-shared secret keys.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-status">
+show vpn ike status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the detailed status information of IKE charon process.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-connections">
+show vpn ipsec connections</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-connections" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show details of all available VPN connections</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-policy">
+show vpn ipsec policy</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-policy" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Print out the list of existing crypto policies</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-sa">
+show vpn ipsec sa</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-sa" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all active IPsec Security Associations (SA)</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-sa-detail">
+show vpn ipsec sa detail</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-sa-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a detailed information of all active IPsec Security Associations (SA)
+in verbose format.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-state">
+show vpn ipsec state</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-state" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Print out the list of existing in-kernel crypto state</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-status">
+show vpn ipsec status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the status of running IPsec process and process ID.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-ipsec">
+restart ipsec</span>
+<a class="cmdlink" href="#opcmd-restart-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart the IPsec VPN process and re-establishes the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-all">
+reset vpn ipsec site-to-site all</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Reset all site-to-site IPSec VPN sessions. It terminates all active
+child_sa and reinitiates the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-peer-name">
+reset vpn ipsec site-to-site peer &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-peer-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Reset all tunnels for a given peer, can specify tunnel or vti interface.
+It terminates a specific child_sa and reinitiates the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-ipsec">
+show log ipsec</span>
+<a class="cmdlink" href="#opcmd-show-log-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show logs for IPsec</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="VPN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="l2tp.html" class="btn btn-neutral float-right" title="L2TP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploying VyOS in the AWS cloud &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Deploying VyOS in the Azure cloud" href="terraformAZ.html" />
+    <link rel="prev" title="Terraform for VyOS" href="terraformvyos.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">VyOS Automation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../vyos-api.html">VyOS API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VyOS Terraform</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="terraformvyos.html">Terraform for VyOS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Deploying VyOS in the AWS cloud</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#preparation-steps-for-deploying-vyos-on-aws">Preparation steps for deploying VyOS on AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-creating-an-aws-instance-and-check-the-result">Start creating an AWS instance and check the result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-terrafom-for-aws">Structure of files Terrafom for AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-terrafom-for-aws">File contents of Terrafom for AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-ansible-for-aws">Structure of files Ansible for AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-ansible-for-aws">File contents of Ansible for AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sourse-files-for-aws-from-git">Sourse files for AWS from GIT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="terraformAZ.html">Deploying VyOS in the Azure cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformvSphere.html">Deploying VyOS in the vSphere infrastructure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-napalm.html">Napalm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-salt.html">Salt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command-scripting.html">Command Scripting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloud-init.html">VyOS cloud-init</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VyOS Automation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Terraform</a></li>
+      <li class="breadcrumb-item active">Deploying VyOS in the AWS cloud</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/automation/terraform/terraformAWS.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploying-vyos-in-the-aws-cloud">
+<span id="terraformaws"></span><h1>Deploying VyOS in the AWS cloud<a class="headerlink" href="#deploying-vyos-in-the-aws-cloud" title="Link to this heading"></a></h1>
+<p>With the help of Terraform, you can quickly deploy VyOS-based infrastructure in the AWS cloud. If necessary, the infrastructure can be removed using terraform.
+Also we will make provisioning using Ansible.</p>
+<a class="reference internal image-reference" href="../../images/aws.png"><img alt="Network Topology Diagram" class="align-center" src="../../images/aws.png" style="width: 50%;" />
+</a>
+<p>In this case, we’ll create the necessary files for Terraform and Ansible next using Terraform we’ll create a single instance on the AWS cloud and make provisioning using Ansible.</p>
+<section id="preparation-steps-for-deploying-vyos-on-aws">
+<h2>Preparation steps for deploying VyOS on AWS<a class="headerlink" href="#preparation-steps-for-deploying-vyos-on-aws" title="Link to this heading"></a></h2>
+<p>How to create a single instance and install your configuration using Terraform+Ansible+AWS
+Step by step:</p>
+<p>AWS</p>
+<p>1 Create an account with AWS and get your “access_key”, “secret key”</p>
+<p>2 Create a key <a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html">pair</a> and download your .pem key</p>
+<a class="reference internal image-reference" href="../../images/keypairs.png"><img alt="Network Topology Diagram" class="align-center" src="../../images/keypairs.png" style="width: 50%;" />
+</a>
+<p>3 Create a security <a class="reference external" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-sg.html">group</a> for the new VyOS instance and open all traffic</p>
+<a class="reference internal image-reference" href="../../images/sg.png"><img alt="Network Topology Diagram" class="align-center" src="../../images/sg.png" style="width: 50%;" />
+</a>
+<a class="reference internal image-reference" href="../../images/traffic.png"><img alt="Network Topology Diagram" class="align-center" src="../../images/traffic.png" style="width: 50%;" />
+</a>
+<p>Terraform</p>
+<blockquote>
+<div><p>1 Create an UNIX or Windows instance</p>
+<p>2 Download and install Terraform</p>
+<p>3 Create the folder for example /root/awsterraform</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir /root/awsterraform
+
+ 4 Copy all files into your Terraform project &quot;/root/awsterraform&quot; (vyos.tf, var.tf, terraform.tfvars,version.tf), more detailed see `Structure of files Terrafom for AWS`_
+
+ 5 Type the commands :
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform init
+</pre></div>
+</div>
+<p>Ansible</p>
+<blockquote>
+<div><p>1 Create an UNIX instance whenever you want (local, cloud, and so on)</p>
+<p>2 Download and install Ansible</p>
+<p>3 Create the folder for example /root/aws/</p>
+<p>4 Copy all files into your Ansible project “/root/aws/” (ansible.cfg, instance.yml, mykey.pem and “all”), more detailed see <a class="reference internal" href="#structure-of-files-ansible-for-aws">Structure of files Ansible for AWS</a></p>
+</div></blockquote>
+<p>mykey.pem you have to get using step 1.2</p>
+<p>Start</p>
+<p>Type the commands on your Terrafom instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform plan
+terraform apply
+yes
+</pre></div>
+</div>
+</section>
+<section id="start-creating-an-aws-instance-and-check-the-result">
+<h2>Start creating an AWS instance and check the result<a class="headerlink" href="#start-creating-an-aws-instance-and-check-the-result" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>root@localhost:~/awsterraform# terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.myVyOSec2 will be created
+  + resource &quot;aws_instance&quot; &quot;myVyOSec2&quot; {
+      + ami                                  = &quot;ami-************62c2d&quot;
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = &quot;t2.micro&quot;
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = &quot;awsterraform&quot;
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = [
+          + &quot;awsterraformsg&quot;,
+        ]
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + &quot;name&quot; = &quot;VyOS System&quot;
+        }
+      + tags_all                             = {
+          + &quot;name&quot; = &quot;VyOS System&quot;
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+    }
+
+  # local_file.ip will be created
+  + resource &quot;local_file&quot; &quot;ip&quot; {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = &quot;0777&quot;
+      + file_permission      = &quot;0777&quot;
+      + filename             = &quot;ip.txt&quot;
+      + id                   = (known after apply)
+    }
+
+  # null_resource.SSHconnection1 will be created
+  + resource &quot;null_resource&quot; &quot;SSHconnection1&quot; {
+      + id = (known after apply)
+    }
+
+  # null_resource.SSHconnection2 will be created
+  + resource &quot;null_resource&quot; &quot;SSHconnection2&quot; {
+      + id = (known after apply)
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + my_IP = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only &#39;yes&#39; will be accepted to approve.
+
+  Enter a value: yes
+
+aws_instance.myVyOSec2: Creating...
+aws_instance.myVyOSec2: Still creating... [10s elapsed]
+aws_instance.myVyOSec2: Still creating... [20s elapsed]
+aws_instance.myVyOSec2: Still creating... [30s elapsed]
+aws_instance.myVyOSec2: Still creating... [40s elapsed]
+aws_instance.myVyOSec2: Creation complete after 44s [id=i-09edfca15aac2fe0a]
+null_resource.SSHconnection1: Creating...
+null_resource.SSHconnection2: Creating...
+null_resource.SSHconnection1: Provisioning with &#39;file&#39;...
+null_resource.SSHconnection2: Provisioning with &#39;remote-exec&#39;...
+null_resource.SSHconnection2 (remote-exec): Connecting to remote host via SSH...
+null_resource.SSHconnection2 (remote-exec):   Host: 10.217.80.104
+null_resource.SSHconnection2 (remote-exec):   User: root
+null_resource.SSHconnection2 (remote-exec):   Password: true
+null_resource.SSHconnection2 (remote-exec):   Private key: false
+null_resource.SSHconnection2 (remote-exec):   Certificate: false
+null_resource.SSHconnection2 (remote-exec):   SSH Agent: false
+null_resource.SSHconnection2 (remote-exec):   Checking Host Key: false
+null_resource.SSHconnection2 (remote-exec):   Target Platform: unix
+local_file.ip: Creating...
+local_file.ip: Creation complete after 0s [id=e8e91f2e24579cd28b92e2d152c0c24c3bf4b52c]
+null_resource.SSHconnection2 (remote-exec): Connected!
+null_resource.SSHconnection1: Creation complete after 0s [id=7070868940858935600]
+
+null_resource.SSHconnection2 (remote-exec): PLAY [integration of terraform and ansible] ************************************
+
+null_resource.SSHconnection2 (remote-exec): TASK [Wait 300 seconds, but only start checking after 60 seconds] **************
+null_resource.SSHconnection2: Still creating... [10s elapsed]
+null_resource.SSHconnection2: Still creating... [20s elapsed]
+null_resource.SSHconnection2: Still creating... [30s elapsed]
+null_resource.SSHconnection2: Still creating... [40s elapsed]
+null_resource.SSHconnection2: Still creating... [50s elapsed]
+null_resource.SSHconnection2: Still creating... [1m0s elapsed]
+null_resource.SSHconnection2 (remote-exec): ok: [54.xxx.xxx.xxx]
+
+null_resource.SSHconnection2 (remote-exec): TASK [Configure general settings for the vyos hosts group] *********************
+null_resource.SSHconnection2: Still creating... [1m10s elapsed]
+null_resource.SSHconnection2 (remote-exec): changed: [54.xxx.xxx.xxx]
+
+null_resource.SSHconnection2 (remote-exec): PLAY RECAP *********************************************************************
+null_resource.SSHconnection2 (remote-exec): 54.xxx.xxx.xxx              : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.SSHconnection2: Creation complete after 1m16s [id=4902256962410024771]
+
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+my_IP = &quot;54.xxx.xxx.xxx&quot;
+</pre></div>
+</div>
+<p>After executing all the commands you will have your VyOS instance on the AWS cloud with your configuration, it’s a very convenient desition.
+If you need to delete the instance please type the command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>terraform destroy
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<p>1 Ansible doesn’t connect via SSH to your AWS instance: you have to check that your SSH key has copied into the path /root/aws/.
+Also, increase the time in the file instance.yml from 300 sec to 500 sec or more. (It depends on your location).
+Make sure that you have opened access to the instance in the security group.</p>
+<blockquote>
+<div><p>2 Terraform doesn’t connect via SSH to your Ansible instance: you have to check the correct login and password in the part of the file VyOS. tf</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>connection {
+ type     = &quot;ssh&quot;
+ user     = &quot;root&quot;              # open root access using login and password on your Ansible
+ password = var.password        # check password in the file terraform.tfvars isn&#39;t empty
+     host = var.host            # check the correct IP address of your Ansible host
+}
+</pre></div>
+</div>
+<p>Make sure that Ansible is pinging from Terrafom.</p>
+</section>
+<section id="structure-of-files-terrafom-for-aws">
+<h2>Structure of files Terrafom for AWS<a class="headerlink" href="#structure-of-files-terrafom-for-aws" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── vyos.tf                            # The main script
+├── var.tf                                     # The file of all variables in &quot;vyos.tf&quot;
+├── versions.tf                        # File for the changing version of Terraform.
+└── terraform.tfvars           # The value of all variables (passwords, login, ip adresses and so on)
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-terrafom-for-aws">
+<h2>File contents of Terrafom for AWS<a class="headerlink" href="#file-contents-of-terrafom-for-aws" title="Link to this heading"></a></h2>
+<p>vyos.tf</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# Build an VyOS VM from the Marketplace
+# To finde nessesery AMI image_ in AWS
+#
+# In the script vyos.tf we&#39;ll use default values (you can chang it as you need)
+# AWS Region = &quot;us-east-1&quot;
+# AMI        = &quot;standard AMI of VyOS from AWS Marketplace&quot;
+# Size of VM = &quot;t2.micro&quot;
+# AWS Region = &quot;us-east-1&quot;
+# After deploying the AWS instance and getting an IP address, the IP address is copied into the file
+#&quot;ip.txt&quot; and copied to the Ansible node for provisioning.
+##############################################################################
+
+provider &quot;aws&quot; {
+ access_key = var.access
+ secret_key = var.secret
+ region = var.region
+}
+
+variable &quot;region&quot; {
+ default = &quot;us-east-1&quot;
+ description = &quot;AWS Region&quot;
+}
+
+variable &quot;ami&quot; {
+ default = &quot;ami-**************3b3&quot;                        # ami image please enter your details
+ description = &quot;Amazon Machine Image ID for VyOS&quot;
+}
+
+variable &quot;type&quot; {
+ default = &quot;t2.micro&quot;
+ description = &quot;Size of VM&quot;
+}
+
+# my resource for VyOS
+
+resource &quot;aws_instance&quot; &quot;myVyOSec2&quot; {
+ ami = var.ami
+ key_name = &quot;awsterraform&quot;                                      # Please enter your details from 1.2 of Preparation steps for deploying VyOS on AWS
+ security_groups = [&quot;awsterraformsg&quot;]                           # Please enter your details from 1.3 of Preparation steps for deploying VyOS on AWS
+ instance_type = var.type
+ tags = {
+   name = &quot;VyOS System&quot;
+ }
+}
+
+##############################################################################
+# specific variable (to getting type &quot;terraform plan&quot;):
+# aws_instance.myVyOSec2.public_ip - the information about public IP address
+# of our instance, needs for provisioning and ssh connection from Ansible
+##############################################################################
+
+output &quot;my_IP&quot;{
+value = aws_instance.myVyOSec2.public_ip
+}
+
+##############################################################################
+#
+# IP of aws instance copied to a file ip.txt in local system Terraform
+# ip.txt looks like:
+# cat ./ip.txt
+# ххх.ххх.ххх.ххх
+##############################################################################
+
+resource &quot;local_file&quot; &quot;ip&quot; {
+    content  = aws_instance.myVyOSec2.public_ip
+    filename = &quot;ip.txt&quot;
+}
+
+#connecting to the Ansible control node using SSH connection
+
+##############################################################################
+# Steps &quot;SSHconnection1&quot; and &quot;SSHconnection2&quot; need to get file ip.txt from the terraform node and start remotely the playbook of Ansible.
+##############################################################################
+
+resource &quot;null_resource&quot; &quot;SSHconnection1&quot; {
+depends_on = [aws_instance.myVyOSec2]
+connection {
+ type     = &quot;ssh&quot;
+ user     = &quot;root&quot;
+ password = var.password
+     host = var.host
+}
+
+#copying the ip.txt file to the Ansible control node from local system
+
+ provisioner &quot;file&quot; {
+    source      = &quot;ip.txt&quot;
+    destination = &quot;/root/aws/ip.txt&quot;                             # The folder of your Ansible project
+       }
+}
+
+resource &quot;null_resource&quot; &quot;SSHconnection2&quot; {
+depends_on = [aws_instance.myVyOSec2]
+connection {
+      type     = &quot;ssh&quot;
+      user     = &quot;root&quot;
+      password = var.password
+      host = var.host
+}
+#command to run Ansible playbook on remote Linux OS
+provisioner &quot;remote-exec&quot; {
+    inline = [
+      &quot;cd /root/aws/&quot;,
+      &quot;ansible-playbook instance.yml&quot;                               # more detailed in &quot;File contents of Ansible for AWS&quot;
+]
+}
+}
+</pre></div>
+</div>
+<p>var.tf</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>variable &quot;password&quot; {
+   description = &quot;pass for Ansible&quot;
+   type = string
+   sensitive = true
+}
+variable &quot;host&quot;{
+   description = &quot;The IP of my Ansible&quot;
+       type = string
+}
+variable &quot;access&quot; {
+   description = &quot;my access_key for AWS&quot;
+   type = string
+   sensitive = true
+}
+variable &quot;secret&quot; {
+   description = &quot;my secret_key for AWS&quot;
+   type = string
+   sensitive = true
+}
+</pre></div>
+</div>
+<p>versions.tf</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 5.0&quot;
+    }
+  }
+}
+</pre></div>
+</div>
+<p>terraform.tfvars</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>password  = &quot;&quot;   # password for Ansible SSH
+host      = &quot;&quot;   # IP of my Ansible
+access    = &quot;&quot;   # access_key for AWS
+secret    = &quot;&quot;   # secret_key for AWS
+</pre></div>
+</div>
+</section>
+<section id="structure-of-files-ansible-for-aws">
+<h2>Structure of files Ansible for AWS<a class="headerlink" href="#structure-of-files-ansible-for-aws" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── group_vars
+    └── all
+├── ansible.cfg
+├── mykey.pem
+└── instance.yml
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-ansible-for-aws">
+<h2>File contents of Ansible for AWS<a class="headerlink" href="#file-contents-of-ansible-for-aws" title="Link to this heading"></a></h2>
+<p>ansible.cfg</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[defaults]
+inventory = /root/aws/ip.txt
+host_key_checking= False
+private_key_file = /root/aws/awsterraform.pem         # check the name
+remote_user=vyos
+</pre></div>
+</div>
+<p>mykey.pem</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Copy your key.pem from AWS
+</pre></div>
+</div>
+<p>instance.yml</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# About tasks:
+# &quot;Wait 300 seconds, but only start checking after 60 seconds&quot; - try to make ssh connection every 60 seconds until 300 seconds
+# &quot;Configure general settings for the VyOS hosts group&quot; - make provisioning into AWS VyOS node
+# You have to add all necessary cammans of VyOS under the block &quot;lines:&quot;
+##############################################################################
+
+
+- name: integration of terraform and ansible
+  hosts: all
+  gather_facts: &#39;no&#39;
+
+  tasks:
+
+    - name: &quot;Wait 300 seconds, but only start checking after 60 seconds&quot;
+      wait_for_connection:
+        delay: 60
+        timeout: 300
+
+    - name: &quot;Configure general settings for the VyOS hosts group&quot;
+      vyos_config:
+        lines:
+          - set system name-server xxx.xxx.xxx.xxx
+        save:
+          true
+</pre></div>
+</div>
+<p>group_vars/all</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: vyos.vyos.vyos
+ansible_user: vyos
+</pre></div>
+</div>
+</section>
+<section id="sourse-files-for-aws-from-git">
+<h2>Sourse files for AWS from GIT<a class="headerlink" href="#sourse-files-for-aws-from-git" title="Link to this heading"></a></h2>
+<p>All files about the article can be found <a class="reference external" href="https://github.com/vyos/vyos-automation/tree/main/TerraformCloud/AWS_terraform_ansible_single_vyos_instance-main">here</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="terraformvyos.html" class="btn btn-neutral float-left" title="Terraform for VyOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="terraformAZ.html" class="btn btn-neutral float-right" title="Deploying VyOS in the Azure cloud" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

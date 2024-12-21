@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Scripting &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=719443cf"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="VyOS cloud-init" href="cloud-init.html" />
+    <link rel="prev" title="Salt" href="vyos-salt.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">VyOS Automation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vyos-api.html">VyOS API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/index.html">VyOS Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-napalm.html">Napalm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-salt.html">Salt</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Command Scripting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#run-configuration-commands">Run configuration commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-operational-commands">Run operational commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-commands-remotely">Run commands remotely</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-script-languages">Other script languages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executing-configuration-scripts">Executing Configuration Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executing-pre-hooks-post-hooks-scripts">Executing pre-hooks/post-hooks Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preconfig-on-boot">Preconfig on boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#postconfig-on-boot">Postconfig on boot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-init.html">VyOS cloud-init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-pyvyos.html">pyvyos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vyos-govyos.html">go-vyos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Automation</a></li>
+      <li class="breadcrumb-item active">Command Scripting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/automation/command-scripting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-scripting">
+<span id="id1"></span><h1>Command Scripting<a class="headerlink" href="#command-scripting" title="Link to this heading"></a></h1>
+<p>VyOS supports executing configuration and operational commands non-interactively
+from shell scripts.</p>
+<p>To include VyOS specific functions and aliases you need to <code class="docutils literal notranslate"><span class="pre">source</span>
+<span class="pre">/opt/vyatta/etc/functions/script-template</span></code> files at the top of your script.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
+exit
+</pre></div>
+</div>
+<section id="run-configuration-commands">
+<h2>Run configuration commands<a class="headerlink" href="#run-configuration-commands" title="Link to this heading"></a></h2>
+<p>Configuration commands are executed just like from a normal config session. For
+example, if you want to disable a BGP peer on VRRP transition to backup:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
+configure
+set protocols bgp system-as 65536
+set protocols bgp neighbor 192.168.2.1 shutdown
+commit
+exit
+</pre></div>
+</div>
+</section>
+<section id="run-operational-commands">
+<h2>Run operational commands<a class="headerlink" href="#run-operational-commands" title="Link to this heading"></a></h2>
+<p>Unlike a normal configuration session, all operational commands must be
+prepended with <code class="docutils literal notranslate"><span class="pre">run</span></code>, even if you haven’t created a session with configure.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
+run show interfaces
+exit
+</pre></div>
+</div>
+</section>
+<section id="run-commands-remotely">
+<h2>Run commands remotely<a class="headerlink" href="#run-commands-remotely" title="Link to this heading"></a></h2>
+<p>Sometimes you simply want to execute a bunch of op-mode commands via SSH on
+a remote VyOS system.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ssh 192.0.2.1 &#39;vbash -s&#39; &lt;&lt;EOF
+source /opt/vyatta/etc/functions/script-template
+run show interfaces
+exit
+EOF
+</pre></div>
+</div>
+<p>Will return:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Welcome to VyOS
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             192.0.2.1/24                      u/u
+lo               127.0.0.1/8                       u/u
+                ::1/128
+</pre></div>
+</div>
+</section>
+<section id="other-script-languages">
+<h2>Other script languages<a class="headerlink" href="#other-script-languages" title="Link to this heading"></a></h2>
+<p>If you want to script the configs in a language other than bash you can have
+your script output commands and then source them in a bash script.</p>
+<p>Here is a simple example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;delete firewall group address-group somehosts&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;set firewall group address-group somehosts address &#39;192.0.2.3&#39;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;set firewall group address-group somehosts address &#39;203.0.113.55&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
+configure
+source &lt;(/config/scripts/setfirewallgroup.py)
+commit
+</pre></div>
+</div>
+</section>
+<section id="executing-configuration-scripts">
+<h2>Executing Configuration Scripts<a class="headerlink" href="#executing-configuration-scripts" title="Link to this heading"></a></h2>
+<p>There is a pitfall when working with configuration scripts. It is tempting to
+call configuration scripts with “sudo” (i.e., temporary root permissions),
+because that’s the common way on most Linux platforms to call system commands.</p>
+<p>On VyOS this will cause the following problem: After modifying the configuration
+via script like this once, it is not possible to manually modify the config
+anymore:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo ./myscript.sh # Modifies config
+configure
+set ... # Any configuration parameter
+</pre></div>
+</div>
+<p>This will result in the following error message: <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">failed</span></code> If this happens,
+a reboot is required to be able to edit the config manually again.</p>
+<p>To avoid these problems, the proper way is to call a script with the
+<code class="docutils literal notranslate"><span class="pre">vyattacfg</span></code> group, e.g., by using the <code class="docutils literal notranslate"><span class="pre">sg</span></code> (switch group) command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sg vyattacfg -c ./myscript.sh
+</pre></div>
+</div>
+<p>To make sure that a script is not accidentally called without the <code class="docutils literal notranslate"><span class="pre">vyattacfg</span></code>
+group, the script can be safeguarded like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if [ &quot;$(id -g -n)&quot; != &#39;vyattacfg&#39; ] ; then
+    exec sg vyattacfg -c &quot;/bin/vbash $(readlink -f $0) $@&quot;
+fi
+</pre></div>
+</div>
+</section>
+<section id="executing-pre-hooks-post-hooks-scripts">
+<h2>Executing pre-hooks/post-hooks Scripts<a class="headerlink" href="#executing-pre-hooks-post-hooks-scripts" title="Link to this heading"></a></h2>
+<p>VyOS has the ability to run custom  scripts before and after each commit</p>
+<p>The default directories where your custom Scripts should be located are:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/config/scripts/commit/pre-hooks.d   - Directory with scripts that run before
+                                       each commit.
+
+/config/scripts/commit/post-hooks.d  - Directory with scripts that run after
+                                       each commit.
+</pre></div>
+</div>
+<p>Scripts are run in alphabetical order. Their names must consist entirely of
+ASCII upper- and lower-case letters,ASCII digits, ASCII underscores, and
+ASCII minus-hyphens.No other characters are allowed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Custom scripts are not executed with root privileges
+(Use sudo inside if this is necessary).</p>
+</div>
+<p>A simple example is shown below, where the ops command executed in
+the post-hook script is “show interfaces”.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set interfaces ethernet eth1  address 192.0.2.3/24
+vyos@vyos# commit
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+eth0             198.51.100.10/24                  u/u
+eth1             192.0.2.3/24                      u/u
+eth2             -                                 u/u
+eth3             -                                 u/u
+lo               203.0.113.5/24                    u/u
+</pre></div>
+</div>
+</section>
+<section id="preconfig-on-boot">
+<h2>Preconfig on boot<a class="headerlink" href="#preconfig-on-boot" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">/config/scripts/vyos-preconfig-bootup.script</span></code> script is called on boot
+before the VyOS configuration during boot process.</p>
+<p>Any modifications were done to work around unfixed bugs and implement
+enhancements that are not complete in the VyOS system can be placed here.</p>
+<p>The default file looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
+# This script is executed at boot time before VyOS configuration is applied.
+# Any modifications required to work around unfixed bugs or use
+# services not available through the VyOS CLI system can be placed here.
+</pre></div>
+</div>
+</section>
+<section id="postconfig-on-boot">
+<h2>Postconfig on boot<a class="headerlink" href="#postconfig-on-boot" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">/config/scripts/vyos-postconfig-bootup.script</span></code> script is called on boot
+after the VyOS configuration is fully applied.</p>
+<p>Any modifications were done to work around unfixed bugs and implement
+enhancements that are not complete in the VyOS system can be placed here.</p>
+<p>The default file looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
+# This script is executed at boot time after VyOS configuration is fully
+# applied. Any modifications required to work around unfixed bugs or use
+# services not available through the VyOS CLI system can be placed here.
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For configuration/upgrade management issues, modification of this
+script should be the last option. Always try to find solutions based on CLI
+commands first.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vyos-salt.html" class="btn btn-neutral float-left" title="Salt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cloud-init.html" class="btn btn-neutral float-right" title="VyOS cloud-init" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

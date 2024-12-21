@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site-to-Site &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="IPSec IKEv2 Remote Access VPN" href="remoteaccess_ipsec.html" />
+    <link rel="prev" title="DMVPN" href="dmvpn.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">IPsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dmvpn.html">DMVPN</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Site-to-Site</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="remoteaccess_ipsec.html">IPSec IKEv2 Remote Access VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">Site-to-Site</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/vpn/site2site_ipsec.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="site-to-site">
+<span id="size2site-ipsec"></span><h1>Site-to-Site<a class="headerlink" href="#site-to-site" title="Link to this heading"></a></h1>
+<p>Site-to-site mode provides a way to add remote peers, which could be configured
+to exchange encrypted information between them and VyOS itself or
+connected/routed networks.</p>
+<p>To configure site-to-site connection you need to add peers with the
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vpn</span> <span class="pre">ipsec</span> <span class="pre">site-to-site</span> <span class="pre">peer</span> <span class="pre">&lt;name&gt;</span></code> command.</p>
+<p>The peer name must be an alphanumeric and can have hypen or underscore as
+special characters. It is purely informational.</p>
+<p>Each site-to-site peer has the next options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">authentication</span></code> - configure authentication between VyOS and a remote peer.
+If pre-shared-secret mode is used, the secret key must be defined in
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vpn</span> <span class="pre">ipsec</span> <span class="pre">authentication</span></code> and suboptions:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psk</span></code> - Preshared secret key name:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dhcp-interface</span></code> - ID for authentication generated from DHCP address
+dynamically;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> - static ID’s for authentication. In general local and remote
+address <code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">%any</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secret</span></code> - a predefined shared secret used in configured mode
+<code class="docutils literal notranslate"><span class="pre">pre-shared-secret</span></code>. Base64-encoded secrets are allowed if
+<cite>secret-type base64</cite> is configured;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secret-type</span></code> - specifies the secret type, either <code class="docutils literal notranslate"><span class="pre">plaintext</span></code> or
+<code class="docutils literal notranslate"><span class="pre">base64</span></code>. Default to <code class="docutils literal notranslate"><span class="pre">plaintext</span></code>;</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">local-id</span></code> - ID for the local VyOS router. If defined, during the
+authentication
+it will be send to remote peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> - mode for authentication between VyOS and remote peer:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pre-shared-secret</span></code> - use predefined shared secret phrase;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rsa</span></code> - use simple shared RSA key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x509</span></code> - use certificates infrastructure for authentication.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">remote-id</span></code> - define an ID for remote peer, instead of using peer name or
+address. Useful in case if the remote peer is behind NAT or if <code class="docutils literal notranslate"><span class="pre">mode</span> <span class="pre">x509</span></code>
+is used;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rsa</span></code> - options for RSA authentication mode:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">local-key</span></code> - name of PKI key-pair with local private key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">remote-key</span></code> - name of PKI key-pair with remote public key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">passphrase</span></code> - local private key passphrase</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">use-x509-id</span></code> - use local ID from x509 certificate. Cannot be used when
+<code class="docutils literal notranslate"><span class="pre">id</span></code> is defined;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x509</span></code> - options for x509 authentication mode:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ca-certificate</span></code> - CA certificate in PKI configuration. Using for
+authenticating remote peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">certificate</span></code> - certificate file in PKI configuration, which will be used
+for authenticating local router on remote peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">passphrase</span></code> - private key passphrase, if needed.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">connection-type</span></code> - how to handle this connection process. Possible
+variants:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">initiate</span></code> - does initial connection to remote peer immediately after
+configuring and after boot. In this mode the connection will not be restarted
+in case of disconnection, therefore should be used only together with DPD or
+another session tracking methods;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">respond</span></code> - does not try to initiate a connection to a remote peer. In this
+mode, the IPSec session will be established only after initiation from a
+remote peer. Could be useful when there is no direct connectivity to the
+peer due to firewall or NAT in the middle of the local and remote side.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">none</span></code> - loads the connection only, which then can be manually initiated or
+used as a responder configuration.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">default-esp-group</span></code> - ESP group to use by default for traffic encryption.
+Might be overwritten by individual settings for tunnel or VTI interface
+binding;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">description</span></code> - description for this peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dhcp-interface</span></code> - use an IP address, received from DHCP for IPSec
+connection with this peer, instead of <code class="docutils literal notranslate"><span class="pre">local-address</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force-udp-encapsulation</span></code> - force encapsulation of ESP into UDP datagrams.
+Useful in case if between local and remote side is firewall or NAT, which not
+allows passing plain ESP packets between them;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ike-group</span></code> - IKE group to use for key exchanges;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ikev2-reauth</span></code> - reauthenticate remote peer during the rekeying process.
+Can be used only with IKEv2.
+Create a new IKE_SA from the scratch and try to recreate all IPsec SAs;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local-address</span></code> - local IP address for IPSec connection with this peer.
+If defined <code class="docutils literal notranslate"><span class="pre">any</span></code>, then an IP address which configured on interface with
+default route will be used;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">remote-address</span></code> - remote IP address or hostname for IPSec connection.
+IPv4 or IPv6 address is used when a peer has a public static IP address.
+Hostname is a DNS name which could be used when a peer has a public IP
+address and DNS name, but an IP address could be changed from time to time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">replay-window</span></code> - IPsec replay window to configure for this CHILD_SA
+(default: 32), a value of 0 disables IPsec replay protection</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tunnel</span></code> - define criteria for traffic to be matched for encrypting and send
+it to a peer:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code> - disable this tunnel;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">esp-group</span></code> - define ESP group for encrypt traffic, defined by this tunnel;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local</span></code> - define a local source for match traffic, which should be
+encrypted and send to this peer:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> - define port. Have effect only when used together with <code class="docutils literal notranslate"><span class="pre">prefix</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prefix</span></code> - IP network at local side.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">priority</span></code> - Add priority for policy-based IPSec VPN tunnels(lowest value
+more preferable)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">protocol</span></code> - define the protocol for match traffic, which should be
+encrypted and send to this peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">remote</span></code> - define the remote destination for match traffic, which should be
+encrypted and send to this peer:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> - define port. Have effect only when used together with <code class="docutils literal notranslate"><span class="pre">prefix</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prefix</span></code> - IP network at remote side.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vti</span></code> - use a VTI interface for traffic encryption. Any traffic, which will
+be send to VTI interface will be encrypted and send to this peer. Using VTI
+makes IPSec configuration much flexible and easier in complex situation, and
+allows to dynamically add/delete remote networks, reachable via a peer, as in
+this mode router don’t need to create additional SA/policy for each remote
+network:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bind</span></code> - select a VTI interface to bind to this peer;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">esp-group</span></code> - define ESP group for encrypt traffic, passed this VTI
+interface.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">virtual-address</span></code> - Defines a virtual IP address which is requested by the
+initiator and one or several IPv4 and/or IPv6 addresses are assigned from
+multiple pools by the responder.</p></li>
+</ul>
+<section id="examples">
+<h2>Examples:<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="ikev1">
+<h3>IKEv1<a class="headerlink" href="#ikev1" title="Link to this heading"></a></h3>
+<p>Example:</p>
+<ul class="simple">
+<li><p>WAN interface on <cite>eth1</cite></p></li>
+<li><p>left subnet: <cite>192.168.0.0/24</cite> site1, server side (i.e. locality, actually
+there is no client or server roles)</p></li>
+<li><p>left local_ip: <cite>198.51.100.3</cite> # server side WAN IP</p></li>
+<li><p>right subnet: <cite>10.0.0.0/24</cite> site2,remote office side</p></li>
+<li><p>right local_ip: <cite>203.0.113.2</cite> # remote office side WAN IP</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># server config
+set vpn ipsec authentication psk OFFICE-B id &#39;198.51.100.3&#39;
+set vpn ipsec authentication psk OFFICE-B id &#39;203.0.113.2&#39;
+set vpn ipsec authentication psk OFFICE-B secret &#39;SomePreSharedKey&#39;
+set vpn ipsec esp-group office-srv-esp lifetime &#39;1800&#39;
+set vpn ipsec esp-group office-srv-esp mode &#39;tunnel&#39;
+set vpn ipsec esp-group office-srv-esp pfs &#39;enable&#39;
+set vpn ipsec esp-group office-srv-esp proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec esp-group office-srv-esp proposal 1 hash &#39;sha1&#39;
+set vpn ipsec ike-group office-srv-ike key-exchange &#39;ikev1&#39;
+set vpn ipsec ike-group office-srv-ike lifetime &#39;3600&#39;
+set vpn ipsec ike-group office-srv-ike proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group office-srv-ike proposal 1 hash &#39;sha1&#39;
+set vpn ipsec interface &#39;eth1&#39;
+set vpn ipsec site-to-site peer OFFICE-B authentication local-id &#39;198.51.100.3&#39;
+set vpn ipsec site-to-site peer OFFICE-B authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer OFFICE-B authentication remote-id &#39;203.0.113.2&#39;
+set vpn ipsec site-to-site peer OFFICE-B ike-group &#39;office-srv-ike&#39;
+set vpn ipsec site-to-site peer OFFICE-B local-address &#39;198.51.100.3&#39;
+set vpn ipsec site-to-site peer OFFICE-B remote-address &#39;203.0.113.2&#39;
+set vpn ipsec site-to-site peer OFFICE-B tunnel 0 esp-group &#39;office-srv-esp&#39;
+set vpn ipsec site-to-site peer OFFICE-B tunnel 0 local prefix &#39;192.168.0.0/24&#39;
+set vpn ipsec site-to-site peer OFFICE-B tunnel 0 remote prefix &#39;10.0.0.0/21&#39;
+
+# remote office config
+set vpn ipsec authentication psk OFFICE-A id &#39;198.51.100.3&#39;
+set vpn ipsec authentication psk OFFICE-A id &#39;203.0.113.2&#39;
+set vpn ipsec authentication psk OFFICE-A secret &#39;SomePreSharedKey&#39;
+set vpn ipsec esp-group office-srv-esp lifetime &#39;1800&#39;
+set vpn ipsec esp-group office-srv-esp mode &#39;tunnel&#39;
+set vpn ipsec esp-group office-srv-esp pfs &#39;enable&#39;
+set vpn ipsec esp-group office-srv-esp proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec esp-group office-srv-esp proposal 1 hash &#39;sha1&#39;
+set vpn ipsec ike-group office-srv-ike key-exchange &#39;ikev1&#39;
+set vpn ipsec ike-group office-srv-ike lifetime &#39;3600&#39;
+set vpn ipsec ike-group office-srv-ike proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group office-srv-ike proposal 1 hash &#39;sha1&#39;
+set vpn ipsec interface &#39;eth1&#39;
+set vpn ipsec site-to-site peer OFFICE-A authentication local-id &#39;203.0.113.2&#39;
+set vpn ipsec site-to-site peer OFFICE-A authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer OFFICE-A authentication remote-id &#39;198.51.100.3&#39;
+set vpn ipsec site-to-site peer OFFICE-A ike-group &#39;office-srv-ike&#39;
+set vpn ipsec site-to-site peer OFFICE-A local-address &#39;203.0.113.2&#39;
+set vpn ipsec site-to-site peer OFFICE-A remote-address &#39;198.51.100.3&#39;
+set vpn ipsec site-to-site peer OFFICE-A tunnel 0 esp-group &#39;office-srv-esp&#39;
+set vpn ipsec site-to-site peer OFFICE-A tunnel 0 local prefix &#39;10.0.0.0/21&#39;
+set vpn ipsec site-to-site peer OFFICE-A tunnel 0 remote prefix &#39;192.168.0.0/24&#39;
+</pre></div>
+</div>
+<p>Show status of new setup:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@srv-gw0:~$ show vpn ike sa
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+203.0.113.2                                 198.51.100.3
+   State  Encrypt  Hash    D-H Grp  NAT-T  A-Time  L-Time
+   -----  -------  ----    -------  -----  ------  ------
+   up     aes256   sha1    5        no     734     3600
+
+vyos@srv-gw0:~$ show vpn ipsec sa
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+203.0.113.2                                 198.51.100.3
+   Tunnel  State  Bytes Out/In   Encrypt  Hash    NAT-T  A-Time  L-Time  Proto
+   ------  -----  -------------  -------  ----    -----  ------  ------  -----
+   0       up     7.5M/230.6K    aes256   sha1    no     567     1800    all
+</pre></div>
+</div>
+<p>If there is SNAT rules on eth1, need to add exclude rule</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># server side
+set nat source rule 10 destination address &#39;10.0.0.0/24&#39;
+set nat source rule 10 &#39;exclude&#39;
+set nat source rule 10 outbound-interface name &#39;eth1&#39;
+set nat source rule 10 source address &#39;192.168.0.0/24&#39;
+
+# remote office side
+set nat source rule 10 destination address &#39;192.168.0.0/24&#39;
+set nat source rule 10 &#39;exclude&#39;
+set nat source rule 10 outbound-interface name &#39;eth1&#39;
+set nat source rule 10 source address &#39;10.0.0.0/24&#39;
+</pre></div>
+</div>
+<p>To allow traffic to pass through to clients, you need to add the following
+rules. (if you used the default configuration at the top of this page)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># server side
+set firewall name OUTSIDE-LOCAL rule 32 action &#39;accept&#39;
+set firewall name OUTSIDE-LOCAL rule 32 source address &#39;10.0.0.0/24&#39;
+
+# remote office side
+set firewall name OUTSIDE-LOCAL rule 32 action &#39;accept&#39;
+set firewall name OUTSIDE-LOCAL rule 32 source address &#39;192.168.0.0/24&#39;
+</pre></div>
+</div>
+</section>
+<section id="ikev2">
+<h3>IKEv2<a class="headerlink" href="#ikev2" title="Link to this heading"></a></h3>
+<p>Example:</p>
+<ul class="simple">
+<li><p>left local_ip: 192.168.0.10 # VPN Gateway, behind NAT device</p></li>
+<li><p>left public_ip:172.18.201.10</p></li>
+<li><p>right local_ip: 172.18.202.10 # right side WAN IP</p></li>
+</ul>
+<p>Imagine the following topology</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../images/vpn_s2s_ikev2_c.png"><img alt="IPSec IKEv2 site2site VPN" src="../../images/vpn_s2s_ikev2_c.png" style="width: 536.0px; height: 397.5px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">IPSec IKEv2 site2site VPN (source ./draw.io/vpn_s2s_ikev2.drawio)</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>LEFT:</strong>
+* WAN interface on <cite>eth0.201</cite>
+* <cite>eth0.201</cite> interface IP: <cite>172.18.201.10/24</cite>
+* <cite>vti10</cite> interface IP: <cite>10.0.0.2/31</cite>
+* <cite>dum0</cite> interface IP: <cite>10.0.11.1/24</cite> (for testing purposes)</p>
+<p><strong>RIGHT:</strong>
+* WAN interface on <cite>eth0.202</cite>
+* <cite>eth0.201</cite> interface IP: <cite>172.18.202.10/24</cite>
+* <cite>vti10</cite> interface IP: <cite>10.0.0.3/31</cite>
+* <cite>dum0</cite> interface IP: <cite>10.0.12.1/24</cite> (for testing purposes)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Don’t get confused about the used /31 tunnel subnet. <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3021.html"><strong>RFC 3021</strong></a>
+gives you additional information for using /31 subnets on point-to-point
+links.</p>
+</div>
+<p><strong>LEFT</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 vif 201 address &#39;172.18.201.10/24&#39;
+set interfaces dummy dum0 address &#39;10.0.11.1/24&#39;
+set interfaces vti vti10 address &#39;10.0.0.2/31&#39;
+
+set vpn ipsec authentication psk peer_172-18-202-10 id &#39;172.18.201.10&#39;
+set vpn ipsec authentication psk peer_172-18-202-10 id &#39;172.18.202.10&#39;
+set vpn ipsec authentication psk peer_172-18-202-10 secret &#39;secretkey&#39;
+set vpn ipsec esp-group ESP_DEFAULT lifetime &#39;3600&#39;
+set vpn ipsec esp-group ESP_DEFAULT mode &#39;tunnel&#39;
+set vpn ipsec esp-group ESP_DEFAULT pfs &#39;dh-group19&#39;
+set vpn ipsec esp-group ESP_DEFAULT proposal 10 encryption &#39;aes256gcm128&#39;
+set vpn ipsec esp-group ESP_DEFAULT proposal 10 hash &#39;sha256&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT close-action &#39;none&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection action &#39;trap&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection interval &#39;30&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection timeout &#39;120&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT disable-mobike
+set vpn ipsec ike-group IKEv2_DEFAULT key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT lifetime &#39;10800&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 dh-group &#39;19&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 encryption &#39;aes256gcm128&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 hash &#39;sha256&#39;
+set vpn ipsec interface &#39;eth0.201&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 authentication local-id &#39;172.18.201.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 authentication remote-id &#39;172.18.202.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 ike-group &#39;IKEv2_DEFAULT&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 ikev2-reauth &#39;inherit&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 local-address &#39;172.18.201.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 remote-address &#39;172.18.202.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 vti bind &#39;vti10&#39;
+set vpn ipsec site-to-site peer peer_172-18-202-10 vti esp-group &#39;ESP_DEFAULT&#39;
+
+set protocols static interface-route 10.0.12.0/24 next-hop-interface vti10
+</pre></div>
+</div>
+<p><strong>RIGHT</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 vif 202 address &#39;172.18.202.10/24&#39;
+set interfaces dummy dum0 address &#39;10.0.12.1/24&#39;
+set interfaces vti vti10 address &#39;10.0.0.3/31&#39;
+
+set vpn ipsec authentication psk peer_172-18-201-10 id &#39;172.18.202.10&#39;
+set vpn ipsec authentication psk peer_172-18-201-10 id &#39;172.18.201.10&#39;
+set vpn ipsec authentication psk peer_172-18-201-10 secret &#39;secretkey&#39;
+set vpn ipsec esp-group ESP_DEFAULT lifetime &#39;3600&#39;
+set vpn ipsec esp-group ESP_DEFAULT mode &#39;tunnel&#39;
+set vpn ipsec esp-group ESP_DEFAULT pfs &#39;dh-group19&#39;
+set vpn ipsec esp-group ESP_DEFAULT proposal 10 encryption &#39;aes256gcm128&#39;
+set vpn ipsec esp-group ESP_DEFAULT proposal 10 hash &#39;sha256&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT close-action &#39;none&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection action &#39;trap&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection interval &#39;30&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT dead-peer-detection timeout &#39;120&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT disable-mobike
+set vpn ipsec ike-group IKEv2_DEFAULT key-exchange &#39;ikev2&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT lifetime &#39;10800&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 dh-group &#39;19&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 encryption &#39;aes256gcm128&#39;
+set vpn ipsec ike-group IKEv2_DEFAULT proposal 10 hash &#39;sha256&#39;
+set vpn ipsec interface &#39;eth0.202&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 authentication local-id &#39;172.18.202.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 authentication remote-id &#39;172.18.201.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 ike-group &#39;IKEv2_DEFAULT&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 ikev2-reauth &#39;inherit&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 local-address &#39;172.18.202.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 remote-address &#39;172.18.201.10&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 vti bind &#39;vti10&#39;
+set vpn ipsec site-to-site peer peer_172-18-201-10 vti esp-group &#39;ESP_DEFAULT&#39;
+
+set protocols static interface-route 10.0.11.0/24 next-hop-interface vti10
+</pre></div>
+</div>
+<p>Key Parameters:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">local-id/remote-id</span></code> - IKE identification is used for
+validation of VPN peer devices during IKE negotiation. If you do not configure
+local/remote-identity, the device uses the IPv4 or IPv6 address that
+corresponds to the local/remote peer by default.
+In certain network setups (like ipsec interface with dynamic address, or
+behind the NAT ), the IKE ID received from the peer does not match the IKE
+gateway configured on the device. This can lead to a Phase 1 validation
+failure.
+So, make sure to configure the local/remote id explicitly and ensure that the
+IKE ID is the same as the remote-identity configured on the peer device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable-route-autoinstall</span></code> - This option when configured disables the
+routes installed in the default table 220 for site-to-site ipsec.
+It is mostly used with VTI configuration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dead-peer-detection</span> <span class="pre">action</span> <span class="pre">=</span> <span class="pre">clear</span> <span class="pre">|</span> <span class="pre">trap</span> <span class="pre">|</span> <span class="pre">restart</span></code> - R_U_THERE
+notification messages(IKEv1) or empty INFORMATIONAL messages (IKEv2)
+are periodically sent in order to check the liveliness of the IPsec peer. The
+values clear, trap, and restart all activate DPD and determine the action to
+perform on a timeout.
+With <code class="docutils literal notranslate"><span class="pre">clear</span></code> the connection is closed with no further actions taken.
+<code class="docutils literal notranslate"><span class="pre">trap</span></code> installs a trap policy, which will catch matching traffic and tries
+to re-negotiate the connection on demand.
+<code class="docutils literal notranslate"><span class="pre">restart</span></code> will immediately trigger an attempt to re-negotiate the
+connection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">close-action</span> <span class="pre">=</span> <span class="pre">none</span> <span class="pre">|</span> <span class="pre">clear</span> <span class="pre">|</span> <span class="pre">trap</span> <span class="pre">|</span> <span class="pre">start</span></code> - defines the action to take
+if the remote peer unexpectedly closes a CHILD_SA (see above for meaning of
+values). A closeaction should not be used if the peer uses reauthentication or
+uniqueids.</p>
+<p>When the close-action option is set on the peers, the connection-type
+of each peer has to considered carefully. For example, if the option is set
+on both peers, then both would attempt to initiate and hold open multiple
+copies of each child SA. This might lead to instability of the device or
+cpu/memory utilization.</p>
+<p>Below flow-chart could be a quick reference for the close-action
+combination depending on how the peer is configured.</p>
+</li>
+</ul>
+<figure class="align-default" id="id2">
+<img alt="../../images/IPSec_close_action_settings.jpg" src="../../images/IPSec_close_action_settings.jpg" />
+<figcaption>
+<p><span class="caption-text">Similar combinations are applicable for the dead-peer-detection.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dmvpn.html" class="btn btn-neutral float-left" title="DMVPN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="remoteaccess_ipsec.html" class="btn btn-neutral float-right" title="IPSec IKEv2 Remote Access VPN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

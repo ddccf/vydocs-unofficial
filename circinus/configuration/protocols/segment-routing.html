@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Segment Routing &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="OpenFabric" href="openfabric.html" />
+    <link rel="prev" title="Multicast" href="multicast.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Segment Routing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#is-is-sr-configuration">IS-IS SR Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ospf-sr-configuration">OSPF SR  Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-example">Configuration Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">Segment Routing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/segment-routing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="segment-routing">
+<span id="id1"></span><h1>Segment Routing<a class="headerlink" href="#segment-routing" title="Link to this heading"></a></h1>
+<p>Segment Routing (SR) is a network architecture that is similar to source-routing
+. In this architecture, the ingress router adds a list of segments, known as
+SIDs, to the packet as it enters the network. These segments represent different
+portions of the network path that the packet will take.</p>
+<p>The SR segments are portions of the network path taken by the packet, and are
+called SIDs. At each node, the first SID of the list is read, executed as a
+forwarding function, and may be popped to let the next node read the next SID of
+the list. The SID list completely determines the path where the packet is
+forwarded.</p>
+<p>Segment Routing can be applied to an existing MPLS-based data plane and defines
+a control plane network architecture. In MPLS networks, segments are encoded as
+MPLS labels and are added at the ingress router. These MPLS labels are then
+exchanged and populated by Interior Gateway Protocols (IGPs) like IS-IS or OSPF
+which are running on most ISPs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Segment routing defines a control plane network architecture and
+can be applied to an existing MPLS based dataplane. In the MPLS networks,
+segments are encoded as MPLS labels and are imposed at the ingress router.
+MPLS labels are exchanged and populated by IGPs like IS-IS.Segment Routing
+as per RFC8667 for MPLS dataplane. It supports IPv4, IPv6 and ECMP and has
+been tested against Cisco &amp; Juniper routers.however,this deployment is still
+EXPERIMENTAL for FRR.</p>
+</div>
+<section id="is-is-sr-configuration">
+<h2>IS-IS SR Configuration<a class="headerlink" href="#is-is-sr-configuration" title="Link to this heading"></a></h2>
+<p>Segment routing (SR) is used by the IGP protocols to interconnect network
+devices, below configuration shows how to enable SR on IS-IS:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Known</span> <span class="pre">limitations:</span></code></p>
+<p>No support for level redistribution (L1 to L2 or L2 to L1)</p>
+<p>No support for binding SID</p>
+<p>No support for SRLB</p>
+<p>Only one SRGB and default SPF Algorithm is supported</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-global-block-high-label-value-label-value">
+set protocols isis segment-routing global-block high-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-global-block-high-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Global Block i.e. the label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-global-block-low-label-value-label-value">
+set protocols isis segment-routing global-block low-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-global-block-low-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Global Block i.e. the low label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-local-block-high-label-value-label-value">
+set protocols isis segment-routing local-block high-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-local-block-high-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Local Block i.e. the label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.Segment Routing Local Block, The negative command always
+unsets both.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-local-block-low-label-value-label-value">
+set protocols isis segment-routing local-block &lt;low-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-local-block-low-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Local Block i.e. the low label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.Segment Routing Local Block, The negative command always
+unsets both.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-maximum-label-depth-1-16">
+set protocols isis segment-routing maximum-label-depth &lt;1-16&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-maximum-label-depth-1-16" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Maximum Stack Depth supported by the router. The value depend of
+the MPLS dataplane.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-prefix-address-index-value-0-65535">
+set protocols isis segment-routing prefix &lt;address&gt; index value &lt;0-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-prefix-address-index-value-0-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A segment ID that contains an IP address prefix calculated by an IGP in the
+service provider core network. Prefix SIDs are globally unique, this value
+indentify it</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-segment-routing-prefix-address-index-no-php-flag-explicit-null-n-flag-clear">
+set protocols isis segment-routing prefix &lt;address&gt; index &lt;no-php-flag | explicit-null| n-flag-clear&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-segment-routing-prefix-address-index-no-php-flag-explicit-null-n-flag-clear" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>this option allows to configure prefix-sid on SR. The ‘no-php-flag’ means NO
+Penultimate Hop Popping that allows SR node to request to its neighbor to
+not pop the label. The ‘explicit-null’ flag allows SR node to request to its
+neighbor to send IP packet with the EXPLICIT-NULL label. The ‘n-flag-clear’
+option can be used to explicitly clear the Node flag that is set by default
+for Prefix-SIDs associated to loopback addresses. This option is necessary
+to configure Anycast-SIDs.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-isis-segment-routing-node">
+show isis segment-routing node</span>
+<a class="cmdlink" href="#opcmd-show-isis-segment-routing-node" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show detailed information about all learned Segment Routing Nodes</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-isis-route-prefix-sid">
+show isis route prefix-sid</span>
+<a class="cmdlink" href="#opcmd-show-isis-route-prefix-sid" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show detailed information about prefix-sid and label learned</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>more information related IGP  - <a class="reference internal" href="isis.html#routing-isis"><span class="std std-ref">IS-IS</span></a></p>
+</div>
+</section>
+<section id="ospf-sr-configuration">
+<h2>OSPF SR  Configuration<a class="headerlink" href="#ospf-sr-configuration" title="Link to this heading"></a></h2>
+<p>Segment routing (SR) is used by the IGP protocols to interconnect network
+devices, below configuration shows how to enable SR on OSPF:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-parameters-opaque-lsa">
+set protocols ospf parameters opaque-lsa</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-parameters-opaque-lsa" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable the Opaque-LSA capability (rfc2370), necessary to transport label
+on IGP</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-global-block-high-label-value-label-value">
+set protocols ospf segment-routing global-block high-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-global-block-high-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Global Block i.e. the label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-global-block-low-label-value-label-value">
+set protocols ospf segment-routing global-block low-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-global-block-low-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Global Block i.e. the low label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-local-block-high-label-value-label-value">
+set protocols ospf segment-routing local-block high-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-local-block-high-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Local Block i.e. the label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.Segment Routing Local Block, The negative command always
+unsets both.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-local-block-low-label-value-label-value">
+set protocols ospf segment-routing local-block &lt;low-label-value &lt;label-value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-local-block-low-label-value-label-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Segment Routing Local Block i.e. the low label range used by MPLS to
+store label in the MPLS FIB for Prefix SID. Note that the block size may
+not exceed 65535.Segment Routing Local Block, The negative command always
+unsets both.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-maximum-label-depth-1-16">
+set protocols ospf segment-routing maximum-label-depth &lt;1-16&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-maximum-label-depth-1-16" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Maximum Stack Depth supported by the router. The value depend of
+the MPLS dataplane.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-prefix-address-index-value-0-65535">
+set protocols ospf segment-routing prefix &lt;address&gt; index value &lt;0-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-prefix-address-index-value-0-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A segment ID that contains an IP address prefix calculated by an IGP in the
+service provider core network. Prefix SIDs are globally unique, this value
+indentify it</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-segment-routing-prefix-address-index-no-php-flag-explicit-null-n-flag-clear">
+set protocols ospf segment-routing prefix &lt;address&gt; index &lt;no-php-flag | explicit-null| n-flag-clear&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-segment-routing-prefix-address-index-no-php-flag-explicit-null-n-flag-clear" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>this option allows to configure prefix-sid on SR. The ‘no-php-flag’ means NO
+Penultimate Hop Popping that allows SR node to request to its neighbor to
+not pop the label. The ‘explicit-null’ flag allows SR node to request to its
+neighbor to send IP packet with the EXPLICIT-NULL label. The ‘n-flag-clear’
+option can be used to explicitly clear the Node flag that is set by default
+for Prefix-SIDs associated to loopback addresses. This option is necessary
+to configure Anycast-SIDs.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>more information related IGP  - <a class="reference internal" href="ospf.html#routing-ospf"><span class="std std-ref">OSPF</span></a></p>
+</div>
+</section>
+<section id="configuration-example">
+<h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h2>
+<p>we described the configuration SR ISIS / SR OSPF using 2 connected with them to
+share label information.</p>
+<section id="enable-is-is-with-segment-routing-experimental">
+<h3>Enable IS-IS with Segment Routing (Experimental)<a class="headerlink" href="#enable-is-is-with-segment-routing-experimental" title="Link to this heading"></a></h3>
+<p><strong>Node 1:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address &#39;192.168.255.255/32&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.1/24&#39;
+
+set protocols isis interface eth1
+set protocols isis interface lo
+set protocols isis net &#39;49.0001.1921.6825.5255.00&#39;
+set protocols isis segment-routing global-block high-label-value &#39;599&#39;
+set protocols isis segment-routing global-block low-label-value &#39;550&#39;
+set protocols isis segment-routing prefix 192.168.255.255/32 index value &#39;1&#39;
+set protocols isis segment-routing prefix 192.168.255.255/32 index explicit-null
+set protocols mpls interface &#39;eth1&#39;
+</pre></div>
+</div>
+<p><strong>Node 2:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address &#39;192.168.255.254/32&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.2/24&#39;
+
+set protocols isis interface eth1
+set protocols isis interface lo
+set protocols isis net &#39;49.0001.1921.6825.5254.00&#39;
+set protocols isis segment-routing global-block high-label-value &#39;599&#39;
+set protocols isis segment-routing global-block low-label-value &#39;550&#39;
+set protocols isis segment-routing prefix 192.168.255.254/32 index value &#39;2&#39;
+set protocols isis segment-routing prefix 192.168.255.254/32 index explicit-null
+set protocols mpls interface &#39;eth1&#39;
+</pre></div>
+</div>
+<p>This gives us MPLS segment routing enabled and labels for far end loopbacks:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Node-1@vyos:~$ show mpls table
+ Inbound Label  Type        Nexthop                Outbound Label
+ ----------------------------------------------------------------------
+ 552            SR (IS-IS)  192.0.2.2              IPv4 Explicit Null &lt;-- Node-2 loopback learned on Node-1
+ 15000          SR (IS-IS)  192.0.2.2              implicit-null
+ 15001          SR (IS-IS)  fe80::e87:6cff:fe09:1  implicit-null
+ 15002          SR (IS-IS)  192.0.2.2              implicit-null
+ 15003          SR (IS-IS)  fe80::e87:6cff:fe09:1  implicit-null
+
+Node-2@vyos:~$ show mpls table
+ Inbound Label  Type        Nexthop               Outbound Label
+ ---------------------------------------------------------------------
+ 551            SR (IS-IS)  192.0.2.1             IPv4 Explicit Null &lt;-- Node-1 loopback learned on Node-2
+ 15000          SR (IS-IS)  192.0.2.1             implicit-null
+ 15001          SR (IS-IS)  fe80::e33:2ff:fe80:1  implicit-null
+ 15002          SR (IS-IS)  192.0.2.1             implicit-null
+ 15003          SR (IS-IS)  fe80::e33:2ff:fe80:1  implicit-null
+</pre></div>
+</div>
+<p>Here is the routing tables showing the MPLS segment routing label operations:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Node-1@vyos:~$ show ip route isis
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+I   192.0.2.0/24 [115/20] via 192.0.2.2, eth1 inactive, weight 1, 00:07:48
+I&gt;* 192.168.255.254/32 [115/20] via 192.0.2.2, eth1, label IPv4 Explicit Null, weight 1, 00:03:39
+
+Node-2@vyos:~$ show ip route isis
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+I   192.0.2.0/24 [115/20] via 192.0.2.1, eth1 inactive, weight 1, 00:07:46
+I&gt;* 192.168.255.255/32 [115/20] via 192.0.2.1, eth1, label IPv4 Explicit Null, weight 1, 00:03:43
+</pre></div>
+</div>
+</section>
+<section id="enable-ospf-with-segment-routing-experimental">
+<h3>Enable OSPF with Segment Routing (Experimental):<a class="headerlink" href="#enable-ospf-with-segment-routing-experimental" title="Link to this heading"></a></h3>
+<p><strong>Node 1</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address 10.1.1.1/32
+set interfaces ethernet eth0 address 192.168.0.1/24
+set protocols ospf area 0 network &#39;192.168.0.0/24&#39;
+set protocols ospf area 0 network &#39;10.1.1.1/32&#39;
+set protocols ospf parameters opaque-lsa
+set protocols ospf parameters router-id &#39;10.1.1.1&#39;
+set protocols ospf segment-routing global-block high-label-value &#39;1100&#39;
+set protocols ospf segment-routing global-block low-label-value &#39;1000&#39;
+set protocols ospf segment-routing prefix 10.1.1.1/32 index explicit-null
+set protocols ospf segment-routing prefix 10.1.1.1/32 index value &#39;1&#39;
+</pre></div>
+</div>
+<p><strong>Node 2</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address 10.1.1.2/32
+set interfaces ethernet eth0 address 192.168.0.2/24
+set protocols ospf area 0 network &#39;192.168.0.0/24&#39;
+set protocols ospf area 0 network &#39;10.1.1.2/32&#39;
+set protocols ospf parameters opaque-lsa
+set protocols ospf parameters router-id &#39;10.1.1.2&#39;
+set protocols ospf segment-routing global-block high-label-value &#39;1100&#39;
+set protocols ospf segment-routing global-block low-label-value &#39;1000&#39;
+set protocols ospf segment-routing prefix 10.1.1.2/32 index explicit-null
+set protocols ospf segment-routing prefix 10.1.1.2/32 index value &#39;2&#39;
+</pre></div>
+</div>
+<p>This gives us MPLS segment routing enabled and labels for far end loopbacks:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Node-1@vyos:~$ show mpls table
+ Inbound Label  Type       Nexthop      Outbound Label
+ -----------------------------------------------------------
+ 1002           SR (OSPF)  192.168.0.2  IPv4 Explicit Null  &lt;-- Node-2 loopback learned on Node-1
+ 15000          SR (OSPF)  192.168.0.2  implicit-null
+ 15001          SR (OSPF)  192.168.0.2  implicit-null
+
+Node-2@vyos:~$ show mpls table
+ Inbound Label  Type       Nexthop      Outbound Label
+ -----------------------------------------------------------
+ 1001           SR (OSPF)  192.168.0.1  IPv4 Explicit Null  &lt;-- Node-1 loopback learned on Node-2
+ 15000          SR (OSPF)  192.168.0.1  implicit-null
+ 15001          SR (OSPF)  192.168.0.1  implicit-null
+</pre></div>
+</div>
+<p>Here is the routing tables showing the MPLS segment routing label operations:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Node-1@vyos:~$ show ip route ospf
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+O   10.1.1.1/32 [110/0] is directly connected, lo, weight 1, 00:03:43
+O&gt;* 10.1.1.2/32 [110/1] via 192.168.0.2, eth0, label IPv4 Explicit Null, weight 1, 00:03:32
+O   192.168.0.0/24 [110/1] is directly connected, eth0, weight 1, 00:03:43
+
+Node-2@vyos:~$ show ip route ospf
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+O&gt;* 10.1.1.1/32 [110/1] via 192.168.0.1, eth0, label IPv4 Explicit Null, weight 1, 00:03:36
+O   10.1.1.2/32 [110/0] is directly connected, lo, weight 1, 00:03:51
+O   192.168.0.0/24 [110/1] is directly connected, eth0, weight 1, 00:03:51
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multicast.html" class="btn btn-neutral float-left" title="Multicast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="openfabric.html" class="btn btn-neutral float-right" title="OpenFabric" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

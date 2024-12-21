@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIP &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="RPKI" href="rpki.html" />
+    <link rel="prev" title="PIM6 - Protocol Independent Multicast for IPv6" href="pim6.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RIP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-configuration">General Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optional-configuration">Optional Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redistribution-configuration">Redistribution Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interfaces-configuration">Interfaces Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operational-mode-commands">Operational Mode Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-example">Configuration Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html#arp">ARP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">RIP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/rip.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rip">
+<span id="id1"></span><h1>RIP<a class="headerlink" href="#rip" title="Link to this heading"></a></h1>
+<p><abbr title="Routing Information Protocol">RIP</abbr> is a widely deployed interior gateway
+protocol. RIP was developed in the 1970s at Xerox Labs as part of the XNS
+routing protocol. RIP is a distance-vector protocol and is based on the
+Bellman-Ford algorithms. As a distance-vector protocol, RIP router send updates
+to its neighbors periodically, thus allowing the convergence to a known
+topology. In each update, the distance to any given network will be broadcast
+to its neighboring router.</p>
+<p>Supported versions of RIP are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>RIPv1 as described in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1058.html"><strong>RFC 1058</strong></a></p></li>
+<li><p>RIPv2 as described in <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2453.html"><strong>RFC 2453</strong></a></p></li>
+</ul>
+</div></blockquote>
+<section id="general-configuration">
+<h2>General Configuration<a class="headerlink" href="#general-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-network-a-b-c-d-m">
+set protocols rip network &lt;A.B.C.D/M&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-network-a-b-c-d-m" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command enables RIP and sets the RIP enable interface by NETWORK.
+The interfaces which have addresses matching with NETWORK are enabled.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-interface-interface">
+set protocols rip interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies a RIP enabled interface by interface name. Both
+the sending and receiving of RIP packets will be enabled on the port
+specified in this command.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-neighbor-a-b-c-d">
+set protocols rip neighbor &lt;A.B.C.D&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-neighbor-a-b-c-d" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies a RIP neighbor. When a neighbor doesn’t understand
+multicast, this command is used to specify neighbors. In some cases, not
+all routers will be able to understand multicasting, where packets are
+sent to a network or a group of addresses. In a situation where a neighbor
+cannot process multicast packets, it is necessary to establish a direct
+link between routers.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-passive-interface-interface-interface">
+set protocols rip passive-interface interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-passive-interface-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets the specified interface to passive mode. On passive mode
+interface, all receiving packets are processed as normal and VyOS does not
+send either multicast or unicast RIP packets except to RIP neighbors
+specified with neighbor command.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-passive-interface-interface-default">
+set protocols rip passive-interface interface default</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-passive-interface-interface-default" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies all interfaces to passive mode.</p>
+</div>
+</div>
+</section>
+<section id="optional-configuration">
+<h2>Optional Configuration<a class="headerlink" href="#optional-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-default-distance-distance">
+set protocols rip default-distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-default-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command change the distance value of RIP. The distance range is 1 to 255.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Routes with a distance of 255 are effectively disabled and not
+installed into the kernel.</p>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-network-distance-a-b-c-d-m-distance-distance">
+set protocols rip network-distance &lt;A.B.C.D/M&gt; distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-network-distance-a-b-c-d-m-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets default RIP distance to a specified value when the routes
+source IP address matches the specified prefix.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-network-distance-a-b-c-d-m-access-list-name">
+set protocols rip network-distance &lt;A.B.C.D/M&gt; access-list &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-network-distance-a-b-c-d-m-access-list-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command can be used with previous command to sets default RIP distance
+to specified value when the route source IP address matches the specified
+prefix and the specified access-list.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-default-information-originate">
+set protocols rip default-information originate</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-default-information-originate" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command generate a default route into the RIP.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-distribute-list-access-list-in-out-number">
+set protocols rip distribute-list access-list &lt;in|out&gt; &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-distribute-list-access-list-in-out-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command can be used to filter the RIP path using access lists.
+<code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> this is the direction in which the access
+lists are applied.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-distribute-list-interface-interface-access-list-in-out-number">
+set protocols rip distribute-list interface &lt;interface&gt; access-list &lt;in|out&gt; &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-distribute-list-interface-interface-access-list-in-out-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command allows you apply access lists to a chosen interface to
+filter the RIP path.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-distribute-list-prefix-list-in-out-name">
+set protocols rip distribute-list prefix-list &lt;in|out&gt; &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-distribute-list-prefix-list-in-out-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command can be used to filter the RIP path using prefix lists.
+<code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">out</span></code> this is the direction in which the prefix
+lists are applied.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-distribute-list-interface-interface-prefix-list-in-out-name">
+set protocols rip distribute-list interface &lt;interface&gt; prefix-list &lt;in|out&gt; &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-distribute-list-interface-interface-prefix-list-in-out-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command allows you apply prefix lists to a chosen interface to
+filter the RIP path.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-route-a-b-c-d-m">
+set protocols rip route &lt;A.B.C.D/M&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-route-a-b-c-d-m" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command is specific to FRR and VyOS. The route command makes a static
+route only inside RIP. This command should be used only by advanced users
+who are particularly knowledgeable about the RIP protocol. In most cases,
+we recommend creating a static route in VyOS and redistributing it in RIP
+using <code class="docutils literal notranslate"><span class="pre">redistribute</span> <span class="pre">static</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-timers-update-seconds">
+set protocols rip timers update &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-timers-update-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the update timer. Every update timer seconds, the
+RIP process is awakened to send an unsolicited response message containing
+the complete routing table to all neighboring RIP routers. The time range
+is 5 to 2147483647. The default value is 30 seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-timers-timeout-seconds">
+set protocols rip timers timeout &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-timers-timeout-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the timeout timer. Upon expiration of the timeout,
+the route is no longer valid; however, it is retained in the routing table
+for a short time so that neighbors can be notified that the route has been
+dropped. The time range is 5 to 2147483647. The default value is 180
+seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-timers-garbage-collection-seconds">
+set protocols rip timers garbage-collection &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-timers-garbage-collection-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies the garbage-collection timer. Upon expiration of
+the garbage-collection timer, the route is finally removed from the
+routing table. The time range is 5 to 2147483647. The default value is 120
+seconds.</p>
+</div>
+</div>
+</section>
+<section id="redistribution-configuration">
+<h2>Redistribution Configuration<a class="headerlink" href="#redistribution-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-redistribute-route-source">
+set protocols rip redistribute &lt;route source&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-redistribute-route-source" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command redistributes routing information from the given route source
+into the RIP tables. There are five modes available for route source: bgp,
+connected, kernel, ospf, static.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-redistribute-route-source-metric-metric">
+set protocols rip redistribute &lt;route source&gt; metric &lt;metric&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-redistribute-route-source-metric-metric" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command specifies metric for redistributed routes from the given route
+source. There are five modes available for route source: bgp, connected,
+kernel, ospf, static. The metric range is 1 to 16.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-redistribute-route-source-route-map-name">
+set protocols rip redistribute &lt;route source&gt; route-map &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-redistribute-route-source-route-map-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command allows to use route map to filter redistributed routes from
+the given route source. There are five modes available for route source:
+bgp, connected, kernel, ospf, static.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rip-default-metric-metric">
+set protocols rip default-metric &lt;metric&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rip-default-metric-metric" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command modifies the default metric (hop count) value for redistributed
+routes. The metric range is 1 to 16. The default value is 1. This command
+does not affect connected route even if it is redistributed by
+<code class="docutils literal notranslate"><span class="pre">redistribute</span> <span class="pre">connected</span></code>. To modify connected routes metric
+value, please use <code class="docutils literal notranslate"><span class="pre">redistribute</span> <span class="pre">connected</span> <span class="pre">metric</span></code>.</p>
+</div>
+</div>
+</section>
+<section id="interfaces-configuration">
+<h2>Interfaces Configuration<a class="headerlink" href="#interfaces-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-inttype-intname-ip-rip-authentication-plaintext-password-text">
+set interfaces &lt;inttype&gt; &lt;intname&gt; ip rip authentication plaintext-password &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-inttype-intname-ip-rip-authentication-plaintext-password-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets the interface with RIP simple password authentication.
+This command also sets authentication string. The string must be shorter
+than 16 characters.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-inttype-intname-ip-rip-authentication-md5-id-password-text">
+set interfaces &lt;inttype&gt; &lt;intname&gt; ip rip authentication md5 &lt;id&gt; password &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-inttype-intname-ip-rip-authentication-md5-id-password-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command sets the interface with RIP MD5 authentication. This command
+also sets MD5 Key. The key must be shorter than 16 characters.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-inttype-intname-ip-rip-split-horizon-disable">
+set interfaces &lt;inttype&gt; &lt;intname&gt; ip rip split-horizon disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-inttype-intname-ip-rip-split-horizon-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command disables split-horizon on the interface. By default, VyOS does
+not advertise RIP routes out the interface over which they were learned
+(split horizon).3</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-inttype-intname-ip-rip-split-horizon-poison-reverse">
+set interfaces &lt;inttype&gt; &lt;intname&gt; ip rip split-horizon poison-reverse</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-inttype-intname-ip-rip-split-horizon-poison-reverse" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This command enables poison-reverse on the interface. If both poison reverse
+and split horizon are enabled, then VyOS advertises the learned routes
+as unreachable over the interface on which the route was learned.</p>
+</div>
+</div>
+</section>
+<section id="operational-mode-commands">
+<h2>Operational Mode Commands<a class="headerlink" href="#operational-mode-commands" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ip-rip">
+show ip rip</span>
+<a class="cmdlink" href="#opcmd-show-ip-rip" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>This command displays RIP routes.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Codes: R - RIP, C - connected, S - Static, O - OSPF, B - BGP
+Sub-codes:
+      (n) - normal, (s) - static, (d) - default, (r) - redistribute,
+      (i) - interface
+
+     Network            Next Hop         Metric From            Tag Time
+C(i) 10.0.12.0/24       0.0.0.0               1 self              0
+C(i) 10.0.13.0/24       0.0.0.0               1 self              0
+R(n) 10.0.23.0/24       10.0.12.2             2 10.0.12.2         0 02:53
+</pre></div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ip-rip-status">
+show ip rip status</span>
+<a class="cmdlink" href="#opcmd-show-ip-rip-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>The command displays current RIP status. It includes RIP timer, filtering,
+version, RIP enabled interface and RIP peer information.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Routing Protocol is &quot;rip&quot;
+  Sending updates every 30 seconds with +/-50%, next due in 11 seconds
+  Timeout after 180 seconds, garbage collect after 120 seconds
+  Outgoing update filter list for all interface is not set
+  Incoming update filter list for all interface is not set
+  Default redistribution metric is 1
+  Redistributing:
+  Default version control: send version 2, receive any version
+    Interface        Send  Recv   Key-chain
+    eth0             2     1 2
+    eth2             2     1 2
+  Routing for Networks:
+    10.0.12.0/24
+    eth0
+  Routing Information Sources:
+    Gateway          BadPackets BadRoutes  Distance Last Update
+    10.0.12.2                0         0       120   00:00:11
+  Distance: (default is 120)
+</pre></div>
+</div>
+</section>
+<section id="configuration-example">
+<h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h2>
+<p>Simple RIP configuration using 2 nodes and redistributing connected interfaces.</p>
+<p><strong>Node 1:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback address 10.1.1.1/32
+set protocols rip network 192.168.0.0/24
+set protocols rip redistribute connected
+</pre></div>
+</div>
+<p><strong>Node 2:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback address 10.2.2.2/32
+set protocols rip network 192.168.0.0/24
+set protocols rip redistribute connected
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pim6.html" class="btn btn-neutral float-left" title="PIM6 - Protocol Independent Multicast for IPv6" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rpki.html" class="btn btn-neutral float-right" title="RPKI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

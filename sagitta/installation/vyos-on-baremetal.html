@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running on Bare Metal &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+      <script src="../static/jquery.js?v=5d32c60e"></script>
+      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../static/doctools.js?v=9bcbadda"></script>
+      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Update VyOS" href="update.html" />
+    <link rel="prev" title="Oracle" href="cloud/oracel.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtual/index.html">Running VyOS in Virtual Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud/index.html">Running VyOS in Cloud Environments</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running on Bare Metal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supermicro-a2sdi-atom-c3000">Supermicro A2SDi (Atom C3000)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#shopping-cart">Shopping Cart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optional-10ge">Optional (10GE)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pictures">Pictures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pc-engines-apu4">PC Engines APU4</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-on-baremetal-apu4-shopping">Shopping Cart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-1-2-crux">VyOS 1.2 (crux)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-1-2-rolling">VyOS 1.2 (rolling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-on-baremetal-apu4-pictures">Pictures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#qotom-q355g4">Qotom Q355G4</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hardware">Hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#partaker-i5">Partaker i5</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#acrosser-and-j190n1">Acrosser AND-J190N1</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bios-settings">BIOS Settings:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-vyos">Install VyOS:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrate-from-vyatta.html">Migrate from Vyatta Core</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Running on Bare Metal</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../sources/installation/vyos-on-baremetal.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-on-bare-metal">
+<span id="vyosonbaremetal"></span><h1>Running on Bare Metal<a class="headerlink" href="#running-on-bare-metal" title="Link to this heading"></a></h1>
+<section id="supermicro-a2sdi-atom-c3000">
+<h2>Supermicro A2SDi (Atom C3000)<a class="headerlink" href="#supermicro-a2sdi-atom-c3000" title="Link to this heading"></a></h2>
+<p>I opted to get one of the new Intel Atom C3000 CPUs to spawn VyOS on it.
+Running VyOS on an UEFI only device is supported as of VyOS release 1.2.</p>
+<section id="shopping-cart">
+<h3>Shopping Cart<a class="headerlink" href="#shopping-cart" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>1x Supermicro CSE-505-203B (19” 1U chassis, inkl. 200W PSU)</p></li>
+<li><p>1x Supermicro MCP-260-00085-0B (I/O Shield for A2SDi-2C-HLN4F)</p></li>
+<li><p>1x Supermicro A2SDi-2C-HLN4F (Intel Atom C3338, 2C/2T, 4MB cache, Quad LAN
+with Intel C3000 SoC 1GbE)</p></li>
+<li><p>1x Crucial CT4G4DFS824A (4GB DDR4 RAM 2400 MT/s, PC4-19200)</p></li>
+<li><p>1x SanDisk Ultra Fit 32GB (USB-A 3.0 SDCZ43-032G-G46 mass storage for OS)</p></li>
+<li><p>1x Supermicro MCP-320-81302-0B (optional FAN tray)</p></li>
+</ul>
+</section>
+<section id="optional-10ge">
+<h3>Optional (10GE)<a class="headerlink" href="#optional-10ge" title="Link to this heading"></a></h3>
+<p>If you want to get additional ethernet ports or even 10GE connectivity
+the following optional parts will be required:</p>
+<ul class="simple">
+<li><p>1x Supermicro RSC-RR1U-E8 (Riser Card)</p></li>
+<li><p>1x Supermicro MCP-120-00063-0N (Riser Card Bracket)</p></li>
+</ul>
+<p>Latest VyOS rolling releases boot without any problem on this board. You also
+receive a nice IPMI interface realized with an ASPEED AST2400 BMC (no
+information about <a class="reference external" href="https://www.openbmc.org/">OpenBMC</a> so far on this
+motherboard).</p>
+</section>
+<section id="pictures">
+<h3>Pictures<a class="headerlink" href="#pictures" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_back.jpg"><img alt="CSE-505-203B Back" src="../images/1u_vyos_back.jpg" style="width: 966.25px; height: 396.0px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front.jpg"><img alt="CSE-505-203B Front" src="../images/1u_vyos_front.jpg" style="width: 959.75px; height: 226.5px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_open_1.jpg"><img alt="CSE-505-203B Open 1" src="../images/1u_vyos_front_open_1.jpg" style="width: 993.75px; height: 368.25px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_open_2.jpg"><img alt="CSE-505-203B Open 2" src="../images/1u_vyos_front_open_2.jpg" style="width: 871.0px; height: 532.75px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_open_3.jpg"><img alt="CSE-505-203B Open 3" src="../images/1u_vyos_front_open_3.jpg" style="width: 876.75px; height: 607.75px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_10ge_open_1.jpg"><img alt="CSE-505-203B w/ 10GE Open 1" src="../images/1u_vyos_front_10ge_open_1.jpg" style="width: 1004.5px; height: 595.75px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_10ge_open_2.jpg"><img alt="CSE-505-203B w/ 10GE Open 2" src="../images/1u_vyos_front_10ge_open_2.jpg" style="width: 1008.0px; height: 756.0px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_10ge_open_3.jpg"><img alt="CSE-505-203B w/ 10GE Open 3" src="../images/1u_vyos_front_10ge_open_3.jpg" style="width: 1008.0px; height: 756.0px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/1u_vyos_front_10ge_open_4.jpg"><img alt="CSE-505-203B w/ 10GE Open" src="../images/1u_vyos_front_10ge_open_4.jpg" style="width: 1008.0px; height: 756.0px;" />
+</a>
+</figure>
+</section>
+</section>
+<section id="pc-engines-apu4">
+<span id="id1"></span><h2>PC Engines APU4<a class="headerlink" href="#pc-engines-apu4" title="Link to this heading"></a></h2>
+<p>As this platform seems to be quite common in terms of noise, cost, power and
+performance it makes sense to write a small installation manual.</p>
+<p>This guide was developed using an APU4C4 board with the following specs:</p>
+<ul class="simple">
+<li><p>AMD Embedded G series GX-412TC, 1 GHz quad Jaguar core with 64 bit and AES-NI
+support, 32K data + 32K instruction cache per core, shared 2MB L2 cache.</p></li>
+<li><p>4 GB DDR3-1333 DRAM, with optional ECC support</p></li>
+<li><p>About 6 to 10W of 12V DC power depending on CPU load</p></li>
+<li><p>2 miniPCI express (one with SIM socket for 3G modem).</p></li>
+<li><p>4 Gigabit Ethernet channels using Intel i211AT NICs</p></li>
+</ul>
+<p>The board can be powered via 12V from the front or via a 5V onboard connector.</p>
+<section id="vyos-on-baremetal-apu4-shopping">
+<span id="id2"></span><h3>Shopping Cart<a class="headerlink" href="#vyos-on-baremetal-apu4-shopping" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>1x apu4c4 = 4 i211AT LAN / AMD GX-412TC CPU / 4 GB DRAM / dual SIM</p></li>
+<li><p>1x Kingston SUV500MS/120G</p></li>
+<li><p>1x VARIA Group Item 326745 19” dual rack for APU4</p></li>
+</ul>
+<p>The 19” enclosure can accommodate up to two APU4 boards - there is a single and
+dual front cover.</p>
+<section id="extension-modules">
+<h4>Extension Modules<a class="headerlink" href="#extension-modules" title="Link to this heading"></a></h4>
+<section id="wifi">
+<h5>WiFi<a class="headerlink" href="#wifi" title="Link to this heading"></a></h5>
+<p>Refer to <a class="reference internal" href="../configuration/interfaces/wireless.html#wireless-interface"><span class="std std-ref">WLAN/WIFI - Wireless LAN</span></a> for additional information, below listed
+modules have been tested successfully on this Hardware platform:</p>
+<ul class="simple">
+<li><p>Compex WLE900VX mini-PCIe WiFi module, only supported in mPCIe slot 1.</p></li>
+<li><p>Intel Corporation AX200 mini-PCIe WiFi module, only supported in mPCIe slot 1.
+(see <a class="reference internal" href="../configuration/interfaces/wireless.html#wireless-interface-intel-ax200"><span class="std std-ref">Intel AX200</span></a>)</p></li>
+</ul>
+</section>
+<section id="wwan">
+<h5>WWAN<a class="headerlink" href="#wwan" title="Link to this heading"></a></h5>
+<p>Refer to <a class="reference internal" href="../configuration/interfaces/wwan.html#wwan-interface"><span class="std std-ref">WWAN - Wireless Wide-Area-Network</span></a> for additional information, below listed modules
+have been tested successfully on this Hardware platform using VyOS 1.3
+(equuleus):</p>
+<ul class="simple">
+<li><p>Sierra Wireless AirPrime MC7304 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7430 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7455 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7710 miniPCIe card (LTE)</p></li>
+<li><p>Huawei ME909u-521 miniPCIe card (LTE)</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="vyos-1-2-crux">
+<h3>VyOS 1.2 (crux)<a class="headerlink" href="#vyos-1-2-crux" title="Link to this heading"></a></h3>
+<p>Depending on the VyOS versions you intend to install there is a difference in
+the serial port settings (<a class="reference external" href="https://vyos.dev/T1327">T1327</a>).</p>
+<p>Create a bootable USB pendrive using e.g. <a class="reference external" href="https://rufus.ie/">Rufus</a> on a Windows machine.</p>
+<p>Connect serial port to a PC through null modem cable (RXD / TXD crossed over).
+Set terminal emulator to 115200 8N1.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PC Engines apu4
+coreboot build 20171130
+BIOS version v4.6.4
+4080 MB ECC DRAM
+SeaBIOS (version rel-1.11.0.1-0-g90da88d)
+
+Press F10 key now for boot menu:
+
+Select boot device:
+
+1. ata0-0: KINGSTON SUV500MS120G ATA-11 Hard-Disk (111 GiBytes)
+2. USB MSC Drive Generic Flash Disk 8.07
+3. Payload [memtest]
+4. Payload [setup]
+</pre></div>
+</div>
+<p>Now boot from the <code class="docutils literal notranslate"><span class="pre">USB</span> <span class="pre">MSC</span> <span class="pre">Drive</span> <span class="pre">Generic</span> <span class="pre">Flash</span> <span class="pre">Disk</span> <span class="pre">8.07</span></code> media by pressing
+<code class="docutils literal notranslate"><span class="pre">2</span></code>, the VyOS boot menu will appear, just wait 10 seconds or press <code class="docutils literal notranslate"><span class="pre">Enter</span></code>
+to continue.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk
+x                      VyOS - Boot Menu                      x
+tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu
+x Live (amd64-vyos)                                          x
+x Live (amd64-vyos failsafe)                                 x
+x                                                            x
+mqqqqqqPress ENAutomatic boot in 10 seconds...nu entryqqqqqqqj
+</pre></div>
+</div>
+<p>The image will be loaded and the last lines you will get will be:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Loading /live/vmlinuz... ok
+Loading /live/initrd.img...
+</pre></div>
+</div>
+<p>The Kernel will now spin up using a different console setting. Set terminal
+emulator to 9600 8N1 and after a while your console will show:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Loading /live/vmlinuz... ok
+Loading /live/initrd.img...
+Welcome to VyOS - vyos ttyS0
+
+vyos login:
+</pre></div>
+</div>
+<p>You can now proceed with a regular image installation as described in
+<a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>.</p>
+<p>As the APU board itself still used a serial setting of 115200 8N1 it is
+strongly recommended that you change the VyOS serial interface settings after
+your first successful boot.</p>
+<p>Use the following command to adjust the <a class="reference internal" href="../configuration/system/console.html#serial-console"><span class="std std-ref">Serial Console</span></a> settings:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system console device ttyS0 speed 115200
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Once you <code class="docutils literal notranslate"><span class="pre">commit</span></code> the above changes access to the serial interface
+is lost until you set your terminal emulator to 115200 8N1 again.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show system console
+ device ttyS0 {
+   speed 115200
+ }
+</pre></div>
+</div>
+</section>
+<section id="vyos-1-2-rolling">
+<h3>VyOS 1.2 (rolling)<a class="headerlink" href="#vyos-1-2-rolling" title="Link to this heading"></a></h3>
+<p>Installing the rolling release on an APU2 board does not require any change
+on the serial console from your host side as <a class="reference external" href="https://vyos.dev/T1327">T1327</a> was successfully
+implemented.</p>
+<p>Simply proceed with a regular image installation as described in
+<a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>.</p>
+</section>
+<section id="vyos-on-baremetal-apu4-pictures">
+<span id="id3"></span><h3>Pictures<a class="headerlink" href="#vyos-on-baremetal-apu4-pictures" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Both device types operate without any moving parts and emit zero
+noise.</p>
+</div>
+<section id="rack-mount">
+<h4>Rack Mount<a class="headerlink" href="#rack-mount" title="Link to this heading"></a></h4>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_1.jpg"><img alt="APU4 rack closed" src="../images/apu4_rack_1.jpg" style="width: 975.75px; height: 176.75px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_2.jpg"><img alt="APU4 rack front" src="../images/apu4_rack_2.jpg" style="width: 1001.75px; height: 298.0px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_3.jpg"><img alt="APU4 rack module #1" src="../images/apu4_rack_3.jpg" style="width: 881.25px; height: 624.5px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_4.jpg"><img alt="APU4 rack module #2" src="../images/apu4_rack_4.jpg" style="width: 864.5px; height: 710.0px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_5.jpg"><img alt="APU4 rack module #3 with PSU" src="../images/apu4_rack_5.jpg" style="width: 756.0px; height: 1008.0px;" />
+</a>
+</figure>
+<section id="vyos-custom-print">
+<h5>VyOS custom print<a class="headerlink" href="#vyos-custom-print" title="Link to this heading"></a></h5>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_rack_vyos_print.jpg"><img alt="APU4 custom VyOS powder coat" src="../images/apu4_rack_vyos_print.jpg" style="width: 982.25px; height: 291.0px;" />
+</a>
+</figure>
+</section>
+</section>
+<section id="desktop-bench-top">
+<h4>Desktop / Bench Top<a class="headerlink" href="#desktop-bench-top" title="Link to this heading"></a></h4>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_desk_1.jpg"><img alt="APU4 desktop closed" src="../images/apu4_desk_1.jpg" style="width: 916.75px; height: 465.25px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_desk_2.jpg"><img alt="APU4 desktop closed" src="../images/apu4_desk_2.jpg" style="width: 792.75px; height: 441.5px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_desk_3.jpg"><img alt="APU4 desktop back" src="../images/apu4_desk_3.jpg" style="width: 957.25px; height: 523.75px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../images/apu4_desk_4.jpg"><img alt="APU4 desktop back" src="../images/apu4_desk_4.jpg" style="width: 821.75px; height: 556.25px;" />
+</a>
+</figure>
+</section>
+</section>
+</section>
+<section id="qotom-q355g4">
+<h2>Qotom Q355G4<a class="headerlink" href="#qotom-q355g4" title="Link to this heading"></a></h2>
+<p>The install on this Q355G4 box is pretty much plug and play. The port numbering
+the OS does might differ from the labels on the outside, but the UEFI firmware
+has a port blink test built in with MAC addresses so you can very quickly
+identify which is which. MAC labels are on the inside as well, and this test
+can be done from VyOS or plain Linux too. Default settings in the UEFI will
+make it boot, but depending on your installation wishes (i.e. storage type,
+boot type, console type) you might want to adjust them. This Qotom company
+seems to be the real OEM/ODM for many other relabelling companies like
+Protectli.</p>
+<section id="hardware">
+<h3>Hardware<a class="headerlink" href="#hardware" title="Link to this heading"></a></h3>
+<p>There are a number of other options, but they all seem to be close to Intel
+reference designs, with added features like more serial ports, more network
+interfaces and the likes. Because they don’t deviate too much from standard
+designs all the hardware is well-supported by mainline. It accepts one LPDDR3
+SO-DIMM, but chances are that if you need more than that, you’ll also want
+something even beefier than an i5. There are options for antenna holes, and SIM
+slots, so you could in theory add an LTE/Cell modem (not tested so far).</p>
+<p>The chassis is a U-shaped alu extrusion with removable I/O plates and removable
+bottom plate. Cooling is completely passive with a heatsink on the SoC with
+internal and external fins, a flat interface surface, thermal pad on top of
+that, which then directly attaches to the chassis, which has fins as well. It
+comes with mounting hardware and rubber feet, so you could place it like a
+desktop model or mount it on a VESA mount, or even wall mount it with the
+provided mounting plate. The closing plate doubles as internal 2.5” mounting
+place for an HDD or SSD, and comes supplied with a small SATA cable and SATA
+power cable.</p>
+<p>Power supply is a 12VDC barrel jack, and included switching power supply, which
+is why SATA power regulation is on-board. Internally it has a NUC-board-style
+on-board 12V input header as well, the molex locking style.</p>
+<p>There are WDT options and auto-boot on power enable, which is great for remote
+setups. Firmware is reasonably secure (no backdoors found, BootGuard is enabled
+in enforcement mode, which is good but also means no coreboot option), yet has
+most options available to configure (so it’s not locked out like most firmwares
+are).</p>
+<p>An external RS232 serial port is available, internally a GPIO header as well.
+It does have Realtek based audio on board for some reason, but you can disable
+that. Booting works on both USB2 and USB3 ports. Switching between serial BIOS
+mode and HDMI BIOS mode depends on what is connected at startup; it goes into
+serial mode if you disconnect HDMI and plug in serial, in all other cases it’s
+HDMI mode.</p>
+</section>
+</section>
+<section id="partaker-i5">
+<h2>Partaker i5<a class="headerlink" href="#partaker-i5" title="Link to this heading"></a></h2>
+<figure class="align-default">
+<img alt="../images/600px-Partaker-i5.jpg" src="../images/600px-Partaker-i5.jpg" />
+</figure>
+<p>I believe this is actually the same hardware as the Protectli. I purchased it
+in June 2018. It came pre-loaded with pfSense.</p>
+<p><a class="reference external" href="http://www.inctel.com.cn/product/detail/338.html">Manufacturer product page</a>.</p>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Write VyOS ISO to USB drive of some sort</p></li>
+<li><p>Plug in VGA, power, USB keyboard, and USB drive</p></li>
+<li><p>Press “SW” button on the front (this is the power button; I don’t know what
+“SW” is supposed to mean).</p></li>
+<li><p>Begin rapidly pressing delete on the keyboard. The boot prompt is very quick,
+but with a few tries you should be able to get into the BIOS.</p></li>
+<li><p>Chipset &gt; South Bridge &gt; USB Configuration: set XHCI to Disabled and USB 2.0
+(EHCI) to Enabled. Without doing this, the USB drive won’t boot.</p></li>
+<li><p>Boot to the VyOS installer and install as usual.</p></li>
+</ul>
+<p>Warning the interface labels on my device are backwards; the left-most “LAN4”
+port is eth0 and the right-most “LAN1” port is eth3.</p>
+</section>
+</section>
+<section id="acrosser-and-j190n1">
+<h2>Acrosser AND-J190N1<a class="headerlink" href="#acrosser-and-j190n1" title="Link to this heading"></a></h2>
+<figure class="align-default">
+<img alt="../images/480px-Acrosser_ANDJ190N1_Front.jpg" src="../images/480px-Acrosser_ANDJ190N1_Front.jpg" />
+</figure>
+<figure class="align-default">
+<img alt="../images/480px-Acrosser_ANDJ190N1_Back.jpg" src="../images/480px-Acrosser_ANDJ190N1_Back.jpg" />
+</figure>
+<p>This microbox network appliance was build to create OpenVPN bridges. It can
+saturate a 100Mbps link. It is a small (serial console only) PC with 6 Gb LAN</p>
+<p>You may have to add your own RAM and HDD/SSD. There is no VGA connector. But
+Acrosser provides a DB25 adapter for the VGA header on the motherboard (not
+used).</p>
+<section id="bios-settings">
+<h3>BIOS Settings:<a class="headerlink" href="#bios-settings" title="Link to this heading"></a></h3>
+<p>First thing you want to do is getting a more user friendly console to configure
+BIOS. Default VT100 brings a lot of issues. Configure VT100+ instead.</p>
+<p>For practical issues change speed from 115200 to 9600. 9600 is the default
+speed at which both linux kernel and VyOS will reconfigure the serial port
+when loading.</p>
+<p>Connect to serial (115200bps). Power on the appliance and press Del in the
+console when requested to enter BIOS settings.</p>
+<p>Advanced &gt; Serial Port Console Redirection &gt; Console Redirection Settings:</p>
+<ul class="simple">
+<li><p>Terminal Type : VT100+</p></li>
+<li><p>Bits per second : 9600</p></li>
+</ul>
+<p>Save, reboot and change serial speed to 9600 on your client.</p>
+<p>Some options have to be changed for VyOS to boot correctly. With XHCI enabled
+the installer can’t access the USB key. Enable EHCI instead.</p>
+<p>Reboot into BIOS, Chipset &gt; South Bridge &gt; USB Configuration:</p>
+<ul class="simple">
+<li><p>Disable XHCI</p></li>
+<li><p>Enable USB 2.0 (EHCI) Support</p></li>
+</ul>
+</section>
+<section id="install-vyos">
+<h3>Install VyOS:<a class="headerlink" href="#install-vyos" title="Link to this heading"></a></h3>
+<p>Create a VyOS bootable USB key. I used the 64-bit ISO (VyOS 1.1.7) and
+<a class="reference external" href="http://www.linuxliveusb.com/">LinuxLive USB Creator</a>.</p>
+<p>I’m not sure if it helps the process but I changed default option to live-serial
+(line “default xxxx”) on the USB key under syslinux/syslinux.cfg.</p>
+<p>I connected the key to one black USB port on the back and powered on. The first
+VyOS screen has some readability issues. Press <kbd class="kbd docutils literal notranslate">Enter</kbd> to continue.</p>
+<p>Then VyOS should boot and you can perform the <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">image</span></code></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloud/oracel.html" class="btn btn-neutral float-left" title="Oracle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="update.html" class="btn btn-neutral float-right" title="Update VyOS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

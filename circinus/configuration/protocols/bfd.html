@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BFD &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="BGP" href="bgp.html" />
+    <link rel="prev" title="Babel" href="babel.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BFD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-bfd">Configure BFD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operational-commands">Operational Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bfd-static-route-monitoring">BFD Static Route Monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bfd-operational-commands">Operational Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIM6 - Protocol Independent Multicast for IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">BFD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/bfd.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><section id="bfd">
+<span id="routing-bfd"></span><h1>BFD<a class="headerlink" href="#bfd" title="Link to this heading"></a></h1>
+<p><abbr title="Bidirectional Forwarding Detection">BFD</abbr> is described and extended by
+the following RFCs: <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5880.html"><strong>RFC 5880</strong></a>, <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5881.html"><strong>RFC 5881</strong></a> and <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5883.html"><strong>RFC 5883</strong></a>.</p>
+<p>In the age of very fast networks, a second of unreachability may equal millions of lost packets.
+The idea behind BFD is to detect very quickly when a peer is down and take action extremely fast.</p>
+<p>BFD sends lots of small UDP packets very quickly to ensures that the peer is still alive.</p>
+<p>This allows avoiding the timers defined in BGP and OSPF protocol to expires.</p>
+<section id="configure-bfd">
+<h2>Configure BFD<a class="headerlink" href="#configure-bfd" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address">
+set protocols bfd peer &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set BFD peer IPv4 address or IPv6 address</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-echo-mode">
+set protocols bfd peer &lt;address&gt; echo-mode</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-echo-mode" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables the echo transmission mode</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-multihop">
+set protocols bfd peer &lt;address&gt; multihop</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-multihop" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allow this BFD peer to not be directly connected</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-source-address-address-interface-interface">
+set protocols bfd peer &lt;address&gt; source [address &lt;address&gt; | interface &lt;interface&gt;]</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-source-address-address-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Bind listener to specific interface/address, mandatory for IPv6</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-interval-echo-interval-10-60000">
+set protocols bfd peer &lt;address&gt; interval echo-interval &lt;10-60000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-interval-echo-interval-10-60000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The minimal echo receive transmission interval that this system is
+capable of handling</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-interval-multiplier-2-255">
+set protocols bfd peer &lt;address&gt; interval multiplier &lt;2-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-interval-multiplier-2-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Remote transmission interval will be multiplied by this value</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-interval-receive-transmit-10-60000">
+set protocols bfd peer &lt;address&gt; interval [receive | transmit] &lt;10-60000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-interval-receive-transmit-10-60000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Interval in milliseconds</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-shutdown">
+set protocols bfd peer &lt;address&gt; shutdown</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-shutdown" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable a BFD peer</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bfd-peer-address-minimum-ttl-1-254">
+set protocols bfd peer &lt;address&gt; minimum-ttl &lt;1-254&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bfd-peer-address-minimum-ttl-1-254" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>For multi hop sessions only. Configure the minimum expected TTL for an
+incoming BFD control packet.</p>
+<p>This feature serves the purpose of thightening the packet validation
+requirements to avoid receiving BFD control packets from other sessions.</p>
+</div>
+</div>
+<section id="enable-bfd-in-bgp">
+<h3>Enable BFD in BGP<a class="headerlink" href="#enable-bfd-in-bgp" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bgp-neighbor-neighbor-bfd">
+set protocols bgp neighbor &lt;neighbor&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bgp-neighbor-neighbor-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable BFD on a single BGP neighbor</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-bgp-peer-group-neighbor-bfd">
+set protocols bgp peer-group &lt;neighbor&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-bgp-peer-group-neighbor-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable BFD on a BGP peer group</p>
+</div>
+</div>
+</section>
+<section id="enable-bfd-in-ospf">
+<h3>Enable BFD in OSPF<a class="headerlink" href="#enable-bfd-in-ospf" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospf-interface-interface-bfd">
+set protocols ospf interface &lt;interface&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospf-interface-interface-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable BFD for OSPF on an interface</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-ospfv3-interface-interface-bfd">
+set protocols ospfv3 interface &lt;interface&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-ospfv3-interface-interface-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable BFD for OSPFv3 on an interface</p>
+</div>
+</div>
+</section>
+<section id="enable-bfd-in-isis">
+<h3>Enable BFD in ISIS<a class="headerlink" href="#enable-bfd-in-isis" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-isis-name-interface-interface-bfd">
+set protocols isis &lt;name&gt; interface &lt;interface&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-isis-name-interface-interface-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable BFD for ISIS on an interface</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operational-commands">
+<h2>Operational Commands<a class="headerlink" href="#operational-commands" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-bfd-peers">
+show bfd peers</span>
+<a class="cmdlink" href="#opcmd-show-bfd-peers" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all BFD peers</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BFD Peers:
+     peer 198.51.100.33 vrf default interface eth4.100
+             ID: 4182341893
+             Remote ID: 12678929647
+             Status: up
+             Uptime: 1 month(s), 16 hour(s), 29 minute(s), 38 second(s)
+             Diagnostics: ok
+             Remote diagnostics: ok
+             Local timers:
+                     Receive interval: 300ms
+                     Transmission interval: 300ms
+                     Echo transmission interval: 50ms
+             Remote timers:
+                     Receive interval: 300ms
+                     Transmission interval: 300ms
+                     Echo transmission interval: 0ms
+
+     peer 198.51.100.55 vrf default interface eth4.101
+             ID: 4618932327
+             Remote ID: 3312345688
+             Status: up
+             Uptime: 20 hour(s), 16 minute(s), 19 second(s)
+             Diagnostics: ok
+             Remote diagnostics: ok
+             Local timers:
+                     Receive interval: 300ms
+                     Transmission interval: 300ms
+                     Echo transmission interval: 50ms
+             Remote timers:
+                     Receive interval: 300ms
+                     Transmission interval: 300ms
+                     Echo transmission interval: 0ms
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bfd-static-route-monitoring">
+<h2>BFD Static Route Monitoring<a class="headerlink" href="#bfd-static-route-monitoring" title="Link to this heading"></a></h2>
+<p>A monitored static route conditions the installation to the RIB on the BFD
+session running state: when BFD session is up the route is installed to RIB,
+but when the BFD session is down it is removed from the RIB.</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-profile-profile">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; bfd profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a static route for &lt;subnet&gt; using gateway &lt;address&gt;
+and use the gateway address as BFD peer destination address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-multi-hop-source-address-profile-profile">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; bfd multi-hop source &lt;address&gt; profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-multi-hop-source-address-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a static route for &lt;subnet&gt; using gateway &lt;address&gt;
+, use source address to indentify the peer when is multi-hop session
+and the gateway address as BFD peer destination address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-profile-profile">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; bfd profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a static route for &lt;subnet&gt; using gateway &lt;address&gt;
+and use the gateway address as BFD peer destination address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-multi-hop-source-address-profile-profile">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; bfd multi-hop source &lt;address&gt; profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-multi-hop-source-address-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a static route for &lt;subnet&gt; using gateway &lt;address&gt;
+, use source address to indentify the peer when is multi-hop session
+and the gateway address as BFD peer destination address.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="bfd-operational-commands">
+<span id="id1"></span><h2>Operational Commands<a class="headerlink" href="#bfd-operational-commands" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-bfd-static-routes">
+show bfd static routes</span>
+<a class="cmdlink" href="#opcmd-show-bfd-static-routes" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Showing BFD monitored static routes</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Showing BFD monitored static routes:
+
+  Next hops:
+    VRF default IPv4 Unicast:
+        10.10.13.3/32 peer 192.168.2.3 (status: installed)
+        172.16.10.3/32 peer 192.168.10.1 (status: uninstalled)
+
+    VRF default IPv4 Multicast:
+
+    VRF default IPv6 Unicast:
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="babel.html" class="btn btn-neutral float-left" title="Babel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bgp.html" class="btn btn-neutral float-right" title="BGP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

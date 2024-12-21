@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L2TPv3 &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Loopback" href="loopback.html" />
+    <link rel="prev" title="GENEVE" href="geneve.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / Link Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">GENEVE</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">L2TPv3</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard.html">WireGuard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN - Pseudo Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tunnel.html">Tunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-ethernet.html">Virtual Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI - Virtual Tunnel Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">WLAN/WIFI - Wireless LAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wwan.html">WWAN - Wireless Wide-Area-Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">L2TPv3</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/interfaces/l2tpv3.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><section id="l2tpv3">
+<span id="l2tpv3-interface"></span><h1>L2TPv3<a class="headerlink" href="#l2tpv3" title="Link to this heading"></a></h1>
+<p>Layer 2 Tunnelling Protocol Version 3 is an IETF standard related to L2TP that
+can be used as an alternative protocol to <a class="reference internal" href="../protocols/mpls.html#mpls"><span class="std std-ref">MPLS</span></a> for encapsulation of
+multiprotocol Layer 2 communications traffic over IP networks. Like L2TP,
+L2TPv3 provides a pseudo-wire service but is scaled to fit carrier requirements.</p>
+<p>L2TPv3 can be regarded as being to MPLS what IP is to ATM: a simplified version
+of the same concept, with much of the same benefit achieved at a fraction of the
+effort, at the cost of losing some technical features considered less important
+in the market.</p>
+<p>In the case of L2TPv3, the features lost are teletraffic engineering features
+considered important in MPLS. However, there is no reason these features could
+not be re-engineered in or on top of L2TPv3 in later products.</p>
+<p>The protocol overhead of L2TPv3 is also significantly bigger than MPLS.</p>
+<p>L2TPv3 is described in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3931.html"><strong>RFC 3931</strong></a>.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="common-interface-configuration">
+<h3>Common interface configuration<a class="headerlink" href="#common-interface-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-address-address">
+set interfaces l2tpv3 &lt;interface&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface <cite>&lt;interface&gt;</cite> with one or more interface
+addresses.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times as IPv4 and/or IPv6
+address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 address 192.0.2.1/24
+set interfaces l2tpv3 l2tpeth0 address 2001:db8::1/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-description-description">
+set interfaces l2tpv3 &lt;interface&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a human readable, descriptive alias for this connection. Alias is used by
+e.g. the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command or SNMP based monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 description &#39;This is an awesome interface running on VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-disable">
+set interfaces l2tpv3 &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable given <cite>&lt;interface&gt;</cite>. It will be placed in administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-disable-flow-control">
+set interfaces l2tpv3 &lt;interface&gt;  disable-flow-control</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-disable-flow-control" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Ethernet flow control is a mechanism for temporarily stopping the transmission
+of data on Ethernet family computer networks. The goal of this mechanism is to
+ensure zero packet loss in the presence of network congestion.</p>
+<p>The first flow control mechanism, the pause frame, was defined by the IEEE
+802.3x standard.</p>
+<p>A sending station (computer or network switch) may be transmitting data faster
+than the other end of the link can accept it. Using flow control, the
+receiving station can signal the sender requesting suspension of
+transmissions until the receiver catches up.</p>
+<p>Use this command to disable the generation of Ethernet flow control (pause
+frames).</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 disable-flow-control
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-disable-link-detect">
+set interfaces l2tpv3 &lt;interface&gt; disable-link-detect</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to direct an interface to not detect any physical state
+changes on a link, for example, when the cable is unplugged.</p>
+<p>Default is to detects physical link state changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 disable-link-detect
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-mac-xx-xx-xx-xx-xx-xx">
+set interfaces l2tpv3 &lt;interface&gt; mac &lt;xx:xx:xx:xx:xx:xx&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-mac-xx-xx-xx-xx-xx-xx" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure user defined <abbr title="Media Access Control">MAC</abbr> address on given
+<cite>&lt;interface&gt;</cite>.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 mac &#39;00:53:01:02:03:04&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-mtu-mtu">
+set interfaces l2tpv3 &lt;interface&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <abbr title="Maximum Transmission Unit">MTU</abbr> on given <cite>&lt;interface&gt;</cite>. It
+is the size (in bytes) of the largest ethernet frame sent on this link.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 mtu 1600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces l2tpv3 &lt;interface&gt; ip adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 20 (IP header) - 20 (TCP header), resulting in
+1452 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-arp-cache-timeout">
+set interfaces l2tpv3 &lt;interface&gt; ip arp-cache-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-arp-cache-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Once a neighbor has been found, the entry is considered to be valid for at
+least for this specific time. An entry’s validity will be extended if it
+receives positive feedback from higher level protocols.</p>
+<p>This defaults to 30 seconds.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip arp-cache-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-disable-arp-filter">
+set interfaces l2tpv3 &lt;interface&gt; ip disable-arp-filter</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-disable-arp-filter" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If set the kernel can respond to arp requests with addresses from other
+interfaces. This may seem wrong but it usually makes sense, because it
+increases the chance of successful communication. IP addresses are owned by
+the complete host on Linux, not by particular interfaces. Only for more
+complex setups like load-balancing, does this behaviour cause problems.</p>
+<p>If not set (default) allows you to have multiple network interfaces on the
+same subnet, and have the ARPs for each interface be answered based on whether
+or not the kernel would route a packet from the ARP’d IP out that interface
+(therefore you must use source based routing for this to work).</p>
+<p>In other words it allows control of which cards (usually 1) will respond to an
+arp request.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip disable-arp-filter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-disable-forwarding">
+set interfaces l2tpv3 &lt;interface&gt; ip disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-directed-broadcast">
+set interfaces l2tpv3 &lt;interface&gt; ip enable-directed-broadcast</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-directed-broadcast" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for IP directed broadcast forwarding as described in
+<span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1812.html"><strong>RFC 1812</strong></a> and <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2644.html"><strong>RFC 2644</strong></a>.</p>
+<p>If configured, incoming IP directed broadcast packets on this interface will
+be forwarded.</p>
+<p>If this option is unset (default), incoming IP directed broadcast packets
+will not be forwarded.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip enable-directed-broadcast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-accept">
+set interfaces l2tpv3 &lt;interface&gt; ip enable-arp-accept</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-accept" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define behavior for gratuitous ARP frames whose IP is not already present in
+the ARP table. If configured create new entries in the ARP table.</p>
+<p>Both replies and requests type gratuitous arp will trigger the ARP table to be
+updated, if this setting is on.</p>
+<p>If the ARP table already contains the IP address of the gratuitous arp frame,
+the arp table will be updated regardless if this setting is on or off.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip enable-arp-accept
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-announce">
+set interfaces l2tpv3 &lt;interface&gt; ip enable-arp-announce</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-announce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different restriction levels for announcing the local source IP address
+from IP packets in ARP requests sent on interface.</p>
+<p>Use any local address, configured on any interface if this is not set.</p>
+<p>If configured, try to avoid local addresses that are not in the target’s
+subnet for this interface. This mode is useful when target hosts reachable via
+this interface require the source IP address in ARP requests to be part of
+their logical network configured on the receiving interface. When we generate
+the request we will check all our subnets that include the target IP and will
+preserve the source address if it is from such subnet. If there is no such
+subnet we select source address according to the rules for level 2.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip enable-arp-announce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-ignore">
+set interfaces l2tpv3 &lt;interface&gt; ip enable-arp-ignore</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-arp-ignore" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for sending replies in response to received ARP
+requests that resolve local target IP addresses:</p>
+<p>If configured, reply only if the target IP address is local address configured
+on the incoming interface.</p>
+<p>If this option is unset (default), reply for any local target IP address,
+configured on any interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip enable-arp-ignore
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-proxy-arp">
+set interfaces l2tpv3 &lt;interface&gt; ip enable-proxy-arp</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-enable-proxy-arp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable proxy Address Resolution Protocol (ARP) on this
+interface. Proxy ARP allows an Ethernet interface to respond with its own
+<abbr title="Media Access Control">MAC</abbr> address to ARP requests for destination IP
+addresses on subnets attached to other interfaces on the system. Subsequent
+packets sent to those destination IP addresses are forwarded appropriately by
+the system.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ip enable-proxy-arp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-proxy-arp-pvlan">
+set interfaces l2tpv3 &lt;interface&gt; ip proxy-arp-pvlan</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-proxy-arp-pvlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Private VLAN proxy arp. Basically allow proxy arp replies back to the same
+interface (from which the ARP request/solicitation was received).</p>
+<p>This is done to support (ethernet) switch features, like <span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, where
+the individual ports are NOT allowed to communicate with each other, but they
+are allowed to talk to the upstream router. As described in <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, it is
+possible to allow these hosts to communicate through the upstream router by
+proxy_arp’ing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not need to be used together with proxy_arp.</p>
+</div>
+<p>This technology is known by different names:</p>
+<ul class="simple">
+<li><p>In <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a> it is called VLAN Aggregation</p></li>
+<li><p>Cisco and Allied Telesyn call it Private VLAN</p></li>
+<li><p>Hewlett-Packard call it Source-Port filtering or port-isolation</p></li>
+<li><p>Ericsson call it MAC-Forced Forwarding (RFC Draft)</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ip-source-validation-strict-loose-disable">
+set interfaces l2tpv3 &lt;interface&gt; ip source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ip-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable policy for source validation by reversed path, as specified in
+<span class="target" id="index-6"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a>. Current recommended practice in <span class="target" id="index-7"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a> is to enable strict
+mode to prevent IP spoofing from DDos attacks. If using asymmetric routing
+or other complicated routing, then loose mode is recommended.</p>
+<ul class="simple">
+<li><p>strict: Each incoming packet is tested against the FIB and if the interface
+is not the best reverse path the packet check will fail. By default failed
+packets are discarded.</p></li>
+<li><p>loose: Each incoming packet’s source address is also tested against the FIB
+and if the source address is not reachable via any interface the packet
+check will fail.</p></li>
+<li><p>disable: No source validation</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-autoconf">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 address autoconf</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-autoconf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="Stateless Address Autoconfiguration">SLAAC</abbr> <span class="target" id="index-8"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4862.html"><strong>RFC 4862</strong></a>. IPv6 hosts
+can configure themselves automatically when connected to an IPv6 network using
+the Neighbor Discovery Protocol via <abbr title="Internet Control Message Protocol version 6">ICMPv6</abbr> router discovery messages. When first connected to a
+network, a host sends a link-local router solicitation multicast request for
+its configuration parameters; routers respond to such a request with a router
+advertisement packet that contains Internet Layer configuration parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method automatically disables IPv6 traffic forwarding on the
+interface in question.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 address autoconf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-eui64-prefix">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 address eui64 &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-eui64-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="64-Bit Extended Unique Identifier">EUI-64</abbr> as specified in
+<span class="target" id="index-9"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4291.html"><strong>RFC 4291</strong></a> allows a host to assign iteslf a unique 64-Bit IPv6 address.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 address eui64 2001:db8:beef::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-no-default-link-local">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 address no-default-link-local</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-address-no-default-link-local" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Do not assign a link-local IPv6 address to this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 address no-default-link-local
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-disable-forwarding">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss6</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 40 (IPv6 header) - 20 (TCP header), resulting in
+1432 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-accept-dad-1-3">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 accept-dad &lt;1-3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-accept-dad-1-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Whether to accept DAD (Duplicate Address Detection).</p>
+<ul class="simple">
+<li><p>0: Disable DAD</p></li>
+<li><p>1: Enable DAD (default)</p></li>
+<li><p>2: Enable DAD, and disable IPv6 operation if MAC-based duplicate link-local address has been found.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 accept-dad 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-ipv6-dup-addr-detect-transmits-n">
+set interfaces l2tpv3 &lt;interface&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-ipv6-dup-addr-detect-transmits-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The amount of Duplicate Address Detection probes to send.</p>
+<p>Default: 1</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 ipv6 dup-addr-detect-transmits 5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-vrf-vrf">
+set interfaces l2tpv3 &lt;interface&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Place interface in given VRF instance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
+please check this for additional information.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces l2tpv3 l2tpeth0 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="l2tpv3-options">
+<h3>L2TPv3 options<a class="headerlink" href="#l2tpv3-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-encapsulation-udp-ip">
+set interfaces l2tpv3 &lt;interface&gt; encapsulation &lt;udp | ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-encapsulation-udp-ip" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the encapsulation type of the tunnel. Valid values for encapsulation are:
+udp, ip.</p>
+<p>This defaults to UDP</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-source-address-address">
+set interfaces l2tpv3 &lt;interface&gt; source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the IP address of the local interface to be used for the tunnel.</p>
+<p>This address must be the address of a local interface. It may be specified as
+an IPv4 address or an IPv6 address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-remote-address">
+set interfaces l2tpv3 &lt;interface&gt; remote &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-remote-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the IP address of the remote peer. It may be specified as
+an IPv4 address or an IPv6 address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-session-id-id">
+set interfaces l2tpv3 &lt;interface&gt; session-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-session-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the session id, which is a 32-bit integer value. Uniquely identifies the
+session being created. The value used must match the peer_session_id value
+being used at the peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-peer-session-id-id">
+set interfaces l2tpv3 &lt;interface&gt; peer-session-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-peer-session-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the peer-session-id, which is a 32-bit integer value assigned to the
+session by the peer. The value used must match the session_id value being
+used at the peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-tunnel-id-id">
+set interfaces l2tpv3 &lt;interface&gt; tunnel-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-tunnel-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the tunnel id, which is a 32-bit integer value. Uniquely identifies the
+tunnel into which the session will be created.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-l2tpv3-interface-peer-tunnel-id-id">
+set interfaces l2tpv3 &lt;interface&gt; peer-tunnel-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-l2tpv3-interface-peer-tunnel-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the tunnel id, which is a 32-bit integer value. Uniquely identifies the
+tunnel into which the session will be created.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<section id="over-ip">
+<h3>Over IP<a class="headerlink" href="#over-ip" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># show interfaces l2tpv3
+l2tpv3 l2tpeth10 {
+    address 192.168.37.1/27
+    encapsulation ip
+    source-address 192.0.2.1
+    peer-session-id 100
+    peer-tunnel-id 200
+    remote 203.0.113.24
+    session-id 100
+    tunnel-id 200
+}
+</pre></div>
+</div>
+<p>The inverse configuration has to be applied to the remote side.</p>
+</section>
+<section id="over-udp">
+<h3>Over UDP<a class="headerlink" href="#over-udp" title="Link to this heading"></a></h3>
+<p>UDP mode works better with NAT:</p>
+<ul class="simple">
+<li><p>Set source-address to your local IP (LAN).</p></li>
+<li><p>Add a forwarding rule matching UDP port on your internet router.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># show interfaces l2tpv3
+l2tpv3 l2tpeth10 {
+    address 192.168.37.1/27
+    destination-port 9001
+    encapsulation udp
+    source-address 192.0.2.1
+    peer-session-id 100
+    peer-tunnel-id 200
+    remote 203.0.113.24
+    session-id 100
+    source-port 9000
+    tunnel-id 200
+}
+</pre></div>
+</div>
+<p>To create more than one tunnel, use distinct UDP ports.</p>
+</section>
+<section id="over-ipsec-l2-vpn-bridge">
+<h3>Over IPSec, L2 VPN (bridge)<a class="headerlink" href="#over-ipsec-l2-vpn-bridge" title="Link to this heading"></a></h3>
+<p>This is the LAN extension use case. The eth0 port of the distant VPN peers
+will be directly connected like if there was a switch between them.</p>
+<p>IPSec:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk &lt;pre-shared-name&gt; id &#39;%any&#39;
+set vpn ipsec authentication psk &lt;pre-shared-name&gt; secret &lt;pre-shared-key&gt;
+set vpn ipsec interface &lt;VPN-interface&gt;
+set vpn ipsec esp-group test-ESP-1 lifetime &#39;3600&#39;
+set vpn ipsec esp-group test-ESP-1 mode &#39;transport&#39;
+set vpn ipsec esp-group test-ESP-1 pfs &#39;enable&#39;
+set vpn ipsec esp-group test-ESP-1 proposal 1 encryption &#39;aes128&#39;
+set vpn ipsec esp-group test-ESP-1 proposal 1 hash &#39;sha1&#39;
+set vpn ipsec ike-group test-IKE-1 key-exchange &#39;ikev1&#39;
+set vpn ipsec ike-group test-IKE-1 lifetime &#39;3600&#39;
+set vpn ipsec ike-group test-IKE-1 proposal 1 dh-group &#39;5&#39;
+set vpn ipsec ike-group test-IKE-1 proposal 1 encryption &#39;aes128&#39;
+set vpn ipsec ike-group test-IKE-1 proposal 1 hash &#39;sha1&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; ike-group &#39;test-IKE-1&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; ikev2-reauth &#39;inherit&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; local-address &lt;local-ip&gt;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; tunnel 1 esp-group &#39;test-ESP-1&#39;
+set vpn ipsec site-to-site peer &lt;connection-name&gt; tunnel 1 protocol &#39;l2tp&#39;
+</pre></div>
+</div>
+<p>Bridge:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces bridge br0 description &#39;L2 VPN Bridge&#39;
+# remote side in this example:
+# set interfaces bridge br0 address &#39;172.16.30.18/30&#39;
+set interfaces bridge br0 address &#39;172.16.30.17/30&#39;
+set interfaces bridge br0 member interface eth0
+set interfaces ethernet eth0 description &#39;L2 VPN Physical port&#39;
+</pre></div>
+</div>
+<p>L2TPv3:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces bridge br0 member interface &#39;l2tpeth0&#39;
+set interfaces l2tpv3 l2tpeth0 description &#39;L2 VPN Tunnel&#39;
+set interfaces l2tpv3 l2tpeth0 destination-port &#39;5000&#39;
+set interfaces l2tpv3 l2tpeth0 encapsulation &#39;ip&#39;
+set interfaces l2tpv3 l2tpeth0 source-address &lt;local-ip&gt;
+set interfaces l2tpv3 l2tpeth0 mtu &#39;1500&#39;
+set interfaces l2tpv3 l2tpeth0 peer-session-id &#39;110&#39;
+set interfaces l2tpv3 l2tpeth0 peer-tunnel-id &#39;10&#39;
+set interfaces l2tpv3 l2tpeth0 remote &lt;peer-ip&gt;
+set interfaces l2tpv3 l2tpeth0 session-id &#39;110&#39;
+set interfaces l2tpv3 l2tpeth0 source-port &#39;5000&#39;
+set interfaces l2tpv3 l2tpeth0 tunnel-id &#39;10&#39;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="geneve.html" class="btn btn-neutral float-left" title="GENEVE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="loopback.html" class="btn btn-neutral float-right" title="Loopback" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

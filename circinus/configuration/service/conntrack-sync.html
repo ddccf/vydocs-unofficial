@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conntrack Sync &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Console Server" href="console-server.html" />
+    <link rel="prev" title="Config Sync" href="config-sync.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP Broadcast Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config Sync</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Conntrack Sync</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP Relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html#dynamic-dns">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ids.html">DDoS Protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="salt-minion.html">Salt-Minion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">suricata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">Conntrack Sync</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/service/conntrack-sync.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="conntrack-sync">
+<span id="id1"></span><h1>Conntrack Sync<a class="headerlink" href="#conntrack-sync" title="Link to this heading"></a></h1>
+<p>One of the important features built on top of the Netfilter framework is
+connection tracking. Connection tracking allows the kernel to keep track of all
+logical network connections or sessions, and thereby relate all of the packets
+which may make up that connection. NAT relies on this information to translate
+all related packets in the same way, and iptables can use this information to
+act as a stateful firewall.</p>
+<p>The connection state however is completely independent of any upper-level
+state, such as TCP’s or SCTP’s state. Part of the reason for this is that when
+merely forwarding packets, i.e. no local delivery, the TCP engine may not
+necessarily be invoked at all. Even connectionless-mode transmissions such as
+UDP, IPsec (AH/ESP), GRE and other tunneling protocols have, at least, a pseudo
+connection state. The heuristic for such protocols is often based upon a preset
+timeout value for inactivity, after whose expiration a Netfilter connection is
+dropped.</p>
+<p>Each Netfilter connection is uniquely identified by a (layer-3 protocol, source
+address, destination address, layer-4 protocol, layer-4 key) tuple. The layer-4
+key depends on the transport protocol; for TCP/UDP it is the port numbers, for
+tunnels it can be their tunnel ID, but otherwise is just zero, as if it were
+not part of the tuple. To be able to inspect the TCP port in all cases, packets
+will be mandatorily defragmented.</p>
+<p>It is possible to use either Multicast or Unicast to sync conntrack traffic.
+Most examples below show Multicast, but unicast can be specified by using the
+“peer” keywork after the specified interface, as in the following example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">conntrack-sync</span> <span class="pre">interface</span> <span class="pre">eth0</span> <span class="pre">peer</span> <span class="pre">192.168.0.250</span></code></p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-accept-protocol">
+set service conntrack-sync accept-protocol</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-accept-protocol" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Accept only certain protocols: You may want to replicate the state of flows
+depending on their layer 4 protocol.</p>
+<p>Protocols are: tcp, sctp, dccp, udp, icmp and ipv6-icmp.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-event-listen-queue-size-size">
+set service conntrack-sync event-listen-queue-size &lt;size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-event-listen-queue-size-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The daemon doubles the size of the netlink event socket buffer size if it
+detects netlink event message dropping. This clause sets the maximum buffer
+size growth that can be reached.</p>
+<p>Queue size for listening to local conntrack events in MB.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-expect-sync-all-ftp-h323-nfs-sip-sqlnet">
+set service conntrack-sync expect-sync &lt;all|ftp|h323|nfs|sip|sqlnet&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-expect-sync-all-ftp-h323-nfs-sip-sqlnet" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Protocol for which expect entries need to be synchronized.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-failover-mechanism-vrrp-sync-group-group">
+set service conntrack-sync failover-mechanism vrrp sync-group &lt;group&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-failover-mechanism-vrrp-sync-group-group" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Failover mechanism to use for conntrack-sync.</p>
+<p>Only VRRP is supported. Required option.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-ignore-address-x-x-x-x">
+set service conntrack-sync ignore-address &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-ignore-address-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>IP addresses or networks for which local conntrack entries will not be synced</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-interface-name">
+set service conntrack-sync interface &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-interface-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Interface to use for syncing conntrack entries.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-interface-name-port-port">
+set service conntrack-sync interface &lt;name&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-interface-name-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Port number used by connection.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-listen-address-ipv4address">
+set service conntrack-sync listen-address &lt;ipv4address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-listen-address-ipv4address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Local IPv4 addresses for service to listen on.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-mcast-group-x-x-x-x">
+set service conntrack-sync mcast-group &lt;x.x.x.x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-mcast-group-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Multicast group to use for syncing conntrack entries.</p>
+<p>Defaults to 225.0.0.50.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-interface-name-peer-address">
+set service conntrack-sync interface &lt;name&gt; peer &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-interface-name-peer-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Peer to send unicast UDP conntrack sync entires to, if not using Multicast
+configuration from above above.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-sync-queue-size-size">
+set service conntrack-sync sync-queue-size &lt;size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-sync-queue-size-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Queue size for syncing conntrack entries in MB.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-disable-external-cache">
+set service conntrack-sync disable-external-cache</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-disable-external-cache" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This diable the external cache and directly injects the flow-states into the
+in-kernel Connection Tracking System of the backup firewall.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-disable-syslog">
+set service conntrack-sync disable-syslog</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-disable-syslog" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable connection logging via Syslog.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-conntrack-sync-startup-resync">
+set service conntrack-sync startup-resync</span>
+<a class="cmdlink" href="#cfgcmd-set-service-conntrack-sync-startup-resync" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Order conntrackd to request a complete conntrack table resync against
+the other node at startup.</p>
+</div>
+</div>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-conntrack-table-ipv4">
+show conntrack table ipv4</span>
+<a class="cmdlink" href="#opcmd-show-conntrack-table-ipv4" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Make sure conntrack is enabled by running and show connection tracking table.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show conntrack table ipv4
+TCP state codes: SS - SYN SENT, SR - SYN RECEIVED, ES - ESTABLISHED,
+                 FW - FIN WAIT, CW - CLOSE WAIT, LA - LAST ACK,
+                 TW - TIME WAIT, CL - CLOSE, LI - LISTEN
+
+CONN ID    Source                 Destination            Protocol         TIMEOUT
+1015736576 10.35.100.87:58172     172.31.20.12:22        tcp [6] ES       430279
+1006235648 10.35.101.221:57483    172.31.120.21:22       tcp [6] ES       413310
+1006237088 10.100.68.100          172.31.120.21          icmp [1]         29
+1015734848 10.35.100.87:56282     172.31.20.12:22        tcp [6] ES       300
+1015734272 172.31.20.12:60286     239.10.10.14:694       udp [17]         29
+1006239392 10.35.101.221          172.31.120.21          icmp [1]         29
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the table is empty and you have a warning message, it means
+conntrack is not enabled. To enable conntrack, just create a NAT or a firewall
+rule. <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">state-policy</span> <span class="pre">established</span> <span class="pre">action</span> <span class="pre">accept</span></code></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-conntrack-sync-cache-external">
+show conntrack-sync cache external</span>
+<a class="cmdlink" href="#opcmd-show-conntrack-sync-cache-external" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show connection syncing external cache entries</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-conntrack-sync-cache-internal">
+show conntrack-sync cache internal</span>
+<a class="cmdlink" href="#opcmd-show-conntrack-sync-cache-internal" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show connection syncing internal cache entries</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-conntrack-sync-statistics">
+show conntrack-sync statistics</span>
+<a class="cmdlink" href="#opcmd-show-conntrack-sync-statistics" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Retrieve current statistics of connection tracking subsystem.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show conntrack-sync statistics
+Main Table Statistics:
+
+cache internal:
+current active connections:            19606
+connections created:                 6298470    failed:            0
+connections updated:                 3786793    failed:            0
+connections destroyed:               6278864    failed:            0
+
+cache external:
+current active connections:            15771
+connections created:                 1660193    failed:            0
+connections updated:                   77204    failed:            0
+connections destroyed:               1644422    failed:            0
+
+traffic processed:
+                   0 Bytes                         0 Pckts
+
+multicast traffic (active device=eth0.5):
+           976826240 Bytes sent            212898000 Bytes recv
+             8302333 Pckts sent              2009929 Pckts recv
+                   0 Error send                    0 Error recv
+
+message tracking:
+                   0 Malformed msgs                  263 Lost msgs
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-conntrack-sync-status">
+show conntrack-sync status</span>
+<a class="cmdlink" href="#opcmd-show-conntrack-sync-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Retrieve current status of connection tracking subsystem.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show conntrack-sync status
+sync-interface        : eth0.5
+failover-mechanism    : vrrp [sync-group GEFOEKOM]
+last state transition : no transition yet!
+ExpectationSync       : disabled
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The next example is a simple configuration of conntrack-sync.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../images/service_conntrack_sync-schema.png"><img alt="Conntrack Sync Example" src="../../images/service_conntrack_sync-schema.png" style="width: 315.0px; height: 402.0px;" />
+</a>
+</figure>
+<p>Now configure conntrack-sync service on <code class="docutils literal notranslate"><span class="pre">router1</span></code> <strong>and</strong> <code class="docutils literal notranslate"><span class="pre">router2</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set high-availability vrrp group internal virtual-address ... etc ...
+set high-availability vrrp sync-group syncgrp member &#39;internal&#39;
+set service conntrack-sync accept-protocol &#39;tcp&#39;
+set service conntrack-sync accept-protocol &#39;udp&#39;
+set service conntrack-sync accept-protocol &#39;icmp&#39;
+set service conntrack-sync failover-mechanism vrrp sync-group &#39;syncgrp&#39;
+set service conntrack-sync interface &#39;eth0&#39;
+set service conntrack-sync mcast-group &#39;225.0.0.50&#39;
+</pre></div>
+</div>
+<p>On the active router, you should have information in the internal-cache of
+conntrack-sync. The same current active connections number should be shown in
+the external-cache of the standby router</p>
+<p>On active router run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ show conntrack-sync statistics
+
+Main Table Statistics:
+
+cache internal:
+current active connections:               10
+connections created:                    8517    failed:            0
+connections updated:                     127    failed:            0
+connections destroyed:                  8507    failed:            0
+
+cache external:
+current active connections:                0
+connections created:                       0    failed:            0
+connections updated:                       0    failed:            0
+connections destroyed:                     0    failed:            0
+
+traffic processed:
+                   0 Bytes                         0 Pckts
+
+multicast traffic (active device=eth0):
+              868780 Bytes sent               224136 Bytes recv
+               20595 Pckts sent                14034 Pckts recv
+                   0 Error send                    0 Error recv
+
+message tracking:
+                   0 Malformed msgs                    0 Lost msgs
+</pre></div>
+</div>
+<p>On standby router run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ show conntrack-sync statistics
+
+Main Table Statistics:
+
+cache internal:
+current active connections:                0
+connections created:                       0    failed:            0
+connections updated:                       0    failed:            0
+connections destroyed:                     0    failed:            0
+
+cache external:
+current active connections:               10
+connections created:                     888    failed:            0
+connections updated:                     134    failed:            0
+connections destroyed:                   878    failed:            0
+
+traffic processed:
+                   0 Bytes                         0 Pckts
+
+multicast traffic (active device=eth0):
+              234184 Bytes sent               907504 Bytes recv
+               14663 Pckts sent                21495 Pckts recv
+                   0 Error send                    0 Error recv
+
+message tracking:
+                   0 Malformed msgs                    0 Lost msgs
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="config-sync.html" class="btn btn-neutral float-left" title="Config Sync" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="console-server.html" class="btn btn-neutral float-right" title="Console Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

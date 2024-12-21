@@ -1,0 +1,975 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPTP-Server &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="RSA-Keys" href="rsa-keys.html" />
+    <link rel="prev" title="OpenConnect" href="openconnect.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">IPsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PPTP-Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-pptp-server">Configuring PPTP Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-radius-authentication">Configuring RADIUS authentication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipv6">IPv6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripting">Scripting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-options">Advanced Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dmvpn.html">DMVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="site2site_ipsec.html">Site-to-Site</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">PPTP-Server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/vpn/pptp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pptp-server">
+<span id="pptp"></span><h1>PPTP-Server<a class="headerlink" href="#pptp-server" title="Link to this heading"></a></h1>
+<p>The Point-to-Point Tunneling Protocol (<a class="reference internal" href="#pptp">PPTP</a>) has been implemented in VyOS only
+for backwards compatibility. PPTP has many well known security issues and you
+should use one of the many other new VPN implementations.</p>
+<section id="configuring-pptp-server">
+<h2>Configuring PPTP Server<a class="headerlink" href="#configuring-pptp-server" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn pptp remote-access authentication mode local
+set vpn pptp remote-access authentication local-users username test password &#39;test&#39;
+set vpn pptp remote-access client-ip-pool PPTP-POOL range 192.168.255.2-192.168.255.254
+set vpn pptp remote-access default-pool &#39;PPTP-POOL&#39;
+set vpn pptp remote-access outside-address 192.0.2.2
+set vpn pptp remote-access gateway-address 192.168.255.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-mode-local-radius">
+set vpn pptp remote-access authentication mode &lt;local | radius&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-mode-local-radius" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set authentication backend. The configured authentication backend is used
+for all queries.</p>
+<ul class="simple">
+<li><p><strong>radius</strong>: All authentication queries are handled by a configured RADIUS
+server.</p></li>
+<li><p><strong>local</strong>: All authentication queries are handled locally.</p></li>
+<li><p><strong>noauth</strong>: Authentication disabled.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-password-pass">
+set vpn pptp remote-access authentication local-users username &lt;user&gt; password  &lt;pass&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-password-pass" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create <cite>&lt;user&gt;</cite> for local authentication on this system. The users password
+will be set to <cite>&lt;pass&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-client-ip-pool-pool-name-range-x-x-x-x-x-x-x-x-x-x-x-x-x">
+set vpn pptp remote-access client-ip-pool &lt;POOL-NAME&gt; range &lt;x.x.x.x-x.x.x.x | x.x.x.x/x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-client-ip-pool-pool-name-range-x-x-x-x-x-x-x-x-x-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define the first IP address of a pool of
+addresses to be given to PPTP clients. If notation <code class="docutils literal notranslate"><span class="pre">x.x.x.x-x.x.x.x</span></code>,
+it must be within a /24 subnet. If notation <code class="docutils literal notranslate"><span class="pre">x.x.x.x/x</span></code> is
+used there is possibility to set host/netmask.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-default-pool-pool-name">
+set vpn pptp remote-access default-pool &lt;POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-default-pool-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define default address pool name.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-gateway-address-gateway">
+set vpn pptp remote-access gateway-address &lt;gateway&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-gateway-address-gateway" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies single <cite>&lt;gateway&gt;</cite> IP address to be used as local address of PPP
+interfaces.</p>
+</div>
+</div>
+</section>
+<section id="configuring-radius-authentication">
+<h2>Configuring RADIUS authentication<a class="headerlink" href="#configuring-radius-authentication" title="Link to this heading"></a></h2>
+<p>To enable RADIUS based authentication, the authentication mode needs to be
+changed within the configuration. Previous settings like the local users, still
+exists within the configuration, however they are not used if the mode has been
+changed from local to radius. Once changed back to local, it will use all local
+accounts again.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn pptp remote-access authentication mode radius
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-key-secret">
+set vpn pptp remote-access authentication radius server &lt;server&gt; key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure RADIUS <cite>&lt;server&gt;</cite> and its required shared <cite>&lt;secret&gt;</cite> for
+communicating with the RADIUS server.</p>
+</div>
+</div>
+<p>Since the RADIUS server would be a single point of failure, multiple RADIUS
+servers can be setup and will be used subsequentially.
+For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn pptp remote-access authentication radius server 10.0.0.1 key &#39;foo&#39;
+set vpn pptp remote-access authentication radius server 10.0.0.2 key &#39;foo&#39;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some RADIUS severs use an access control list which allows or denies
+queries, make sure to add your VyOS router to the allowed client list.</p>
+</div>
+<section id="radius-source-address">
+<h3>RADIUS source address<a class="headerlink" href="#radius-source-address" title="Link to this heading"></a></h3>
+<p>If you are using OSPF as IGP, always the closest interface connected to the
+RADIUS server is used. You can bind all outgoing RADIUS requests
+to a single source IP e.g. the loopback interface.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-source-address-address">
+set vpn pptp remote-access authentication radius source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source IPv4 address used in all RADIUS server queires.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">source-address</span></code> must be configured on one of VyOS interface.
+Best practice would be a loopback or dummy interface.</p>
+</div>
+</section>
+<section id="radius-advanced-options">
+<h3>RADIUS advanced options<a class="headerlink" href="#radius-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-port-port">
+set vpn pptp remote-access authentication radius server &lt;server&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure RADIUS <cite>&lt;server&gt;</cite> and its required port for authentication requests.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-fail-time-time">
+set vpn pptp remote-access authentication radius server &lt;server&gt; fail-time &lt;time&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-fail-time-time" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mark RADIUS server as offline for this given <cite>&lt;time&gt;</cite> in seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-disable">
+set vpn pptp remote-access authentication radius server &lt;server&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-server-server-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Temporary disable this RADIUS server.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-acct-timeout-timeout">
+set vpn pptp remote-access authentication radius acct-timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-acct-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout to wait reply for Interim-Update packets. (default 3 seconds)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-server-address">
+set vpn pptp remote-access authentication radius dynamic-author server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies IP address for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-port-port">
+set vpn pptp remote-access authentication radius dynamic-author port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Port for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-key-secret">
+set vpn pptp remote-access authentication radius dynamic-author key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-dynamic-author-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Secret for Dynamic Authorization Extension server (DM/CoA)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-max-try-number">
+set vpn pptp remote-access authentication radius max-try &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-max-try-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum number of tries to send Access-Request/Accounting-Request queries</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-timeout-timeout">
+set vpn pptp remote-access authentication radius timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout to wait response from server (seconds)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-nas-identifier-identifier">
+set vpn pptp remote-access authentication radius nas-identifier &lt;identifier&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-nas-identifier-identifier" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Value to send to RADIUS server in NAS-Identifier attribute and to be matched
+in DM/CoA requests.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-nas-ip-address-address">
+set vpn pptp remote-access authentication radius nas-ip-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-nas-ip-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Value to send to RADIUS server in NAS-IP-Address attribute and to be matched
+in DM/CoA requests. Also DM/CoA server will bind to that address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-source-address-address">
+set vpn pptp remote-access authentication radius source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Source IPv4 address used in all RADIUS server queires.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-attribute-attribute">
+set vpn pptp remote-access authentication radius rate-limit attribute &lt;attribute&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-attribute-attribute" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies which RADIUS server attribute contains the rate limit information.
+The default attribute is <cite>Filter-Id</cite>.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you set a custom RADIUS attribute you must define it on both
+dictionaries at RADIUS server and client.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-enable">
+set vpn pptp remote-access authentication radius rate-limit enable</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-enable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables bandwidth shaping via RADIUS.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-vendor">
+set vpn pptp remote-access authentication radius rate-limit vendor</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-radius-rate-limit-vendor" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the vendor dictionary, dictionary needs to be in
+/usr/share/accel-ppp/radius.</p>
+</div>
+</div>
+<p>Received RADIUS attributes have a higher priority than parameters defined within
+the CLI configuration, refer to the explanation below.</p>
+</section>
+<section id="allocation-clients-ip-addresses-by-radius">
+<h3>Allocation clients ip addresses by RADIUS<a class="headerlink" href="#allocation-clients-ip-addresses-by-radius" title="Link to this heading"></a></h3>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-IP-Address</span></code> then this IP
+address will be allocated to the client and the option <code class="docutils literal notranslate"><span class="pre">default-pool</span></code> within the CLI
+config is being ignored.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-Pool</span></code>, IP address will be allocated
+from a predefined IP pool whose name equals the attribute value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code>, IPv6 address
+will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">prefix</span></code> whose name equals the attribute value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code>, IPv6
+delegation pefix will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">delegate</span></code>
+whose name equals the attribute value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code> and <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code> are defined in
+RFC6911. If they are not defined in your RADIUS server, add new <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.rfc6911">dictionary</a>.</p>
+</div>
+<p>User interface can be put to VRF context via RADIUS Access-Accept packet, or change
+it via RADIUS CoA. <code class="docutils literal notranslate"><span class="pre">Accel-VRF-Name</span></code> is used from these purposes. It is custom <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.accel">ACCEL-PPP attribute</a>.
+Define it in your RADIUS server.</p>
+</section>
+<section id="renaming-clients-interfaces-by-radius">
+<h3>Renaming clients interfaces by RADIUS<a class="headerlink" href="#renaming-clients-interfaces-by-radius" title="Link to this heading"></a></h3>
+<p>If the RADIUS server uses the attribute <code class="docutils literal notranslate"><span class="pre">NAS-Port-Id</span></code>, ppp tunnels will be
+renamed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The value of the attribute <code class="docutils literal notranslate"><span class="pre">NAS-Port-Id</span></code> must be less than 16
+characters, otherwise the interface won’t be renamed.</p>
+</div>
+</section>
+</section>
+<section id="ipv6">
+<h2>IPv6<a class="headerlink" href="#ipv6" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-require-prefer-allow-deny">
+set vpn pptp remote-access ppp-options ipv6 &lt;require | prefer | allow | deny&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-require-prefer-allow-deny" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies IPv6 negotiation preference.</p>
+<ul class="simple">
+<li><p><strong>require</strong> - Require IPv6 negotiation</p></li>
+<li><p><strong>prefer</strong> - Ask client for IPv6 negotiation, do not fail if it rejects</p></li>
+<li><p><strong>allow</strong> - Negotiate IPv6 only if client requests</p></li>
+<li><p><strong>deny</strong> - Do not negotiate IPv6 (default value)</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits">
+set vpn pptp remote-access client-ipv6-pool &lt;IPv6-POOL-NAME&gt; prefix &lt;address&gt;  mask &lt;number-of-bits&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this comand to set the IPv6 address pool from which an PPTP client
+will get an IPv6 prefix of your defined length (mask) to terminate the
+PPTP endpoint at their side. The mask length can be set from 48 to 128
+bit long, the default value is 64.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits">
+set vpn pptp remote-access client-ipv6-pool &lt;IPv6-POOL-NAME&gt; delegate &lt;address&gt;  delegation-prefix &lt;number-of-bits&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure DHCPv6 Prefix Delegation (RFC3633) on
+PPTP. You will have to set your IPv6 pool and the length of the
+delegation prefix. From the defined IPv6 pool you will be handing out
+networks of the defined length (delegation-prefix). The length of the
+delegation prefix can be set from 32 to 64 bit long.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-default-ipv6-pool-ipv6-pool-name">
+set vpn pptp remote-access default-ipv6-pool &lt;IPv6-POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-default-ipv6-pool-ipv6-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define default IPv6 address pool name.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn pptp remote-access ppp-options ipv6 allow
+set vpn pptp remote-access client-ipv6-pool IPv6-POOL delegate &#39;2001:db8:8003::/48&#39; delegation-prefix &#39;56&#39;
+set vpn pptp remote-access client-ipv6-pool IPv6-POOL prefix &#39;2001:db8:8002::/48&#39; mask &#39;64&#39;
+set vpn pptp remote-access default-ipv6-pool IPv6-POOL
+</pre></div>
+</div>
+<section id="ipv6-advanced-options">
+<h3>IPv6 Advanced Options<a class="headerlink" href="#ipv6-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-accept-peer-interface-id">
+set vpn pptp remote-access ppp-options ipv6-accept-peer-interface-id</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-accept-peer-interface-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Accept peer interface identifier. By default is not defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-interface-id-random-x-x-x-x">
+set vpn pptp remote-access ppp-options ipv6-interface-id &lt;random | x:x:x:x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-interface-id-random-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies fixed or random interface identifier for IPv6.
+By default is fixed.</p>
+<ul class="simple">
+<li><p><strong>random</strong> - Random interface identifier for IPv6</p></li>
+<li><p><strong>x:x:x:x</strong> - Specify interface identifier for IPv6</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-interface-id-random-x-x-x-x">
+set vpn pptp remote-access ppp-options ipv6-interface-id &lt;random | x:x:x:x&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv6-interface-id-random-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies peer interface identifier for IPv6. By default is fixed.</p>
+<ul class="simple">
+<li><p><strong>random</strong> - Random interface identifier for IPv6</p></li>
+<li><p><strong>x:x:x:x</strong> - Specify interface identifier for IPv6</p></li>
+<li><p><strong>ipv4-addr</strong> - Calculate interface identifier from IPv4 address.</p></li>
+<li><p><strong>calling-sid</strong> - Calculate interface identifier from calling-station-id.</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-change-path-to-script">
+set vpn pptp remote-access extended-scripts on-change &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-change-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface changed by RADIUS CoA handling</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-down-path-to-script">
+set vpn pptp remote-access extended-scripts on-down &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-down-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface going to terminate</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-pre-up-path-to-script">
+set vpn pptp remote-access extended-scripts on-pre-up &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-pre-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run before session interface comes up</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-up-path-to-script">
+set vpn pptp remote-access extended-scripts on-up &lt;path_to_script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-extended-scripts-on-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Script to run when session interface is completely configured and started</p>
+</div>
+</div>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading"></a></h2>
+<section id="authentication-advanced-options">
+<h3>Authentication Advanced Options<a class="headerlink" href="#authentication-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-disable">
+set vpn pptp remote-access authentication local-users username &lt;user&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable <cite>&lt;user&gt;</cite> account.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-static-ip-address">
+set vpn pptp remote-access authentication local-users username &lt;user&gt; static-ip  &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-static-ip-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Assign static IP address to <cite>&lt;user&gt;</cite> account.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-rate-limit-download-bandwidth">
+set vpn pptp remote-access authentication local-users username &lt;user&gt; rate-limit  download &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-rate-limit-download-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Download bandwidth limit in kbit/s for <cite>&lt;user&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-rate-limit-upload-bandwidth">
+set vpn pptp remote-access authentication local-users username &lt;user&gt; rate-limit  upload &lt;bandwidth&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-local-users-username-user-rate-limit-upload-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Upload bandwidth limit in kbit/s for <cite>&lt;user&gt;</cite>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-authentication-protocols-pap-chap-mschap-mschap-v2">
+set vpn pptp remote-access authentication protocols  &lt;pap | chap | mschap | mschap-v2&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-authentication-protocols-pap-chap-mschap-mschap-v2" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Require the peer to authenticate itself using one of the following protocols:
+pap, chap, mschap, mschap-v2.</p>
+</div>
+</div>
+</section>
+<section id="client-ip-pool-advanced-options">
+<h3>Client IP Pool Advanced Options<a class="headerlink" href="#client-ip-pool-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-client-ip-pool-pool-name-next-pool-next-pool-name">
+set vpn pptp remote-access client-ip-pool &lt;POOL-NAME&gt; next-pool &lt;NEXT-POOL-NAME&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-client-ip-pool-pool-name-next-pool-next-pool-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to define the next address pool name.</p>
+</div>
+</div>
+</section>
+<section id="ppp-advanced-options">
+<h3>PPP Advanced Options<a class="headerlink" href="#ppp-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-disable-ccp">
+set vpn pptp remote-access ppp-options disable-ccp</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-disable-ccp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable Compression Control Protocol (CCP).
+CCP is enabled by default.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-interface-cache-number">
+set vpn pptp remote-access ppp-options interface-cache &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-interface-cache-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies number of interfaces to keep in cache. It means that don’t
+destroy interface after corresponding session is destroyed, instead
+place it to cache and use it later for new sessions repeatedly.
+This should reduce kernel-level interface creation/deletion rate lack.
+Default value is <strong>0</strong>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv4-require-prefer-allow-deny">
+set vpn pptp remote-access ppp-options ipv4 &lt;require | prefer | allow | deny&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-ipv4-require-prefer-allow-deny" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies IPv4 negotiation preference.</p>
+<ul class="simple">
+<li><p><strong>require</strong> - Require IPv4 negotiation</p></li>
+<li><p><strong>prefer</strong> - Ask client for IPv4 negotiation, do not fail if it rejects</p></li>
+<li><p><strong>allow</strong> - Negotiate IPv4 only if client requests (Default value)</p></li>
+<li><p><strong>deny</strong> - Do not negotiate IPv4</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-failure-number">
+set vpn pptp remote-access ppp-options lcp-echo-failure &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-failure-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Defines the maximum <cite>&lt;number&gt;</cite> of unanswered echo requests. Upon reaching the
+value <cite>&lt;number&gt;</cite>, the session will be reset. Default value is <strong>3</strong>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-interval-interval">
+set vpn pptp remote-access ppp-options lcp-echo-interval &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If this option is specified and is greater than 0, then the PPP module will
+send LCP pings of the echo request every <cite>&lt;interval&gt;</cite> seconds.
+Default value is <strong>30</strong>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-timeout">
+set vpn pptp remote-access ppp-options lcp-echo-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-lcp-echo-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies timeout in seconds to wait for any peer activity. If this option
+specified it turns on adaptive lcp echo functionality and “lcp-echo-failure”
+is not used. Default value is <strong>0</strong>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-min-mtu-number">
+set vpn pptp remote-access ppp-options min-mtu &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-min-mtu-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Defines minimum acceptable MTU. If client will try to negotiate less then
+specified MTU then it will be NAKed or disconnected if rejects greater MTU.
+Default value is <strong>100</strong>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-mppe-require-prefer-deny">
+set vpn pptp remote-access ppp-options mppe &lt;require | prefer | deny&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-mppe-require-prefer-deny" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies <abbr title="Microsoft Point-to-Point Encryption">MPPE</abbr> negotiation
+preference.</p>
+<ul class="simple">
+<li><p><strong>require</strong> - ask client for mppe, if it rejects drop connection</p></li>
+<li><p><strong>prefer</strong> - ask client for mppe, if it rejects don’t fail. (Default value)</p></li>
+<li><p><strong>deny</strong> - deny mppe</p></li>
+</ul>
+<p>Default behavior - don’t ask client for mppe, but allow it if client wants.
+Please note that RADIUS may override this option by MS-MPPE-Encryption-Policy
+attribute.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-ppp-options-mru-number">
+set vpn pptp remote-access ppp-options mru &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-ppp-options-mru-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Defines preferred MRU. By default is not defined.</p>
+</div>
+</div>
+</section>
+<section id="global-advanced-options">
+<h3>Global Advanced options<a class="headerlink" href="#global-advanced-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-description-description">
+set vpn pptp remote-access description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set description.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-limits-burst-value">
+set vpn pptp remote-access limits burst &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-limits-burst-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Burst count</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-limits-connection-limit-value">
+set vpn pptp remote-access limits connection-limit &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-limits-connection-limit-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Acceptable rate of connections (e.g. 1/min, 60/sec)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-limits-timeout-value">
+set vpn pptp remote-access limits timeout &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-limits-timeout-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Timeout in seconds</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-mtu">
+set vpn pptp remote-access mtu</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum Transmission Unit (MTU) (default: <strong>1436</strong>)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-max-concurrent-sessions">
+set vpn pptp remote-access max-concurrent-sessions</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-max-concurrent-sessions" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Maximum number of concurrent session start attempts</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-name-server-address">
+set vpn pptp remote-access name-server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-name-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Connected client should use <cite>&lt;address&gt;</cite> as their DNS server. This
+command accepts both IPv4 and IPv6 addresses. Up to two nameservers
+can be configured for IPv4, up to three for IPv6.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-shaper-fwmark-1-2147483647">
+set vpn pptp remote-access shaper fwmark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-shaper-fwmark-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match firewall mark value</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-snmp-master-agent">
+set vpn pptp remote-access snmp master-agent</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-snmp-master-agent" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable SNMP</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-pptp-remote-access-wins-server-address">
+set vpn pptp remote-access wins-server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-pptp-remote-access-wins-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Windows Internet Name Service (WINS) servers propagated to client</p>
+</div>
+</div>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-pptp-server-sessions">
+show pptp-server sessions</span>
+<a class="cmdlink" href="#opcmd-show-pptp-server-sessions" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Use this command to locally check the active sessions in the PPTP
+server.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show pptp-server sessions
+ ifname | username |    ip    | ip6 | ip6-dp |   calling-sid  | rate-limit | state  |  uptime  | rx-bytes | tx-bytes
+--------+----------+----------+-----+--------+----------------+------------+--------+----------+----------+----------
+ pptp0  | test     | 10.0.0.2 |     |        | 192.168.10.100 |            | active | 00:01:26 | 6.9 KiB  | 220 B
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show pptp-server statistics
+ uptime: 0.00:04:52
+cpu: 0%
+mem(rss/virt): 5504/100176 kB
+core:
+  mempool_allocated: 152007
+  mempool_available: 149007
+  thread_count: 1
+  thread_active: 1
+  context_count: 6
+  context_sleeping: 0
+  context_pending: 0
+  md_handler_count: 6
+  md_handler_pending: 0
+  timer_count: 2
+  timer_pending: 0
+sessions:
+  starting: 0
+  active: 1
+  finishing: 0
+pptp:
+  starting: 0
+  active: 1
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$sudo journalctl -u accel-ppp@pptp -b 0
+
+Feb 29 14:58:57 vyos accel-pptp[4629]: pptp: new connection from 192.168.10.100
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: recv [PPTP Start-Ctrl-Conn-Request &lt;Version 1&gt; &lt;Framing 1&gt; &lt;Bearer 1&gt; &lt;Max-Chan 0&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: send [PPTP Start-Ctrl-Conn-Reply &lt;Version 1&gt; &lt;Result 1&gt; &lt;Error 0&gt; &lt;Framing 3&gt; &lt;Bearer 3&gt; &lt;Max-Chan 1&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: recv [PPTP Outgoing-Call-Request &lt;Call-ID 2961&gt; &lt;Call-Serial 2&gt; &lt;Min-BPS 300&gt; &lt;Max-BPS 100000000&gt; &lt;Bearer 3&gt; &lt;Framing 3&gt; &lt;Window-Size 64&gt; &lt;Delay 0&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: send [PPTP Outgoing-Call-Reply &lt;Call-ID 2&gt; &lt;Peer-Call-ID 2961&gt; &lt;Result 1&gt; &lt;Error 0&gt; &lt;Cause 0&gt; &lt;Speed 100000000&gt; &lt;Window-Size 64&gt; &lt;Delay 0&gt; &lt;Channel 0&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: lcp_layer_init
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: auth_layer_init
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: ccp_layer_init
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: ipcp_layer_init
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: ipv6cp_layer_init
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: ppp establishing
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: lcp_layer_start
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: send [LCP ConfReq id=75 &lt;auth PAP&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: recv [PPTP Set-Link-Info]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: recv [LCP ConfReq id=0 &lt;mru 1400&gt; &lt;magic 0142785a&gt; &lt;pcomp&gt; &lt;accomp&gt; &lt; d 3 6 &gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: send [LCP ConfRej id=0 &lt;pcomp&gt; &lt;accomp&gt; &lt; d 3 6 &gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: recv [LCP ConfReq id=1 &lt;mru 1400&gt; &lt;magic 0142785a&gt;]
+Feb 29 14:58:57 vyos accel-pptp[4629]: :: send [LCP ConfAck id=1]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: fsm timeout 9
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: send [LCP ConfReq id=75 &lt;auth PAP&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP ConfNak id=75 &lt;auth MSCHAP-v2&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: send [LCP ConfReq id=76 &lt;auth CHAP-md5&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP ConfNak id=76 &lt;auth MSCHAP-v2&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: send [LCP ConfReq id=77 &lt;auth MSCHAP-v1&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP ConfNak id=77 &lt;auth MSCHAP-v2&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: send [LCP ConfReq id=78 &lt;auth MSCHAP-v2&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP ConfAck id=78 &lt;auth MSCHAP-v2&gt; &lt;mru 1436&gt; &lt;magic 483920bd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: lcp_layer_started
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: auth_layer_start
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: send [MSCHAP-v2 Challenge id=1 &lt;8aa758781676e6a8e85c11963ee010&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP Ident id=2 &lt;MSRASV5.20&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [LCP Ident id=3 &lt;MSRAS-0-MSEDGEWIN10&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: [43B blob data]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [PPTP Set-Link-Info]
+Feb 29 14:59:00 vyos accel-pptp[4629]: :: recv [MSCHAP-v2 Response id=1 &lt;90c21af1091f745e8bf22388b058&gt;, &lt;e695ae5aae274c88a3fa1ee3dc9057aece4d53c87b9fea&gt;, F=0, name=&quot;test&quot;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: connect: ppp0 &lt;--&gt; pptp(192.168.10.100)
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ppp connected
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [MSCHAP-v2 Success id=1 &quot;S=347F417CF04BEBBC7F75CFA7F43474C36FB218F9 M=Authentication succeeded&quot;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: test: authentication succeeded
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: auth_layer_started
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ccp_layer_start
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [CCP ConfReq id=b9 &lt;mppe +H -M +S -L -D -C&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ipcp_layer_start
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ipv6cp_layer_start
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: IPV6CP: discarding packet
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [LCP ProtoRej id=122 &lt;8057&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: recv [IPCP ConfReq id=6 &lt;addr 0.0.0.0&gt; &lt;dns1 0.0.0.0&gt; &lt;wins1 0.0.0.0&gt; &lt;dns2 0.0.0.0&gt; &lt;wins2 0.0.0.0&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [IPCP ConfReq id=3b &lt;addr 10.0.0.1&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [IPCP ConfRej id=6 &lt;dns1 0.0.0.0&gt; &lt;wins1 0.0.0.0&gt; &lt;dns2 0.0.0.0&gt; &lt;wins2 0.0.0.0&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: recv [LCP ProtoRej id=7 &lt;80fd&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ccp_layer_finished
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: recv [IPCP ConfAck id=3b &lt;addr 10.0.0.1&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: recv [IPCP ConfReq id=8 &lt;addr 0.0.0.0&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [IPCP ConfNak id=8 &lt;addr 10.0.0.2&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: recv [IPCP ConfReq id=9 &lt;addr 10.0.0.2&gt;]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: send [IPCP ConfAck id=9]
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: ipcp_layer_started
+Feb 29 14:59:00 vyos accel-pptp[4629]: ppp0:test: rename interface to &#39;pptp0&#39;
+Feb 29 14:59:00 vyos accel-pptp[4629]: pptp0:test: pptp: ppp started
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="openconnect.html" class="btn btn-neutral float-left" title="OpenConnect" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rsa-keys.html" class="btn btn-neutral float-right" title="RSA-Keys" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

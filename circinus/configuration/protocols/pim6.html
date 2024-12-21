@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIM6 - Protocol Independent Multicast for IPv6 &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="RIP" href="rip.html" />
+    <link rel="prev" title="PIM – Protocol Independent Multicast" href="pim.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM – Protocol Independent Multicast</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PIM6 - Protocol Independent Multicast for IPv6</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-commands">Basic commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tuning-commands">Tuning commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">PIM6 - Protocol Independent Multicast for IPv6</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/protocols/pim6.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pim6-protocol-independent-multicast-for-ipv6">
+<span id="pim6"></span><h1>PIM6 - Protocol Independent Multicast for IPv6<a class="headerlink" href="#pim6-protocol-independent-multicast-for-ipv6" title="Link to this heading"></a></h1>
+<p>VyOS facilitates IPv6 Multicast by supporting <strong>PIMv6</strong> and <strong>MLD</strong>.</p>
+<p>PIMv6 (Protocol Independent Multicast for IPv6) must be configured in every
+interface of every participating router. Every router must also have the
+location of the Rendevouz Point manually configured.
+Then, unidirectional shared trees rooted at the Rendevouz Point will
+automatically be built for multicast distribution.</p>
+<p>Traffic from multicast sources will go to the Rendezvous Point, and receivers
+will pull it from a shared tree using MLD (Multicast Listener Discovery).</p>
+<p>Multicast receivers will talk MLD to their local router, so, besides having
+PIMv6 configured in every router, MLD must also be configured in any router
+where there could be a multicast receiver locally connected.</p>
+<p>VyOS supports both MLD version 1 and version 2
+(which allows source-specific multicast).</p>
+<section id="basic-commands">
+<h2>Basic commands<a class="headerlink" href="#basic-commands" title="Link to this heading"></a></h2>
+<p>These are the commands for a basic setup.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name">
+set protocols pim6 interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable PIMv6 in the selected interface so that it
+can communicate with PIMv6 neighbors. This command also enables MLD reports
+and query on the interface unless <code class="docutils literal notranslate"><span class="pre">mld</span> <span class="pre">disable</span></code> is configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-disable">
+set protocols pim6 interface &lt;interface-name&gt; mld disable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable MLD reports and query on the interface.</p>
+</div>
+</div>
+</section>
+<section id="tuning-commands">
+<h2>Tuning commands<a class="headerlink" href="#tuning-commands" title="Link to this heading"></a></h2>
+<p>You can also tune multicast with the following commands.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-interval-seconds">
+set protocols pim6 interface &lt;interface-name&gt; mld interval &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-interval-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to configure in the selected interface the MLD
+host query interval (1-65535) in seconds that PIM will use.
+The default value is 125 seconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-join-multicast-address">
+set protocols pim6 interface &lt;interface-name&gt; mld join &lt;multicast-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-join-multicast-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to allow the selected interface to join a multicast group.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-join-multicast-address-source-source-address">
+set protocols pim6 interface &lt;interface-name&gt; mld join &lt;multicast-address&gt; source &lt;source-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-join-multicast-address-source-source-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to allow the selected interface to join a source-specific multicast
+group.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-last-member-query-count-count">
+set protocols pim6 interface &lt;interface-name&gt; mld last-member-query-count &lt;count&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-last-member-query-count-count" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the MLD last member query count. The default value is 2.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-last-member-query-interval-milliseconds">
+set protocols pim6 interface &lt;interface-name&gt; mld last-member-query-interval &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-last-member-query-interval-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the MLD last member query interval in milliseconds (100-6553500). The default value is 1000 milliseconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-max-response-time-milliseconds">
+set protocols pim6 interface &lt;interface-name&gt; mld max-response-time &lt;milliseconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-max-response-time-milliseconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the MLD query response timeout in milliseconds (100-6553500). The default value is 10000 milliseconds.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-pim6-interface-interface-name-mld-version-version-number">
+set protocols pim6 interface &lt;interface-name&gt; mld version &lt;version-number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-pim6-interface-interface-name-mld-version-version-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the MLD version used on this interface. The default value is 2.</p>
+</div>
+</div>
+<section id="configuration-example">
+<h3>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading"></a></h3>
+<p>To enable MLD reports and query on interfaces <cite>eth0</cite> and <cite>eth1</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols pim6 interface eth0
+set protocols pim6 interface eth1
+</pre></div>
+</div>
+<p>The following configuration explicitly joins multicast group <cite>ff15::1234</cite> on interface <cite>eth1</cite>
+and source-specific multicast group <cite>ff15::5678</cite> with source address <cite>2001:db8::1</cite> on interface
+<cite>eth1</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols pim6 interface eth0 mld join ff15::1234
+set protocols pim6 interface eth1 mld join ff15::5678 source 2001:db8::1
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pim.html" class="btn btn-neutral float-left" title="PIM – Protocol Independent Multicast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rip.html" class="btn btn-neutral float-right" title="RIP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

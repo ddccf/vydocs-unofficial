@@ -1,0 +1,1707 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Ethernet &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VTI - Virtual Tunnel Interface" href="vti.html" />
+    <link rel="prev" title="Tunnel" href="tunnel.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / Link Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">GENEVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tpv3.html">L2TPv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard.html">WireGuard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN - Pseudo Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tunnel.html">Tunnel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Virtual Ethernet</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI - Virtual Tunnel Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">WLAN/WIFI - Wireless LAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wwan.html">WWAN - Wireless Wide-Area-Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">Virtual Ethernet</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/interfaces/virtual-ethernet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="virtual-ethernet">
+<span id="id1"></span><h1>Virtual Ethernet<a class="headerlink" href="#virtual-ethernet" title="Link to this heading"></a></h1>
+<p>The veth devices are virtual Ethernet devices. They can act as tunnels between
+network namespaces to create a bridge to a physical network device in another
+namespace or VRF, but can also be used as standalone network devices.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>veth interfaces need to be created in pairs - it’s called the peer name</p>
+</div>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="common-interface-configuration">
+<h3>Common interface configuration<a class="headerlink" href="#common-interface-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-address-address-dhcp-dhcpv6">
+set interfaces virtual-ethernet &lt;interface&gt; address &lt;address | dhcp |  dhcpv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-address-address-dhcp-dhcpv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface <cite>&lt;interface&gt;</cite> with one or more interface addresses.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times as IPv4 and/or IPv6
+address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64</p></li>
+<li><p><strong>dhcp</strong> interface address is received by DHCP from a DHCP server
+on this segment.</p></li>
+<li><p><strong>dhcpv6</strong> interface address is received by DHCPv6 from a DHCPv6
+server on this segment.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using DHCP to retrieve IPv4 address and if local
+customizations are needed, they should be possible using the enter and
+exit hooks provided. The hook dirs are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/pre-hooks.d/</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/post-hooks.d/</span></code></p></li>
+</ul>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 address 192.0.2.1/24
+set interfaces virtual-ethernet veth0 address 2001:db8::1/64
+set interfaces virtual-ethernet veth0 address dhcp
+set interfaces virtual-ethernet veth0 address dhcpv6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-description-description">
+set interfaces virtual-ethernet &lt;interface&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a human readable, descriptive alias for this connection. Alias is used by
+e.g. the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command or SNMP based monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 description &#39;This is an awesome interface running on VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="vlan">
+<h3>VLAN<a class="headerlink" href="#vlan" title="Link to this heading"></a></h3>
+<section id="regular-vlans-802-1q">
+<h4>Regular VLANs (802.1q)<a class="headerlink" href="#regular-vlans-802-1q" title="Link to this heading"></a></h4>
+<p>IEEE <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a>, often referred to as Dot1q, is the networking standard that
+supports virtual LANs (VLANs) on an IEEE 802.3 Ethernet network. The standard
+defines a system of VLAN tagging for Ethernet frames and the accompanying
+procedures to be used by bridges and switches in handling such frames.
+The standard also contains provisions for a quality-of-service prioritization
+scheme commonly known as IEEE 802.1p and defines the
+Generic Attribute Registration Protocol.</p>
+<p>Portions of the network which are VLAN-aware (i.e., IEEE <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a> conformant) can
+include VLAN tags. When a frame enters the VLAN-aware portion of the network, a
+tag is added to represent the VLAN membership. Each frame must be
+distinguishable as being within exactly one VLAN. A frame in the VLAN-aware
+portion of the network that does not contain a VLAN tag is assumed to be
+flowing on the native VLAN.</p>
+<p>The standard was developed by IEEE 802.1, a working group of the IEEE 802
+standards committee, and continues to be actively revised. One of the notable
+revisions is 802.1Q-2014 which incorporated IEEE 802.1aq
+(Shortest Path Bridging) and much of the IEEE 802.1d standard.</p>
+<p>802.1q VLAN interfaces are represented as virtual sub-interfaces in VyOS. The
+term used for this is <code class="docutils literal notranslate"><span class="pre">vif</span></code>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create a new VLAN interface on interface <cite>&lt;interface&gt;</cite> using the VLAN number
+provided via <cite>&lt;vlan-id&gt;</cite>.</p>
+<p>You can create multiple VLAN interfaces on a physical interface. The VLAN ID
+range is from 0 to 4094.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only 802.1Q-tagged packets are accepted on Ethernet vifs.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-address-address-dhcp-dhcpv6">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; address &lt;address | dhcp |  dhcpv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-address-address-dhcp-dhcpv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface <cite>&lt;interface&gt;</cite> with one or more interface addresses.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times as IPv4 and/or IPv6
+address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64</p></li>
+<li><p><strong>dhcp</strong> interface address is received by DHCP from a DHCP server
+on this segment.</p></li>
+<li><p><strong>dhcpv6</strong> interface address is received by DHCPv6 from a DHCPv6
+server on this segment.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using DHCP to retrieve IPv4 address and if local
+customizations are needed, they should be possible using the enter and
+exit hooks provided. The hook dirs are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/pre-hooks.d/</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/post-hooks.d/</span></code></p></li>
+</ul>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 address 192.0.2.1/24
+set interfaces virtual-ethernet veth0 vif 10 address 2001:db8::1/64
+set interfaces virtual-ethernet veth0 vif 10 address dhcp
+set interfaces virtual-ethernet veth0 vif 10 address dhcpv6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-description-description">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a human readable, descriptive alias for this connection. Alias is used by
+e.g. the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command or SNMP based monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 description &#39;This is an awesome interface running on VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-disable">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable given <cite>&lt;interface&gt;</cite>. It will be placed in administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-disable-link-detect">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; disable-link-detect</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to direct an interface to not detect any physical state
+changes on a link, for example, when the cable is unplugged.</p>
+<p>Default is to detects physical link state changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 disable-link-detect
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-mac-xx-xx-xx-xx-xx-xx">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; mac &lt;xx:xx:xx:xx:xx:xx&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-mac-xx-xx-xx-xx-xx-xx" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure user defined <abbr title="Media Access Control">MAC</abbr> address on given
+<cite>&lt;interface&gt;</cite>.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 mac &#39;00:01:02:03:04:05&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-mtu-mtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <abbr title="Maximum Transmission Unit">MTU</abbr> on given <cite>&lt;interface&gt;</cite>. It
+is the size (in bytes) of the largest ethernet frame sent on this link.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 mtu 1600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 20 (IP header) - 20 (TCP header), resulting in
+1452 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-arp-cache-timeout">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip arp-cache-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-arp-cache-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Once a neighbor has been found, the entry is considered to be valid for at
+least for this specific time. An entry’s validity will be extended if it
+receives positive feedback from higher level protocols.</p>
+<p>This defaults to 30 seconds.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip arp-cache-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-disable-arp-filter">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip disable-arp-filter</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-disable-arp-filter" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If set the kernel can respond to arp requests with addresses from other
+interfaces. This may seem wrong but it usually makes sense, because it
+increases the chance of successful communication. IP addresses are owned by
+the complete host on Linux, not by particular interfaces. Only for more
+complex setups like load-balancing, does this behaviour cause problems.</p>
+<p>If not set (default) allows you to have multiple network interfaces on the
+same subnet, and have the ARPs for each interface be answered based on whether
+or not the kernel would route a packet from the ARP’d IP out that interface
+(therefore you must use source based routing for this to work).</p>
+<p>In other words it allows control of which cards (usually 1) will respond to an
+arp request.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip disable-arp-filter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-disable-forwarding">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-directed-broadcast">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip enable-directed-broadcast</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-directed-broadcast" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for IP directed broadcast forwarding as described in
+<span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1812.html"><strong>RFC 1812</strong></a> and <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2644.html"><strong>RFC 2644</strong></a>.</p>
+<p>If configured, incoming IP directed broadcast packets on this interface will
+be forwarded.</p>
+<p>If this option is unset (default), incoming IP directed broadcast packets
+will not be forwarded.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip enable-directed-broadcast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-accept">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip enable-arp-accept</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-accept" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define behavior for gratuitous ARP frames who’s IP is not already present in
+the ARP table. If configured create new entries in the ARP table.</p>
+<p>Both replies and requests type gratuitous arp will trigger the ARP table to be
+updated, if this setting is on.</p>
+<p>If the ARP table already contains the IP address of the gratuitous arp frame,
+the arp table will be updated regardless if this setting is on or off.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip enable-arp-accept
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-announce">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip enable-arp-announce</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-announce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different restriction levels for announcing the local source IP address
+from IP packets in ARP requests sent on interface.</p>
+<p>Use any local address, configured on any interface if this is not set.</p>
+<p>If configured, try to avoid local addresses that are not in the target’s
+subnet for this interface. This mode is useful when target hosts reachable via
+this interface require the source IP address in ARP requests to be part of
+their logical network configured on the receiving interface. When we generate
+the request we will check all our subnets that include the target IP and will
+preserve the source address if it is from such subnet. If there is no such
+subnet we select source address according to the rules for level 2.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip enable-arp-announce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-ignore">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip enable-arp-ignore</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-arp-ignore" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for sending replies in response to received ARP
+requests that resolve local target IP addresses:</p>
+<p>If configured, reply only if the target IP address is local address configured
+on the incoming interface.</p>
+<p>If this option is unset (default), reply for any local target IP address,
+configured on any interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip enable-arp-ignore
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-proxy-arp">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip enable-proxy-arp</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-enable-proxy-arp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable proxy Address Resolution Protocol (ARP) on this
+interface. Proxy ARP allows an Ethernet interface to respond with its own
+<abbr title="Media Access Control">MAC</abbr> address to ARP requests for destination IP
+addresses on subnets attached to other interfaces on the system. Subsequent
+packets sent to those destination IP addresses are forwarded appropriately by
+the system.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ip enable-proxy-arp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-proxy-arp-pvlan">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip proxy-arp-pvlan</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-proxy-arp-pvlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Private VLAN proxy arp. Basically allow proxy arp replies back to the same
+interface (from which the ARP request/solicitation was received).</p>
+<p>This is done to support (ethernet) switch features, like <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, where
+the individual ports are NOT allowed to communicate with each other, but they
+are allowed to talk to the upstream router. As described in <span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, it is
+possible to allow these hosts to communicate through the upstream router by
+proxy_arp’ing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not need to be used together with proxy_arp.</p>
+</div>
+<p>This technology is known by different names:</p>
+<ul class="simple">
+<li><p>In <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a> it is called VLAN Aggregation</p></li>
+<li><p>Cisco and Allied Telesyn call it Private VLAN</p></li>
+<li><p>Hewlett-Packard call it Source-Port filtering or port-isolation</p></li>
+<li><p>Ericsson call it MAC-Forced Forwarding (RFC Draft)</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-source-validation-strict-loose-disable">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ip source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ip-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable policy for source validation by reversed path, as specified in
+<span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a>. Current recommended practice in <span class="target" id="index-6"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a> is to enable strict
+mode to prevent IP spoofing from DDos attacks. If using asymmetric routing
+or other complicated routing, then loose mode is recommended.</p>
+<ul class="simple">
+<li><p>strict: Each incoming packet is tested against the FIB and if the interface
+is not the best reverse path the packet check will fail. By default failed
+packets are discarded.</p></li>
+<li><p>loose: Each incoming packet’s source address is also tested against the FIB
+and if the source address is not reachable via any interface the packet
+check will fail.</p></li>
+<li><p>disable: No source validation</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-autoconf">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 address autoconf</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-autoconf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="Stateless Address Autoconfiguration">SLAAC</abbr> <span class="target" id="index-7"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4862.html"><strong>RFC 4862</strong></a>. IPv6 hosts
+can configure themselves automatically when connected to an IPv6 network using
+the Neighbor Discovery Protocol via <abbr title="Internet Control Message Protocol version 6">ICMPv6</abbr> router discovery messages. When first connected to a
+network, a host sends a link-local router solicitation multicast request for
+its configuration parameters; routers respond to such a request with a router
+advertisement packet that contains Internet Layer configuration parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method automatically disables IPv6 traffic forwarding on the
+interface in question.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 address autoconf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-eui64-prefix">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 address eui64 &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-eui64-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="64-Bit Extended Unique Identifier">EUI-64</abbr> as specified in
+<span class="target" id="index-8"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4291.html"><strong>RFC 4291</strong></a> allows a host to assign iteslf a unique 64-Bit IPv6 address.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 address eui64 2001:db8:beef::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-no-default-link-local">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 address no-default-link-local</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-address-no-default-link-local" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Do not assign a link-local IPv6 address to this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 address no-default-link-local
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-disable-forwarding">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss6</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 40 (IPv6 header) - 20 (TCP header), resulting in
+1432 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-accept-dad-1-3">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 accept-dad &lt;1-3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-accept-dad-1-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Whether to accept DAD (Duplicate Address Detection).</p>
+<ul class="simple">
+<li><p>0: Disable DAD</p></li>
+<li><p>1: Enable DAD (default)</p></li>
+<li><p>2: Enable DAD, and disable IPv6 operation if MAC-based duplicate link-local address has been found.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 accept-dad 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-dup-addr-detect-transmits-n">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-ipv6-dup-addr-detect-transmits-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The amount of Duplicate Address Detection probes to send.</p>
+<p>Default: 1</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 ipv6 dup-addr-detect-transmits 5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-vrf-vrf">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Place interface in given VRF instance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
+please check this for additional information.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCP(v6)</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-client-id-description">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options client-id &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-client-id-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><span class="target" id="index-9"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2131.html"><strong>RFC 2131</strong></a> states: The client MAY choose to explicitly provide the identifier
+through the ‘client identifier’ option. If the client supplies a ‘client
+identifier’, the client MUST use the same ‘client identifier’ in all
+subsequent messages, and the server MUST use that identifier to identify the
+client.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options client-id &#39;foo-bar&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-host-name-hostname">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options host-name &lt;hostname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-host-name-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Instead of sending the real system hostname to the DHCP server, overwrite the
+host-name with this given-value.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options host-name &#39;VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-vendor-class-id-vendor-id">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options vendor-class-id &lt;vendor-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-vendor-class-id-vendor-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The vendor-class-id option can be used to request a specific class of vendor
+options from the server.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options vendor-class-id &#39;VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-no-default-route">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options no-default-route</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-no-default-route" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Only request an address from the DHCP server but do not request a default
+gateway.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options no-default-route
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-default-route-distance-distance">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options default-route-distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-default-route-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the distance for the default gateway sent by the DHCP server.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options default-route-distance 220
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-reject-address">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcp-options reject &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcp-options-reject-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Reject DHCP leases from a given address or range.
+This is useful when a modem gives a local IP when first starting.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times,
+e.g. 192.168.100.1 and/or 192.168.100.0/24</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcp-options reject 192.168.100.0/24
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-duid-duid">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options duid &lt;duid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-duid-duid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The DHCP unique identifier (DUID) is used by a client to get an IP address
+from a DHCPv6 server. It has a 2-byte DUID type field, and a variable-length
+identifier field up to 128 bytes. Its actual length depends on its type. The
+server compares the DUID with its database and delivers configuration data
+(address, lease times, DNS servers, etc.) to the client.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 duid &#39;0e:00:00:01:00:01:27:71:db:f0:00:50:56:bf:c5:6d&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-no-release">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options no-release</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-no-release" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When no-release is specified, dhcp6c will send a release message on client
+exit to prevent losing an assigned address or prefix.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options no-release
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-parameters-only">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options parameters-only</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-parameters-only" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This statement specifies dhcp6c to only exchange informational configuration
+parameters with servers. A list of DNS server addresses is an example of such
+parameters. This statement is useful when the client does not need stateful
+configuration parameters such as IPv6 addresses or prefixes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options parameters-only
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-rapid-commit">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options rapid-commit</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-rapid-commit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When rapid-commit is specified, dhcp6c will include a rapid-commit option in
+solicit messages and wait for an immediate reply instead of advertisements.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options rapid-commit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-temporary">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options temporary</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-temporary" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Request only a temporary address and not form an IA_NA (Identity Association
+for Non-temporary Addresses) partnership.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options temporary
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCPv6 Prefix Delegation (PD)</strong></p>
+<p>VyOS 1.3 (equuleus) supports DHCPv6-PD (<span class="target" id="index-10"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3633.html"><strong>RFC 3633</strong></a>). DHCPv6 Prefix Delegation
+is supported by most ISPs who provide native IPv6 for consumers on fixed
+networks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-length-length">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; length &lt;length&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-length-length" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Some ISPs by default only delegate a /64 prefix. To request for a specific
+prefix size use this option to request for a bigger delegation for this pd
+<cite>&lt;id&gt;</cite>. This value is in the range from 32 - 64 so you could request up to a
+/32 prefix (if your ISP allows this) down to a /64 delegation.</p>
+<p>The default value corresponds to 64.</p>
+<p>To request a /56 prefix from your ISP use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options pd 0 length 56
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-interface-delegatee-address-address">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-interface-delegatee-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the interface address used locally on the interface where the prefix
+has been delegated to. ID must be a decimal integer.</p>
+<p>It will be combined with the delegated prefix and the sla-id to form a
+complete interface address. The default is to use the EUI-64 address of the
+interface.</p>
+<p>Example: Delegate a /64 prefix to interface eth8 which will use a local
+address on this router of <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;::ffff</span></code>, as the address 65534 will
+correspond to <code class="docutils literal notranslate"><span class="pre">ffff</span></code> in hexadecimal notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options pd 0 interface eth8 address 65534
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-interface-delegatee-sla-id-id">
+set interfaces virtual-ethernet &lt;interface&gt; vif &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; sla-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-vlan-id-dhcpv6-options-pd-id-interface-delegatee-sla-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the identifier value of the site-level aggregator (SLA) on the
+interface. ID must be a decimal number greater then 0 which fits in the
+length of SLA IDs (see below).</p>
+<p>Example: If ID is 1 and the client is delegated an IPv6 prefix
+2001:db8:ffff::/48, dhcp6c will combine the two values into a single IPv6
+prefix, 2001:db8:ffff:1::/64, and will configure the prefix on the specified
+interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif 10 dhcpv6-options pd 0 interface eth8 sla-id 1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="qinq-802-1ad">
+<h4>QinQ (802.1ad)<a class="headerlink" href="#qinq-802-1ad" title="Link to this heading"></a></h4>
+<div class="admonition error">
+<p class="admonition-title">Call for Contributions</p><p>This section needs improvements, examples and explanations.</p>
+<p>Please take a look at the Contributing Guide for our <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div><p>IEEE <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1ad">802.1ad</a> was an Ethernet networking standard informally known as QinQ as
+an amendment to IEEE standard 802.1q VLAN interfaces as described above.
+802.1ad was incorporated into the base <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a> standard in 2011. The technique
+is also known as provider bridging, Stacked VLANs, or simply QinQ or Q-in-Q.
+“Q-in-Q” can for supported devices apply to C-tag stacking on C-tag (Ethernet
+Type = 0x8100).</p>
+<p>The original <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a> specification allows a single Virtual Local Area Network
+(VLAN) header to be inserted into an Ethernet frame. QinQ allows multiple
+VLAN tags to be inserted into a single frame, an essential capability for
+implementing Metro Ethernet network topologies. Just as QinQ extends 802.1Q,
+QinQ itself is extended by other Metro Ethernet protocols.</p>
+<p>In a multiple VLAN header context, out of convenience the term “VLAN tag” or
+just “tag” for short is often used in place of “<a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a> VLAN header”. QinQ
+allows multiple VLAN tags in an Ethernet frame; together these tags constitute
+a tag stack. When used in the context of an Ethernet frame, a QinQ frame is a
+frame that has 2 VLAN <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_802.1Q">802.1q</a> headers (double-tagged).</p>
+<p>In VyOS the terms <code class="docutils literal notranslate"><span class="pre">vif-s</span></code> and <code class="docutils literal notranslate"><span class="pre">vif-c</span></code> stand for the ethertype tags that
+are used.</p>
+<p>The inner tag is the tag which is closest to the payload portion of the frame.
+It is officially called C-TAG (customer tag, with ethertype 0x8100). The outer
+tag is the one closer/closest to the Ethernet header, its name is S-TAG
+(service tag with Ethernet Type = 0x88a8).</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-address-address-dhcp-dhcpv6">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; address &lt;address | dhcp |  dhcpv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-address-address-dhcp-dhcpv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface <cite>&lt;interface&gt;</cite> with one or more interface addresses.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times as IPv4 and/or IPv6
+address, e.g. 192.0.2.1/24 and/or 2001:db8::1/64</p></li>
+<li><p><strong>dhcp</strong> interface address is received by DHCP from a DHCP server
+on this segment.</p></li>
+<li><p><strong>dhcpv6</strong> interface address is received by DHCPv6 from a DHCPv6
+server on this segment.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using DHCP to retrieve IPv4 address and if local
+customizations are needed, they should be possible using the enter and
+exit hooks provided. The hook dirs are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/pre-hooks.d/</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/post-hooks.d/</span></code></p></li>
+</ul>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 address 192.0.2.1/24
+set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 address 2001:db8::1/64
+set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 address dhcp
+set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 address dhcpv6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-description-description">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a human readable, descriptive alias for this connection. Alias is used by
+e.g. the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command or SNMP based monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 description &#39;This is an awesome interface running on VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-disable">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable given <cite>&lt;interface&gt;</cite>. It will be placed in administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-disable-link-detect">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; disable-link-detect</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to direct an interface to not detect any physical state
+changes on a link, for example, when the cable is unplugged.</p>
+<p>Default is to detects physical link state changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 disable-link-detect
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-mac-xx-xx-xx-xx-xx-xx">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; mac &lt;xx:xx:xx:xx:xx:xx&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-mac-xx-xx-xx-xx-xx-xx" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure user defined <abbr title="Media Access Control">MAC</abbr> address on given
+<cite>&lt;interface&gt;</cite>.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 mac &#39;00:01:02:03:04:05&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-mtu-mtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure <abbr title="Maximum Transmission Unit">MTU</abbr> on given <cite>&lt;interface&gt;</cite>. It
+is the size (in bytes) of the largest ethernet frame sent on this link.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 mtu 1600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 20 (IP header) - 20 (TCP header), resulting in
+1452 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-arp-cache-timeout">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip arp-cache-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-arp-cache-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Once a neighbor has been found, the entry is considered to be valid for at
+least for this specific time. An entry’s validity will be extended if it
+receives positive feedback from higher level protocols.</p>
+<p>This defaults to 30 seconds.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip arp-cache-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-disable-arp-filter">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip disable-arp-filter</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-disable-arp-filter" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>If set the kernel can respond to arp requests with addresses from other
+interfaces. This may seem wrong but it usually makes sense, because it
+increases the chance of successful communication. IP addresses are owned by
+the complete host on Linux, not by particular interfaces. Only for more
+complex setups like load-balancing, does this behaviour cause problems.</p>
+<p>If not set (default) allows you to have multiple network interfaces on the
+same subnet, and have the ARPs for each interface be answered based on whether
+or not the kernel would route a packet from the ARP’d IP out that interface
+(therefore you must use source based routing for this to work).</p>
+<p>In other words it allows control of which cards (usually 1) will respond to an
+arp request.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip disable-arp-filter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-disable-forwarding">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-directed-broadcast">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip enable-directed-broadcast</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-directed-broadcast" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for IP directed broadcast forwarding as described in
+<span class="target" id="index-11"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1812.html"><strong>RFC 1812</strong></a> and <span class="target" id="index-12"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2644.html"><strong>RFC 2644</strong></a>.</p>
+<p>If configured, incoming IP directed broadcast packets on this interface will
+be forwarded.</p>
+<p>If this option is unset (default), incoming IP directed broadcast packets
+will not be forwarded.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip enable-directed-broadcast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-accept">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip enable-arp-accept</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-accept" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define behavior for gratuitous ARP frames who’s IP is not already present in
+the ARP table. If configured create new entries in the ARP table.</p>
+<p>Both replies and requests type gratuitous arp will trigger the ARP table to be
+updated, if this setting is on.</p>
+<p>If the ARP table already contains the IP address of the gratuitous arp frame,
+the arp table will be updated regardless if this setting is on or off.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip enable-arp-accept
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-announce">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip enable-arp-announce</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-announce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different restriction levels for announcing the local source IP address
+from IP packets in ARP requests sent on interface.</p>
+<p>Use any local address, configured on any interface if this is not set.</p>
+<p>If configured, try to avoid local addresses that are not in the target’s
+subnet for this interface. This mode is useful when target hosts reachable via
+this interface require the source IP address in ARP requests to be part of
+their logical network configured on the receiving interface. When we generate
+the request we will check all our subnets that include the target IP and will
+preserve the source address if it is from such subnet. If there is no such
+subnet we select source address according to the rules for level 2.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip enable-arp-announce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-ignore">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip enable-arp-ignore</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-arp-ignore" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define different modes for sending replies in response to received ARP
+requests that resolve local target IP addresses:</p>
+<p>If configured, reply only if the target IP address is local address configured
+on the incoming interface.</p>
+<p>If this option is unset (default), reply for any local target IP address,
+configured on any interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip enable-arp-ignore
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-proxy-arp">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip enable-proxy-arp</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-enable-proxy-arp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use this command to enable proxy Address Resolution Protocol (ARP) on this
+interface. Proxy ARP allows an Ethernet interface to respond with its own
+<abbr title="Media Access Control">MAC</abbr> address to ARP requests for destination IP
+addresses on subnets attached to other interfaces on the system. Subsequent
+packets sent to those destination IP addresses are forwarded appropriately by
+the system.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ip enable-proxy-arp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-proxy-arp-pvlan">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip proxy-arp-pvlan</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-proxy-arp-pvlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Private VLAN proxy arp. Basically allow proxy arp replies back to the same
+interface (from which the ARP request/solicitation was received).</p>
+<p>This is done to support (ethernet) switch features, like <span class="target" id="index-13"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, where
+the individual ports are NOT allowed to communicate with each other, but they
+are allowed to talk to the upstream router. As described in <span class="target" id="index-14"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>, it is
+possible to allow these hosts to communicate through the upstream router by
+proxy_arp’ing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not need to be used together with proxy_arp.</p>
+</div>
+<p>This technology is known by different names:</p>
+<ul class="simple">
+<li><p>In <span class="target" id="index-15"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a> it is called VLAN Aggregation</p></li>
+<li><p>Cisco and Allied Telesyn call it Private VLAN</p></li>
+<li><p>Hewlett-Packard call it Source-Port filtering or port-isolation</p></li>
+<li><p>Ericsson call it MAC-Forced Forwarding (RFC Draft)</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-source-validation-strict-loose-disable">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ip source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ip-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable policy for source validation by reversed path, as specified in
+<span class="target" id="index-16"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a>. Current recommended practice in <span class="target" id="index-17"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a> is to enable strict
+mode to prevent IP spoofing from DDos attacks. If using asymmetric routing
+or other complicated routing, then loose mode is recommended.</p>
+<ul class="simple">
+<li><p>strict: Each incoming packet is tested against the FIB and if the interface
+is not the best reverse path the packet check will fail. By default failed
+packets are discarded.</p></li>
+<li><p>loose: Each incoming packet’s source address is also tested against the FIB
+and if the source address is not reachable via any interface the packet
+check will fail.</p></li>
+<li><p>disable: No source validation</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-autoconf">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 address autoconf</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-autoconf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="Stateless Address Autoconfiguration">SLAAC</abbr> <span class="target" id="index-18"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4862.html"><strong>RFC 4862</strong></a>. IPv6 hosts
+can configure themselves automatically when connected to an IPv6 network using
+the Neighbor Discovery Protocol via <abbr title="Internet Control Message Protocol version 6">ICMPv6</abbr> router discovery messages. When first connected to a
+network, a host sends a link-local router solicitation multicast request for
+its configuration parameters; routers respond to such a request with a router
+advertisement packet that contains Internet Layer configuration parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method automatically disables IPv6 traffic forwarding on the
+interface in question.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 address autoconf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-eui64-prefix">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 address eui64 &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-eui64-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><abbr title="64-Bit Extended Unique Identifier">EUI-64</abbr> as specified in
+<span class="target" id="index-19"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4291.html"><strong>RFC 4291</strong></a> allows a host to assign iteslf a unique 64-Bit IPv6 address.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 address eui64 2001:db8:beef::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-no-default-link-local">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 address no-default-link-local</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-address-no-default-link-local" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Do not assign a link-local IPv6 address to this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 address no-default-link-local
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-disable-forwarding">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure interface-specific Host/Router behaviour. If set, the interface will
+switch to host mode and IPv6 forwarding will be disabled on this interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>As Internet wide PMTU discovery rarely works, we sometimes need to clamp our
+TCP MSS value to a specific value. This is a field in the TCP options part of
+a SYN packet. By setting the MSS value, you are telling the remote side
+unequivocally ‘do not try to send me packets bigger than this value’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command was introduced in VyOS 1.4 - it was previously called:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">options</span> <span class="pre">interface</span> <span class="pre">&lt;name&gt;</span> <span class="pre">adjust-mss6</span> <span class="pre">&lt;value&gt;</span></code></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>MSS value = MTU - 40 (IPv6 header) - 20 (TCP header), resulting in
+1432 bytes on a 1492 byte MTU.</p>
+</div>
+<p>Instead of a numerical MSS value <cite>clamp-mss-to-pmtu</cite> can be used to
+automatically set the proper value.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-accept-dad-1-3">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 accept-dad &lt;1-3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-accept-dad-1-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Whether to accept DAD (Duplicate Address Detection).</p>
+<ul class="simple">
+<li><p>0: Disable DAD</p></li>
+<li><p>1: Enable DAD (default)</p></li>
+<li><p>2: Enable DAD, and disable IPv6 operation if MAC-based duplicate link-local address has been found.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 accept-dad 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-dup-addr-detect-transmits-n">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-ipv6-dup-addr-detect-transmits-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The amount of Duplicate Address Detection probes to send.</p>
+<p>Default: 1</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 ipv6 dup-addr-detect-transmits 5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-vrf-vrf">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Place interface in given VRF instance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
+please check this for additional information.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCP(v6)</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-client-id-description">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options client-id &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-client-id-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><span class="target" id="index-20"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2131.html"><strong>RFC 2131</strong></a> states: The client MAY choose to explicitly provide the identifier
+through the ‘client identifier’ option. If the client supplies a ‘client
+identifier’, the client MUST use the same ‘client identifier’ in all
+subsequent messages, and the server MUST use that identifier to identify the
+client.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options client-id &#39;foo-bar&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-host-name-hostname">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options host-name &lt;hostname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-host-name-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Instead of sending the real system hostname to the DHCP server, overwrite the
+host-name with this given-value.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options host-name &#39;VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-vendor-class-id-vendor-id">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options vendor-class-id &lt;vendor-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-vendor-class-id-vendor-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The vendor-class-id option can be used to request a specific class of vendor
+options from the server.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options vendor-class-id &#39;VyOS&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-no-default-route">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options no-default-route</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-no-default-route" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Only request an address from the DHCP server but do not request a default
+gateway.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options no-default-route
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-default-route-distance-distance">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options default-route-distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-default-route-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the distance for the default gateway sent by the DHCP server.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options default-route-distance 220
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-reject-address">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcp-options reject &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcp-options-reject-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Reject DHCP leases from a given address or range.
+This is useful when a modem gives a local IP when first starting.</p>
+<ul class="simple">
+<li><p><strong>address</strong> can be specified multiple times,
+e.g. 192.168.100.1 and/or 192.168.100.0/24</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcp-options reject 192.168.100.0/24
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-duid-duid">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options duid &lt;duid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-duid-duid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The DHCP unique identifier (DUID) is used by a client to get an IP address
+from a DHCPv6 server. It has a 2-byte DUID type field, and a variable-length
+identifier field up to 128 bytes. Its actual length depends on its type. The
+server compares the DUID with its database and delivers configuration data
+(address, lease times, DNS servers, etc.) to the client.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 duid &#39;0e:00:00:01:00:01:27:71:db:f0:00:50:56:bf:c5:6d&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-no-release">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options no-release</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-no-release" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When no-release is specified, dhcp6c will send a release message on client
+exit to prevent losing an assigned address or prefix.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options no-release
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-parameters-only">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options parameters-only</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-parameters-only" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This statement specifies dhcp6c to only exchange informational configuration
+parameters with servers. A list of DNS server addresses is an example of such
+parameters. This statement is useful when the client does not need stateful
+configuration parameters such as IPv6 addresses or prefixes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options parameters-only
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-rapid-commit">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options rapid-commit</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-rapid-commit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When rapid-commit is specified, dhcp6c will include a rapid-commit option in
+solicit messages and wait for an immediate reply instead of advertisements.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options rapid-commit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-temporary">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options temporary</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-temporary" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Request only a temporary address and not form an IA_NA (Identity Association
+for Non-temporary Addresses) partnership.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options temporary
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCPv6 Prefix Delegation (PD)</strong></p>
+<p>VyOS 1.3 (equuleus) supports DHCPv6-PD (<span class="target" id="index-21"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3633.html"><strong>RFC 3633</strong></a>). DHCPv6 Prefix Delegation
+is supported by most ISPs who provide native IPv6 for consumers on fixed
+networks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-length-length">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; length &lt;length&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-length-length" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Some ISPs by default only delegate a /64 prefix. To request for a specific
+prefix size use this option to request for a bigger delegation for this pd
+<cite>&lt;id&gt;</cite>. This value is in the range from 32 - 64 so you could request up to a
+/32 prefix (if your ISP allows this) down to a /64 delegation.</p>
+<p>The default value corresponds to 64.</p>
+<p>To request a /56 prefix from your ISP use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options pd 0 length 56
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-interface-delegatee-address-address">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-interface-delegatee-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the interface address used locally on the interface where the prefix
+has been delegated to. ID must be a decimal integer.</p>
+<p>It will be combined with the delegated prefix and the sla-id to form a
+complete interface address. The default is to use the EUI-64 address of the
+interface.</p>
+<p>Example: Delegate a /64 prefix to interface eth8 which will use a local
+address on this router of <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;::ffff</span></code>, as the address 65534 will
+correspond to <code class="docutils literal notranslate"><span class="pre">ffff</span></code> in hexadecimal notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options pd 0 interface eth8 address 65534
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-interface-delegatee-sla-id-id">
+set interfaces virtual-ethernet &lt;interface&gt; vif-s &lt;vlan-id&gt; vif-c &lt;vlan-id&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; sla-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vif-s-vlan-id-vif-c-vlan-id-dhcpv6-options-pd-id-interface-delegatee-sla-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the identifier value of the site-level aggregator (SLA) on the
+interface. ID must be a decimal number greater then 0 which fits in the
+length of SLA IDs (see below).</p>
+<p>Example: If ID is 1 and the client is delegated an IPv6 prefix
+2001:db8:ffff::/48, dhcp6c will combine the two values into a single IPv6
+prefix, 2001:db8:ffff:1::/64, and will configure the prefix on the specified
+interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vif-s 1000 vif-c 20 dhcpv6-options pd 0 interface eth8 sla-id 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-disable">
+set interfaces virtual-ethernet &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable given <cite>&lt;interface&gt;</cite>. It will be placed in administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-virtual-ethernet-interface-vrf-vrf">
+set interfaces virtual-ethernet &lt;interface&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-virtual-ethernet-interface-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Place interface in given VRF instance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
+please check this for additional information.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth0 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-virtual-ethernet">
+show interfaces virtual-ethernet</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-virtual-ethernet" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show brief interface information.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces virtual-ethernet
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface        IP Address                        S/L  Description
+---------        ----------                        ---  -----------
+veth10           100.64.0.0/31                     u/u
+veth11           100.64.0.1/31                     u/u
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-virtual-ethernet-interface">
+show interfaces virtual-ethernet &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-virtual-ethernet-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show detailed information on given <cite>&lt;interface&gt;</cite></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces virtual-ethernet veth11
+10: veth11@veth10: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master red state UP group default qlen 1000
+    link/ether b2:7b:df:47:e9:11 brd ff:ff:ff:ff:ff:ff
+    inet 100.64.0.1/31 scope global veth11
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b07b:dfff:fe47:e911/64 scope link
+       valid_lft forever preferred_lft forever
+
+
+    RX:  bytes    packets     errors    dropped    overrun      mcast
+             0          0          0          0          0          0
+    TX:  bytes    packets     errors    dropped    carrier collisions
+       1369707       4267          0          0          0          0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>Interconnect the global VRF with vrf “red” using the veth10 &lt;-&gt; veth 11 pair</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces virtual-ethernet veth10 address &#39;100.64.0.0/31&#39;
+set interfaces virtual-ethernet veth10 peer-name &#39;veth11&#39;
+set interfaces virtual-ethernet veth11 address &#39;100.64.0.1/31&#39;
+set interfaces virtual-ethernet veth11 peer-name &#39;veth10&#39;
+set interfaces virtual-ethernet veth11 vrf &#39;red&#39;
+set vrf name red table &#39;1000&#39;
+
+vyos@vyos:~$ ping 100.64.0.1
+PING 100.64.0.1 (100.64.0.1) 56(84) bytes of data.
+64 bytes from 100.64.0.1: icmp_seq=1 ttl=64 time=0.080 ms
+64 bytes from 100.64.0.1: icmp_seq=2 ttl=64 time=0.119 ms
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tunnel.html" class="btn btn-neutral float-left" title="Tunnel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vti.html" class="btn btn-neutral float-right" title="VTI - Virtual Tunnel Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

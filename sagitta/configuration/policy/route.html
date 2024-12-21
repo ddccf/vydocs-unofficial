@@ -1,0 +1,788 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route and Route6 Policy &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Route Map Policy" href="route-map.html" />
+    <link rel="prev" title="Prefix List Policy" href="prefix-list.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Policy</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#policy-sections">Policy Sections</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="access-list.html">Access List Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="prefix-list.html">Prefix List Policy</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Route and Route6 Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="route-map.html">Route Map Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="local-route.html">Local Route Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="as-path-list.html">BGP - AS Path Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="community-list.html">BGP - Community List</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extcommunity-list.html">BGP - Extended Community List</a></li>
+<li class="toctree-l4"><a class="reference internal" href="large-community-list.html">BGP - Large Community List</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Policy</a></li>
+      <li class="breadcrumb-item active">Route and Route6 Policy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/policy/route.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="route-and-route6-policy">
+<h1>Route and Route6 Policy<a class="headerlink" href="#route-and-route6-policy" title="Link to this heading"></a></h1>
+<p>IPv4 route and IPv6 route policies are defined in this section. These route
+policies can then be associated to interfaces.</p>
+<section id="rule-sets">
+<h2>Rule-Sets<a class="headerlink" href="#rule-sets" title="Link to this heading"></a></h2>
+<p>A rule-set is a named collection of rules that can be applied to an interface.
+Each rule is numbered, has an action to apply if the rule is matched, and the
+ability to specify the criteria to match. Data packets go through the rules
+from 1 - 999999, at the first match the action of the rule will be executed.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-description-text">
+set policy route &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-description-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-description-text">
+set policy route6 &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a rule-set description.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-default-log">
+set policy route &lt;name&gt; default-log</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-default-log" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-default-log">
+set policy route6 &lt;name&gt; default-log</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-default-log" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Option to log packets hitting default-action.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-description-text">
+set policy route &lt;name&gt; rule &lt;n&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-description-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-description-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a description for each rule.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-log-enable-disable">
+set policy route &lt;name&gt; rule &lt;n&gt; log &lt;enable|disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-log-enable-disable" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-log-enable-disable">
+set policy route6 &lt;name&gt; rule &lt;n&gt; log &lt;enable|disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-log-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Option to enable or disable log matching rule.</p>
+</div>
+</div>
+<section id="matching-criteria">
+<h3>Matching criteria<a class="headerlink" href="#matching-criteria" title="Link to this heading"></a></h3>
+<p>There are a lot of matching criteria options available, both for
+<code class="docutils literal notranslate"><span class="pre">policy</span> <span class="pre">route</span></code> and <code class="docutils literal notranslate"><span class="pre">policy</span> <span class="pre">route6</span></code>. These options are listed
+in this section.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-connection-mark-1-2147483647">
+set policy route &lt;name&gt; rule &lt;n&gt; connection-mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-connection-mark-1-2147483647" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-connection-mark-1-2147483647">
+set policy route6 &lt;name&gt; rule &lt;n&gt; connection-mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-connection-mark-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on connection mark.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-source-address-match-criteria">
+set policy route &lt;name&gt; rule &lt;n&gt; source address &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-source-address-match-criteria" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-destination-address-match-criteria">
+set policy route &lt;name&gt; rule &lt;n&gt; destination address &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-destination-address-match-criteria" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-source-address-match-criteria">
+set policy route6 &lt;name&gt; rule &lt;n&gt; source address &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-source-address-match-criteria" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-destination-address-match-criteria">
+set policy route6 &lt;name&gt; rule &lt;n&gt; destination address &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-destination-address-match-criteria" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on source or destination ipv4|ipv6 address, where
+&lt;match_criteria&gt; could be:</p>
+</div>
+</div>
+<dl class="simple">
+<dt>For ipv4:</dt><dd><ul class="simple">
+<li><p>&lt;x.x.x.x&gt;: IP address to match.</p></li>
+<li><p>&lt;x.x.x.x/x&gt;: Subnet to match.</p></li>
+<li><p>&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;: IP range to match.</p></li>
+<li><p>!&lt;x.x.x.x&gt;: Match everything except the specified address.</p></li>
+<li><p>!&lt;x.x.x.x/x&gt;: Match everything except the specified subnet.</p></li>
+<li><p>!&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;: Match everything except the specified range.</p></li>
+</ul>
+</dd>
+<dt>And for ipv6:</dt><dd><ul class="simple">
+<li><p>&lt;h:h:h:h:h:h:h:h&gt;: IPv6 address to match.</p></li>
+<li><p>&lt;h:h:h:h:h:h:h:h/x&gt;: IPv6 prefix to match.</p></li>
+<li><p>&lt;h:h:h:h:h:h:h:h&gt;-&lt;h:h:h:h:h:h:h:h&gt;: IPv6 range to match.</p></li>
+<li><p>!&lt;h:h:h:h:h:h:h:h&gt;: Match everything except the specified address.</p></li>
+<li><p>!&lt;h:h:h:h:h:h:h:h/x&gt;: Match everything except the specified prefix.</p></li>
+<li><p>!&lt;h:h:h:h:h:h:h:h&gt;-&lt;h:h:h:h:h:h:h:h&gt;: Match everything except the
+specified range.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-source-group-address-group-domain-group-mac-group-network-group-port-group-text">
+set policy route &lt;name&gt; rule &lt;n&gt; source group &lt;address-group|domain-group|mac-group|network-group|port-group&gt; &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-source-group-address-group-domain-group-mac-group-network-group-port-group-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-destination-group-address-group-domain-group-mac-group-network-group-port-group-text">
+set policy route &lt;name&gt; rule &lt;n&gt; destination group &lt;address-group|domain-group|mac-group|network-group|port-group&gt; &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-destination-group-address-group-domain-group-mac-group-network-group-port-group-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-source-group-address-group-domain-group-mac-group-network-group-port-group-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; source group &lt;address-group|domain-group|mac-group|network-group|port-group&gt; &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-source-group-address-group-domain-group-mac-group-network-group-port-group-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-destination-group-address-group-domain-group-mac-group-network-group-port-group-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; destination group &lt;address-group|domain-group|mac-group|network-group|port-group&gt; &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-destination-group-address-group-domain-group-mac-group-network-group-port-group-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on source or destination groups, where &lt;text&gt;
+would be the group name/identifier. Prepend character ‘!’ for inverted
+matching criteria.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-destination-port-match-criteria">
+set policy route &lt;name&gt; rule &lt;n&gt; destination port &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-destination-port-match-criteria" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-destination-port-match-criteria">
+set policy route6 &lt;name&gt; rule &lt;n&gt; destination port &lt;match_criteria&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-destination-port-match-criteria" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on destination port, where &lt;match_criteria&gt; could
+be:</p>
+<ul class="simple">
+<li><p>&lt;port name&gt;: Named port (any name in /etc/services, e.g., http).</p></li>
+<li><p>&lt;1-65535&gt;: Numbered port.</p></li>
+<li><p>&lt;start&gt;-&lt;end&gt;: Numbered port range (e.g., 1001-1005).</p></li>
+</ul>
+<p>Multiple destination ports can be specified as a comma-separated list. The
+whole list can also be “negated” using ‘!’. For example:
+‘!22,telnet,http,123,1001-1005’</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-disable">
+set policy route &lt;name&gt; rule &lt;n&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-disable" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-disable">
+set policy route6 &lt;name&gt; rule &lt;n&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Option to disable rule.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-dscp-text">
+set policy route &lt;name&gt; rule &lt;n&gt; dscp &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-dscp-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-dscp-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; dscp &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-dscp-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-dscp-exclude-text">
+set policy route &lt;name&gt; rule &lt;n&gt; dscp-exclude &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-dscp-exclude-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-dscp-exclude-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; dscp-exclude &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-dscp-exclude-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match based on dscp value criteria. Multiple values from 0 to 63
+and ranges are supported.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-fragment-match-grag-match-non-frag">
+set policy route &lt;name&gt; rule &lt;n&gt; fragment &lt;match-grag|match-non-frag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-fragment-match-grag-match-non-frag" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-fragment-match-grag-match-non-frag">
+set policy route6 &lt;name&gt; rule &lt;n&gt; fragment &lt;match-grag|match-non-frag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-fragment-match-grag-match-non-frag" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set IP fragment match, where:</p>
+<ul class="simple">
+<li><p>match-frag: Second and further fragments of fragmented packets.</p></li>
+<li><p>match-non-frag: Head fragments or unfragmented packets.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-icmp-code-type">
+set policy route &lt;name&gt; rule &lt;n&gt; icmp &lt;code | type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-icmp-code-type" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-icmpv6-code-type">
+set policy route6 &lt;name&gt; rule &lt;n&gt; icmpv6 &lt;code | type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-icmpv6-code-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match based on icmp|icmpv6 code and type.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-icmp-type-name-text">
+set policy route &lt;name&gt; rule &lt;n&gt; icmp type-name &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-icmp-type-name-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-icmpv6-type-name-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; icmpv6 type-name &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-icmpv6-type-name-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match based on icmp|icmpv6 type-name criteria. Use tab for information
+about what type-name criteria are supported.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-ipsec-match-ipsec-match-none">
+set policy route &lt;name&gt; rule &lt;n&gt; ipsec &lt;match-ipsec|match-none&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-ipsec-match-ipsec-match-none" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-ipsec-match-ipsec-match-none">
+set policy route6 &lt;name&gt; rule &lt;n&gt; ipsec &lt;match-ipsec|match-none&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-ipsec-match-ipsec-match-none" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set IPSec inbound match criterias, where:</p>
+<ul class="simple">
+<li><p>match-ipsec: match inbound IPsec packets.</p></li>
+<li><p>match-none: match inbound non-IPsec packets.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-limit-burst-0-4294967295">
+set policy route &lt;name&gt; rule &lt;n&gt; limit burst &lt;0-4294967295&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-limit-burst-0-4294967295" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-limit-burst-0-4294967295">
+set policy route6 &lt;name&gt; rule &lt;n&gt; limit burst &lt;0-4294967295&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-limit-burst-0-4294967295" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set maximum number of packets to alow in excess of rate.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-limit-rate-text">
+set policy route &lt;name&gt; rule &lt;n&gt; limit rate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-limit-rate-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-limit-rate-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; limit rate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-limit-rate-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set maximum average matching rate. Format for rate: integer/time_unit, where
+time_unit could be any one of second, minute, hour or day.For example
+1/second implies rule to be matched at an average of once per second.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-protocol-text-0-255-tcp-udp-all">
+set policy route &lt;name&gt; rule &lt;n&gt; protocol &lt;text | 0-255 | tcp_udp | all &gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-protocol-text-0-255-tcp-udp-all" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-protocol-text-0-255-tcp-udp-all">
+set policy route6 &lt;name&gt; rule &lt;n&gt; protocol &lt;text | 0-255 | tcp_udp | all &gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-protocol-text-0-255-tcp-udp-all" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match a protocol criteria. A protocol number or a name which is defined in:
+<code class="docutils literal notranslate"><span class="pre">/etc/protocols</span></code>. Special names are <code class="docutils literal notranslate"><span class="pre">all</span></code> for all protocols and
+<code class="docutils literal notranslate"><span class="pre">tcp_udp</span></code> for tcp and udp based packets. The <code class="docutils literal notranslate"><span class="pre">!</span></code> negates the selected
+protocol.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-packet-length-text">
+set policy route &lt;name&gt; rule &lt;n&gt; packet-length &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-packet-length-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-packet-length-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; packet-length &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-packet-length-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-packet-length-exclude-text">
+set policy route &lt;name&gt; rule &lt;n&gt; packet-length-exclude &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-packet-length-exclude-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-packet-length-exclude-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; packet-length-exclude &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-packet-length-exclude-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match based on packet length criteria. Multiple values from 1 to 65535
+and ranges are supported.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-packet-type-broadcast-host-multicast-other">
+set policy route &lt;name&gt; rule &lt;n&gt; packet-type [broadcast | host | multicast | other]</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-packet-type-broadcast-host-multicast-other" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-packet-type-broadcast-host-multicast-other">
+set policy route6 &lt;name&gt; rule &lt;n&gt; packet-type [broadcast | host | multicast | other]</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-packet-type-broadcast-host-multicast-other" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match based on packet type criteria.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-recent-count-1-255">
+set policy route &lt;name&gt; rule &lt;n&gt; recent count &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-recent-count-1-255" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-recent-count-1-255">
+set policy route6 &lt;name&gt; rule &lt;n&gt; recent count &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-recent-count-1-255" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-recent-time-1-4294967295">
+set policy route &lt;name&gt; rule &lt;n&gt; recent time &lt;1-4294967295&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-recent-time-1-4294967295" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-recent-time-1-4294967295">
+set policy route6 &lt;name&gt; rule &lt;n&gt; recent time &lt;1-4294967295&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-recent-time-1-4294967295" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set parameters for matching recently seen sources. This match could be used
+by seeting count (source address seen more than &lt;1-255&gt; times) and/or time
+(source address seen in the last &lt;0-4294967295&gt; seconds).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-state-established-invalid-new-related">
+set policy route &lt;name&gt; rule &lt;n&gt; state &lt;established | invalid | new | related&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-state-established-invalid-new-related" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-state-established-invalid-new-related">
+set policy route6 &lt;name&gt; rule &lt;n&gt; state &lt;established | invalid | new | related&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-state-established-invalid-new-related" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on session state.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-tcp-flags-text">
+set policy route &lt;name&gt; rule &lt;n&gt; tcp flags &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-tcp-flags-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-tcp-flags-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; tcp flags &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-tcp-flags-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set match criteria based on tcp flags. Allowed values for TCP flags: SYN ACK
+FIN RST URG PSH ALL. When specifying more than one flag, flags should be
+comma-separated. For example : value of ‘SYN,!ACK,!FIN,!RST’ will only match
+packets with the SYN flag set, and the ACK, FIN and RST flags unset.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-monthdays-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time monthdays &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-monthdays-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-monthdays-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time monthdays &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-monthdays-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-startdate-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time startdate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-startdate-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-startdate-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time startdate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-startdate-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-starttime-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time starttime &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-starttime-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-starttime-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time starttime &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-starttime-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-stopdate-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time stopdate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-stopdate-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-stopdate-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time stopdate &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-stopdate-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-stoptime-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time stoptime &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-stoptime-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-stoptime-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time stoptime &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-stoptime-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-weekdays-text">
+set policy route &lt;name&gt; rule &lt;n&gt; time weekdays &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-weekdays-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-weekdays-text">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time weekdays &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-weekdays-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-time-utc">
+set policy route &lt;name&gt; rule &lt;n&gt; time utc</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-time-utc" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-time-utc">
+set policy route6 &lt;name&gt; rule &lt;n&gt; time utc</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-time-utc" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Time to match the defined rule.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-rule-n-ttl-eq-gt-lt-0-255">
+set policy route rule &lt;n&gt; ttl &lt;eq | gt | lt&gt; &lt;0-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-rule-n-ttl-eq-gt-lt-0-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match time to live parameter, where ‘eq’ stands for ‘equal’; ‘gt’ stands for
+‘greater than’, and ‘lt’ stands for ‘less than’.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-rule-n-hop-limit-eq-gt-lt-0-255">
+set policy route6 rule &lt;n&gt; hop-limit &lt;eq | gt | lt&gt; &lt;0-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-rule-n-hop-limit-eq-gt-lt-0-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Match hop-limit parameter, where ‘eq’ stands for ‘equal’; ‘gt’ stands for
+‘greater than’, and ‘lt’ stands for ‘less than’.</p>
+</div>
+</div>
+</section>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Link to this heading"></a></h3>
+<p>When mathcing all patterns defined in a rule, then different actions can
+be made. This includes droping the packet, modifying certain data, or
+setting a different routing table.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-action-drop">
+set policy route &lt;name&gt; rule &lt;n&gt; action drop</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-action-drop" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-action-drop">
+set policy route6 &lt;name&gt; rule &lt;n&gt; action drop</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-action-drop" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set rule action to drop.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-set-connection-mark-1-2147483647">
+set policy route &lt;name&gt; rule &lt;n&gt; set connection-mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-set-connection-mark-1-2147483647" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-set-connection-mark-1-2147483647">
+set policy route6 &lt;name&gt; rule &lt;n&gt; set connection-mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-set-connection-mark-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a specific connection mark.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-set-dscp-0-63">
+set policy route &lt;name&gt; rule &lt;n&gt; set dscp &lt;0-63&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-set-dscp-0-63" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-set-dscp-0-63">
+set policy route6 &lt;name&gt; rule &lt;n&gt; set dscp &lt;0-63&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-set-dscp-0-63" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set packet modifications: Packet Differentiated Services Codepoint (DSCP)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-set-mark-1-2147483647">
+set policy route &lt;name&gt; rule &lt;n&gt; set mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-set-mark-1-2147483647" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-set-mark-1-2147483647">
+set policy route6 &lt;name&gt; rule &lt;n&gt; set mark &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-set-mark-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a specific packet mark.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-set-table-main-1-200">
+set policy route &lt;name&gt; rule &lt;n&gt; set table &lt;main | 1-200&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-set-table-main-1-200" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-set-table-main-1-200">
+set policy route6 &lt;name&gt; rule &lt;n&gt; set table &lt;main | 1-200&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-set-table-main-1-200" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the routing table to forward packet with.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route-name-rule-n-set-tcp-mss-500-1460">
+set policy route &lt;name&gt; rule &lt;n&gt; set tcp-mss &lt;500-1460&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route-name-rule-n-set-tcp-mss-500-1460" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-policy-route6-name-rule-n-set-tcp-mss-500-1460">
+set policy route6 &lt;name&gt; rule &lt;n&gt; set tcp-mss &lt;500-1460&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-policy-route6-name-rule-n-set-tcp-mss-500-1460" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set packet modifications: Explicitly set TCP Maximum segment size value.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="prefix-list.html" class="btn btn-neutral float-left" title="Prefix List Policy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="route-map.html" class="btn btn-neutral float-right" title="Route Map Policy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

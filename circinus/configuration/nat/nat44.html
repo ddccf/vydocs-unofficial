@@ -1,0 +1,931 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NAT44 &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="NAT64" href="nat64.html" />
+    <link rel="prev" title="NAT" href="index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NAT</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NAT44</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nat64.html">NAT64</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat66.html">NAT66(NPTv6)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cgnat.html">CGNAT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">NAT</a></li>
+      <li class="breadcrumb-item active">NAT44</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/nat/nat44.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nat44">
+<span id="id1"></span><h1>NAT44<a class="headerlink" href="#nat44" title="Link to this heading"></a></h1>
+<p><abbr title="Network Address Translation">NAT</abbr> is a common method of
+remapping one IP address space into another by modifying network address
+information in the IP header of packets while they are in transit across
+a traffic routing device. The technique was originally used as a
+shortcut to avoid the need to readdress every host when a network was
+moved. It has become a popular and essential tool in conserving global
+address space in the face of IPv4 address exhaustion. One
+Internet-routable IP address of a NAT gateway can be used for an entire
+private network.</p>
+<p>IP masquerading is a technique that hides an entire IP address space,
+usually consisting of private IP addresses, behind a single IP address
+in another, usually public address space. The hidden addresses are
+changed into a single (public) IP address as the source address of the
+outgoing IP packets so they appear as originating not from the hidden
+host but from the routing device itself. Because of the popularity of
+this technique to conserve IPv4 address space, the term NAT has become
+virtually synonymous with IP masquerading.</p>
+<p>As network address translation modifies the IP address information in
+packets, NAT implementations may vary in their specific behavior in
+various addressing cases and their effect on network traffic. The
+specifics of NAT behavior are not commonly documented by vendors of
+equipment containing NAT implementations.</p>
+<p>The computers on an internal network can use any of the addresses set
+aside by the <abbr title="Internet Assigned Numbers Authority">IANA</abbr> for
+private addressing (see <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1918.html"><strong>RFC 1918</strong></a>). These reserved IP addresses are
+not in use on the Internet, so an external machine will not directly
+route to them. The following addresses are reserved for private use:</p>
+<ul class="simple">
+<li><p>10.0.0.0 to 10.255.255.255 (CIDR: 10.0.0.0/8)</p></li>
+<li><p>172.16.0.0 to 172.31.255.255 (CIDR: 172.16.0.0/12)</p></li>
+<li><p>192.168.0.0 to 192.168.255.255 (CIDR: 192.168.0.0/16)</p></li>
+</ul>
+<p>If an ISP deploys a <abbr title="Carrier-grade NAT">CGN</abbr>, and uses
+<span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1918.html"><strong>RFC 1918</strong></a> address space to number customer gateways, the risk of
+address collision, and therefore routing failures, arises when the
+customer network already uses an <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1918.html"><strong>RFC 1918</strong></a> address space.</p>
+<p>This prompted some ISPs to develop a policy within the <abbr title="American Registry for Internet Numbers">ARIN</abbr> to allocate new private
+address space for CGNs, but ARIN deferred to the IETF before
+implementing the policy indicating that the matter was not a typical
+allocation issue but a reservation of addresses for technical purposes
+(per <span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2860.html"><strong>RFC 2860</strong></a>).</p>
+<p>IETF published <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6598.html"><strong>RFC 6598</strong></a>, detailing a shared address space for use in
+ISP CGN deployments that can handle the same network prefixes occurring
+both on inbound and outbound interfaces. ARIN returned address space to
+the <abbr title="Internet Assigned Numbers Authority">IANA</abbr> for this
+allocation.</p>
+<p>The allocated address block is 100.64.0.0/10.</p>
+<p>Devices evaluating whether an IPv4 address is public must be updated to
+recognize the new address space. Allocating more private IPv4 address
+space for NAT devices might prolong the transition to IPv6.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<section id="different-nat-types">
+<h3>Different NAT Types<a class="headerlink" href="#different-nat-types" title="Link to this heading"></a></h3>
+<section id="snat">
+<span id="source-nat"></span><h4>SNAT<a class="headerlink" href="#snat" title="Link to this heading"></a></h4>
+<p><abbr title="Source Network Address Translation">SNAT</abbr> is the most common
+form of <abbr title="Network Address Translation">NAT</abbr> and is typically
+referred to simply as NAT. To be more correct, what most people refer
+to as <abbr title="Network Address Translation">NAT</abbr> is actually the process
+of <abbr title="Port Address Translation">PAT</abbr>, or NAT overload. SNAT is
+typically used by internal users/private hosts to access the Internet
+- the source address is translated and thus kept private.</p>
+</section>
+<section id="dnat">
+<span id="destination-nat"></span><h4>DNAT<a class="headerlink" href="#dnat" title="Link to this heading"></a></h4>
+<p><abbr title="Destination Network Address Translation">DNAT</abbr> changes the
+destination address of packets passing through the router, while
+<a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> changes the source address of packets. DNAT is
+typically used when an external (public) host needs to initiate a
+session with an internal (private) host. A customer needs to access a
+private service behind the routers public IP. A connection is
+established with the routers public IP address on a well known port and
+thus all traffic for this port is rewritten to address the internal
+(private) host.</p>
+</section>
+<section id="bidirectional-nat">
+<span id="id2"></span><h4>Bidirectional NAT<a class="headerlink" href="#bidirectional-nat" title="Link to this heading"></a></h4>
+<p>This is a common scenario where both <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> and
+<a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a> are configured at the same time. It’s commonly
+used when internal (private) hosts need to establish a connection with
+external resources and external systems need to access internal
+(private) resources.</p>
+</section>
+</section>
+<section id="nat-routing-firewall-interaction">
+<h3>NAT, Routing, Firewall Interaction<a class="headerlink" href="#nat-routing-firewall-interaction" title="Link to this heading"></a></h3>
+<p>There is a very nice picture/explanation in the Vyatta documentation
+which should be rewritten here.</p>
+</section>
+<section id="nat-ruleset">
+<h3>NAT Ruleset<a class="headerlink" href="#nat-ruleset" title="Link to this heading"></a></h3>
+<p><abbr title="Network Address Translation">NAT</abbr> is configured entirely on a
+series of so called <cite>rules</cite>. Rules are numbered and evaluated by the
+underlying OS in numerical order! The rule numbers can be changes by
+utilizing the <code class="docutils literal notranslate"><span class="pre">rename</span></code> and <code class="docutils literal notranslate"><span class="pre">copy</span></code> commands.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Changes to the NAT system only affect newly established
+connections. Already established connections are not affected.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>When designing your NAT ruleset leave some space between
+consecutive rules for later extension. Your ruleset could start with
+numbers 10, 20, 30. You thus can later extend the ruleset and place
+new rules between existing ones.</p>
+</div>
+<p>Rules will be created for both <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> and
+<a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a>.</p>
+<p>For <a class="reference internal" href="#bidirectional-nat"><span class="std std-ref">Bidirectional NAT</span></a> a rule for both <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> and
+<a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a> needs to be created.</p>
+</section>
+<section id="traffic-filters">
+<span id="id3"></span><h3>Traffic Filters<a class="headerlink" href="#traffic-filters" title="Link to this heading"></a></h3>
+<p>Traffic Filters are used to control which packets will have the defined
+NAT rules applied. Five different filters can be applied within a NAT
+rule.</p>
+<ul>
+<li><p><strong>outbound-interface</strong> - applicable only to <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a>. It
+configures the interface which is used for the outside traffic that
+this translation rule applies to. Interface groups, inverted
+selection and wildcard, are also supported.</p>
+<p>Examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 20 outbound-interface name eth0
+set nat source rule 30 outbound-interface name bond1*
+set nat source rule 20 outbound-interface name !vtun2
+set nat source rule 20 outbound-interface group GROUP1
+set nat source rule 20 outbound-interface group !GROUP2
+</pre></div>
+</div>
+</li>
+<li><p><strong>inbound-interface</strong> - applicable only to <a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a>. It
+configures the interface which is used for the inside traffic the
+translation rule applies to. Interface groups, inverted
+selection and wildcard, are also supported.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 20 inbound-interface name eth0
+set nat destination rule 30 inbound-interface name bond1*
+set nat destination rule 20 inbound-interface name !vtun2
+set nat destination rule 20 inbound-interface group GROUP1
+set nat destination rule 20 inbound-interface group !GROUP2
+</pre></div>
+</div>
+</li>
+<li><p><strong>protocol</strong> - specify which types of protocols this translation rule
+applies to. Only packets matching the specified protocol are NATed.
+By default this applies to <cite>all</cite> protocols.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Set SNAT rule 20 to only NAT TCP and UDP packets</p></li>
+<li><p>Set DNAT rule 20 to only NAT UDP packets</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 20 protocol tcp_udp
+set nat destination rule 20 protocol udp
+</pre></div>
+</div>
+</li>
+<li><p><strong>source</strong> - specifies which packets the NAT translation rule applies
+to based on the packets source IP address and/or source port. Only
+matching packets are considered for NAT.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Set SNAT rule 20 to only NAT packets arriving from the 192.0.2.0/24
+network</p></li>
+<li><p>Set SNAT rule 30 to only NAT packets arriving from the 203.0.113.0/24
+network with a source port of 80 and 443</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 20 source address 192.0.2.0/24
+set nat source rule 30 source address 203.0.113.0/24
+set nat source rule 30 source port 80,443
+</pre></div>
+</div>
+</li>
+<li><p><strong>destination</strong> - specify which packets the translation will be
+applied to, only based on the destination address and/or port number
+configured.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If no destination is specified the rule will match on any
+destination address and port.</p>
+</div>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Configure SNAT rule (40) to only NAT packets with a destination
+address of 192.0.2.1.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 40 destination address 192.0.2.1
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="address-conversion">
+<h3>Address Conversion<a class="headerlink" href="#address-conversion" title="Link to this heading"></a></h3>
+<p>Every NAT rule has a translation command defined. The address defined
+for the translation is the address used when the address information in
+a packet is replaced.</p>
+<section id="source-address">
+<h4>Source Address<a class="headerlink" href="#source-address" title="Link to this heading"></a></h4>
+<p>For <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> rules the packets source address will be replaced
+with the address specified in the translation command. A port
+translation can also be specified and is part of the translation
+address.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The translation address must be set to one of the available
+addresses on the configured <cite>outbound-interface</cite> or it must be set to
+<cite>masquerade</cite> which will use the primary IP address of the
+<cite>outbound-interface</cite> as its translation address.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using NAT for a large number of host systems it
+recommended that a minimum of 1 IP address is used to NAT every 256
+private host systems. This is due to the limit of 65,000 port numbers
+available for unique translations and a reserving an average of
+200-300 sessions per host system.</p>
+</div>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Define a discrete source IP address of 100.64.0.1 for SNAT rule 20</p></li>
+<li><p>Use address <cite>masquerade</cite> (the interfaces primary address) on rule 30</p></li>
+<li><p>For a large amount of private machines behind the NAT your address
+pool might to be bigger. Use any address in the range 100.64.0.10 -
+100.64.0.20 on SNAT rule 40 when doing the translation</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 20 translation address 100.64.0.1
+set nat source rule 30 translation address &#39;masquerade&#39;
+set nat source rule 40 translation address 100.64.0.10-100.64.0.20
+</pre></div>
+</div>
+</section>
+<section id="destination-address">
+<h4>Destination Address<a class="headerlink" href="#destination-address" title="Link to this heading"></a></h4>
+<p>For <a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a> rules the packets destination address will be
+replaced by the specified address in the <cite>translation address</cite> command.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>DNAT rule 10 replaces the destination address of an inbound packet
+with 192.0.2.10</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 10 translation address 192.0.2.10
+</pre></div>
+</div>
+<p>Also, in <a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a>, redirection to localhost is supported.
+The redirect statement is a special form of dnat which always translates
+the destination address to the local host’s one.</p>
+<p>Example of redirection:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 10 translation redirect port 22
+</pre></div>
+</div>
+</section>
+</section>
+<section id="nat-load-balance">
+<h3>NAT Load Balance<a class="headerlink" href="#nat-load-balance" title="Link to this heading"></a></h3>
+<p>Advanced configuration can be used in order to apply source or destination NAT,
+and within a single rule, be able to define multiple translated addresses,
+so NAT balances the translations among them.</p>
+<p>NAT Load Balance uses an algorithm that generates a hash and based on it, then
+it applies corresponding translation. This hash can be generated randomly, or
+can use data from the ip header: source-address, destination-address,
+source-port and/or destination-port. By default, it will generate the hash
+randomly.</p>
+<p>When defining the translated address, called <code class="docutils literal notranslate"><span class="pre">backends</span></code>, a <code class="docutils literal notranslate"><span class="pre">weight</span></code> must
+be configured. This lets the user define load balance distribution according
+to their needs. Them sum of all the weights defined for the backends should
+be equal to 100. In oder words, the weight defined for the backend is the
+percentage of the connections that will receive such backend.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-source-destination-rule-rule-load-balance-hash-source-address-destination-address-source-port-destination-port-random">
+set nat [source | destination] rule &lt;rule&gt; load-balance hash [source-address | destination-address | source-port | destination-port | random]</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-source-destination-rule-rule-load-balance-hash-source-address-destination-address-source-port-destination-port-random" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-nat-source-destination-rule-rule-load-balance-backend-x-x-x-x-weight-1-100">
+set nat [source | destination] rule &lt;rule&gt; load-balance backend &lt;x.x.x.x&gt; weight &lt;1-100&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-nat-source-destination-rule-rule-load-balance-backend-x-x-x-x-weight-1-100" title="Permalink to this Command"></a></div></div>
+</section>
+</section>
+<section id="configuration-examples">
+<h2>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h2>
+<p>To setup SNAT, we need to know:</p>
+<ul class="simple">
+<li><p>The internal IP addresses we want to translate</p></li>
+<li><p>The outgoing interface to perform the translation on</p></li>
+<li><p>The external IP address to translate to</p></li>
+</ul>
+<p>In the example used for the Quick Start configuration above, we
+demonstrate the following configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 100 outbound-interface name &#39;eth0&#39;
+set nat source rule 100 source address &#39;192.168.0.0/24&#39;
+set nat source rule 100 translation address &#39;masquerade&#39;
+</pre></div>
+</div>
+<p>Which generates the following configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rule 100 {
+    outbound-interface {
+        name eth0
+    }
+    source {
+        address 192.168.0.0/24
+    }
+    translation {
+        address masquerade
+    }
+}
+</pre></div>
+</div>
+<p>In this example, we use <strong>masquerade</strong> as the translation address
+instead of an IP address. The <strong>masquerade</strong> target is effectively an
+alias to say “use whatever IP address is on the outgoing interface”,
+rather than a statically configured IP address. This is useful if you
+use DHCP for your outgoing interface and do not know what the external
+address will be.</p>
+<p>When using NAT for a large number of host systems it recommended that a
+minimum of 1 IP address is used to NAT every 256 host systems. This is
+due to the limit of 65,000 port numbers available for unique
+translations and a reserving an average of 200-300 sessions per host
+system.</p>
+<p>Example: For an ~8,000 host network a source NAT pool of 32 IP addresses
+is recommended.</p>
+<p>A pool of addresses can be defined by using a hyphen between two IP
+addresses:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 100 translation address &#39;203.0.113.32-203.0.113.63&#39;
+</pre></div>
+</div>
+<section id="avoiding-leaky-nat">
+<span id="avoidng-leaky-nat"></span><h3>Avoiding “leaky” NAT<a class="headerlink" href="#avoiding-leaky-nat" title="Link to this heading"></a></h3>
+<p>Linux netfilter will not NAT traffic marked as INVALID. This often
+confuses people into thinking that Linux (or specifically VyOS) has a
+broken NAT implementation because non-NATed traffic is seen leaving an
+external interface. This is actually working as intended, and a packet
+capture of the “leaky” traffic should reveal that the traffic is either
+an additional TCP “RST”, “FIN,ACK”, or “RST,ACK” sent by client systems
+after Linux netfilter considers the connection closed. The most common
+is the additional TCP RST some host implementations send after
+terminating a connection (which is implementation-specific).</p>
+<p>In other words, connection tracking has already observed the connection
+be closed and has transition the flow to INVALID to prevent attacks from
+attempting to reuse the connection.</p>
+<p>You can avoid the “leaky” behavior by using a firewall policy that drops
+“invalid” state packets.</p>
+<p>Having control over the matching of INVALID state traffic, e.g. the
+ability to selectively log, is an important troubleshooting tool for
+observing broken protocol behavior. For this reason, VyOS does not
+globally drop invalid state traffic, instead allowing the operator to
+make the determination on how the traffic is handled.</p>
+</section>
+<section id="hairpin-nat-nat-reflection">
+<span id="hairpin-nat-reflection"></span><h3>Hairpin NAT/NAT Reflection<a class="headerlink" href="#hairpin-nat-nat-reflection" title="Link to this heading"></a></h3>
+<p>A typical problem with using NAT and hosting public servers is the
+ability for internal systems to reach an internal server using it’s
+external IP address. The solution to this is usually the use of
+split-DNS to correctly point host systems to the internal address when
+requests are made internally. Because many smaller networks lack DNS
+infrastructure, a work-around is commonly deployed to facilitate the
+traffic by NATing the request from internal hosts to the source address
+of the internal interface on the firewall.</p>
+<p>This technique is commonly referred to as NAT Reflection or Hairpin NAT.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Redirect Microsoft RDP traffic from the outside (WAN, external) world
+via <a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a> in rule 100 to the internal, private host
+192.0.2.40.</p></li>
+<li><p>Redirect Microsoft RDP traffic from the internal (LAN, private)
+network via <a class="reference internal" href="#destination-nat"><span class="std std-ref">DNAT</span></a> in rule 110 to the internal,
+private host 192.0.2.40. We also need a <a class="reference internal" href="#source-nat"><span class="std std-ref">SNAT</span></a> rule 110 for
+the reverse path of the traffic. The internal network 192.0.2.0/24 is
+reachable via interface <cite>eth0.10</cite>.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 100 description &#39;Regular destination NAT from external&#39;
+set nat destination rule 100 destination port &#39;3389&#39;
+set nat destination rule 100 inbound-interface name &#39;pppoe0&#39;
+set nat destination rule 100 protocol &#39;tcp&#39;
+set nat destination rule 100 translation address &#39;192.0.2.40&#39;
+
+set nat destination rule 110 description &#39;NAT Reflection: INSIDE&#39;
+set nat destination rule 110 destination port &#39;3389&#39;
+set nat destination rule 110 inbound-interface name &#39;eth0.10&#39;
+set nat destination rule 110 protocol &#39;tcp&#39;
+set nat destination rule 110 translation address &#39;192.0.2.40&#39;
+
+set nat source rule 110 description &#39;NAT Reflection: INSIDE&#39;
+set nat source rule 110 destination address &#39;192.0.2.0/24&#39;
+set nat source rule 110 outbound-interface name &#39;eth0.10&#39;
+set nat source rule 110 protocol &#39;tcp&#39;
+set nat source rule 110 source address &#39;192.0.2.0/24&#39;
+set nat source rule 110 translation address &#39;masquerade&#39;
+</pre></div>
+</div>
+<p>Which results in a configuration of:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show nat
+ destination {
+     rule 100 {
+         description &quot;Regular destination NAT from external&quot;
+         destination {
+             port 3389
+         }
+         inbound-interface {
+             name pppoe0
+         }
+         protocol tcp
+         translation {
+             address 192.0.2.40
+         }
+     }
+     rule 110 {
+         description &quot;NAT Reflection: INSIDE&quot;
+         destination {
+             port 3389
+         }
+         inbound-interface {
+             name eth0.10
+         }
+         protocol tcp
+         translation {
+             address 192.0.2.40
+         }
+     }
+ }
+ source {
+     rule 110 {
+         description &quot;NAT Reflection: INSIDE&quot;
+         destination {
+             address 192.0.2.0/24
+         }
+         outbound-interface {
+             name eth0.10
+         }
+         protocol tcp
+         source {
+             address 192.0.2.0/24
+         }
+         translation {
+             address masquerade
+         }
+     }
+ }
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Destination NAT<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>DNAT is typically referred to as a <strong>Port Forward</strong>. When using VyOS as
+a NAT router and firewall, a common configuration task is to redirect
+incoming traffic to a system behind the firewall.</p>
+<p>In this example, we will be using the example Quick Start configuration
+above as a starting point.</p>
+<p>To setup a destination NAT rule we need to gather:</p>
+<ul class="simple">
+<li><p>The interface traffic will be coming in on;</p></li>
+<li><p>The protocol and port we wish to forward;</p></li>
+<li><p>The IP address of the internal system we wish to forward traffic to.</p></li>
+</ul>
+<p>In our example, we will be forwarding web server traffic to an internal
+web server on 192.168.0.100. HTTP traffic makes use of the TCP protocol
+on port 80. For other common port numbers, see:
+<a class="reference external" href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers</a></p>
+<p>Our configuration commands would be:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 10 description &#39;Port Forward: HTTP to 192.168.0.100&#39;
+set nat destination rule 10 destination port &#39;80&#39;
+set nat destination rule 10 inbound-interface name &#39;eth0&#39;
+set nat destination rule 10 protocol &#39;tcp&#39;
+set nat destination rule 10 translation address &#39;192.168.0.100&#39;
+</pre></div>
+</div>
+<p>Which would generate the following NAT destination configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nat {
+    destination {
+        rule 10 {
+            description &quot;Port Forward: HTTP to 192.168.0.100&quot;
+            destination {
+                port 80
+            }
+            inbound-interface {
+                name eth0
+            }
+            protocol tcp
+            translation {
+                address 192.168.0.100
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If forwarding traffic to a different port than it is arriving
+on, you may also configure the translation port using
+<cite>set nat destination rule [n] translation port</cite>.</p>
+</div>
+<p>This establishes our Port Forward rule, but if we created a firewall
+policy it will likely block the traffic.</p>
+<section id="firewall-rules-for-destination-nat">
+<h4>Firewall rules for Destination NAT<a class="headerlink" href="#firewall-rules-for-destination-nat" title="Link to this heading"></a></h4>
+<p>It is important to note that when creating firewall rules, the DNAT
+translation occurs <strong>before</strong> traffic traverses the firewall. In other
+words, the destination address has already been translated to
+192.168.0.100.</p>
+<p>So in our firewall ruleset, we want to allow traffic which previously matched
+a destination nat rule. In order to avoid creating many rules, one for each
+destination nat rule, we can accept all <strong>‘dnat’</strong> connections with one simple
+rule, using <code class="docutils literal notranslate"><span class="pre">connection-status</span></code> matcher:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 forward filter rule 10 action accept
+set firewall ipv4 forward filter rule 10 connection-status nat destination
+set firewall ipv4 forward filter rule 10 state new enable
+</pre></div>
+</div>
+<p>This would generate the following configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ipv4 {
+    forward {
+        filter {
+            rule 10 {
+                action accept
+                connection-status {
+                    nat destination
+                }
+                state {
+                    new enable
+                }
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="to-1-nat">
+<h3>1-to-1 NAT<a class="headerlink" href="#to-1-nat" title="Link to this heading"></a></h3>
+<p>Another term often used for DNAT is <strong>1-to-1 NAT</strong>. For a 1-to-1 NAT
+configuration, both DNAT and SNAT are used to NAT all traffic from an
+external IP address to an internal IP address and vice-versa.</p>
+<p>Typically, a 1-to-1 NAT rule omits the destination port (all ports) and
+replaces the protocol with either <strong>all</strong> or <strong>ip</strong>.</p>
+<p>Then a corresponding SNAT rule is created to NAT outgoing traffic for
+the internal IP to a reserved external IP. This dedicates an external IP
+address to an internal IP address and is useful for protocols which
+don’t have the notion of ports, such as GRE.</p>
+<p>Here’s an extract of a simple 1-to-1 NAT configuration with one internal
+and one external interface:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address &#39;192.168.1.1/24&#39;
+set interfaces ethernet eth0 description &#39;Inside interface&#39;
+set interfaces ethernet eth1 address &#39;192.0.2.30/24&#39;
+set interfaces ethernet eth1 description &#39;Outside interface&#39;
+set nat destination rule 2000 description &#39;1-to-1 NAT example&#39;
+set nat destination rule 2000 destination address &#39;192.0.2.30&#39;
+set nat destination rule 2000 inbound-interface name &#39;eth1&#39;
+set nat destination rule 2000 translation address &#39;192.168.1.10&#39;
+set nat source rule 2000 description &#39;1-to-1 NAT example&#39;
+set nat source rule 2000 outbound-interface name &#39;eth1&#39;
+set nat source rule 2000 source address &#39;192.168.1.10&#39;
+set nat source rule 2000 translation address &#39;192.0.2.30&#39;
+</pre></div>
+</div>
+<p>Firewall rules are written as normal, using the internal IP address as
+the source of outbound rules and the destination of inbound rules.</p>
+</section>
+<section id="nat-before-vpn">
+<h3>NAT before VPN<a class="headerlink" href="#nat-before-vpn" title="Link to this heading"></a></h3>
+<p>Some application service providers (ASPs) operate a VPN gateway to
+provide access to their internal resources, and require that a
+connecting organisation translate all traffic to the service provider
+network to a source address provided by the ASP.</p>
+</section>
+<section id="load-balance">
+<h3>Load Balance<a class="headerlink" href="#load-balance" title="Link to this heading"></a></h3>
+<p>Here we provide two examples on how to apply NAT Load Balance.</p>
+<p>First scenario: apply destination NAT for all HTTP traffic comming through
+interface eth0, and user 4 backends. First backend should received 30% of
+the request, second backend should get 20%, third 15% and the fourth 35%
+We will use source and destination address for hash generation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat destination rule 10 inbound-interface name eth0
+set nat destination rule 10 protocol tcp
+set nat destination rule 10 destination port 80
+set nat destination rule 10 load-balance hash source-address
+set nat destination rule 10 load-balance hash destination-address
+set nat destination rule 10 load-balance backend 198.51.100.101 weight 30
+set nat destination rule 10 load-balance backend 198.51.100.102 weight 20
+set nat destination rule 10 load-balance backend 198.51.100.103 weight 15
+set nat destination rule 10 load-balance backend 198.51.100.104 weight 35
+</pre></div>
+</div>
+<p>Second scenario: apply source NAT for all outgoing connections from
+LAN 10.0.0.0/8, using 3 public addresses and equal distribution.
+We will generate the hash randomly.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 10 outbound-interface name eth0
+set nat source rule 10 source address 10.0.0.0/8
+set nat source rule 10 load-balance hash random
+set nat source rule 10 load-balance backend 192.0.2.251 weight 33
+set nat source rule 10 load-balance backend 192.0.2.252 weight 33
+set nat source rule 10 load-balance backend 192.0.2.253 weight 34
+</pre></div>
+</div>
+<section id="example-network">
+<h4>Example Network<a class="headerlink" href="#example-network" title="Link to this heading"></a></h4>
+<p>Here’s one example of a network environment for an ASP.
+The ASP requests that all connections from this company should come from
+172.29.41.89 - an address that is assigned by the ASP and not in use at
+the customer site.</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../images/nat_before_vpn_topology.png"><img alt="NAT before VPN Topology" src="../../images/nat_before_vpn_topology.png" style="width: 899.0px; height: 271.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">NAT before VPN Topology</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="configuration">
+<h4>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h4>
+<p>The required configuration can be broken down into 4 major pieces:</p>
+<ul class="simple">
+<li><p>A dummy interface for the provider-assigned IP;</p></li>
+<li><p>NAT (specifically, Source NAT);</p></li>
+<li><p>IPSec IKE and ESP Groups;</p></li>
+<li><p>IPSec VPN tunnels.</p></li>
+</ul>
+<section id="dummy-interface">
+<h5>Dummy interface<a class="headerlink" href="#dummy-interface" title="Link to this heading"></a></h5>
+<p>The dummy interface allows us to have an equivalent of the Cisco IOS
+Loopback interface - a router-internal interface we can use for IP
+addresses the router must know about, but which are not actually
+assigned to a real network.</p>
+<p>We only need a single step for this interface:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces dummy dum0 address &#39;172.29.41.89/32&#39;
+</pre></div>
+</div>
+</section>
+<section id="nat-configuration">
+<h5>NAT Configuration<a class="headerlink" href="#nat-configuration" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set nat source rule 110 description &#39;Internal to ASP&#39;
+set nat source rule 110 destination address &#39;172.27.1.0/24&#39;
+set nat source rule 110 source address &#39;192.168.43.0/24&#39;
+set nat source rule 110 translation address &#39;172.29.41.89&#39;
+set nat source rule 120 description &#39;Internal to ASP&#39;
+set nat source rule 120 destination address &#39;10.125.0.0/16&#39;
+set nat source rule 120 source address &#39;192.168.43.0/24&#39;
+set nat source rule 120 translation address &#39;172.29.41.89&#39;
+</pre></div>
+</div>
+</section>
+<section id="ipsec-ike-and-esp">
+<h5>IPSec IKE and ESP<a class="headerlink" href="#ipsec-ike-and-esp" title="Link to this heading"></a></h5>
+<p>The ASP has documented their IPSec requirements:</p>
+<ul class="simple">
+<li><p>IKE Phase:</p>
+<ul>
+<li><p>aes256 Encryption</p></li>
+<li><p>sha256 Hashes</p></li>
+</ul>
+</li>
+<li><p>ESP Phase:</p>
+<ul>
+<li><p>aes256 Encryption</p></li>
+<li><p>sha256 Hashes</p></li>
+<li><p>DH Group 14</p></li>
+</ul>
+</li>
+</ul>
+<p>Additionally, we want to use VPNs only on our eth1 interface (the
+external interface in the image above)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec ike-group my-ike key-exchange &#39;ikev1&#39;
+set vpn ipsec ike-group my-ike lifetime &#39;7800&#39;
+set vpn ipsec ike-group my-ike proposal 1 dh-group &#39;14&#39;
+set vpn ipsec ike-group my-ike proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec ike-group my-ike proposal 1 hash &#39;sha256&#39;
+
+set vpn ipsec esp-group my-esp lifetime &#39;3600&#39;
+set vpn ipsec esp-group my-esp mode &#39;tunnel&#39;
+set vpn ipsec esp-group my-esp pfs &#39;disable&#39;
+set vpn ipsec esp-group my-esp proposal 1 encryption &#39;aes256&#39;
+set vpn ipsec esp-group my-esp proposal 1 hash &#39;sha256&#39;
+
+set vpn ipsec interface &#39;eth1&#39;
+</pre></div>
+</div>
+</section>
+<section id="ipsec-vpn-tunnels">
+<h5>IPSec VPN Tunnels<a class="headerlink" href="#ipsec-vpn-tunnels" title="Link to this heading"></a></h5>
+<p>We’ll use the IKE and ESP groups created above for this VPN. Because we
+need access to 2 different subnets on the far side, we will need two
+different tunnels. If you changed the names of the ESP group and IKE
+group in the previous step, make sure you use the correct names here
+too.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk vyos id &#39;203.0.113.46&#39;
+set vpn ipsec authentication psk vyos id &#39;198.51.100.243&#39;
+set vpn ipsec authentication psk vyos secret &#39;MYSECRETPASSWORD&#39;
+set vpn ipsec site-to-site peer branch authentication local-id &#39;203.0.113.46&#39;
+set vpn ipsec site-to-site peer branch authentication mode &#39;pre-shared-secret&#39;
+set vpn ipsec site-to-site peer branch authentication remote-id &#39;198.51.100.243&#39;
+set vpn ipsec site-to-site peer branch connection-type &#39;initiate&#39;
+set vpn ipsec site-to-site peer branch default-esp-group &#39;my-esp&#39;
+set vpn ipsec site-to-site peer branch ike-group &#39;my-ike&#39;
+set vpn ipsec site-to-site peer branch ikev2-reauth &#39;inherit&#39;
+set vpn ipsec site-to-site peer branch local-address &#39;203.0.113.46&#39;
+set vpn ipsec site-to-site peer branch remote-address &#39;198.51.100.243&#39;
+set vpn ipsec site-to-site peer branch tunnel 0 local prefix &#39;172.29.41.89/32&#39;
+set vpn ipsec site-to-site peer branch tunnel 0 remote prefix &#39;172.27.1.0/24&#39;
+set vpn ipsec site-to-site peer branch tunnel 1 local prefix &#39;172.29.41.89/32&#39;
+set vpn ipsec site-to-site peer branch tunnel 1 remote prefix &#39;10.125.0.0/16&#39;
+</pre></div>
+</div>
+</section>
+<section id="testing-and-validation">
+<h5>Testing and Validation<a class="headerlink" href="#testing-and-validation" title="Link to this heading"></a></h5>
+<p>If you’ve completed all the above steps you no doubt want to see if it’s
+all working.</p>
+<p>Start by checking for IPSec SAs (Security Associations) with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ show vpn ipsec sa
+
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+198.51.100.243                          203.0.113.46
+
+    Tunnel  State  Bytes Out/In   Encrypt  Hash    NAT-T  A-Time  L-Time  Proto
+    ------  -----  -------------  -------  ----    -----  ------  ------  -----
+    0       up     0.0/0.0        aes256   sha256  no     1647    3600    all
+    1       up     0.0/0.0        aes256   sha256  no     865     3600    all
+</pre></div>
+</div>
+<p>That looks good - we defined 2 tunnels and they’re both up and running.</p>
+</section>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="NAT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nat64.html" class="btn btn-neutral float-right" title="NAT64" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

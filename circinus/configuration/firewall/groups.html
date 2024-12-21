@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firewall groups &mdash; VyOS 1.5.x (circinus) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=719443cf"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Bridge Firewall Configuration" href="bridge.html" />
+    <link rel="prev" title="Global Options Firewall Configuration" href="global-options.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Firewall</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="global-options.html">Global Options Firewall Configuration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Firewall groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation-mode">Operation-mode</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#zone-based-firewall">Zone-based firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Firewall</a></li>
+      <li class="breadcrumb-item active">Firewall groups</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/firewall/groups.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="firewall-groups">
+<span id="firewall-groups-configuration"></span><h1>Firewall groups<a class="headerlink" href="#firewall-groups" title="Link to this heading"></a></h1>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>Firewall groups represent collections of IP addresses, networks, ports,
+mac addresses, domains or interfaces. Once created, a group can be referenced
+by firewall, nat and policy route rules as either a source or destination
+matcher, and/or as inbound/outbound in the case of interface group.</p>
+<section id="address-groups">
+<h3>Address Groups<a class="headerlink" href="#address-groups" title="Link to this heading"></a></h3>
+<p>In an <strong>address group</strong> a single IP address or IP address range is defined.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-address-group-name-address-address-address-range">
+set firewall group address-group &lt;name&gt; address [address | address range]</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-address-group-name-address-address-address-range" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-address-group-name-address-address">
+set firewall group ipv6-address-group &lt;name&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-address-group-name-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define a IPv4 or a IPv6 address group</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group ADR-INSIDE-v4 address 192.168.0.1
+set firewall group address-group ADR-INSIDE-v4 address 10.0.0.1-10.0.0.8
+set firewall group ipv6-address-group ADR-INSIDE-v6 address 2001:db8::1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-address-group-name-description-text">
+set firewall group address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-address-group-name-description-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-address-group-name-description-text">
+set firewall group ipv6-address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-address-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a IPv4 or IPv6 address group description</p>
+</div>
+</div>
+</section>
+<section id="network-groups">
+<h3>Network Groups<a class="headerlink" href="#network-groups" title="Link to this heading"></a></h3>
+<p>While <strong>network groups</strong> accept IP networks in CIDR notation, specific
+IP addresses can be added as a 32-bit prefix. If you foresee the need
+to add a mix of addresses and networks, then a network group is
+recommended.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-network-group-name-network-cidr">
+set firewall group network-group &lt;name&gt; network &lt;CIDR&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-network-group-name-network-cidr" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-network-group-name-network-cidr">
+set firewall group ipv6-network-group &lt;name&gt; network &lt;CIDR&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-network-group-name-network-cidr" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define a IPv4 or IPv6 Network group.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group network-group NET-INSIDE-v4 network 192.168.0.0/24
+set firewall group network-group NET-INSIDE-v4 network 192.168.1.0/24
+set firewall group ipv6-network-group NET-INSIDE-v6 network 2001:db8::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-network-group-name-description-text">
+set firewall group network-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-network-group-name-description-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-network-group-name-description-text">
+set firewall group ipv6-network-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-network-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide an IPv4 or IPv6 network group description.</p>
+</div>
+</div>
+</section>
+<section id="interface-groups">
+<h3>Interface Groups<a class="headerlink" href="#interface-groups" title="Link to this heading"></a></h3>
+<p>An <strong>interface group</strong> represents a collection of interfaces.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-interface-group-name-interface-text">
+set firewall group interface-group &lt;name&gt; interface &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-interface-group-name-interface-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define an interface group. Wildcard are accepted too.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group interface-group LAN interface bond1001
+set firewall group interface-group LAN interface eth3*
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-interface-group-name-description-text">
+set firewall group interface-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-interface-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide an interface group description</p>
+</div>
+</div>
+</section>
+<section id="port-groups">
+<h3>Port Groups<a class="headerlink" href="#port-groups" title="Link to this heading"></a></h3>
+<p>A <strong>port group</strong> represents only port numbers, not the protocol. Port
+groups can be referenced for either TCP or UDP. It is recommended that
+TCP and UDP groups are created separately to avoid accidentally
+filtering unnecessary ports. Ranges of ports can be specified by using
+<cite>-</cite>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-port-group-name-port-portname-portnumber-startport-endport">
+set firewall group port-group &lt;name&gt; port [portname | portnumber | startport-endport]</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-port-group-name-port-portname-portnumber-startport-endport" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define a port group. A port name can be any name defined in
+/etc/services. e.g.: http</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group port-group PORT-TCP-SERVER1 port http
+set firewall group port-group PORT-TCP-SERVER1 port 443
+set firewall group port-group PORT-TCP-SERVER1 port 5000-5010
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-port-group-name-description-text">
+set firewall group port-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-port-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a port group description.</p>
+</div>
+</div>
+</section>
+<section id="mac-groups">
+<h3>MAC Groups<a class="headerlink" href="#mac-groups" title="Link to this heading"></a></h3>
+<p>A <strong>mac group</strong> represents a collection of mac addresses.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-mac-group-name-mac-address-mac-address">
+set firewall group mac-group &lt;name&gt; mac-address &lt;mac-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-mac-group-name-mac-address-mac-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define a mac group.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group mac-group MAC-G01 mac-address 88:a4:c2:15:b6:4f
+set firewall group mac-group MAC-G01 mac-address 4c:d5:77:c0:19:81
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-mac-group-name-description-text">
+set firewall group mac-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-mac-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a mac group description.</p>
+</div>
+</div>
+</section>
+<section id="domain-groups">
+<h3>Domain Groups<a class="headerlink" href="#domain-groups" title="Link to this heading"></a></h3>
+<p>A <strong>domain group</strong> represents a collection of domains.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-domain-group-name-address-domain">
+set firewall group domain-group &lt;name&gt; address &lt;domain&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-domain-group-name-address-domain" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define a domain group.</p>
+</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group domain-group DOM address example.com
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-domain-group-name-description-text">
+set firewall group domain-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-domain-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Provide a domain group description.</p>
+</div>
+</div>
+</section>
+<section id="dynamic-groups">
+<h3>Dynamic Groups<a class="headerlink" href="#dynamic-groups" title="Link to this heading"></a></h3>
+<p>Firewall dynamic groups are different from all the groups defined previously
+because, not only they can be used as source/destination in firewall rules,
+but members of these groups are not defined statically using vyos
+configuration.</p>
+<p>Instead, members of these groups are added dynamically using firewall
+rules.</p>
+<section id="defining-dynamic-address-groups">
+<h4>Defining Dynamic Address Groups<a class="headerlink" href="#defining-dynamic-address-groups" title="Link to this heading"></a></h4>
+<p>Dynamic address group is supported by both IPv4 and IPv6 families.
+Commands used to define dynamic IPv4|IPv6 address groups are:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-address-group-name">
+set firewall group dynamic-group address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name">
+set firewall group dynamic-group ipv6-address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name" title="Permalink to this Command"></a></div></div>
+<p>Add description to firewall groups:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-address-group-name-description-text">
+set firewall group dynamic-group address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-address-group-name-description-text" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name-description-text">
+set firewall group dynamic-group ipv6-address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name-description-text" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="adding-elements-to-dynamic-firewall-groups">
+<h4>Adding elements to Dynamic Firewall Groups<a class="headerlink" href="#adding-elements-to-dynamic-firewall-groups" title="Link to this heading"></a></h4>
+<p>Once dynamic firewall groups are defined, they should be used in firewall
+rules in order to dynamically add elements to it.</p>
+<p>Commands used for this task are:</p>
+<ul class="simple">
+<li><p>Add destination IP address of the connection to a dynamic address group:</p></li>
+</ul>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall ipv4 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall ipv4 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall ipv6 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall ipv6 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<ul class="simple">
+<li><p>Add source IP address of the connection to a dynamic address group:</p></li>
+</ul>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall ipv4 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall ipv4 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall ipv6 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall ipv6 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<p>Also, specific timeouts can be defined per rule. In case rule gets a hit,
+a source or destinatination address will be added to the group, and this
+element will remain in the group until the timeout expires. If no timeout
+is defined, then the element will remain in the group until next reboot,
+or until a new commit that changes firewall configuration is done.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout">
+set firewall ipv4 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout">
+set firewall ipv4 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout">
+set firewall ipv6 [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout">
+set firewall ipv6 name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-timeout" title="Permalink to this Command"></a></div></div>
+<p>Timeout can be defined using seconds, minutes, hours or days:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv6 name FOO rule 10 add-address-to-group source-address timeout
+Possible completions:
+&lt;number&gt;s            Timeout value in seconds
+&lt;number&gt;m            Timeout value in minutes
+&lt;number&gt;h            Timeout value in hours
+&lt;number&gt;d            Timeout value in days
+</pre></div>
+</div>
+</section>
+<section id="using-dynamic-firewall-groups">
+<h4>Using Dynamic Firewall Groups<a class="headerlink" href="#using-dynamic-firewall-groups" title="Link to this heading"></a></h4>
+<p>As any other firewall group, dynamic firewall groups can be used in firewall
+rules as matching options. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 10 source group dynamic-address-group FOO
+set firewall ipv4 input filter rule 10 destination group dynamic-address-group BAR
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="general-example">
+<h3>General example<a class="headerlink" href="#general-example" title="Link to this heading"></a></h3>
+<p>As said before, once firewall groups are created, they can be referenced
+either in firewall, nat, nat66 and/or policy-route rules.</p>
+<p>Here is an example were multiple groups are created:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group SERVERS address 198.51.100.101
+set firewall group address-group SERVERS address 198.51.100.102
+set firewall group network-group TRUSTEDv4 network 192.0.2.0/30
+set firewall group network-group TRUSTEDv4 network 203.0.113.128/25
+set firewall group ipv6-network-group TRUSTEDv6 network 2001:db8::/64
+set firewall group interface-group LAN interface eth2.2001
+set firewall group interface-group LAN interface bon0
+set firewall group port-group PORT-SERVERS port http
+set firewall group port-group PORT-SERVERS port 443
+set firewall group port-group PORT-SERVERS port 5000-5010
+</pre></div>
+</div>
+</div></blockquote>
+<p>And next, some configuration example where groups are used:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 output filter rule 10 action accept
+set firewall ipv4 output filter rule 10 outbound-interface group !LAN
+set firewall ipv4 forward filter rule 20 action accept
+set firewall ipv4 forward filter rule 20 source group network-group TRUSTEDv4
+set firewall ipv6 input filter rule 10 action accept
+set firewall ipv6 input filter rule 10 source group network-group TRUSTEDv6
+set nat destination rule 101 inbound-interface group LAN
+set nat destination rule 101 destination group address-group SERVERS
+set nat destination rule 101 protocol tcp
+set nat destination rule 101 destination group port-group PORT-SERVERS
+set nat destination rule 101 translation address 203.0.113.250
+set policy route PBR rule 201 destination group port-group PORT-SERVERS
+set policy route PBR rule 201 protocol tcp
+set policy route PBR rule 201 set table 15
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="port-knocking-example">
+<h3>Port knocking example<a class="headerlink" href="#port-knocking-example" title="Link to this heading"></a></h3>
+<p>Using dynamic firewall groups, we can secure access to the router, or any other
+device if needed, by using the technique of port knocking.</p>
+<p>A 4 step port knocking example is shown next:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy established action &#39;accept&#39;
+set firewall global-options state-policy invalid action &#39;drop&#39;
+set firewall global-options state-policy related action &#39;accept&#39;
+set firewall group dynamic-group address-group ALLOWED
+set firewall group dynamic-group address-group PN_01
+set firewall group dynamic-group address-group PN_02
+set firewall ipv4 input filter default-action &#39;drop&#39;
+set firewall ipv4 input filter rule 5 action &#39;accept&#39;
+set firewall ipv4 input filter rule 5 protocol &#39;icmp&#39;
+set firewall ipv4 input filter rule 10 action &#39;drop&#39;
+set firewall ipv4 input filter rule 10 add-address-to-group source-address address-group &#39;PN_01&#39;
+set firewall ipv4 input filter rule 10 add-address-to-group source-address timeout &#39;2m&#39;
+set firewall ipv4 input filter rule 10 description &#39;Port_nock 01&#39;
+set firewall ipv4 input filter rule 10 destination port &#39;9990&#39;
+set firewall ipv4 input filter rule 10 protocol &#39;tcp&#39;
+set firewall ipv4 input filter rule 20 action &#39;drop&#39;
+set firewall ipv4 input filter rule 20 add-address-to-group source-address address-group &#39;PN_02&#39;
+set firewall ipv4 input filter rule 20 add-address-to-group source-address timeout &#39;3m&#39;
+set firewall ipv4 input filter rule 20 description &#39;Port_nock 02&#39;
+set firewall ipv4 input filter rule 20 destination port &#39;9991&#39;
+set firewall ipv4 input filter rule 20 protocol &#39;tcp&#39;
+set firewall ipv4 input filter rule 20 source group dynamic-address-group &#39;PN_01&#39;
+set firewall ipv4 input filter rule 30 action &#39;drop&#39;
+set firewall ipv4 input filter rule 30 add-address-to-group source-address address-group &#39;ALLOWED&#39;
+set firewall ipv4 input filter rule 30 add-address-to-group source-address timeout &#39;2h&#39;
+set firewall ipv4 input filter rule 30 description &#39;Port_nock 03&#39;
+set firewall ipv4 input filter rule 30 destination port &#39;9992&#39;
+set firewall ipv4 input filter rule 30 protocol &#39;tcp&#39;
+set firewall ipv4 input filter rule 30 source group dynamic-address-group &#39;PN_02&#39;
+set firewall ipv4 input filter rule 99 action &#39;accept&#39;
+set firewall ipv4 input filter rule 99 description &#39;Port_nock 04 - Allow ssh&#39;
+set firewall ipv4 input filter rule 99 destination port &#39;22&#39;
+set firewall ipv4 input filter rule 99 protocol &#39;tcp&#39;
+set firewall ipv4 input filter rule 99 source group dynamic-address-group &#39;ALLOWED&#39;
+</pre></div>
+</div>
+</div></blockquote>
+<p>Before testing, we can check the members of firewall groups:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show firewall group
+Firewall Groups
+
+Name     Type                    References            Members        Timeout    Expires
+-------  ----------------------  --------------------  -------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D            N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  N/D            N/D        N/D
+PN_02    address_group(dynamic)  ipv4-input-filter-20  N/D            N/D        N/D
+[edit]
+vyos@vyos#
+</pre></div>
+</div>
+</div></blockquote>
+<p>With this configuration, in order to get ssh access to the router, the user
+needs to:</p>
+<p>1. Generate a new TCP connection with destination port 9990. As shown next,
+a new entry was added to dynamic firewall group <strong>PN_01</strong></p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show firewall group
+Firewall Groups
+
+Name     Type                    References            Members        Timeout    Expires
+-------  ----------------------  --------------------  -------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D            N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  192.168.89.31  120        119
+PN_02    address_group(dynamic)  ipv4-input-filter-20  N/D            N/D        N/D
+[edit]
+vyos@vyos#
+</pre></div>
+</div>
+</div></blockquote>
+<p>2. Generate a new TCP connection with destination port 9991. As shown next,
+a new entry was added to dynamic firewall group <strong>PN_02</strong></p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show firewall group
+Firewall Groups
+
+Name     Type                    References            Members        Timeout    Expires
+-------  ----------------------  --------------------  -------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D            N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  192.168.89.31  120        106
+PN_02    address_group(dynamic)  ipv4-input-filter-20  192.168.89.31  180        179
+[edit]
+vyos@vyos#
+</pre></div>
+</div>
+</div></blockquote>
+<p>3. Generate a new TCP connection with destination port 9992. As shown next,
+a new entry was added to dynamic firewall group <strong>ALLOWED</strong></p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# run show firewall group
+Firewall Groups
+
+Name     Type                    References            Members        Timeout    Expires
+-------  ----------------------  --------------------  -------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  192.168.89.31       7200       7199
+PN_01    address_group(dynamic)  ipv4-input-filter-10  192.168.89.31        120         89
+PN_02    address_group(dynamic)  ipv4-input-filter-20  192.168.89.31        180        170
+[edit]
+vyos@vyos#
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>Now the user can connect through ssh to the router (assuming ssh is configured).</p></li>
+</ol>
+</section>
+</section>
+<section id="operation-mode">
+<h2>Operation-mode<a class="headerlink" href="#operation-mode" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group">
+show firewall group</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group-name">
+show firewall group &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Overview of defined groups. You see the firewall group name, type,
+references (where the group is used), members, timeout and expiration (last
+two only present in dynamic firewall groups).</p>
+</div>
+</div>
+<p>Here is an example of such command:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall group
+Firewall Groups
+
+Name          Type                    References              Members             Timeout    Expires
+------------  ----------------------  ----------------------  ----------------  ---------  ---------
+SERVERS       address_group           nat-destination-101     198.51.100.101
+                                                              198.51.100.102
+ALLOWED       address_group(dynamic)  ipv4-input-filter-30    192.168.77.39          7200       7174
+PN_01         address_group(dynamic)  ipv4-input-filter-10    192.168.0.245           120        112
+                                                              192.168.77.39           120         85
+PN_02         address_group(dynamic)  ipv4-input-filter-20    192.168.77.39           180        151
+LAN           interface_group         ipv4-output-filter-10   bon0
+                                      nat-destination-101     eth2.2001
+TRUSTEDv6     ipv6_network_group      ipv6-input-filter-10    2001:db8::/64
+TRUSTEDv4     network_group           ipv4-forward-filter-20  192.0.2.0/30
+                                                              203.0.113.128/25
+PORT-SERVERS  port_group              route-PBR-201           443
+                                      route-PBR-201           5000-5010
+                                      nat-destination-101     http
+vyos@vyos:~$
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="global-options.html" class="btn btn-neutral float-left" title="Global Options Firewall Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bridge.html" class="btn btn-neutral float-right" title="Bridge Firewall Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

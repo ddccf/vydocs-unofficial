@@ -1,0 +1,662 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Container &mdash; VyOS 1.4.x (sagitta) documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=8f5ed1cd"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Firewall" href="../firewall/index.html" />
+    <link rel="prev" title="Configuration Guide" href="../index.html" />
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+    </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/index.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Container</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#container-networks">Container Networks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#container-registry">Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#operation-commands">Operation Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-configuration">Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/upstream-packages.html">Upstream packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing.html">Testing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright Notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+      <li class="breadcrumb-item active">Container</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../sources/configuration/container/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="container">
+<h1>Container<a class="headerlink" href="#container" title="Link to this heading"></a></h1>
+<p>The VyOS container implementation is based on <cite>Podman&lt;https://podman.io/&gt;</cite> as
+a deamonless container engine.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-image">
+set container name &lt;name&gt; image</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-image" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Sets the image name in the hub registry</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container name mysql-server image mysql:8.0
+</pre></div>
+</div>
+<p>If a registry is not specified, Docker.io will be used as the container
+registry unless an alternative registry is specified using
+<strong>set container registry &lt;name&gt;</strong> or the registry is included
+in the image name</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container name mysql-server image quay.io/mysql:8.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-entrypoint-entrypoint">
+set container name &lt;name&gt; entrypoint &lt;entrypoint&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-entrypoint-entrypoint" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Override the default entrypoint from the image for a container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-command-command">
+set container name &lt;name&gt; command &lt;command&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-command-command" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Override the default command from the image for a container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-arguments-arguments">
+set container name &lt;name&gt; arguments &lt;arguments&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-arguments-arguments" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the command arguments for a container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-host-name-hostname">
+set container name &lt;name&gt; host-name &lt;hostname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-host-name-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the host name for a container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-allow-host-pid">
+set container name &lt;name&gt; allow-host-pid</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-allow-host-pid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>The container and the host share the same process namespace.
+This means that processes running on the host are visible inside the
+container, and processes inside the container are visible on the host.</p>
+<p>The command translates to “–pid host” when the container is created.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-allow-host-networks">
+set container name &lt;name&gt; allow-host-networks</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-allow-host-networks" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allow host networking in a container. The network stack of the container is
+not isolated from the host and will use the host IP.</p>
+<p>The command translates to “–net host” when the container is created.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>allow-host-networks</strong> cannot be used with <strong>network</strong></p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-network-networkname">
+set container name &lt;name&gt; network &lt;networkname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-network-networkname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Attaches user-defined network to a container.
+Only one network must be specified and must already exist.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-network-networkname-address-address">
+set container name &lt;name&gt; network &lt;networkname&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-network-networkname-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Optionally set a specific static IPv4 or IPv6 address for the container.
+This address must be within the named network prefix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first IP in the container network is reserved by the
+engine and cannot be used</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-description-text">
+set container name &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a container description</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-environment-key-value-value">
+set container name &lt;name&gt; environment &lt;key&gt; value &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-environment-key-value-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add custom environment variables.
+Multiple environment variables are allowed.
+The following commands translate to “-e key=value” when the container
+is created.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container name mysql-server environment MYSQL_DATABASE value &#39;zabbix&#39;
+set container name mysql-server environment MYSQL_USER value &#39;zabbix&#39;
+set container name mysql-server environment MYSQL_PASSWORD value &#39;zabbix_pwd&#39;
+set container name mysql-server environment MYSQL_ROOT_PASSWORD value &#39;root_pwd&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-port-portname-source-portnumber">
+set container name &lt;name&gt; port &lt;portname&gt; source &lt;portnumber&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-port-portname-source-portnumber" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-port-portname-destination-portnumber">
+set container name &lt;name&gt; port &lt;portname&gt; destination &lt;portnumber&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-port-portname-destination-portnumber" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-port-portname-protocol-tcp-udp">
+set container name &lt;name&gt; port &lt;portname&gt; protocol &lt;tcp | udp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-port-portname-protocol-tcp-udp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Publish a port for the container.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container name zabbix-web-nginx-mysql port http source 80
+set container name zabbix-web-nginx-mysql port http destination 8080
+set container name zabbix-web-nginx-mysql port http protocol tcp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-volume-volumename-source-path">
+set container name &lt;name&gt; volume &lt;volumename&gt; source &lt;path&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-volume-volumename-source-path" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-volume-volumename-destination-path">
+set container name &lt;name&gt; volume &lt;volumename&gt; destination &lt;path&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-volume-volumename-destination-path" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mount a volume into the container</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container name coredns volume &#39;corefile&#39; source /config/coredns/Corefile
+set container name coredns volume &#39;corefile&#39; destination /etc/Corefile
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-volume-volumename-mode-ro-rw">
+set container name &lt;name&gt; volume &lt;volumename&gt; mode &lt;ro | rw&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-volume-volumename-mode-ro-rw" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Volume is either mounted as rw (read-write - default) or ro (read-only)</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-uid-number">
+set container name &lt;name&gt; uid &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-uid-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-gid-number">
+set container name &lt;name&gt; gid &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-gid-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the User ID or Group ID of the container</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-restart-no-on-failure-always">
+set container name &lt;name&gt; restart [no | on-failure | always]</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-restart-no-on-failure-always" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the restart behavior of the container.</p>
+<ul class="simple">
+<li><p><strong>no</strong>: Do not restart containers on exit</p></li>
+<li><p><strong>on-failure</strong>: Restart containers when they exit with a non-zero
+exit code, retrying indefinitely (default)</p></li>
+<li><p><strong>always</strong>: Restart containers when they exit, regardless of status,
+retrying indefinitely</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-cpu-quota-num">
+set container name &lt;name&gt; cpu-quota &lt;num&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-cpu-quota-num" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This specifies the number of CPU resources the container can use.</p>
+<p>Default is 0 for unlimited.
+For example, 1.25 limits the container to use up to 1.25 cores
+worth of CPU time.
+This can be a decimal number with up to three decimal places.</p>
+<p>The command translates to “–cpus=&lt;num&gt;” when the container is created.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-memory-mb">
+set container name &lt;name&gt; memory &lt;MB&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-memory-mb" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Constrain the memory available to the container.</p>
+<p>Default is 512 MB. Use 0 MB for unlimited memory.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-device-devicename-source-path">
+set container name &lt;name&gt; device &lt;devicename&gt; source &lt;path&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-device-devicename-source-path" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-device-devicename-destination-path">
+set container name &lt;name&gt; device &lt;devicename&gt; destination &lt;path&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-device-devicename-destination-path" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add a host device to the container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-capability-text">
+set container name &lt;name&gt; capability &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-capability-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set container capabilities or permissions.</p>
+<ul class="simple">
+<li><p><strong>net-admin</strong>: Network operations (interface, firewall, routing tables)</p></li>
+<li><p><strong>net-bind-service</strong>: Bind a socket to privileged ports
+(port numbers less than 1024)</p></li>
+<li><p><strong>net-raw</strong>: Permission to create raw network sockets</p></li>
+<li><p><strong>setpcap</strong>: Capability sets (from bounded or inherited set)</p></li>
+<li><p><strong>sys-admin</strong>: Administration operations (quotactl, mount, sethostname,
+setdomainame)</p></li>
+<li><p><strong>sys-time</strong>: Permission to set system clock</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-label-label-value-value">
+set container name &lt;name&gt; label &lt;label&gt; value &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-label-label-value-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add metadata label for this container.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-name-name-disable">
+set container name &lt;name&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-container-name-name-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable a container.</p>
+</div>
+</div>
+<section id="container-networks">
+<h3>Container Networks<a class="headerlink" href="#container-networks" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-network-name">
+set container network &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-network-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Creates a named container network</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-network-name-description">
+set container network &lt;name&gt; description</span>
+<a class="cmdlink" href="#cfgcmd-set-container-network-name-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A brief description what this network is all about.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-network-name-prefix-ipv4-ipv6">
+set container network &lt;name&gt; prefix &lt;ipv4|ipv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-network-name-prefix-ipv4-ipv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define IPv4 and/or IPv6 prefix for a given network name.
+Both IPv4 and IPv6 can be used in parallel.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-network-name-vrf-nme">
+set container network &lt;name&gt; vrf &lt;nme&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-network-name-vrf-nme" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Bind container network to a given VRF instance.</p>
+</div>
+</div>
+</section>
+<section id="container-registry">
+<h3>Container Registry<a class="headerlink" href="#container-registry" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-registry-name">
+set container registry &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-container-registry-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Adds registry to list of unqualified-search-registries. By default, for any
+image that does not include the registry in the image name, VyOS will use
+docker.io and quay.io as the container registry.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-registry-name-disable">
+set container registry &lt;name&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-container-registry-name-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable a given container registry</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-registry-name-authentication-username">
+set container registry &lt;name&gt; authentication username</span>
+<a class="cmdlink" href="#cfgcmd-set-container-registry-name-authentication-username" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-container-registry-name-authentication-password">
+set container registry &lt;name&gt; authentication password</span>
+<a class="cmdlink" href="#cfgcmd-set-container-registry-name-authentication-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Some container registries require credentials to be used.</p>
+<p>Credentials can be defined here and will only be used when adding a
+container image to the system.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operation-commands">
+<h2>Operation Commands<a class="headerlink" href="#operation-commands" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-add-container-image-containername">
+add container image &lt;containername&gt;</span>
+<a class="cmdlink" href="#opcmd-add-container-image-containername" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Pull a new image for container</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-container">
+show container</span>
+<a class="cmdlink" href="#opcmd-show-container" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the list of all active containers.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-container-image">
+show container image</span>
+<a class="cmdlink" href="#opcmd-show-container-image" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the local container images.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-container-log-containername">
+show container log &lt;containername&gt;</span>
+<a class="cmdlink" href="#opcmd-show-container-log-containername" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show logs from a given container</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-container-network">
+show container network</span>
+<a class="cmdlink" href="#opcmd-show-container-network" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a list available container networks</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-container-containername">
+restart container &lt;containername&gt;</span>
+<a class="cmdlink" href="#opcmd-restart-container-containername" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart a given container</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-update-container-image-containername">
+update container image &lt;containername&gt;</span>
+<a class="cmdlink" href="#opcmd-update-container-image-containername" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Update container image</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-delete-container-image-image-id-all">
+delete container image [image id|all]</span>
+<a class="cmdlink" href="#opcmd-delete-container-image-image-id-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Delete a particular container image based on it’s image ID.
+You can also delete all container images at once.</p>
+</div>
+</div>
+</section>
+<section id="example-configuration">
+<h2>Example Configuration<a class="headerlink" href="#example-configuration" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>For the sake of demonstration, <a class="reference external" href="https://www.zabbix.com/documentation/current/manual/installation/containers">example #1 in the official documentation</a>
+to the declarative VyOS CLI syntax.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set container network zabbix prefix 172.20.0.0/16
+set container network zabbix description &#39;Network for Zabbix component containers&#39;
+
+set container name mysql-server image mysql:8.0
+set container name mysql-server network zabbix
+
+set container name mysql-server environment &#39;MYSQL_DATABASE&#39; value &#39;zabbix&#39;
+set container name mysql-server environment &#39;MYSQL_USER&#39; value &#39;zabbix&#39;
+set container name mysql-server environment &#39;MYSQL_PASSWORD&#39; value &#39;zabbix_pwd&#39;
+set container name mysql-server environment &#39;MYSQL_ROOT_PASSWORD&#39; value &#39;root_pwd&#39;
+
+set container name zabbix-java-gateway image zabbix/zabbix-java-gateway:alpine-5.2-latest
+set container name zabbix-java-gateway network zabbix
+
+set container name zabbix-server-mysql image zabbix/zabbix-server-mysql:alpine-5.2-latest
+set container name zabbix-server-mysql network zabbix
+
+set container name zabbix-server-mysql environment &#39;DB_SERVER_HOST&#39; value &#39;mysql-server&#39;
+set container name zabbix-server-mysql environment &#39;MYSQL_DATABASE&#39; value &#39;zabbix&#39;
+set container name zabbix-server-mysql environment &#39;MYSQL_USER&#39; value &#39;zabbix&#39;
+set container name zabbix-server-mysql environment &#39;MYSQL_PASSWORD&#39; value &#39;zabbix_pwd&#39;
+set container name zabbix-server-mysql environment &#39;MYSQL_ROOT_PASSWORD&#39; value &#39;root_pwd&#39;
+set container name zabbix-server-mysql environment &#39;ZBX_JAVAGATEWAY&#39; value &#39;zabbix-java-gateway&#39;
+
+set container name zabbix-server-mysql port zabbix source 10051
+set container name zabbix-server-mysql port zabbix destination 10051
+
+set container name zabbix-web-nginx-mysql image zabbix/zabbix-web-nginx-mysql:alpine-5.2-latest
+set container name zabbix-web-nginx-mysql network zabbix
+
+set container name zabbix-web-nginx-mysql environment &#39;MYSQL_DATABASE&#39; value &#39;zabbix&#39;
+set container name zabbix-web-nginx-mysql environment &#39;ZBX_SERVER_HOST&#39; value &#39;zabbix-server-mysql&#39;
+set container name zabbix-web-nginx-mysql environment &#39;DB_SERVER_HOST&#39; value &#39;mysql-server&#39;
+set container name zabbix-web-nginx-mysql environment &#39;MYSQL_USER&#39; value &#39;zabbix&#39;
+set container name zabbix-web-nginx-mysql environment &#39;MYSQL_PASSWORD&#39; value &#39;zabbix_pwd&#39;
+set container name zabbix-web-nginx-mysql environment &#39;MYSQL_ROOT_PASSWORD&#39; value &#39;root_pwd&#39;
+
+set container name zabbix-web-nginx-mysql port http source 80
+set container name zabbix-web-nginx-mysql port http destination 8080
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Configuration Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../firewall/index.html" class="btn btn-neutral float-right" title="Firewall" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
