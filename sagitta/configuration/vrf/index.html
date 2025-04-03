@@ -187,19 +187,11 @@ in the very least need different default gateways.</p>
 then enslaved to a VRF device.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-vrf-name-name">
-set vrf name &lt;name&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-vrf-name-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Create new VRF instance with <cite>&lt;name&gt;</cite>. The name is used when placing
-individual interfaces into the VRF.</p>
-</div>
-</div>
-<div class="cmd cmd-cfg">
-<div class="cfgcmd-heading">
 <span class="cfgcmd" id="cfgcmd-set-vrf-name-name-table-id">
 set vrf name &lt;name&gt; table &lt;id&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vrf-name-name-table-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Configured routing table <cite>&lt;id&gt;</cite> is used by VRF <cite>&lt;name&gt;</cite>.</p>
+<p>Create a new VRF instance with <cite>&lt;name&gt;</cite> and <cite>&lt;id&gt;</cite>. The name is used when placing
+individual interfaces into the VRF.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A routing table ID can not be modified once it is assigned. It can
@@ -813,7 +805,7 @@ Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down Sta
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -830,7 +822,48 @@ Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down Sta
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

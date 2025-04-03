@@ -340,6 +340,50 @@ length of 20 bytes (which is the majority of IPv4 packets anyway).</p>
 extension, see <a class="reference external" href="https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers">https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers</a></p>
 </div>
 </section>
+<section id="traffic-match-group">
+<h4>Traffic Match Group<a class="headerlink" href="#traffic-match-group" title="Link to this heading"></a></h4>
+<p>In some case where we need to have an organization of our matching selection,
+in order to be more flexible and organize with our filter definition. We can
+apply traffic match groups, allowing us to create distinct filter groups within
+our policy and define various parameters for each group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos traffic-match-group &lt;group_name&gt; match &lt;match_name&gt;
+Possible completions:
+   description          Description
+ &gt; ip                   Match IP protocol header
+ &gt; ipv6                 Match IPv6 protocol header
+   mark                 Match on mark applied by firewall
+   vif                  Virtual Local Area Network (VLAN) ID for this match
+</pre></div>
+</div>
+<p>inherit matches from another group</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos traffic-match-group &lt;group_name&gt; match-group &lt;match_group_name&gt;
+</pre></div>
+</div>
+<p>A match group can contain multiple criteria and inherit them in the same policy.</p>
+<p>For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set qos traffic-match-group Mission-Critical match AF31 ip dscp &#39;AF31&#39;
+set qos traffic-match-group Mission-Critical match AF32 ip dscp &#39;AF42&#39;
+set qos traffic-match-group Mission-Critical match CS3 ip dscp &#39;CS3&#39;
+set qos traffic-match-group Streaming-Video match AF11 ip dscp &#39;AF11&#39;
+set qos traffic-match-group Streaming-Video match AF41 ip dscp &#39;AF41&#39;
+set qos traffic-match-group Streaming-Video match AF43 ip dscp &#39;AF43&#39;
+set qos policy shaper VyOS-HTB class 10 bandwidth &#39;30%&#39;
+set qos policy shaper VyOS-HTB class 10 description &#39;Multimedia&#39;
+set qos policy shaper VyOS-HTB class 10 match CS4 ip dscp &#39;CS4&#39;
+set qos policy shaper VyOS-HTB class 10 match-group &#39;Streaming-Video&#39;
+set qos policy shaper VyOS-HTB class 10 priority &#39;1&#39;
+set qos policy shaper VyOS-HTB class 10 queue-type &#39;fair-queue&#39;
+set qos policy shaper VyOS-HTB class 20 description &#39;MC&#39;
+set qos policy shaper VyOS-HTB class 20 match-group &#39;Mission-Critical&#39;
+set qos policy shaper VyOS-HTB class 20 priority &#39;2&#39;
+set qos policy shaper VyOS-HTB class 20 queue-type &#39;fair-queue&#39;
+set qos policy shaper VyOS-HTB default bandwidth &#39;20%&#39;
+set qos policy shaper VyOS-HTB default queue-type &#39;fq-codel&#39;
+</pre></div>
+</div>
+<p>In this example, we can observe that different DSCP criteria are defined based
+on our QoS configuration within the same policy group.</p>
+</section>
 <section id="default">
 <h4>Default<a class="headerlink" href="#default" title="Link to this heading"></a></h4>
 <p>Often you will also have to configure your <em>default</em> traffic in the same
@@ -1554,7 +1598,7 @@ which can be solved with <code class="docutils literal notranslate"><span class=
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1571,7 +1615,48 @@ which can be solved with <code class="docutils literal notranslate"><span class=
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

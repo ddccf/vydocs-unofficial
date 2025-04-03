@@ -889,6 +889,21 @@ set interfaces ethernet &lt;interface&gt; speed &lt;auto | 10 | 100 | 1000 | 250
 </div></blockquote>
 </div>
 </div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interface-ethernet-interface-ring-buffer-rx-value">
+set interface ethernet &lt;interface&gt; ring-buffer rx &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interface-ethernet-interface-ring-buffer-rx-value" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interface-ethernet-interface-ring-buffer-tx-value">
+set interface ethernet &lt;interface&gt; ring-buffer tx &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interface-ethernet-interface-ring-buffer-tx-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configures the ring buffer size of the interface.</p>
+<p>The supported values for a specific interface can be obtained
+with: <cite>ethtool -g &lt;interface&gt;</cite></p>
+</div>
+</div>
 <section id="offloading">
 <h4>Offloading<a class="headerlink" href="#offloading" title="Link to this heading"></a></h4>
 <div class="cmd cmd-cfg">
@@ -2562,7 +2577,7 @@ show interfaces ethernet &lt;interface&gt; transceiver</span>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -2579,7 +2594,48 @@ show interfaces ethernet &lt;interface&gt; transceiver</span>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

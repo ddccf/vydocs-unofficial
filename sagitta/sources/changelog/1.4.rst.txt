@@ -3032,7 +3032,7 @@
 2022-11-01
 ==========
 
-* :vytask:`T4764` ``(bug): NAT tables vyos_nat  and vyosstatic_nat not deleting after deleting nat``
+* :vytask:`T4764` ``(bug): NAT tables vyos_nat  and vyos_static_nat not deleting after deleting nat``
 * :vytask:`T4177` ``(bug): Strip-private doesn't work for service monitoring``
 
 

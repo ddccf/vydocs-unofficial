@@ -85,29 +85,24 @@
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation and Image Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#operational-mode">Operational Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#operational-mode">Operational Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#operational-mode-command-families">Operational mode command families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clear">clear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reset">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#restart">restart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#force">force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#execute">execute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#show">show</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitor">monitor</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration-mode">Configuration Mode</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#configuration-overview">Configuration Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#seeing-and-navigating-the-configuration">Seeing and navigating the configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#the-config-mode">The config mode</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#editing-the-configuration">Editing the configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#access-opmode-from-config-mode">Access opmode from config mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#managing-configurations">Managing configurations</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#local-archive">Local Archive</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#compare-configurations">Compare configurations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#rollback-changes">Rollback Changes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#remote-archive">Remote Archive</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#saving-and-loading-manually">Saving and loading manually</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#restore-default">Restore Default</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a></li>
 </ul>
 </li>
 </ul>
@@ -222,6 +217,104 @@ in the event that the output has lines which exceed the terminal size.</p></li>
 </ul>
 </dd>
 </dl>
+<section id="operational-mode-command-families">
+<h3>Operational mode command families<a class="headerlink" href="#operational-mode-command-families" title="Link to this heading"></a></h3>
+<p>Many operational mode commands in VyOS are placed in families such as
+<code class="docutils literal notranslate"><span class="pre">show</span></code>, <code class="docutils literal notranslate"><span class="pre">clear</span></code>, or <code class="docutils literal notranslate"><span class="pre">reset</span></code>. Every such family has a specific
+meaning to allow the user to guess how the command is going to behave —
+in particular, whether it will be disruptive to the system or not.</p>
+<p>Note that this convention was not always followed with perfect
+consistency and some commands may still be in wrong families, so you
+should always check the command help and documentation if you are not
+sure what exactly it does.</p>
+<section id="clear">
+<h4>clear<a class="headerlink" href="#clear" title="Link to this heading"></a></h4>
+<p>“Clear” commands are completely non-disruptive to any system operations.
+Generally, they can be used freely without hesitation.</p>
+<p>Most often their purpose is to remove or reset various debug and
+diagnostic information such as system logs and packet counters.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">console</span></code> — clears the screen.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">interfaces</span> <span class="pre">ethernet</span> <span class="pre">eth0</span> <span class="pre">counters</span></code> — zeroes packet counters
+on <code class="docutils literal notranslate"><span class="pre">eth0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">log</span></code> — deletes all system log entries.</p></li>
+</ul>
+</section>
+<section id="reset">
+<h4>reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h4>
+<p>“Reset” commands can be locally-disruptive. They may, for example,
+terminate a single user session or a session with a dynamic routing
+protocol peer.</p>
+<p>They should be used with caution since they may have a significant
+impact on a particular users in the network.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">pppoe-server</span> <span class="pre">username</span> <span class="pre">jsmith</span></code> — terminate all PPPoE sessions
+from user <code class="docutils literal notranslate"><span class="pre">jsmith</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">bgp</span> <span class="pre">192.0.2.54</span></code> — terminates the BGP session with neighbor
+192.0.2.54.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">vpn</span> <span class="pre">ipsec</span> <span class="pre">site-to-site</span> <span class="pre">peer</span> <span class="pre">vpn.example.com</span></code> — terminates
+IPsec tunnels to <code class="docutils literal notranslate"><span class="pre">vpn.example.com</span></code>.</p></li>
+</ul>
+</section>
+<section id="restart">
+<h4>restart<a class="headerlink" href="#restart" title="Link to this heading"></a></h4>
+<p>“Restart” operations may disrupt an entire subsystem. Most often they
+initiate a restart of a server process, which causes it to be
+unavailable for a brief period and resets all the process state.</p>
+<p>They should be used with extreme caution.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">dhcp</span> <span class="pre">server</span></code> — restarts the IPv4 DHCP server process (DHCP
+requests are not served while it is restarting).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">ipsec</span></code> — restarts the IPsec process (which forces all
+sessions and all IPsec process state to reset).</p></li>
+</ul>
+</section>
+<section id="force">
+<h4>force<a class="headerlink" href="#force" title="Link to this heading"></a></h4>
+<p>“Force” commands force the system to perform an action that it might
+perform by itself at a later point.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">force</span> <span class="pre">arp</span> <span class="pre">request</span> <span class="pre">interface</span> <span class="pre">eth1</span> <span class="pre">address</span> <span class="pre">10.3.0.2</span></code> — send a
+gratuitious ARP request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force</span> <span class="pre">root-partition-auto-resize</span></code> — grow the root filesystem to
+the size of the system partition (this is also done on startup, but
+this command can do it without a reboot).</p></li>
+</ul>
+</section>
+<section id="execute">
+<h4>execute<a class="headerlink" href="#execute" title="Link to this heading"></a></h4>
+<p>“Execute” commands are for executing various diagnostic and auxilliary
+actions that the system would never perform by itself.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">execute</span> <span class="pre">wake-on-lan</span> <span class="pre">interface</span> <span class="pre">&lt;intf&gt;</span> <span class="pre">host</span> <span class="pre">&lt;MAC&gt;</span></code> — send a
+Wake-On-LAN packet to a host.</p></li>
+</ul>
+</section>
+<section id="show">
+<h4>show<a class="headerlink" href="#show" title="Link to this heading"></a></h4>
+<p>“Show” commands display various system information. They may
+occasionally use a pager for long outputs, that you can quit by pressing
+the Q button. Their output is always finite, however.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">system</span> <span class="pre">login</span></code> — displays current system users.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">ip</span> <span class="pre">route</span></code> — displays the IPv4 routing table.</p></li>
+</ul>
+</section>
+<section id="monitor">
+<h4>monitor<a class="headerlink" href="#monitor" title="Link to this heading"></a></h4>
+<p>“Monitor” commands initiate various monitoring operations that may
+output information continuously, until terminated with <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code> or
+disabled.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">monitor</span> <span class="pre">log</span></code> — continuously outputs latest system logs.</p></li>
+</ul>
+</section>
+</section>
 </section>
 <section id="configuration-mode">
 <h2>Configuration Mode<a class="headerlink" href="#configuration-mode" title="Link to this heading"></a></h2>
@@ -271,8 +364,6 @@ future uses. There can be multiple configuration files. The default or
 “boot” configuration is saved and loaded from the file
 <code class="docutils literal notranslate"><span class="pre">/config/config.boot</span></code>.</p></li>
 </ul>
-<section id="seeing-and-navigating-the-configuration">
-<h3>Seeing and navigating the configuration<a class="headerlink" href="#seeing-and-navigating-the-configuration" title="Link to this heading"></a></h3>
 <div class="cmd cmd-op">
 <div class="opcmd-heading">
 <span class="opcmd" id="opcmd-show-configuration">
@@ -366,7 +457,7 @@ set system syslog global facility protocols level &#39;debug&#39;
 </div>
 <p>Both these <code class="docutils literal notranslate"><span class="pre">show</span></code> commands should be executed when in operational
 mode, they do not work directly in configuration mode. There is a
-special way on how to <a class="reference internal" href="#run-opmode-from-config-mode"><span class="std std-ref">Access opmode from config mode</span></a>.</p>
+special way on how to <span class="xref std std-ref">run_opmode_from_config_mode</span>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">configuration</span> <span class="pre">commands</span> <span class="pre">|</span> <span class="pre">strip-private</span></code>
@@ -484,8 +575,6 @@ show configuration json pretty</span>
 </div>
 </div>
 </div>
-<section id="the-config-mode">
-<h4>The config mode<a class="headerlink" href="#the-config-mode" title="Link to this heading"></a></h4>
 <p>When entering the configuration mode you are navigating inside a tree
 structure, to enter configuration mode enter the command
 <code class="docutils literal notranslate"><span class="pre">configure</span></code> when in operational mode.</p>
@@ -579,10 +668,6 @@ vyos@vyos# exit
 Warning: configuration changes have not been saved.
 </pre></div>
 </div>
-</section>
-</section>
-<section id="editing-the-configuration">
-<h3>Editing the configuration<a class="headerlink" href="#editing-the-configuration" title="Link to this heading"></a></h3>
 <p>The configuration can be edited by the use of <code class="docutils literal notranslate"><span class="pre">set</span></code> and
 <code class="docutils literal notranslate"><span class="pre">delete</span></code> commands from within configuration mode.</p>
 <div class="cmd cmd-cfg">
@@ -827,10 +912,7 @@ firewall</cite> command would return starting after the <code class="docutils li
 </div>
 </div>
 </div>
-</section>
-<section id="access-opmode-from-config-mode">
-<span id="run-opmode-from-config-mode"></span><h3>Access opmode from config mode<a class="headerlink" href="#access-opmode-from-config-mode" title="Link to this heading"></a></h3>
-<p>When inside configuration mode you are not directly able to execute
+<p id="run-opmode-from-config-mode">When inside configuration mode you are not directly able to execute
 operational commands.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
@@ -852,16 +934,11 @@ eth0             0.0.0.0/0                         u/u
 </div>
 </div>
 </div>
-</section>
-<section id="managing-configurations">
-<h3>Managing configurations<a class="headerlink" href="#managing-configurations" title="Link to this heading"></a></h3>
 <p>VyOS comes with an integrated versioning system for the system
 configuration. It automatically maintains a backup of every previous
 configuration which has been committed to the system. The configurations
 are versioned locally for rollback but they can also be stored on a
 remote host for archiving/backup reasons.</p>
-<section id="local-archive">
-<h4>Local Archive<a class="headerlink" href="#local-archive" title="Link to this heading"></a></h4>
 <p>Revisions are stored on disk. You can view, compare and rollback them to
 any previous revisions if something goes wrong.</p>
 <div class="cmd cmd-op">
@@ -894,9 +971,6 @@ configured value, the oldest revision is removed. The default setting
 for this value is to store 100 revisions locally.</p>
 </div>
 </div>
-</section>
-<section id="compare-configurations">
-<h4>Compare configurations<a class="headerlink" href="#compare-configurations" title="Link to this heading"></a></h4>
 <p>VyOS lets you compare different configurations.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
@@ -966,9 +1040,6 @@ By default the difference with the running config is shown.</p>
 </pre></div>
 </div>
 <p>This means four commits ago we did <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">ipv6</span> <span class="pre">disable-forwarding</span></code>.</p>
-</section>
-<section id="rollback-changes">
-<h4>Rollback Changes<a class="headerlink" href="#rollback-changes" title="Link to this heading"></a></h4>
 <p>You can rollback configuration changes using the rollback command. This
 will apply the selected revision and trigger a system reboot.</p>
 <div class="cmd cmd-cfg">
@@ -990,9 +1061,6 @@ The system is going down for reboot NOW!
 </div>
 </div>
 </div>
-</section>
-<section id="remote-archive">
-<h4>Remote Archive<a class="headerlink" href="#remote-archive" title="Link to this heading"></a></h4>
 <p>VyOS can upload the configuration to a remote location after each call
 to <code class="docutils literal notranslate"><span class="pre">commit</span></code>. You will have to set the commit-archive location.
 TFTP, FTP, SCP and SFTP servers are supported. Every time a
@@ -1038,9 +1106,6 @@ fingerprint to your <code class="docutils literal notranslate"><span class="pre"
 </div>
 </div>
 </div>
-</section>
-<section id="saving-and-loading-manually">
-<h4>Saving and loading manually<a class="headerlink" href="#saving-and-loading-manually" title="Link to this heading"></a></h4>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">save</span></code> and <code class="docutils literal notranslate"><span class="pre">load</span></code> commands if you want to manually
 manage specific configuration files.</p>
 <p>When using the <a class="reference internal" href="#save">save</a> command, you can add a specific location where
@@ -1072,9 +1137,6 @@ Possible completions:
 </div>
 </div>
 </div>
-</section>
-<section id="restore-default">
-<h4>Restore Default<a class="headerlink" href="#restore-default" title="Link to this heading"></a></h4>
 <p>In the case you want to completely delete your configuration and restore
 the default one, you can enter the following command in configuration
 mode:</p>
@@ -1093,8 +1155,6 @@ connectivity, and load the edited config.</p>
 </div>
 </section>
 </section>
-</section>
-</section>
 
 
            </div>
@@ -1107,7 +1167,7 @@ connectivity, and load the edited config.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1124,7 +1184,48 @@ connectivity, and load the edited config.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

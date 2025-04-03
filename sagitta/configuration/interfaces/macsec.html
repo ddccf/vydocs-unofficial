@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macsec-over-wan">MACsec over wan</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
@@ -1112,6 +1113,46 @@ set interfaces macsec macsec1 source-interface &#39;eth1&#39;
 </pre></div>
 </div>
 </section>
+<section id="macsec-over-wan">
+<h2>MACsec over wan<a class="headerlink" href="#macsec-over-wan" title="Link to this heading"></a></h2>
+<p>MACsec is an interesting alternative to existing tunneling solutions that
+protects layer 2 by performing integrity, origin authentication, and optionally
+encryption. The typical use case is to use MACsec between hosts and access
+switches, between two hosts, or between two switches. in this example below,
+we use VXLAN and MACsec to secure the tunnel.</p>
+<p><strong>R1 MACsec01</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces macsec macsec1 address &#39;192.0.2.1/24&#39;
+set interfaces macsec macsec1 address &#39;2001:db8::1/64&#39;
+set interfaces macsec macsec1 security cipher &#39;gcm-aes-128&#39;
+set interfaces macsec macsec1 security encrypt
+set interfaces macsec macsec1 security static key &#39;ddd6f4a7be4d8bbaf88b26f10e1c05f7&#39;
+set interfaces macsec macsec1 security static peer SEC02 key &#39;eadcc0aa9cf203f3ce651b332bd6e6c7&#39;
+set interfaces macsec macsec1 security static peer SEC02 mac &#39;00:11:22:33:44:02&#39;
+set interfaces macsec macsec1 source-interface &#39;vxlan1&#39;
+set interfaces vxlan vxlan1 mac &#39;00:11:22:33:44:01&#39;
+set interfaces vxlan vxlan1 remote &#39;10.1.3.3&#39;
+set interfaces vxlan vxlan1 source-address &#39;172.16.100.1&#39;
+set interfaces vxlan vxlan1 vni &#39;10&#39;
+set protocols static route 10.1.3.3/32 next-hop 172.16.100.2
+</pre></div>
+</div>
+<p><strong>R2 MACsec02</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces macsec macsec1 address &#39;192.0.2.2/24&#39;
+set interfaces macsec macsec1 address &#39;2001:db8::2/64&#39;
+set interfaces macsec macsec1 security cipher &#39;gcm-aes-128&#39;
+set interfaces macsec macsec1 security encrypt
+set interfaces macsec macsec1 security static key &#39;eadcc0aa9cf203f3ce651b332bd6e6c7&#39;
+set interfaces macsec macsec1 security static peer SEC01 key &#39;ddd6f4a7be4d8bbaf88b26f10e1c05f7&#39;
+set interfaces macsec macsec1 security static peer SEC01 mac &#39;00:11:22:33:44:01&#39;
+set interfaces macsec macsec1 source-interface &#39;vxlan1&#39;
+set interfaces vxlan vxlan1 mac &#39;00:11:22:33:44:02&#39;
+set interfaces vxlan vxlan1 remote &#39;10.1.2.2&#39;
+set interfaces vxlan vxlan1 source-address &#39;172.16.100.2&#39;
+set interfaces vxlan vxlan1 vni &#39;10&#39;
+set protocols static route 10.1.2.2/32 next-hop 172.16.100.1
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -1125,7 +1166,7 @@ set interfaces macsec macsec1 source-interface &#39;eth1&#39;
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1142,7 +1183,48 @@ set interfaces macsec macsec1 source-interface &#39;eth1&#39;
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

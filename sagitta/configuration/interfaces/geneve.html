@@ -253,44 +253,6 @@ set interfaces geneve &lt;interface&gt; disable</span>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-interfaces-geneve-interface-disable-flow-control">
-set interfaces geneve &lt;interface&gt;  disable-flow-control</span>
-<a class="cmdlink" href="#cfgcmd-set-interfaces-geneve-interface-disable-flow-control" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Ethernet flow control is a mechanism for temporarily stopping the transmission
-of data on Ethernet family computer networks. The goal of this mechanism is to
-ensure zero packet loss in the presence of network congestion.</p>
-<p>The first flow control mechanism, the pause frame, was defined by the IEEE
-802.3x standard.</p>
-<p>A sending station (computer or network switch) may be transmitting data faster
-than the other end of the link can accept it. Using flow control, the
-receiving station can signal the sender requesting suspension of
-transmissions until the receiver catches up.</p>
-<p>Use this command to disable the generation of Ethernet flow control (pause
-frames).</p>
-<blockquote>
-<div><p>Example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces geneve gnv0 disable-flow-control
-</pre></div>
-</div>
-</div></blockquote>
-</div>
-</div>
-<div class="cmd cmd-cfg">
-<div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-interfaces-geneve-interface-disable-link-detect">
-set interfaces geneve &lt;interface&gt; disable-link-detect</span>
-<a class="cmdlink" href="#cfgcmd-set-interfaces-geneve-interface-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Use this command to direct an interface to not detect any physical state
-changes on a link, for example, when the cable is unplugged.</p>
-<p>Default is to detects physical link state changes.</p>
-<p>Example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces geneve gnv0 disable-link-detect
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cmd cmd-cfg">
-<div class="cfgcmd-heading">
 <span class="cfgcmd" id="cfgcmd-set-interfaces-geneve-interface-mac-xx-xx-xx-xx-xx-xx">
 set interfaces geneve &lt;interface&gt; mac &lt;xx:xx:xx:xx:xx:xx&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-interfaces-geneve-interface-mac-xx-xx-xx-xx-xx-xx" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
@@ -630,23 +592,6 @@ set interfaces geneve &lt;interface&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;
 </div>
 </div>
 </div>
-<div class="cmd cmd-cfg">
-<div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-interfaces-geneve-interface-vrf-vrf">
-set interfaces geneve &lt;interface&gt; vrf &lt;vrf&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-interfaces-geneve-interface-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Place interface in given VRF instance.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>There is an entire chapter about how to configure a <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>,
-please check this for additional information.</p>
-</div>
-<p>Example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces geneve gnv0 vrf red
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="geneve-options">
 <h3>GENEVE options<a class="headerlink" href="#geneve-options" title="Link to this heading"></a></h3>
@@ -687,7 +632,7 @@ across CPUs.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -704,7 +649,48 @@ across CPUs.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

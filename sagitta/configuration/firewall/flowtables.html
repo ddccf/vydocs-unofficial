@@ -259,17 +259,17 @@ set firewall flowtable &lt;flow_table_name&gt; offload &lt;hardware | software&g
 <p>Creating rules for using flow tables:</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv4-forward-filter-rule-1-999999-action-offload">
-set firewall [ipv4 | ipv4] forward filter rule &lt;1-999999&gt; action offload</span>
-<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv4-forward-filter-rule-1-999999-action-offload" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-action-offload">
+set firewall [ipv4 | ipv6] forward filter rule &lt;1-999999&gt; action offload</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-action-offload" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Create firewall rule in forward chain, and set action to <code class="docutils literal notranslate"><span class="pre">offload</span></code>.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv4-forward-filter-rule-1-999999-offload-target-flowtable">
-set firewall [ipv4 | ipv4] forward filter rule &lt;1-999999&gt; offload-target &lt;flowtable&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv4-forward-filter-rule-1-999999-offload-target-flowtable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-offload-target-flowtable">
+set firewall [ipv4 | ipv6] forward filter rule &lt;1-999999&gt; offload-target &lt;flowtable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-filter-rule-1-999999-offload-target-flowtable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Create firewall rule in forward chain, and define which flowtbale
 should be used. Only applicable if action is <code class="docutils literal notranslate"><span class="pre">offload</span></code>.</p>
 </div>
@@ -316,7 +316,7 @@ set firewall ipv4 forward filter rule 110 protocol &#39;tcp&#39;
 <h3>Explanation<a class="headerlink" href="#explanation" title="Link to this heading"></a></h3>
 <p>Analysis on what happens for desired connection:</p>
 <blockquote>
-<div><p>1. First packet is received on eht0, with destination address 192.0.2.100,
+<div><p>1. First packet is received on eth0, with destination address 192.0.2.100,
 protocol tcp and destination port 1122. Assume such destination address is
 reachable through interface eth1.</p>
 <p>2. Since this is the first packet, connection status of this connection,
@@ -330,7 +330,7 @@ accepted in rule 20.</p>
 <p>5. Second packet for this connection is received by the router. Since
 connection state is <strong>established</strong>, then rule 10 is hit, and a new entry
 in the flowtable FT01 is added for this connection.</p>
-<p>6. All subsecuent packets will skip traditional path, and will be offloaded
+<p>6. All the following packets will skip traditional path, and will be offloaded
 and will use the <strong>Fast Path</strong>.</p>
 </div></blockquote>
 </section>
@@ -372,7 +372,7 @@ vyos@FlowTables:~$
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -389,7 +389,48 @@ vyos@FlowTables:~$
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

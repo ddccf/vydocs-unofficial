@@ -711,7 +711,7 @@ The configuration will look as follows:
           }
       }
 
-.. _dhcp-server:v6static_mapping:
+.. _dhcp-server:v6_static_mapping:
 
 Static mappings
 ---------------

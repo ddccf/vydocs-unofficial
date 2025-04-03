@@ -436,6 +436,10 @@ set system login user otptester authentication otp rate-time &#39;20&#39;
 set system login user otptester authentication otp window-size &#39;5&#39;
 </pre></div>
 </div>
+<p>Once a user has 2FA/OTP configured against their account, they must login
+using their password with the OTP code appended to it.
+For example: If the users password is vyosrocks and the OTP code is 817454
+then they would enter their password as vyosrocks817454</p>
 </section>
 </section>
 </section>
@@ -513,7 +517,8 @@ the attribute you will only get regular, non privilegued, system users.</p>
 <h2>TACACS+<a class="headerlink" href="#tacacs" title="Link to this heading"></a></h2>
 <p>In addition to <abbr title="Remote Authentication Dial-In User Service">RADIUS</abbr>,
 <abbr title="Terminal Access Controller Access Control System">TACACS</abbr> can also be
-found in large deployments.</p>
+found in large deployments.
+VyOS only supports <cite>Authentication</cite> via <cite>TACACS+</cite> servers but does not support <cite>Authorization</cite> or <cite>Accounting</cite> yet</p>
 <p>TACACS is defined in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc8907.html"><strong>RFC 8907</strong></a>.</p>
 <section id="tacacs-configuration">
 <span id="id1"></span><h3>Configuration<a class="headerlink" href="#tacacs-configuration" title="Link to this heading"></a></h3>
@@ -680,7 +685,7 @@ from the <code class="docutils literal notranslate"><span class="pre">lfkeitel/t
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -697,7 +702,48 @@ from the <code class="docutils literal notranslate"><span class="pre">lfkeitel/t
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

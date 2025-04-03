@@ -185,8 +185,8 @@ and proxy servers except for authenticated web proxies.</p>
 <p>SSTP is available for Linux, BSD, and Windows.</p>
 <p>VyOS utilizes <a class="reference external" href="https://accel-ppp.org/">accel-ppp</a> to provide SSTP server functionality. We support both
 local and RADIUS authentication.</p>
-<p>As SSTP provides PPP via a SSL/TLS channel the use of either publically signed
-certificates as well as a private PKI is required.</p>
+<p>As SSTP provides PPP via a SSL/TLS channel the use of either publicly signed
+certificates or private PKI is required.</p>
 <section id="configuring-sstp-server">
 <h2>Configuring SSTP Server<a class="headerlink" href="#configuring-sstp-server" title="Link to this heading"></a></h2>
 <section id="certificates">
@@ -282,8 +282,8 @@ set vpn sstp ssl certificate &lt;file&gt;</span>
 <section id="configuring-radius-authentication">
 <h2>Configuring RADIUS authentication<a class="headerlink" href="#configuring-radius-authentication" title="Link to this heading"></a></h2>
 <p>To enable RADIUS based authentication, the authentication mode needs to be
-changed within the configuration. Previous settings like the local users, still
-exists within the configuration, however they are not used if the mode has been
+changed within the configuration. Previous settings like the local users still
+exist within the configuration, however they are not used if the mode has been
 changed from local to radius. Once changed back to local, it will use all local
 accounts again.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn sstp authentication mode radius
@@ -312,9 +312,9 @@ queries, make sure to add your VyOS router to the allowed client list.</p>
 </div>
 <section id="radius-source-address">
 <h3>RADIUS source address<a class="headerlink" href="#radius-source-address" title="Link to this heading"></a></h3>
-<p>If you are using OSPF as IGP, always the closest interface connected to the
-RADIUS server is used. You can bind all outgoing RADIUS requests
-to a single source IP e.g. the loopback interface.</p>
+<p>If you are using OSPF as your IGP, use the interface connected closest to the
+RADIUS server. You can bind all outgoing RADIUS requests to a single source IP
+e.g. the loopback interface.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-authentication-radius-source-address-address">
@@ -325,7 +325,7 @@ set vpn sstp authentication radius source-address &lt;address&gt;</span>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">source-address</span></code> must be configured on one of VyOS interface.
+<p>The <code class="docutils literal notranslate"><span class="pre">source-address</span></code> must be configured to that of an interface.
 Best practice would be a loopback or dummy interface.</p>
 </div>
 </section>
@@ -441,7 +441,7 @@ The default attribute is <cite>Filter-Id</cite>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you set a custom RADIUS attribute you must define it on both
-dictionaries at RADIUS server and client.</p>
+dictionaries on the RADIUS server and client.</p>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
@@ -456,7 +456,7 @@ set vpn sstp authentication radius rate-limit enable</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-authentication-radius-rate-limit-vendor">
 set vpn sstp authentication radius rate-limit vendor</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-authentication-radius-rate-limit-vendor" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Specifies the vendor dictionary, dictionary needs to be in
+<p>Specifies the vendor dictionary, This dictionary needs to be present in
 /usr/share/accel-ppp/radius.</p>
 </div>
 </div>
@@ -466,23 +466,26 @@ the CLI configuration, refer to the explanation below.</p>
 <section id="allocation-clients-ip-addresses-by-radius">
 <h3>Allocation clients ip addresses by RADIUS<a class="headerlink" href="#allocation-clients-ip-addresses-by-radius" title="Link to this heading"></a></h3>
 <p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-IP-Address</span></code> then this IP
-address will be allocated to the client and the option <code class="docutils literal notranslate"><span class="pre">default-pool</span></code> within the CLI
-config is being ignored.</p>
-<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-Pool</span></code>, IP address will be allocated
-from a predefined IP pool whose name equals the attribute value.</p>
-<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code>, IPv6 address
-will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">prefix</span></code> whose name equals the attribute value.</p>
-<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code>, IPv6
-delegation pefix will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">delegate</span></code>
+address will be allocated to the client and the option <code class="docutils literal notranslate"><span class="pre">default-pool</span></code> within
+the CLI config will being ignored.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Framed-Pool</span></code>, then the IP address
+will be allocated from a predefined IP pool whose name equals the attribute
+value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code>, the
+IPv6 address will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">prefix</span></code> whose
+name equals the attribute value.</p>
+<p>If the RADIUS server sends the attribute <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code>, an
+IPv6 delegation prefix will be allocated from a predefined IPv6 pool <code class="docutils literal notranslate"><span class="pre">delegate</span></code>
 whose name equals the attribute value.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">Stateful-IPv6-Address-Pool</span></code> and <code class="docutils literal notranslate"><span class="pre">Delegated-IPv6-Prefix-Pool</span></code> are defined in
 RFC6911. If they are not defined in your RADIUS server, add new <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.rfc6911">dictionary</a>.</p>
 </div>
-<p>User interface can be put to VRF context via RADIUS Access-Accept packet, or change
-it via RADIUS CoA. <code class="docutils literal notranslate"><span class="pre">Accel-VRF-Name</span></code> is used from these purposes. It is custom <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.accel">ACCEL-PPP attribute</a>.
-Define it in your RADIUS server.</p>
+<p>The client’s interface can be put into a VRF context via a RADIUS Access-Accept
+packet, or changed via RADIUS CoA. <code class="docutils literal notranslate"><span class="pre">Accel-VRF-Name</span></code> is used for these
+purposes. This is a custom <a class="reference external" href="https://github.com/accel-ppp/accel-ppp/blob/master/accel-pppd/radius/dict/dictionary.accel">ACCEL-PPP attribute</a>. Define it in your RADIUS
+server.</p>
 </section>
 <section id="renaming-clients-interfaces-by-radius">
 <h3>Renaming clients interfaces by RADIUS<a class="headerlink" href="#renaming-clients-interfaces-by-radius" title="Link to this heading"></a></h3>
@@ -516,10 +519,10 @@ set vpn sstp ppp-options ipv6 &lt;require | prefer | allow | deny&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits">
 set vpn sstp client-ipv6-pool &lt;IPv6-POOL-NAME&gt; prefix &lt;address&gt;  mask &lt;number-of-bits&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-client-ipv6-pool-ipv6-pool-name-prefix-address-mask-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Use this comand to set the IPv6 address pool from which an SSTP client
-will get an IPv6 prefix of your defined length (mask) to terminate the
-SSTP endpoint at their side. The mask length can be set from 48 to 128
-bit long, the default value is 64.</p>
+<p>Use this comand to set the IPv6 address pool from which an SSTP client will
+get an IPv6 prefix of your defined length (mask) to terminate the SSTP
+endpoint at their side. The mask length can be set between 48 and 128 bits
+long, the default value is 64.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -527,11 +530,11 @@ bit long, the default value is 64.</p>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits">
 set vpn sstp client-ipv6-pool &lt;IPv6-POOL-NAME&gt; delegate &lt;address&gt;  delegation-prefix &lt;number-of-bits&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-client-ipv6-pool-ipv6-pool-name-delegate-address-delegation-prefix-number-of-bits" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Use this command to configure DHCPv6 Prefix Delegation (RFC3633) on
-SSTP. You will have to set your IPv6 pool and the length of the
-delegation prefix. From the defined IPv6 pool you will be handing out
-networks of the defined length (delegation-prefix). The length of the
-delegation prefix can be set from 32 to 64 bit long.</p>
+<p>Use this command to configure DHCPv6 Prefix Delegation (RFC3633) on SSTP. You
+will have to set your IPv6 pool and the length of the delegation prefix. From
+the defined IPv6 pool you will be handing out networks of the defined length
+(delegation-prefix). The length of the delegation prefix can be set between
+32 and 64 bits long.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -555,7 +558,7 @@ set vpn sstp default-ipv6-pool IPv6-POOL
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-ipv6-accept-peer-interface-id">
 set vpn sstp ppp-options ipv6-accept-peer-interface-id</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-ipv6-accept-peer-interface-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Accept peer interface identifier. By default is not defined.</p>
+<p>Accept peer interface identifier. By default this is not defined.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -563,8 +566,8 @@ set vpn sstp ppp-options ipv6-accept-peer-interface-id</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-ipv6-interface-id-random-x-x-x-x">
 set vpn sstp ppp-options ipv6-interface-id &lt;random | x:x:x:x&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-ipv6-interface-id-random-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Specifies fixed or random interface identifier for IPv6.
-By default is fixed.</p>
+<p>Specifies if a fixed or random interface identifier is used for IPv6. The
+default is fixed.</p>
 <ul class="simple">
 <li><p><strong>random</strong> - Random interface identifier for IPv6</p></li>
 <li><p><strong>x:x:x:x</strong> - Specify interface identifier for IPv6</p></li>
@@ -576,7 +579,7 @@ By default is fixed.</p>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-ipv6-interface-id-random-x-x-x-x">
 set vpn sstp ppp-options ipv6-interface-id &lt;random | x:x:x:x&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-ipv6-interface-id-random-x-x-x-x" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Specifies peer interface identifier for IPv6. By default is fixed.</p>
+<p>Specifies the peer interface identifier for IPv6. The default is fixed.</p>
 <ul class="simple">
 <li><p><strong>random</strong> - Random interface identifier for IPv6</p></li>
 <li><p><strong>x:x:x:x</strong> - Specify interface identifier for IPv6</p></li>
@@ -594,7 +597,7 @@ set vpn sstp ppp-options ipv6-interface-id &lt;random | x:x:x:x&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-extended-scripts-on-change-path-to-script">
 set vpn sstp extended-scripts on-change &lt;path_to_script&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-extended-scripts-on-change-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Script to run when session interface changed by RADIUS CoA handling</p>
+<p>Script to run when the session interface is changed by RADIUS CoA handling</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -602,7 +605,7 @@ set vpn sstp extended-scripts on-change &lt;path_to_script&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-extended-scripts-on-down-path-to-script">
 set vpn sstp extended-scripts on-down &lt;path_to_script&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-extended-scripts-on-down-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Script to run when session interface going to terminate</p>
+<p>Script to run when the session interface about to terminate</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -610,7 +613,7 @@ set vpn sstp extended-scripts on-down &lt;path_to_script&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-extended-scripts-on-pre-up-path-to-script">
 set vpn sstp extended-scripts on-pre-up &lt;path_to_script&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-extended-scripts-on-pre-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Script to run before session interface comes up</p>
+<p>Script to run before the session interface comes up</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -618,7 +621,7 @@ set vpn sstp extended-scripts on-pre-up &lt;path_to_script&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-extended-scripts-on-up-path-to-script">
 set vpn sstp extended-scripts on-up &lt;path_to_script&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-extended-scripts-on-up-path-to-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Script to run when session interface is completely configured and started</p>
+<p>Script to run when the session interface is completely configured and started</p>
 </div>
 </div>
 </section>
@@ -639,7 +642,7 @@ set vpn sstp authentication local-users username &lt;user&gt; disable</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-authentication-local-users-username-user-static-ip-address">
 set vpn sstp authentication local-users username &lt;user&gt; static-ip  &lt;address&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-authentication-local-users-username-user-static-ip-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Assign static IP address to <cite>&lt;user&gt;</cite> account.</p>
+<p>Assign a static IP address to <cite>&lt;user&gt;</cite> account.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -647,7 +650,7 @@ set vpn sstp authentication local-users username &lt;user&gt; static-ip  &lt;add
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-authentication-local-users-username-user-rate-limit-download-bandwidth">
 set vpn sstp authentication local-users username &lt;user&gt; rate-limit  download &lt;bandwidth&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-authentication-local-users-username-user-rate-limit-download-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Download bandwidth limit in kbit/s for <cite>&lt;user&gt;</cite>.</p>
+<p>Rate limit the download bandwidth for <cite>&lt;user&gt;</cite> to <cite>&lt;bandwidth&gt;</cite> kbit/s.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -655,7 +658,7 @@ set vpn sstp authentication local-users username &lt;user&gt; rate-limit  downlo
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-authentication-local-users-username-user-rate-limit-upload-bandwidth">
 set vpn sstp authentication local-users username &lt;user&gt; rate-limit  upload &lt;bandwidth&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-authentication-local-users-username-user-rate-limit-upload-bandwidth" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Upload bandwidth limit in kbit/s for <cite>&lt;user&gt;</cite>.</p>
+<p>Rate limit the upload bandwidth for <cite>&lt;user&gt;</cite> to <cite>&lt;bandwidth&gt;</cite> kbit/s.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -695,10 +698,10 @@ CCP is enabled by default.</p>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-interface-cache-number">
 set vpn sstp ppp-options interface-cache &lt;number&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-interface-cache-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Specifies number of interfaces to keep in cache. It means that don’t
-destroy interface after corresponding session is destroyed, instead
-place it to cache and use it later for new sessions repeatedly.
-This should reduce kernel-level interface creation/deletion rate lack.
+<p>Specifies number of interfaces to cache. This prevents interfaces from being
+removed once the corresponding session is destroyed. Instead, interfaces are
+cached for later use in new sessions. This should reduce the kernel-level
+interface creation/deletion rate.
 Default value is <strong>0</strong>.</p>
 </div>
 </div>
@@ -731,7 +734,7 @@ value <cite>&lt;number&gt;</cite>, the session will be reset. Default value is <
 set vpn sstp ppp-options lcp-echo-interval &lt;interval&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-lcp-echo-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>If this option is specified and is greater than 0, then the PPP module will
-send LCP pings of the echo request every <cite>&lt;interval&gt;</cite> seconds.
+send LCP echo requests every <cite>&lt;interval&gt;</cite> seconds.
 Default value is <strong>30</strong>.</p>
 </div>
 </div>
@@ -740,7 +743,7 @@ Default value is <strong>30</strong>.</p>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-lcp-echo-timeout">
 set vpn sstp ppp-options lcp-echo-timeout</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-lcp-echo-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Specifies timeout in seconds to wait for any peer activity. If this option
+<p>Specifies timeout in seconds to wait for any peer activity. If this option is
 specified it turns on adaptive lcp echo functionality and “lcp-echo-failure”
 is not used. Default value is <strong>0</strong>.</p>
 </div>
@@ -750,8 +753,9 @@ is not used. Default value is <strong>0</strong>.</p>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-ppp-options-min-mtu-number">
 set vpn sstp ppp-options min-mtu &lt;number&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-ppp-options-min-mtu-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Defines minimum acceptable MTU. If client will try to negotiate less then
-specified MTU then it will be NAKed or disconnected if rejects greater MTU.
+<p>Defines the minimum acceptable MTU. If a client tries to negotiate an MTU
+lower than this it will be NAKed, and disconnected if it rejects a greater
+MTU.
 Default value is <strong>100</strong>.</p>
 </div>
 </div>
@@ -767,7 +771,8 @@ preference.</p>
 <li><p><strong>prefer</strong> - ask client for mppe, if it rejects don’t fail. (Default value)</p></li>
 <li><p><strong>deny</strong> - deny mppe</p></li>
 </ul>
-<p>Default behavior - don’t ask client for mppe, but allow it if client wants.
+<p>Default behavior - don’t ask the client for mppe, but allow it if the client
+wants.
 Please note that RADIUS may override this option by MS-MPPE-Encryption-Policy
 attribute.</p>
 </div>
@@ -804,7 +809,7 @@ set vpn sstp limits burst &lt;value&gt;</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-limits-connection-limit-value">
 set vpn sstp limits connection-limit &lt;value&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-limits-connection-limit-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Acceptable rate of connections (e.g. 1/min, 60/sec)</p>
+<p>Maximum accepted connection rate (e.g. 1/min, 60/sec)</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -836,9 +841,9 @@ set vpn sstp max-concurrent-sessions</span>
 <span class="cfgcmd" id="cfgcmd-set-vpn-sstp-name-server-address">
 set vpn sstp name-server &lt;address&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-vpn-sstp-name-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Connected client should use <cite>&lt;address&gt;</cite> as their DNS server. This
-command accepts both IPv4 and IPv6 addresses. Up to two nameservers
-can be configured for IPv4, up to three for IPv6.</p>
+<p>Connected clients should use <cite>&lt;address&gt;</cite> as their DNS server. This command
+accepts both IPv4 and IPv6 addresses. Up to two nameservers can be configured
+for IPv4, up to three for IPv6.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -1049,7 +1054,7 @@ Feb 28 17:03:07 vyos accel-sstp[2492]: sstp0:test: sstp: ppp: started
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1066,7 +1071,48 @@ Feb 28 17:03:07 vyos accel-sstp[2492]: sstp0:test: sstp: ppp: started
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

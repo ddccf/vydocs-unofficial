@@ -172,7 +172,7 @@
              
   <section id="openconnect">
 <span id="vpn-openconnect"></span><h1>OpenConnect<a class="headerlink" href="#openconnect" title="Link to this heading"></a></h1>
-<p>OpenConnect-compatible server feature is available from this release.
+<p>OpenConnect-compatible server feature has been available since Equuleus (1.3).
 Openconnect VPN supports SSL connection and offers full network access. SSL VPN
 network extension connects the end-user system to the corporate network with
 access controls based only on network layer information, such as destination IP
@@ -193,7 +193,7 @@ will create a self signed certificates and will be stored in configuration:</p>
 run generate pki certificate sign &lt;CA name&gt; install &lt;Server name&gt;
 </pre></div>
 </div>
-<p>We can also create the certificates using Cerbort which is an easy-to-use
+<p>We can also create the certificates using Certbot which is an easy-to-use
 client that fetches a certificate from Let’s Encrypt an open certificate
 authority launched by the EFF, Mozilla, and others and deploys it to a web
 server.</p>
@@ -446,7 +446,7 @@ You must configure the OpenConnect authentication mode to “radius”.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -463,7 +463,48 @@ You must configure the OpenConnect authentication mode to “radius”.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>

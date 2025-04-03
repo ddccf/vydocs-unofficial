@@ -182,10 +182,10 @@ address, which makes it easier to setup static routes or use dynamic routing
 protocols without having to modify IPsec policies. The other advantage is that
 it greatly simplifies router to router communication, which can be tricky with
 plain IPsec because the external outgoing address of the router usually doesn’t
-match the IPsec policy of typical site-to-site setup and you need to add special
-configuration for it, or adjust the source address for outgoing traffic of your
-applications. GRE/IPsec has no such problem and is completely transparent for
-the applications.</p>
+match the IPsec policy of a typical site-to-site setup and you would need to
+add special configuration for it, or adjust the source address of the outgoing
+traffic of your applications. GRE/IPsec has no such problem and is completely
+transparent for applications.</p>
 <p>GRE/IPIP/SIT and IPsec are widely accepted standards, which make this scheme
 easy to implement between VyOS and virtually any other router.</p>
 <p>For simplicity we’ll assume that the protocol is GRE, it’s not hard to guess
@@ -330,6 +330,8 @@ connection’s keying channel and defines a Diffie-Hellman group for PFS:</p></l
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">encryption</span></code> encryption algorithm (default 128 bit AES-CBC);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">hash</span></code> hash algorithm (default sha1).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable-rekey</span></code> Do not locally initiate a re-key of the SA, remote
+peer must re-key before expiration.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -340,10 +342,38 @@ connection’s keying channel and defines a Diffie-Hellman group for PFS:</p></l
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">disable-route-autoinstall</span></code> Do not automatically install routes to remote networks;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">flexvpn</span></code> Allows FlexVPN vendor ID payload (IKEv2 only). Send the Cisco FlexVPN vendor ID payload (IKEv2 only), which is required in order to make Cisco brand devices allow negotiating a local traffic selector (from strongSwan’s point of view) that is not the assigned virtual IP address if such an address is requested by strongSwan. Sending the Cisco FlexVPN vendor ID prevents the peer from narrowing the initiator’s local traffic selector and allows it to e.g. negotiate a TS of 0.0.0.0/0 == 0.0.0.0/0 instead. This has been tested with a “tunnel mode ipsec ipv4” Cisco template but should also work for GRE encapsulation;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">interface</span></code> Interface Name to use. The name of the interface on which virtual IP addresses should be installed. If not specified the addresses will be installed on the outbound interface;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">virtual-ip</span></code> Allows to install virtual-ip addresses. Comma separated list of virtual IPs to request in IKEv2 configuration payloads or IKEv1 Mode Config. The wildcard addresses 0.0.0.0 and :: request an arbitrary address, specific addresses may be defined. The responder may return a different address, though, or none at all. Define the <code class="docutils literal notranslate"><span class="pre">virtual-address</span></code> option to configure the IP address in site-to-site hierarchy.</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">disable-route-autoinstall</span></code> Do not automatically install routes to remote</dt><dd><p>networks;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">flexvpn</span></code> Allows FlexVPN vendor ID payload (IKEv2 only). Send the Cisco</dt><dd><p>FlexVPN vendor ID payload (IKEv2 only), which is required in order to make
+Cisco brand devices allow negotiating a local traffic selector (from
+strongSwan’s point of view) that is not the assigned virtual IP address if
+such an address is requested by strongSwan. Sending the Cisco FlexVPN
+vendor ID prevents the peer from narrowing the initiator’s local traffic
+selector and allows it to e.g. negotiate a TS of 0.0.0.0/0 == 0.0.0.0/0
+instead. This has been tested with a “tunnel mode ipsec ipv4” Cisco
+template but should also work for GRE encapsulation;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">interface</span></code> Interface Name to use. The name of the interface on which</dt><dd><p>virtual IP addresses should be installed. If not specified the addresses
+will be installed on the outbound interface;</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">virtual-ip</span></code> Allows the installation of virtual-ip addresses. A comma</dt><dd><p>separated list of virtual IPs to request in IKEv2 configuration payloads or
+IKEv1 Mode Config. The wildcard addresses 0.0.0.0 and :: request an
+arbitrary address, specific addresses may be defined. The responder may
+return a different address, or none at all. Define the <code class="docutils literal notranslate"><span class="pre">virtual-address</span></code>
+option to configure the IP address in a site-to-site hierarchy.</p>
+</dd>
+</dl>
+</li>
 </ul>
 </div></blockquote>
 </section>
@@ -513,8 +543,8 @@ set vpn ipsec site-to-site peer LEFT tunnel 1 remote prefix 192.168.99.1/32 # Ad
 <section id="ikev2-ipsec-road-warriors-remote-access-vpn">
 <h2>IKEv2 IPSec road-warriors remote-access VPN<a class="headerlink" href="#ikev2-ipsec-road-warriors-remote-access-vpn" title="Link to this heading"></a></h2>
 <p>Internet Key Exchange version 2, IKEv2 for short, is a request/response
-protocol developed by both Cisco and Microsoft. It is used to establish
-and secure IPv4/IPv6 connections, be it a site-to-site VPN or from a
+protocol developed by both Cisco and Microsoft. It is used to establish and
+secure IPv4/IPv6 connections, be it a site-to-site VPN or from a
 road-warrior connecting to a hub site. IKEv2, when run in point-to-multipoint,
 or remote-access/road-warrior mode, secures the server-side with another layer
 by using an x509 signed server certificate.</p>
@@ -531,11 +561,11 @@ a x509 certificate.</p>
 <span class="nb">set</span> <span class="n">pki</span> <span class="n">ca</span> <span class="n">CAcert_Signing_Authority</span> <span class="n">certificate</span> <span class="s1">&#39;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&#39;</span>
 </pre></div>
 </div>
-<p>After you obtained your server certificate you can import it from a file
-on the local filesystem, or paste it into the CLI. Please note that
-when entering the certificate manually you need to strip the
-<code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">KEY-----</span></code> and <code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">KEY-----</span></code> tags. Also, the certificate
-or key needs to be presented in a single line without line breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>).</p>
+<p>After you obtain your server certificate you can import it from a file on the
+local filesystem, or paste it into the CLI. Please note that when entering the
+certificate manually you need to strip the <code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">KEY-----</span></code> and
+<code class="docutils literal notranslate"><span class="pre">-----END</span> <span class="pre">KEY-----</span></code> tags. Also, the certificate or key needs to be presented
+in a single line without line breaks (<code class="docutils literal notranslate"><span class="pre">\n</span></code>).</p>
 <p>To import it from the filesystem use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pki</span> <span class="n">certificate</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="n">file</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cert</span><span class="o">.</span><span class="n">pem</span>
 </pre></div>
@@ -568,7 +598,7 @@ and iOS/iPadOS 14 to 17.</p>
 we can draw our client IP addresses from. We provide one IPv4 and IPv6 pool.
 Authorized clients will receive an IPv4 address from the 192.0.2.128/25 prefix
 and an IPv6 address from the 2001:db8:2000::/64 prefix. We can also send some
-DNS nameservers down to our clients used on their connection.</p>
+DNS nameservers down for our clients to use with their connection.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv4</span> <span class="n">name</span><span class="o">-</span><span class="n">server</span> <span class="s1">&#39;192.0.2.1&#39;</span>
 <span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv4</span> <span class="n">prefix</span> <span class="s1">&#39;192.0.2.128/25&#39;</span>
 <span class="nb">set</span> <span class="n">vpn</span> <span class="n">ipsec</span> <span class="n">remote</span><span class="o">-</span><span class="n">access</span> <span class="n">pool</span> <span class="n">ra</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">ipv6</span> <span class="n">name</span><span class="o">-</span><span class="n">server</span> <span class="s1">&#39;2001:db8:1000::1&#39;</span>
@@ -576,8 +606,8 @@ DNS nameservers down to our clients used on their connection.</p>
 </pre></div>
 </div>
 <p>VyOS supports multiple IKEv2 remote-access connections. Every connection can
-have its dedicated IKE/ESP ciphers, certificates or local listen address for
-e.g. inbound load balancing.</p>
+have its own dedicated IKE/ESP ciphers, certificates or local listen address
+for e.g. inbound load balancing.</p>
 <p>We configure a new connection named <code class="docutils literal notranslate"><span class="pre">rw</span></code> for road-warrior, that identifies
 itself as <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code> to the clients and uses the <code class="docutils literal notranslate"><span class="pre">vyos</span></code> certificate
 signed by the <cite>CAcert_Class3_Root`</cite> intermediate CA. We select our previously
@@ -680,6 +710,134 @@ be imported.</p>
 (username and password) which is stored on the mobile.</p>
 </section>
 </section>
+<section id="operation-mode">
+<h3>Operation Mode<a class="headerlink" href="#operation-mode" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa">
+show vpn ike sa</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa-nat-traversal">
+show vpn ike sa nat-traversal</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa-nat-traversal" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations (SA) that are using
+NAT Traversal.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa-peer-peer-name">
+show vpn ike sa peer &lt;peer_name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa-peer-peer-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all currently active IKE Security Associations (SA) for a specific
+peer.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-secrets">
+show vpn ike secrets</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-secrets" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all the configured pre-shared secret keys.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-status">
+show vpn ike status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the detailed status information of IKE charon process.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-connections">
+show vpn ipsec connections</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-connections" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show details of all available VPN connections</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-policy">
+show vpn ipsec policy</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-policy" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Print out the list of existing crypto policies</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-sa">
+show vpn ipsec sa</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-sa" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all active IPsec Security Associations (SA)</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-sa-detail">
+show vpn ipsec sa detail</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-sa-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show a detailed information of all active IPsec Security Associations (SA)
+in verbose format.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-state">
+show vpn ipsec state</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-state" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Print out the list of existing in-kernel crypto state</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-status">
+show vpn ipsec status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the status of running IPsec process and process ID.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-ipsec">
+restart ipsec</span>
+<a class="cmdlink" href="#opcmd-restart-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart the IPsec VPN process and re-establishes the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-all">
+reset vpn ipsec site-to-site all</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Reset all site-to-site IPSec VPN sessions. It terminates all active
+child_sa and reinitiates the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-peer-name">
+reset vpn ipsec site-to-site peer &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-peer-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Reset all tunnels for a given peer, can specify tunnel or vti interface.
+It terminates a specific child_sa and reinitiates the connection.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-ipsec">
+show log ipsec</span>
+<a class="cmdlink" href="#opcmd-show-log-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show logs for IPsec</p>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -694,7 +852,7 @@ be imported.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; <a href="../../copyright.html">Copyright</a> 2023, VyOS maintainers and contributors.</p>
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2024, VyOS maintainers and contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -711,7 +869,48 @@ be imported.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <head>
+      <style>
+          #branch-select-container {
+              position: fixed;
+              bottom: 10px;
+              right: 10px;
+              background-color: #f0f0f0;
+              padding: 5px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div id="branch-select-container">
+          <select id="branch-select">
+              <option value="sagitta">Sagitta</option>
+              <option value="circinus">Circinus</option>
+          </select>
+      </div>
+      <script>
+          // Define the branches
+          const branches = ['sagitta', 'circinus'];
+  
+          // Get the current branch name from the URL
+          const currentUrl = window.location.href;
+          const currentBranch = branches.find(branch => currentUrl.includes(branch));
+  
+          // Set the selected option in the dropdown
+          const branchSelect = document.getElementById('branch-select');
+          branchSelect.value = currentBranch;
+  
+          // Add an event listener to the dropdown
+          branchSelect.addEventListener('change', () => {
+              const newBranch = branchSelect.value;
+              const newUrl = currentUrl.replace(currentBranch, newBranch);
+              window.location.href = newUrl;
+          });
+      </script>
+  </body>
+
 
 </body>
 </html>
