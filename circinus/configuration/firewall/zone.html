@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
@@ -8,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zone Based Firewall &mdash; VyOS 1.5.x (circinus) documentation</title>
       <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
     <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
-      <script src="../../static/jquery.js?v=5d32c60e"></script>
-      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../static/documentation_options.js?v=719443cf"></script>
-      <script src="../../static/doctools.js?v=9bcbadda"></script>
-      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=719443cf"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
     <script src="../../static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -28,6 +30,7 @@
     <link rel="prev" title="Flowtables Firewall Configuration" href="flowtables.html" />
     <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
     <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
     <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
@@ -53,6 +56,47 @@
     <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
     </script>
 
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,6 +111,9 @@
             VyOS
               <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.5
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -227,19 +274,33 @@ The zone configuration moved from <code class="docutils literal notranslate"><sp
 <p>As an alternative to applying policy to an interface directly, a zone-based
 firewall can be created to simplify configuration when multiple interfaces
 belong to the same security zone. Instead of applying rule-sets to interfaces,
-they are applied to source zone-destination zone pairs.</p>
+they are applied to source-destination zone pairs.</p>
 <p>A basic introduction to zone-based firewalls can be found <a class="reference external" href="https://support.vyos.io/en/kb/articles/a-primer-to-zone-based-firewall">here</a>,
 and an example at <a class="reference internal" href="../../configexamples/zone-policy.html#examples-zone-policy"><span class="std std-ref">Zone-Policy example</span></a>.</p>
+<p>The following steps are required to create a zone-based firewall:</p>
+<ol class="arabic simple">
+<li><p>Define both the source and destination zones</p></li>
+<li><p>Define the rule-set</p></li>
+<li><p>Apply the rule-set to the zones</p></li>
+</ol>
 <section id="define-a-zone">
 <h3>Define a Zone<a class="headerlink" href="#define-a-zone" title="Link to this heading"></a></h3>
-<p>To define a zone setup either one with interfaces or a local zone.</p>
+<p>To define a zone setup either one with interfaces or the local zone.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
 <span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-interface-interface">
 set firewall zone &lt;name&gt; interface &lt;interface&gt;</span>
 <a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Set interfaces to a zone. A zone can have multiple interfaces.
-But an interface can only be a member in one zone.</p>
+<p>Assign interfaces as a member of a zone.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>An interface can only be a member of one zone.</p></li>
+<li><p>A zone can have multiple interfaces, with traffic between interfaces in
+the same zone subject to the intra-zone-filtering policy (allowed by
+default).</p></li>
+</ul>
+</div>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -247,8 +308,15 @@ But an interface can only be a member in one zone.</p>
 <span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-local-zone">
 set firewall zone &lt;name&gt; local-zone</span>
 <a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-local-zone" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Define the zone as a local zone. A local zone has no interfaces and
-will be applied to the router itself.</p>
+<p>Define the zone as the local zone, for traffic originating from and destined
+to the router itself.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>A local zone cannot have any member interfaces</p></li>
+<li><p>There cannot be multiple local zones</p></li>
+</ul>
+</div>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -256,7 +324,17 @@ will be applied to the router itself.</p>
 <span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-default-action-drop-reject">
 set firewall zone &lt;name&gt; default-action [drop | reject]</span>
 <a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-default-action-drop-reject" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>Change the default-action with this setting.</p>
+<p>Change the zone default-action, which applies to traffic destined to this
+zone that doesn’t match any of the source zone rulesets applied.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-default-log">
+set firewall zone &lt;name&gt; default-log</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-default-log" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable logging of packets that hit this zone’s default-action (disabled by
+default).</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -268,34 +346,40 @@ set firewall zone &lt;name&gt; description</span>
 </div>
 </div>
 </section>
+<section id="defining-a-rule-set">
+<h3>Defining a Rule-Set<a class="headerlink" href="#defining-a-rule-set" title="Link to this heading"></a></h3>
+<p>Zone-based firewall rule-sets are for traffic from a <em>Source Zone</em> to a
+<em>Destination Zone</em>.</p>
+<p>The rule-sets are created as a custom firewall chain using the commands below
+(refer to the firewall IPv4/IPv6 sections for the full syntax):</p>
+<ul class="simple">
+<li><p>For <a class="reference internal" href="ipv4.html#firewall-ipv4-rules"><span class="std std-ref">IPv4</span></a>:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">ipv4</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span> <span class="pre">...</span></code></p></li>
+<li><p>For <a class="reference internal" href="ipv6.html#firewall-ipv6-rules"><span class="std std-ref">IPv6</span></a>:
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">ipv6</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span> <span class="pre">...</span></code></p></li>
+</ul>
+<p>It can be helpful to name the rule-sets in the format
+<code class="docutils literal notranslate"><span class="pre">&lt;Sourze</span> <span class="pre">Zone&gt;-&lt;Destination</span> <span class="pre">Zone&gt;-&lt;v4</span> <span class="pre">|</span> <span class="pre">v6&gt;</span></code> to make them easily identifiable.</p>
+</section>
 <section id="applying-a-rule-set-to-a-zone">
 <h3>Applying a Rule-Set to a Zone<a class="headerlink" href="#applying-a-rule-set-to-a-zone" title="Link to this heading"></a></h3>
-<p>Before you are able to apply a rule-set to a zone you have to create the zones
-first.</p>
-<p>It helps to think of the syntax as: (see below). The ‘rule-set’ should be
-written from the perspective of: <em>Source Zone</em>-to-&gt;*Destination Zone*</p>
+<p>Once a rule-set has been defined, it can then be applied to the source and
+destination zones. The configuration syntax is anchored on the destination
+zone, with each of the source zone rulesets listed against the destination.</p>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-rule-set">
-set firewall zone &lt;Destination Zone&gt; from &lt;Source Zone&gt; firewall name &lt;rule-set&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-rule-set" title="Permalink to this Command"></a></div></div>
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-ipv4-rule-set-name">
+set firewall zone &lt;Destination Zone&gt; from &lt;Source Zone&gt; firewall name &lt;ipv4-rule-set-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-name-ipv4-rule-set-name" title="Permalink to this Command"></a></div></div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-from-name-firewall-name-rule-set">
-set firewall zone &lt;name&gt; from &lt;name&gt; firewall name &lt;rule-set&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-from-name-firewall-name-rule-set" title="Permalink to this Command"></a></div></div>
-<div class="cmd cmd-cfg">
-<div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-firewall-zone-name-from-name-firewall-ipv6-name-rule-set">
-set firewall zone &lt;name&gt; from &lt;name&gt; firewall ipv6-name &lt;rule-set&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-firewall-zone-name-from-name-firewall-ipv6-name-rule-set" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
-<p>You apply a rule-set always to a zone from an other zone, it is recommended
-to create one rule-set for each zone pair.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall zone DMZ from LAN firewall name LANv4-to-DMZv4
-set firewall zone LAN from DMZ firewall name DMZv4-to-LANv4
+<span class="cfgcmd" id="cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-ipv6-name-ipv6-rule-set-name">
+set firewall zone &lt;Destination Zone&gt; from &lt;Source Zone&gt; firewall ipv6-name &lt;ipv6-rule-set-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-zone-destination-zone-from-source-zone-firewall-ipv6-name-ipv6-rule-set-name" title="Permalink to this Command"></a></div></div>
+<p>It is recommended to create two rule-sets for each source-destination zone pair.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall zone DMZ from LAN firewall name LAN-DMZ-v4
+set firewall zone LAN from DMZ firewall name DMZ-LAN-v4
 </pre></div>
-</div>
-</div>
 </div>
 </section>
 </section>
@@ -310,13 +394,12 @@ show firewall zone-policy</span>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall zone-policy
 Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
 ------  ------------  -----------  ---------------  ---------------
-LAN     eth1          WAN          WAN_to_LAN
+LAN     eth1          WAN          WAN-LAN-v4
         eth2
-LOCAL   LOCAL         LAN          LAN_to_LOCAL
-                      WAN          WAN_to_LOCAL     WAN_to_LOCAL_v6
-WAN     eth3          LAN          LAN_to_WAN
-        eth0          LOCAL        LOCAL_to_WAN
-vyos@vyos:~$
+LOCAL   LOCAL         LAN          LAN-LOCAL-v4
+                      WAN          WAN-LOCAL-v4     WAN-LOCAL-v6
+WAN     eth3          LAN          LAN-WAN-v4
+        eth0          LOCAL        LOCAL-WAN-v4
 </pre></div>
 </div>
 </div>
@@ -330,14 +413,14 @@ show firewall zone-policy zone &lt;zone&gt;</span>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall zone-policy zone WAN
 Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
 ------  ------------  -----------  ---------------  ---------------
-WAN     eth3          LAN          LAN_to_WAN
-        eth0          LOCAL        LOCAL_to_WAN
+WAN     eth3          LAN          LAN-WAN-v4
+        eth0          LOCAL        LOCAL-WAN-v4
+
 vyos@vyos:~$ show firewall zone-policy zone LOCAL
 Zone    Interfaces    From Zone    Firewall IPv4    Firewall IPv6
 ------  ------------  -----------  ---------------  ---------------
-LOCAL   LOCAL         LAN          LAN_to_LOCAL
-                      WAN          WAN_to_LOCAL     WAN_to_LOCAL_v6
-vyos@vyos:~$
+LOCAL   LOCAL         LAN          LAN-LOCAL-v4
+                      WAN          WAN-LOCAL-v4     WAN-LOCAL-v6
 </pre></div>
 </div>
 </div>
@@ -373,48 +456,7 @@ vyos@vyos:~$
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <head>
-      <style>
-          #branch-select-container {
-              position: fixed;
-              bottom: 10px;
-              right: 10px;
-              background-color: #f0f0f0;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-          }
-      </style>
-  </head>
-  <body>
-      <div id="branch-select-container">
-          <select id="branch-select">
-              <option value="sagitta">Sagitta</option>
-              <option value="circinus">Circinus</option>
-          </select>
-      </div>
-      <script>
-          // Define the branches
-          const branches = ['sagitta', 'circinus'];
-  
-          // Get the current branch name from the URL
-          const currentUrl = window.location.href;
-          const currentBranch = branches.find(branch => currentUrl.includes(branch));
-  
-          // Set the selected option in the dropdown
-          const branchSelect = document.getElementById('branch-select');
-          branchSelect.value = currentBranch;
-  
-          // Add an event listener to the dropdown
-          branchSelect.addEventListener('change', () => {
-              const newBranch = branchSelect.value;
-              const newUrl = currentUrl.replace(currentBranch, newBranch);
-              window.location.href = newUrl;
-          });
-      </script>
-  </body>
-
+  </script> 
 
 </body>
 </html>

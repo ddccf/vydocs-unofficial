@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -8,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VyOS API &mdash; VyOS 1.5.x (circinus) documentation</title>
       <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
     <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
-      <script src="../static/jquery.js?v=5d32c60e"></script>
-      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../static/documentation_options.js?v=719443cf"></script>
-      <script src="../static/doctools.js?v=9bcbadda"></script>
-      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../static/design-tabs.js?v=f930bc37"></script>
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=719443cf"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
     <script src="../static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -28,6 +30,7 @@
     <link rel="prev" title="VyOS Automation" href="index.html" />
     <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
     <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
     <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
     <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
@@ -53,6 +56,47 @@
     <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
     </script>
 
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,6 +111,9 @@
             VyOS
               <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.5
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -95,6 +142,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">VyOS API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#authentication">Authentication</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api-endpoints">API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#info">/info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#retrieve">/retrieve</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#reset">/reset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#reboot">/reboot</a></li>
@@ -106,6 +154,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#config-file">/config-file</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#commit-confirm">Commit-confirm</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="vyos-ansible.html">Ansible</a></li>
@@ -169,8 +218,9 @@
 <p>For configuration and enabling the API see <a class="reference internal" href="../configuration/service/https.html#http-api"><span class="std std-ref">HTTP API</span></a></p>
 <section id="authentication">
 <h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h2>
-<p>All endpoints only listen on HTTP POST requests and the API KEY must set as
-<code class="docutils literal notranslate"><span class="pre">key</span></code> in the formdata.</p>
+<p>All endpoints except one listen on HTTP POST requests and the API KEY must set
+as <code class="docutils literal notranslate"><span class="pre">key</span></code> in the formdata. The only public endpoint listens to HTTP GET request
+and takes optional query parameters.</p>
 <p>Below see one example for curl and one for python.
 The rest of the documentation is reduced to curl.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request POST &#39;https://vyos/retrieve&#39; \
@@ -191,6 +241,104 @@ The rest of the documentation is reduced to curl.</p>
 </section>
 <section id="api-endpoints">
 <h2>API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading"></a></h2>
+<section id="info">
+<h3>/info<a class="headerlink" href="#info" title="Link to this heading"></a></h3>
+<p>This is the only endpoint provided by the API service that does not require
+authentication and can be queried by anonymous users. Requesting the <code class="docutils literal notranslate"><span class="pre">info</span></code>
+endpoint you obtain general information about the system, namely the VyOS
+version, the system host name and a welcome banner for anonymous users.</p>
+<p>This endpoint responds <strong>only</strong> to HTTP GET requests.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &#39;https://vyos/info&#39;
+
+response
+{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;version&quot;: &quot;1.5-rolling&quot;,
+        &quot;hostname: &quot;vyos&quot;
+        &quot;banner&quot;: &quot;Welcome to VyOS&quot;
+    },
+    &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>This endpoint can take two optional query parameters - <code class="docutils literal notranslate"><span class="pre">version</span></code> and
+<code class="docutils literal notranslate"><span class="pre">hostname</span></code>. These parameters accept all values that can be converted to
+Boolean - e.g. <code class="docutils literal notranslate"><span class="pre">yes/no</span></code>, <code class="docutils literal notranslate"><span class="pre">1/0</span></code>, <code class="docutils literal notranslate"><span class="pre">true/false</span></code> etc, and they dictate whether
+to include the respective values into the response.</p>
+<p>If request is sent without any query parameters, the endpoints treats them as
+if they are set to <code class="docutils literal notranslate"><span class="pre">true</span></code> by default:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &#39;https://vyos/info?version=1&amp;hostname=1&#39;
+
+response {
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;version&quot;: &quot;1.5-rolling&quot;,
+        &quot;hostname&quot;: &quot;vyos&quot;,
+        &quot;banner&quot;: &quot;Welcome to VyOS&quot;
+    },
+    &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>If any of the parameters is set to a value that corresponds to <code class="docutils literal notranslate"><span class="pre">false</span></code>, the
+response object will have an empty string instead of the respective value:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &#39;https://vyos/info?version=0&amp;hostname=1&#39;
+
+response {
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;version&quot;: &quot;&quot;,
+        &quot;hostname&quot;: &quot;vyos&quot;,
+        &quot;banner&quot;: &quot;Welcome to VyOS&quot;
+    },
+    &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>Please note, that there is no need to specify both parameters if you want to
+hide just one of the fields - a missing query parameter is treated as <code class="docutils literal notranslate"><span class="pre">true</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &#39;https://vyos/info?hostname=no&#39;
+
+response {
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;version&quot;: &quot;1.5-rolling&quot;,
+        &quot;hostname&quot;: &quot;&quot;,
+        &quot;banner&quot;: &quot;Welcome to VyOS&quot;
+    },
+    &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>Please note, that while you can disable output for both <code class="docutils literal notranslate"><span class="pre">hostname</span></code> and
+<code class="docutils literal notranslate"><span class="pre">version</span></code>, the <code class="docutils literal notranslate"><span class="pre">banner</span></code> is included into the response in any case.</p>
+<p><strong>Important:</strong> The endpoint accepts <strong>ONLY</strong> <code class="docutils literal notranslate"><span class="pre">hostname</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> query
+parameters. Including any other besides them, or instead of them, will respond
+with HTTP 400 Bad Request:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET \
+    &#39;https://192.168.56.119/info?hostname=1&amp;url=https://evilsite.com&#39;
+
+response {
+    &quot;success&quot;: false,
+    &quot;error&quot;: &quot;{&#39;type&#39;: &#39;extra_forbidden&#39;, &#39;loc&#39;: (&#39;query&#39;, &#39;url&#39;), &#39;msg&#39;: &#39;Extra inputs are not permitted&#39;, &#39;input&#39;: &#39;https://evilsite.com&#39;}&quot;,
+    &quot;data&quot;: null
+}
+</pre></div>
+</div>
+<p>As well as the values passed to the query string are validated to ensure they
+are strictly Boolean and won’t accept any other data type:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl --location --request GET &#39;https://vyos/info?hostname=1; eval&quot;sudo rm -rf /&quot;
+
+response
+{
+    &quot;success&quot;: false,
+    &quot;error&quot;: &quot;{&#39;type&#39;: &#39;bool_parsing&#39;, &#39;loc&#39;: (&#39;query&#39;, &#39;hostname&#39;), &#39;msg&#39;: &#39;Input should be a valid boolean, unable to interpret input&#39;, &#39;input&#39;: &#39;1; eval \&quot;sudo rm -rf /\&quot;&#39;}&quot;,
+    &quot;data&quot;: null
+}
+</pre></div>
+</div>
+</section>
 <section id="retrieve">
 <h3>/retrieve<a class="headerlink" href="#retrieve" title="Link to this heading"></a></h3>
 <p>With the <code class="docutils literal notranslate"><span class="pre">retrieve</span></code> endpoint you get parts or the whole configuration.</p>
@@ -503,7 +651,73 @@ response:
 }
 </pre></div>
 </div>
+<p>To Merge a configuration file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/config-file&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;merge&quot;, &quot;file&quot;: &quot;/config/test.config&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>In either of the last two cases, one can pass a string in the body of the
+request, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k --location --request POST &#39;https://vyos/config-file&#39; \
+--form data=&#39;{&quot;op&quot;: &quot;merge&quot;, &quot;string&quot;: &quot;interfaces {\nethernet eth1 {\naddress &quot;192.168.2.137/24&quot;\ndescription &quot;test&quot;\n}\n}\n&quot;}&#39; \
+--form key=&#39;MY-HTTPS-API-PLAINTEXT-KEY&#39;
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: null,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
 </section>
+</section>
+<section id="commit-confirm">
+<h2>Commit-confirm<a class="headerlink" href="#commit-confirm" title="Link to this heading"></a></h2>
+<p>For the previous two endpoints discussed, a <code class="docutils literal notranslate"><span class="pre">commit</span></code> command is implicit
+following a succesful request operation (<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">|</span> <span class="pre">delete</span> <span class="pre">|</span> <span class="pre">load</span> <span class="pre">|</span> <span class="pre">merge</span></code>, or
+a list of <code class="docutils literal notranslate"><span class="pre">set</span></code> and <code class="docutils literal notranslate"><span class="pre">delete</span></code> operations).  One can instead request a
+<code class="docutils literal notranslate"><span class="pre">commit-confirm</span></code> command by including the field <code class="docutils literal notranslate"><span class="pre">confirm_time</span></code> of type
+int &gt; 0. An example follows, in the alternative JSON format, for brevity,
+although the standard form-data format is fine:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k -X POST -d &#39;{&quot;key&quot;: &quot;MY-HTTPS-API-PLAINTEXT-KEY&quot;, &quot;op&quot;: &quot;merge&quot;, &quot;string&quot;: &quot;interfaces {\nethernet eth1 {\naddress &#39;192.168.137.1/24&#39;\ndescription &#39;internal&#39;\n}\n}\n&quot;, &quot;confirm_time&quot;: 1}&#39; https://vyos/config-file
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Initialized commit-confirm; 1 minutes to confirm before reload\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>The committed changes will be reverted at the timeout unless confirmed.
+To confirm and keep the changes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>curl -k -X POST -d &#39;{&quot;key&quot;: &quot;MY-HTTPS-API-PLAINTEXT-KEY&quot;, &quot;op&quot;: &quot;confirm&quot;}&#39; https://vyos/config-file
+
+response:
+{
+   &quot;success&quot;: true,
+   &quot;data&quot;: &quot;Reload timer stopped\n&quot;,
+   &quot;error&quot;: null
+}
+</pre></div>
+</div>
+<p>If allowed to revert to the previous configuration, the manner in which
+changes are reverted is governed by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# set system config-management commit-confirm action
+Possible completions:
+   reload               Reload previous configuration if not confirmed
+   reboot               Reboot to saved configuration if not confirmed (default)
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -535,48 +749,7 @@ response:
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <head>
-      <style>
-          #branch-select-container {
-              position: fixed;
-              bottom: 10px;
-              right: 10px;
-              background-color: #f0f0f0;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-          }
-      </style>
-  </head>
-  <body>
-      <div id="branch-select-container">
-          <select id="branch-select">
-              <option value="sagitta">Sagitta</option>
-              <option value="circinus">Circinus</option>
-          </select>
-      </div>
-      <script>
-          // Define the branches
-          const branches = ['sagitta', 'circinus'];
-  
-          // Get the current branch name from the URL
-          const currentUrl = window.location.href;
-          const currentBranch = branches.find(branch => currentUrl.includes(branch));
-  
-          // Set the selected option in the dropdown
-          const branchSelect = document.getElementById('branch-select');
-          branchSelect.value = currentBranch;
-  
-          // Add an event listener to the dropdown
-          branchSelect.addEventListener('change', () => {
-              const newBranch = branchSelect.value;
-              const newUrl = currentUrl.replace(currentBranch, newBranch);
-              window.location.href = newUrl;
-          });
-      </script>
-  </body>
-
+  </script> 
 
 </body>
 </html>

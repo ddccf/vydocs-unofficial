@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  insertIframe()
 
   const options = {
     threshold: 0.01,
@@ -80,3 +81,11 @@ function determineHeightOfFooterContainer() {
     }
   })
 }
+
+function insertIframe() {
+  const body = $('.wy-body-for-nav')
+  body.append(divWithIframe)
+}
+
+const divWithIframe = `<div class="iframe-container">
+</div>`

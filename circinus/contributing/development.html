@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -8,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Development &mdash; VyOS 1.5.x (circinus) documentation</title>
       <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
     <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
-      <script src="../static/jquery.js?v=5d32c60e"></script>
-      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../static/documentation_options.js?v=719443cf"></script>
-      <script src="../static/doctools.js?v=9bcbadda"></script>
-      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../static/design-tabs.js?v=f930bc37"></script>
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=719443cf"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
     <script src="../static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -28,6 +30,7 @@
     <link rel="prev" title="Build VyOS" href="build-vyos.html" />
     <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
     <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
     <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
     <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
@@ -53,6 +56,47 @@
     <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
     </script>
 
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,6 +111,9 @@
             VyOS
               <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.5
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -107,7 +154,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#determinine-source-package">Determinine source package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fork-repository-and-submit-patch">Fork Repository and submit Patch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#attach-patch-to-phabricator-task">Attach patch to Phabricator task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attach-patch-to-phorge-task">Attach patch to Phorge task</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#coding-guidelines">Coding Guidelines</a><ul>
@@ -115,10 +162,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#text-generation">Text generation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#python">Python</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#configuration-script-structure-and-behaviour">Configuration Script Structure and Behaviour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#other-considerations-vyos-configd">Other considerations: vyos-configd</a></li>
 </ul>
@@ -130,11 +173,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#help-string">Help String</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#migrating-old-cli">Migrating old CLI</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#c-backend-code">C++ Backend Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
@@ -270,17 +311,10 @@ repositories found in the VyOS GitHub organisation at <a class="reference extern
 </section>
 <section id="determinine-source-package">
 <h3>Determinine source package<a class="headerlink" href="#determinine-source-package" title="Link to this heading"></a></h3>
-<p>Suppose you want to make a change in the webproxy script but yet you do not know
-which of the many VyOS packages ship this file. You can determine the VyOS
+<p>Suppose you want to make a change in a file but yet you do not know
+which of the VyOS packages ship this file. You can determine the VyOS
 package name in question by using Debian’s <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">-S</span></code> command of your running
 VyOS installation.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~ dpkg -S /opt/vyatta/sbin/vyatta-update-webproxy.pl
-vyatta-webproxy: /opt/vyatta/sbin/vyatta-update-webproxy.pl
-</pre></div>
-</div>
-<p>This means the file in question (<code class="docutils literal notranslate"><span class="pre">/opt/vyatta/sbin/vyatta-update-webproxy.pl</span></code>)
-is located in the <code class="docutils literal notranslate"><span class="pre">vyatta-webproxy</span></code> package which can be found here:
-<a class="reference external" href="https://github.com/vyos/vyatta-webproxy">https://github.com/vyos/vyatta-webproxy</a></p>
 </section>
 <section id="fork-repository-and-submit-patch">
 <h3>Fork Repository and submit Patch<a class="headerlink" href="#fork-repository-and-submit-patch" title="Link to this heading"></a></h3>
@@ -312,8 +346,8 @@ headline (read above) and don’t forget to reference the <a class="reference ex
 <li><p>Submit the patch <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> and create the GitHub pull-request.</p></li>
 </ul>
 </section>
-<section id="attach-patch-to-phabricator-task">
-<h3>Attach patch to Phabricator task<a class="headerlink" href="#attach-patch-to-phabricator-task" title="Link to this heading"></a></h3>
+<section id="attach-patch-to-phorge-task">
+<h3>Attach patch to Phorge task<a class="headerlink" href="#attach-patch-to-phorge-task" title="Link to this heading"></a></h3>
 <p>Follow the above steps on how to “Fork repository to submit a Patch”. Instead
 of uploading “pushing” your changes to GitHub you can export the patches/
 commits and send it to <a class="reference external" href="mailto:maintainers&#37;&#52;&#48;vyos&#46;net">maintainers<span>&#64;</span>vyos<span>&#46;</span>net</a> or attach it directly to the bug
@@ -331,8 +365,6 @@ The rules we have are not there to punish you - the rules are in place to help
 us all. By having a consistent coding style it becomes very easy for new
 and also longtime contributors to navigate through the sources and all the
 implied logic of any one source file..</p>
-<p>Python 3 <strong>shall</strong> be used. How long can we keep Python 2 alive anyway? No
-considerations for Python 2 compatibility <strong>should</strong> be taken at any time.</p>
 <section id="formatting">
 <h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -352,39 +384,9 @@ your indention levels correct. Add to following to your .vimrc file:
 string formatting <strong>may</strong> be used for simple line-oriented formats where every
 line is self-contained, such as iptables rules. Template processor <strong>must</strong> be
 used for structured, multi-line formats such as those used by ISC DHCPd.</p>
-<p>The default template processor for VyOS code is <a class="reference external" href="https://jinja.palletsprojects.com/">Jinja2</a>.</p>
+<p>The default template processor for VyOS code is <a href="#id2"><span class="problematic" id="id3">Jinja2_</span></a>.</p>
 </section>
 </section>
-<section id="summary">
-<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
-<p>When modifying the source code, remember these rules of the legacy elimination
-campaign:</p>
-<ul class="simple">
-<li><p>No new features in Perl</p></li>
-<li><p>No old style command definitions</p></li>
-<li><p>No code incompatible with Python3</p></li>
-</ul>
-</section>
-</section>
-<section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
-<p>The switch to the Python programming language for new code is not merely a
-change of the language, but a chance to rethink and improve the programming
-approach.</p>
-<p>Let’s face it: VyOS is full of spaghetti code where logic for reading the VyOS
-config, generating daemon configs, and restarting processes is all mixed up.</p>
-<p>Python (or any other language, for that matter) does not provide automatic
-protection from bad design, so we need to also devise design guidelines and
-follow them to keep the system extensible and maintainable.</p>
-<p>But we are here to assist you and want to guide you through how you can become
-a good VyOS contributor. The rules we have are not there to punish you - the
-rules are in place to help us all. What does it mean? By having a consistent
-coding style it becomes very easy for new contributors and also longtime
-contributors to navigate through the sources and all the implied logic of
-the spaghetti code.</p>
-<p>Please use the following template as good starting point when developing new
-modules or even rewrite a whole bunch of code in the new style XML/Python
-interface.</p>
 <section id="configuration-script-structure-and-behaviour">
 <h3>Configuration Script Structure and Behaviour<a class="headerlink" href="#configuration-script-structure-and-behaviour" title="Link to this heading"></a></h3>
 <p>Your configuration script or operation mode script which is also written in
@@ -499,7 +501,7 @@ bug reports, and help users (and most VyOS users are IT professionals) do their
 own debugging as well.</p>
 <p>For easy orientation we suggest you take a look on the <code class="docutils literal notranslate"><span class="pre">ntp.py</span></code> or
 <code class="docutils literal notranslate"><span class="pre">interfaces-bonding.py</span></code> (for tag nodes) implementation. Both files can be
-found in the <a class="reference external" href="https://github.com/vyos/vyos-1x/tree/current/schema">vyos-1x</a> repository.</p>
+found in the <a href="#id4"><span class="problematic" id="id5">vyos-1x_</span></a> repository.</p>
 </section>
 <section id="other-considerations-vyos-configd">
 <h3>Other considerations: vyos-configd<a class="headerlink" href="#other-considerations-vyos-configd" title="Link to this heading"></a></h3>
@@ -524,10 +526,10 @@ alternative mechanisms may be used).</p></li>
 Templates are text files (called <code class="docutils literal notranslate"><span class="pre">node.def</span></code>) stored in a directory tree. The
 directory names define the command names, and template files define the command
 behaviour. Before VyOS 1.2 (crux) this files were created by hand. After a
-complex redesign <a class="reference external" href="https://blog.vyos.io/vyos-development-digest-10">process</a> the new style template are automatically generated
+complex redesign <a href="#id6"><span class="problematic" id="id7">process_</span></a> the new style template are automatically generated
 from a XML input file.</p>
 <p>XML interface definitions for VyOS come with a RelaxNG schema and are located
-in the <a class="reference external" href="https://github.com/vyos/vyos-1x/tree/current/schema">vyos-1x</a> module. This schema is a slightly modified schema from <a class="reference external" href="https://github.com/vyos/vyconf/tree/master/data/schemata">VyConf</a>
+in the <a href="#id8"><span class="problematic" id="id9">vyos-1x_</span></a> module. This schema is a slightly modified schema from <a href="#id10"><span class="problematic" id="id11">VyConf_</span></a>
 alias VyOS 2.0 So VyOS 1.2.x interface definitions will be reusable in Nextgen
 VyOS Versions with very minimal changes.</p>
 <p>The great thing about schemas is not only that people can know the complete
@@ -630,10 +632,10 @@ duplicated code in areas such as:</p>
 <p>Instead of supplying all those XML nodes multiple times there are now include
 files with predefined features. Brief overview:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/address-ipv4-ipv6-dhcp.xml.i">IPv4, IPv6 and DHCP(v6)</a> address assignment</p></li>
-<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/address-ipv4-ipv6.xml.i">IPv4, IPv6</a> address assignment</p></li>
-<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/vif.xml.i">VLAN (VIF)</a> definition</p></li>
-<li><p><a class="reference external" href="https://github.com/vyos/vyos-1x/blob/current/interface-definitions/include/interface/mac.xml.i">MAC address</a> assignment</p></li>
+<li><p><a href="#id12"><span class="problematic" id="id13">`IPv4, IPv6 and DHCP(v6)`_</span></a> address assignment</p></li>
+<li><p><a href="#id14"><span class="problematic" id="id15">`IPv4, IPv6`_</span></a> address assignment</p></li>
+<li><p><a href="#id16"><span class="problematic" id="id17">`VLAN (VIF)`_</span></a> definition</p></li>
+<li><p><a href="#id18"><span class="problematic" id="id19">`MAC address`_</span></a> assignment</p></li>
 </ul>
 <p>All interface definition XML input files (.in suffix) will be sent to the GCC
 preprocess and the output is stored in the <cite>build/interface-definitions</cite>
@@ -730,93 +732,6 @@ perfectly justified wording.</p>
 </section>
 </section>
 </section>
-<section id="migrating-old-cli">
-<h3>Migrating old CLI<a class="headerlink" href="#migrating-old-cli" title="Link to this heading"></a></h3>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 25.0%" />
-<col style="width: 25.0%" />
-<col style="width: 50.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Old concept/syntax</p></th>
-<th class="head"><p>New syntax</p></th>
-<th class="head"><p>Notes</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>mynode/node.def</p></td>
-<td><p>&lt;node name=”mynode”&gt; &lt;/node&gt;</p></td>
-<td><p>Leaf nodes (nodes with values) use &lt;leafNode&gt; tag instead</p></td>
-</tr>
-<tr class="row-odd"><td><p>mynode/node.tag , tag:</p></td>
-<td><p>&lt;tagNode name=”mynode&gt; &lt;/node&gt;</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>help: My node</p></td>
-<td><p>&lt;properties&gt; &lt;help&gt;My node&lt;/help&gt;</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>val_help: &lt;format&gt;; some string</p></td>
-<td><p>&lt;properties&gt; &lt;valueHelp&gt; &lt;format&gt; format &lt;/format&gt; &lt;description&gt; some
-string &lt;/description&gt;</p></td>
-<td><p>Do not add angle brackets around the format, they will be inserted
-automatically</p></td>
-</tr>
-<tr class="row-even"><td><p>syntax:expression: pattern</p></td>
-<td><p>&lt;properties&gt; &lt;constraint&gt; &lt;regex&gt; …</p></td>
-<td><p>&lt;constraintErrorMessage&gt; will be displayed on failure</p></td>
-</tr>
-<tr class="row-odd"><td><p>syntax:expression: $VAR(&#64;) in “foo”, “bar”, “baz”</p></td>
-<td><p>None</p></td>
-<td><p>Use regex</p></td>
-</tr>
-<tr class="row-even"><td><p>syntax:expression: exec …</p></td>
-<td><p>&lt;properties&gt; &lt;constraint&gt; &lt;validator&gt; &lt;name =”foo” argument=”bar”&gt;</p></td>
-<td><p>“${vyos_libexecdir}/validators/foo bar $VAR(&#64;)” will be executed,
-&lt;constraintErrorMessage&gt; will be displayed on failure</p></td>
-</tr>
-<tr class="row-odd"><td><p>syntax:expression: (arithmetic expression)</p></td>
-<td><p>None</p></td>
-<td><p>External arithmetic validator may be added if there’s demand, complex
-validation is better left to commit-time scripts</p></td>
-</tr>
-<tr class="row-even"><td><p>priority: 999</p></td>
-<td><p>&lt;properties&gt; &lt;priority&gt;999&lt;/priority&gt;</p></td>
-<td><p>Please leave a comment explaining why the priority was chosen
-(e.g. “after interfaces are configured”)</p></td>
-</tr>
-<tr class="row-odd"><td><p>multi:</p></td>
-<td><p>&lt;properties&gt; &lt;multi/&gt;</p></td>
-<td><p>Only applicable to leaf nodes</p></td>
-</tr>
-<tr class="row-even"><td><p>allowed: echo foo bar</p></td>
-<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;list&gt; foo bar &lt;/list&gt;</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>allowed: cli-shell-api listNodes vpn ipsec esp-group</p></td>
-<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;path&gt; vpn ipsec esp-group &lt;/path&gt; …</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>allowed: /path/to/script</p></td>
-<td><p>&lt;properties&gt; &lt;completionHelp&gt; &lt;script&gt; /path/to/script &lt;/script&gt; …</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>default:</p></td>
-<td><p>None</p></td>
-<td><p>Move default values to scripts</p></td>
-</tr>
-<tr class="row-even"><td><p>commit:expression:</p></td>
-<td><p>None</p></td>
-<td><p>All commit time checks should be in the verify() function of the script</p></td>
-</tr>
-<tr class="row-odd"><td><p>begin:/create:/delete:</p></td>
-<td><p>None</p></td>
-<td><p>All logic should be in the scripts</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 </section>
 <section id="c-backend-code">
 <h2>C++ Backend Code<a class="headerlink" href="#c-backend-code" title="Link to this heading"></a></h2>
@@ -837,21 +752,6 @@ in the C/C++ code.</p>
 </ul>
 </li>
 </ul>
-</section>
-<section id="continuous-integration">
-<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link to this heading"></a></h2>
-<p>VyOS makes use of <a class="reference external" href="https://jenkins.io/">Jenkins</a> as our Continuous Integration (CI) service. Our
-<a class="reference external" href="https://ci.vyos.net">VyOS CI</a> server is publicly accessible here: <a class="reference external" href="https://ci.vyos.net">https://ci.vyos.net</a>. You can get
-a brief overview of all required components shipped in a VyOS ISO.</p>
-<p>To build our modules we utilize a CI/CD Pipeline script. Each and every VyOS
-component comes with it’s own <code class="docutils literal notranslate"><span class="pre">Jenkinsfile</span></code> which is (more or less) a copy.
-The Pipeline utilizes the Docker container from the <a class="reference internal" href="build-vyos.html#build-iso"><span class="std std-ref">Build ISO</span></a> section -
-but instead of building it from source on every run, we rather always fetch a
-fresh copy (if needed) from <a class="reference external" href="https://hub.docker.com/u/vyos/">Dockerhub</a>.</p>
-<p>Each module is build on demand if a new commit on the branch in question is
-found. After a successful run the resulting Debian Package(s) will be deployed
-to our Debian repository which is used during build time. It is located here:
-<a class="reference external" href="http://dev.packages.vyos.net/repositories/">http://dev.packages.vyos.net/repositories/</a>.</p>
 </section>
 </section>
 
@@ -883,48 +783,7 @@ to our Debian repository which is used during build time. It is located here:
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <head>
-      <style>
-          #branch-select-container {
-              position: fixed;
-              bottom: 10px;
-              right: 10px;
-              background-color: #f0f0f0;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-          }
-      </style>
-  </head>
-  <body>
-      <div id="branch-select-container">
-          <select id="branch-select">
-              <option value="sagitta">Sagitta</option>
-              <option value="circinus">Circinus</option>
-          </select>
-      </div>
-      <script>
-          // Define the branches
-          const branches = ['sagitta', 'circinus'];
-  
-          // Get the current branch name from the URL
-          const currentUrl = window.location.href;
-          const currentBranch = branches.find(branch => currentUrl.includes(branch));
-  
-          // Set the selected option in the dropdown
-          const branchSelect = document.getElementById('branch-select');
-          branchSelect.value = currentBranch;
-  
-          // Add an event listener to the dropdown
-          branchSelect.addEventListener('change', () => {
-              const newBranch = branchSelect.value;
-              const newUrl = currentUrl.replace(currentBranch, newBranch);
-              window.location.href = newUrl;
-          });
-      </script>
-  </body>
-
+  </script> 
 
 </body>
 </html>

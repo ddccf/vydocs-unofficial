@@ -7,7 +7,7 @@ VPN
    :maxdepth: 1
    :includehidden:
 
-   ipsec
+   ipsec/index
    l2tp
    openconnect
    pptp
@@ -22,5 +22,3 @@ pages to sort
    :includehidden:
 
    dmvpn
-   site2site_ipsec
-   remoteaccess_ipsec

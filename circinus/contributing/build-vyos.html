@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -8,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Build VyOS &mdash; VyOS 1.5.x (circinus) documentation</title>
       <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
     <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
-      <script src="../static/jquery.js?v=5d32c60e"></script>
-      <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../static/documentation_options.js?v=719443cf"></script>
-      <script src="../static/doctools.js?v=9bcbadda"></script>
-      <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../static/design-tabs.js?v=f930bc37"></script>
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=719443cf"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
     <script src="../static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -28,6 +30,7 @@
     <link rel="prev" title="OpenVPN with LDAP" href="../configexamples/autotest/OpenVPN_with_LDAP/OpenVPN_with_LDAP.html" />
     <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
     <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
     <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
     <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
@@ -53,6 +56,47 @@
     <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
     </script>
 
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,6 +111,9 @@
             VyOS
               <img src="../static/vyos-logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.5
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -120,11 +167,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#packages">Packages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#virtualization-platforms">Virtualization Platforms</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#qemu">QEMU</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#vmware">VMware</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#build-packages">Packages</a><ul>
@@ -181,63 +223,32 @@ is the easiest way as all dependencies are managed for you. However, you can
 also set up your own build machine and run a <a class="reference internal" href="#build-native"><span class="std std-ref">Native Build</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Starting with VyOS 1.2 the release model of VyOS has changed. VyOS
-is now <strong>free as in speech, but not as in beer</strong>. This means that while
-VyOS is still an open source project, the release ISOs are no longer free
-and can only be obtained via subscription, or by contributing to the
-community.</p>
-<p>The source code remains public and an ISO can be built using the process
-outlined in this chapter.</p>
-<p>The following includes the build process for VyOS 1.2 to the latest version.</p>
+<p>Starting with VyOS 1.4, only source code and Debian package repositories
+of the rolling release (the <strong>current</strong> branch) are publicly available.</p>
+<p>The source code and pre-built Debian package repositories of LTS releases
+are only available to subscription holders (customers and active community members
+with contributors subscriptions).</p>
+<p>The following includes the build process for VyOS rolling release.</p>
 </div>
 <p>This will guide you through the process of building a VyOS ISO using <a class="reference external" href="https://docs.docker.com/engine/install/debian/">Docker</a>.
-This process has been tested on clean installs of Debian Jessie, Stretch, and
-Buster.</p>
+This process has been tested on clean installs of Debian Bookworm.</p>
 <section id="native-build">
 <span id="build-native"></span><h3>Native Build<a class="headerlink" href="#native-build" title="Link to this heading"></a></h3>
-<p>To build VyOS natively you require a properly configured build host with the
+<p>To build VyOS natively you need a properly configured build host with the
 following Debian versions installed:</p>
 <ul class="simple">
-<li><p>Debian Jessie for VyOS 1.2 (crux)</p></li>
-<li><p>Debian Buster for VyOS 1.3 (equuleus)</p></li>
-<li><p>Debian Bookworm for VyOS 1.4 (sagitta)</p></li>
-<li><p>Debian Bookworm for the upcoming VyOS 1.5/circinus/current
-(subject to change) - aka the rolling release</p></li>
+<li><p>Debian Bookworm</p></li>
 </ul>
 <p>To start, clone the repository to your local machine:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For VyOS 1.2 (crux)
-$ git clone -b crux --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.3 (equuleus)
-$ git clone -b equuleus --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.4 (sagitta)
-$ git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.5 (circinus,current)
-$ git clone -b current --single-branch https://github.com/vyos/vyos-build
-
-$ cd vyos-build
-
-# For VyOS 1.2 (crux) and VyOS 1.3 (equuleus)
-$ ./configure --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
-$ sudo make iso
-
-# For VyOS 1.4 (sagitta)
-$ sudo make clean
-$ sudo ./build-vyos-image iso --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
-
-# For VyOS 1.5 (circinus,current)
-$ sudo make clean
-$ sudo ./build-vyos-image generic --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo make clean
+$ sudo ./build-vyos-image --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot; generic
 </pre></div>
 </div>
 <p>For the packages required, you can refer to the <code class="docutils literal notranslate"><span class="pre">docker/Dockerfile</span></code> file
 in the <a class="reference external" href="https://github.com/vyos/vyos-build">repository</a>. The <code class="docutils literal notranslate"><span class="pre">./build-vyos-image</span></code> script will also warn you if any
 dependencies are missing.</p>
 <p>This will guide you through the process of building a VyOS ISO using Docker.
-This process has been tested on clean installs of Debian Bullseye (11) and
-Bookworm (12).</p>
+This process has been tested on clean installs of Bookworm (12).</p>
 </section>
 <section id="docker">
 <span id="build-docker"></span><h3>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h3>
@@ -290,30 +301,17 @@ after pushing to the vyos-build repository).</p>
 <section id="dockerhub">
 <h5>Dockerhub<a class="headerlink" href="#dockerhub" title="Link to this heading"></a></h5>
 <p>To manually download the container from DockerHub, run:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ docker pull vyos/vyos-build:crux     # For VyOS 1.2
-$ docker pull vyos/vyos-build:equuleus # For VyOS 1.3
-$ docker pull vyos/vyos-build:sagitta  # For VyOS 1.4
-$ docker pull vyos/vyos-build:current  # For VyOS 1.5 rolling release
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ docker pull vyos/vyos-build:current  # For VyOS rolling release
 </pre></div>
 </div>
 </section>
 <section id="build-from-source">
 <h5>Build from source<a class="headerlink" href="#build-from-source" title="Link to this heading"></a></h5>
 <p>The container can also be built directly from source:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For VyOS 1.2 (crux)
-$ git clone -b crux --single-branch https://github.com/vyos/vyos-build
-# For VyOS 1.3 (equuleus)
-$ git clone -b equuleus --single-branch https://github.com/vyos/vyos-build
-# For VyOS 1.4 (sagitta)
-$ git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
-# For VyOS 1.5 (circinus,current)
-$ git clone -b current --single-branch https://github.com/vyos/vyos-build
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone -b current --single-branch https://github.com/vyos/vyos-build
 
 $ cd vyos-build
-$ docker build -t vyos/vyos-build:crux docker           # For VyOS 1.2
-$ docker build -t vyos/vyos-build:equuleus docker       # For VyOS 1.3
-$ docker build -t vyos/vyos-build:sagitta docker        # For VyOS 1.4
-$ docker build -t vyos/vyos-build:current docker        # For VyOS 1.5 rolling release
+$ docker build -t vyos/vyos-build:current docker
 </pre></div>
 </div>
 <div class="admonition note">
@@ -327,7 +325,7 @@ Docker Hub image to build VyOS ISO.</p>
 <section id="tips-and-tricks">
 <h4>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Link to this heading"></a></h4>
 <p>You can create yourself some handy Bash aliases to always launch the latest -
-per release train (<cite>current</cite> or <cite>crux</cite>) - container. Add the following to your
+per release train (<cite>current</cite>) - container. Add the following to your
 <code class="docutils literal notranslate"><span class="pre">.bash_aliases</span></code> file:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>alias vybld=&#39;docker pull vyos/vyos-build:current &amp;&amp; docker run --rm -it \
     -v &quot;$(pwd)&quot;:/vyos \
@@ -337,18 +335,9 @@ per release train (<cite>current</cite> or <cite>crux</cite>) - container. Add t
     -w /vyos --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 \
     -e GOSU_UID=$(id -u) -e GOSU_GID=$(id -g) \
     vyos/vyos-build:current bash&#39;
-
-alias vybld_crux=&#39;docker pull vyos/vyos-build:crux &amp;&amp; docker run --rm -it \
-    -v &quot;$(pwd)&quot;:/vyos \
-    -v &quot;$HOME/.gitconfig&quot;:/etc/gitconfig \
-    -v &quot;$HOME/.bash_aliases&quot;:/home/vyos_bld/.bash_aliases \
-    -v &quot;$HOME/.bashrc&quot;:/home/vyos_bld/.bashrc \
-    -w /vyos --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 \
-    -e GOSU_UID=$(id -u) -e GOSU_GID=$(id -g) \
-    vyos/vyos-build:crux bash&#39;
 </pre></div>
 </div>
-<p>Now you are prepared with two new aliases <code class="docutils literal notranslate"><span class="pre">vybld</span></code> and <code class="docutils literal notranslate"><span class="pre">vybld_crux</span></code> to spawn
+<p>Now you are prepared with a new aliase <code class="docutils literal notranslate"><span class="pre">vybld</span></code> to spawn
 your development containers in your current working directory.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -366,73 +355,26 @@ fail.</p>
 <section id="build-iso">
 <span id="id1"></span><h2>Build ISO<a class="headerlink" href="#build-iso" title="Link to this heading"></a></h2>
 <p>Now as you are aware of the prerequisites we can continue and build our own
-ISO from source. For this we have to fetch the latest source code from GitHub.
-Please note as this will differ for both <cite>current</cite> and <cite>crux</cite>.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For VyOS 1.2 (crux)
-$ git clone -b crux --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.3 (equuleus)
-$ git clone -b equuleus --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.4 (sagitta)
-$ git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
-
-# For VyOS 1.5 (circinus,current)
-$ git clone -b current --single-branch https://github.com/vyos/vyos-build
+ISO from source. For this we have to fetch the latest source code from GitHub.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone -b current --single-branch https://github.com/vyos/vyos-build
 </pre></div>
 </div>
 <p>Now a fresh build of the VyOS ISO can begin. Change directory to the
 <code class="docutils literal notranslate"><span class="pre">vyos-build</span></code> directory and run:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build
-# For VyOS 1.2 (crux)
-$ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:crux bash
-
-# For VyOS 1.3 (equuleus)
-$ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:equuleus bash
-
-# For VyOS 1.4 (sagitta)
-$ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:sagitta bash
-
-# For VyOS 1.5 (current)
 $ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:current bash
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For MacOS (crux, equuleus, sagitta)
-$ git clone https://github.com/vyos/vyos-utils-misc
-$ cd build-tools/macos-build
-
-# For VyOS 1.2 (crux)
-$ os=jessie64 branch=crux make build
-
-# For VyOS 1.3 (equuleus)
-$ os=buster64 branch=equuleus make build
-
-# For VyOS 1.4 (sagitta)
-$ os=buster64 branch=sagitta make build
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Start the build:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For VyOS 1.2 (crux) and VyOS 1.3 (equuleus)
-vyos_bld@8153428c7e1f:/vyos$ ./configure --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
-vyos_bld@8153428c7e1f:/vyos$ sudo make iso
-
-# For VyOS 1.4 (sagitta)
-vyos_bld@8153428c7e1f:/vyos$ sudo make clean
-vyos_bld@8153428c7e1f:/vyos$ sudo ./build-vyos-image iso --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
-
-# For VyOS 1.5 (circinus,current)
-vyos_bld@8153428c7e1f:/vyos$ sudo make clean
-vyos_bld@8153428c7e1f:/vyos$ sudo ./build-vyos-image generic --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos_bld@8153428c7e1f:/vyos$ sudo make clean
+vyos_bld@8153428c7e1f:/vyos$ sudo ./build-vyos-image --architecture amd64 --build-by &quot;j.randomhacker@vyos.io&quot; generic
 </pre></div>
 </div>
 <p>When the build is successful, the resulting iso can be found inside the
 <code class="docutils literal notranslate"><span class="pre">build</span></code> directory as <code class="docutils literal notranslate"><span class="pre">live-image-[architecture].hybrid.iso</span></code>.</p>
-<p>Good luck!</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>Building VyOS on Windows WSL2 with Docker integrated into WSL2 will
-work like a charm. No problems are known so far!</p>
-</div>
 <section id="customize">
 <span id="build-source"></span><span id="id2"></span><h3>Customize<a class="headerlink" href="#customize" title="Link to this heading"></a></h3>
 <p>This ISO can be customized with the following list of configure options.
@@ -826,33 +768,6 @@ I: Cleanup qat source
 binaries in <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel</span></code> from which you can copy them
 to the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code> folder for inclusion during the ISO build.</p>
 </section>
-<section id="mellanox-ofed">
-<h5>Mellanox OFED<a class="headerlink" href="#mellanox-ofed" title="Link to this heading"></a></h5>
-<p>The Mellanox OFED drivers do not come from a Git repository, instead we fetch the
-tarball from Nvidia and compile the sources its contains against our kernel tree.</p>
-<p>Simply use our wrapper script to build all of the driver modules.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./build-mellanox-ofed.sh
-...
-Below is the list of OFED packages that you have chosen
-(some may have been added by the installer due to package dependencies):
-
-ofed-scripts
-mlnx-tools
-mlnx-ofed-kernel-utils
-mlnx-ofed-kernel-modules
-...
-Building packages
-Building DEB for ofed-scripts-24.04.OFED.24.04.0.6.6 (ofed-scripts)...
-Running  /usr/bin/dpkg-buildpackage -us -uc
-Installing ofed-scripts-24.04.OFED.24.04.0.6.6...
-Running /usr/bin/dpkg -i --force-confmiss &#39;/vyos/packages/linux-kernel/MLNX_OFED_SRC-debian-24.04-0.6.6.0/DEBS/debian12.1/x86_64/ofed-scripts_24.04.OFED.24.04.0.6.6-1_amd64.deb&#39;
-Building DEB for mlnx-tools-24.04.0 (mlnx-tools)...
-</pre></div>
-</div>
-<p>After compiling the packages you will find yourself the newly generated <cite>*.deb</cite>
-binaries in <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel</span></code> from which you can copy them
-to the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code> folder for inclusion during the ISO build.</p>
-</section>
 </section>
 </section>
 <section id="packages">
@@ -889,23 +804,6 @@ during ISO build.</p>
 </pre></div>
 </div>
 </section>
-<section id="virtualization-platforms">
-<h3>Virtualization Platforms<a class="headerlink" href="#virtualization-platforms" title="Link to this heading"></a></h3>
-<section id="qemu">
-<h4>QEMU<a class="headerlink" href="#qemu" title="Link to this heading"></a></h4>
-<p>Run the following command after building the ISO image.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make qemu
-</pre></div>
-</div>
-</section>
-<section id="vmware">
-<h4>VMware<a class="headerlink" href="#vmware" title="Link to this heading"></a></h4>
-<p>Run the following command after building the QEMU image.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make vmware
-</pre></div>
-</div>
-</section>
-</section>
 </section>
 <section id="build-packages">
 <span id="id4"></span><h2>Packages<a class="headerlink" href="#build-packages" title="Link to this heading"></a></h2>
@@ -918,7 +816,7 @@ a custom Debian (<cite>*.deb</cite>) package.</p>
 all VyOS related packages.</p>
 <p>Assume we want to build the vyos-1x package on our own and modify it to our
 needs. We first need to clone the repository from GitHub.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/vyos/vyos-1x
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone --recurse-submodules https://github.com/vyos/vyos-1x
 </pre></div>
 </div>
 <section id="id5">
@@ -998,48 +896,7 @@ from purely upstream packages.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <head>
-      <style>
-          #branch-select-container {
-              position: fixed;
-              bottom: 10px;
-              right: 10px;
-              background-color: #f0f0f0;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-          }
-      </style>
-  </head>
-  <body>
-      <div id="branch-select-container">
-          <select id="branch-select">
-              <option value="sagitta">Sagitta</option>
-              <option value="circinus">Circinus</option>
-          </select>
-      </div>
-      <script>
-          // Define the branches
-          const branches = ['sagitta', 'circinus'];
-  
-          // Get the current branch name from the URL
-          const currentUrl = window.location.href;
-          const currentBranch = branches.find(branch => currentUrl.includes(branch));
-  
-          // Set the selected option in the dropdown
-          const branchSelect = document.getElementById('branch-select');
-          branchSelect.value = currentBranch;
-  
-          // Add an event listener to the dropdown
-          branchSelect.addEventListener('change', () => {
-              const newBranch = branchSelect.value;
-              const newUrl = currentUrl.replace(currentBranch, newBranch);
-              window.location.href = newUrl;
-          });
-      </script>
-  </body>
-
+  </script> 
 
 </body>
 </html>

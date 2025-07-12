@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
@@ -8,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login/User Management &mdash; VyOS 1.5.x (circinus) documentation</title>
       <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../../static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
     <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
-      <script src="../../static/jquery.js?v=5d32c60e"></script>
-      <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../static/documentation_options.js?v=719443cf"></script>
-      <script src="../../static/doctools.js?v=9bcbadda"></script>
-      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../../static/design-tabs.js?v=f930bc37"></script>
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=719443cf"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
     <script src="../../static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -28,6 +30,7 @@
     <link rel="prev" title="System Display (LCD)" href="lcd.html" />
     <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
     <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
     <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
@@ -53,6 +56,47 @@
     <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
     </script>
 
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,6 +111,9 @@
             VyOS
               <img src="../../static/vyos-logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.5
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -219,6 +266,16 @@ set system login user &lt;name&gt; authentication encrypted-password &lt;passwor
 <a class="cmdlink" href="#cfgcmd-set-system-login-user-name-authentication-encrypted-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Setup encrypted password for given username. This is useful for
 transferring a hashed password from system to system.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-login-user-name-authentication-principal-principal">
+set system login user &lt;name&gt; authentication principal &lt;principal&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-user-name-authentication-principal-principal" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>When using SSH certificate based authentication, define which principals are
+alled to use this account.</p>
+<p>If unset, the principal will be set to the login name of the user bz default.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
@@ -538,9 +595,9 @@ found in large deployments.</p>
 <span id="id1"></span><h3>Configuration<a class="headerlink" href="#tacacs-configuration" title="Link to this heading"></a></h3>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-key-secret">
-set system login tacas server &lt;address&gt; key &lt;secret&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-server-address-key-secret">
+set system login tacacs server &lt;address&gt; key &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-server-address-key-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Specify the IP <cite>&lt;address&gt;</cite> of the TACACS server user with the pre-shared-secret
 given in <cite>&lt;secret&gt;</cite>.</p>
 <p>Multiple servers can be specified.</p>
@@ -548,34 +605,34 @@ given in <cite>&lt;secret&gt;</cite>.</p>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-port-port">
-set system login tacas server &lt;address&gt; port &lt;port&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-server-address-port-port">
+set system login tacacs server &lt;address&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-server-address-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Configure the discrete port under which the TACACS server can be reached.</p>
 <p>This defaults to 49.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-disable">
-set system login tacas server &lt;address&gt; disable</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-server-address-disable">
+set system login tacacs server &lt;address&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-server-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Temporary disable this TACACS server. It won’t be queried.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-server-address-timeout-timeout">
-set system login tacas server &lt;address&gt; timeout &lt;timeout&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-server-address-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-server-address-timeout-timeout">
+set system login tacacs server &lt;address&gt; timeout &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-server-address-timeout-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Setup the <cite>&lt;timeout&gt;</cite> in seconds when querying the TACACS server.</p>
 </div>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-source-address-address">
-set system login tacas source-address &lt;address&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-source-address-address">
+set system login tacacs source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>TACACS servers could be hardened by only allowing certain IP addresses to
 connect. As of this the source address of each TACACS query can be
 configured.</p>
@@ -586,9 +643,9 @@ e.g. OSPF networks when a link fails and a backup route is taken.</p>
 </div>
 <div class="cmd cmd-cfg">
 <div class="cfgcmd-heading">
-<span class="cfgcmd" id="cfgcmd-set-system-login-tacas-vrf-name">
-set system login tacas vrf &lt;name&gt;</span>
-<a class="cmdlink" href="#cfgcmd-set-system-login-tacas-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<span class="cfgcmd" id="cfgcmd-set-system-login-tacacs-vrf-name">
+set system login tacacs vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-login-tacacs-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
 <p>Source all connections to the TACACS servers from given VRF <cite>&lt;name&gt;</cite>.</p>
 </div>
 </div>
@@ -728,48 +785,7 @@ from the <code class="docutils literal notranslate"><span class="pre">lfkeitel/t
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <head>
-      <style>
-          #branch-select-container {
-              position: fixed;
-              bottom: 10px;
-              right: 10px;
-              background-color: #f0f0f0;
-              padding: 5px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-          }
-      </style>
-  </head>
-  <body>
-      <div id="branch-select-container">
-          <select id="branch-select">
-              <option value="sagitta">Sagitta</option>
-              <option value="circinus">Circinus</option>
-          </select>
-      </div>
-      <script>
-          // Define the branches
-          const branches = ['sagitta', 'circinus'];
-  
-          // Get the current branch name from the URL
-          const currentUrl = window.location.href;
-          const currentBranch = branches.find(branch => currentUrl.includes(branch));
-  
-          // Set the selected option in the dropdown
-          const branchSelect = document.getElementById('branch-select');
-          branchSelect.value = currentBranch;
-  
-          // Add an event listener to the dropdown
-          branchSelect.addEventListener('change', () => {
-              const newBranch = branchSelect.value;
-              const newUrl = currentUrl.replace(currentBranch, newBranch);
-              window.location.href = newUrl;
-          });
-      </script>
-  </body>
-
+  </script> 
 
 </body>
 </html>
