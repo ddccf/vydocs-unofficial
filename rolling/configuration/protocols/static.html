@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Static routing allows network administrators to manually configure fixed paths for traffic to reach specific destinations. " name="description" />
+<meta content="static route, ipv4, ipv6, next-hop, blackhole, reject, bfd" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Static &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/protocols/static.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Service" href="../service/index.html" />
+    <link rel="prev" title="RPKI" href="rpki.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="traffic-engineering.html">Traffic Engineering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIMv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Static</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ipv4-unicast-routes">IPv4 unicast routes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ipv6-unicast-routes">IPv6 unicast routes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alternate-routing-tables">Alternate routing tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">Static</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/protocols/static.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="static">
+<span id="routing-static"></span><h1>Static<a class="headerlink" href="#static" title="Link to this heading"></a></h1>
+<p>Static routes are manually configured entries in the router’s <abbr title="Routing Information Base">RIB</abbr>
+that define how traffic should reach specific destinations. Unlike dynamic
+routing protocols, static routes are not automatically updated when the network
+topology changes.</p>
+<p>Static routes are best suited for simple network topologies or to override
+dynamic routing protocol behavior for a limited number of routes.</p>
+<p>The <abbr title="Routing Information Base">RIB</abbr> stores all routing information,
+including manually configured static routes and any dynamically learned routes.
+From the <abbr title="Routing Information Base">RIB</abbr>, the router derives unicast
+routes to build the <abbr title="Forwarding Information Base">FIB</abbr>.</p>
+<section id="ipv4-unicast-routes">
+<h2>IPv4 unicast routes<a class="headerlink" href="#ipv4-unicast-routes" title="Link to this heading"></a></h2>
+<p>IPv4 unicast routes direct traffic destined for a single IPv4 host or subnet
+toward a specific next hop. Use the following commands to configure IPv4
+unicast routes for a specific remote subnet.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the next-hop IP address for the specified subnet.</strong></p>
+<p>You can configure multiple next-hop IP addresses for the same destination
+subnet.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-disable">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the route via the specified next-hop IP address.</strong></p>
+<p>This command temporarily deactivates the route while preserving the
+configured subnet, next-hop, and distance parameters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254 disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-distance-distance">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the route via the specified
+next-hop IP address.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255. The default distance is 1.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Routes with a distance of 255 are disabled and not used for packet
+forwarding.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254 distance 10
+</pre></div>
+</div>
+<section id="ipv4-interface-routes">
+<h3>IPv4 interface routes<a class="headerlink" href="#ipv4-interface-routes" title="Link to this heading"></a></h3>
+<p>IPv4 interface routes direct traffic destined for a single IPv4 host or subnet
+out of a specific local interface. Use the following commands to configure IPv4
+interface routes for a specific remote subnet.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-interface-interface">
+set protocols static route &lt;subnet&gt; interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the next-hop interface for the specified subnet.</strong></p>
+<p>You can configure multiple next-hop interfaces for the same destination
+subnet.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-interface-interface-disable">
+set protocols static route &lt;subnet&gt; interface &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-interface-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the route via the specified next-hop interface.</strong></p>
+<p>This command temporarily deactivates the route while preserving the
+configured subnet, interface, and distance parameters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 interface eth0 disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-interface-interface-distance-distance">
+set protocols static route &lt;subnet&gt; interface &lt;interface&gt; distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-interface-interface-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the route via the specified
+next-hop interface.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255. The default distance is 1.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 interface eth0 distance 10
+</pre></div>
+</div>
+</section>
+<section id="ipv4-bfd">
+<h3>IPv4 BFD<a class="headerlink" href="#ipv4-bfd" title="Link to this heading"></a></h3>
+<p><abbr title="Bidirectional Forwarding Detection">BFD</abbr> monitors the reachability
+of a static route’s next-hop IP address. Use the following commands to
+configure <abbr title="Bidirectional Forwarding Detection">BFD</abbr> parameters for your
+IPv4 static routes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable BFD monitoring for the route via the specified next-hop IP address.</strong></p>
+<p>The system uses the next-hop IP address as the BFD peer destination.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254 bfd
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-profile-profile">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; bfd profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Apply the settings from a designated BFD profile to the BFD session that monitors
+the specified next-hop IP address.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254 bfd profile custom-profile
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-multi-hop-source-address-source-address">
+set protocols static route &lt;subnet&gt; next-hop &lt;address&gt; bfd multi-hop source-address &lt;source-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-next-hop-address-bfd-multi-hop-source-address-source-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable a multi-hop BFD session to monitor the reachability of the
+specified next-hop IP address.</strong></p>
+<p>The system initiates the BFD session from the specified local source IPv4
+address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 next-hop 10.0.0.254 bfd multi-hop source-address 172.16.1.1
+</pre></div>
+</div>
+</section>
+<section id="dhcp-interface-routes">
+<h3>DHCP interface routes<a class="headerlink" href="#dhcp-interface-routes" title="Link to this heading"></a></h3>
+<p>DHCP interface routes direct traffic destined for a single IPv4 host or subnet
+toward a next-hop gateway obtained from a DHCP-enabled interface. Use the
+following command to configure DHCP interface routes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-dhcp-interface-interface">
+set protocols static route &lt;subnet&gt; dhcp-interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-dhcp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a static route that derives its next-hop IP address from
+the specified DHCP-enabled interface.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 dhcp-interface eth0
+</pre></div>
+</div>
+</section>
+<section id="ipv4-reject-routes">
+<h3>IPv4 reject routes<a class="headerlink" href="#ipv4-reject-routes" title="Link to this heading"></a></h3>
+<p>IPv4 reject routes explicitly drop traffic destined for a single IPv4 host or
+subnet and return an ICMP unreachable message to the sending device. Use the
+following commands to configure IPv4 reject routes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-reject">
+set protocols static route &lt;subnet&gt; reject</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-reject" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a reject route for the specified subnet.</strong></p>
+<p>The system discards traffic destined for this subnet and returns an ICMP
+destination unreachable message to the sending device.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 reject
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-reject-distance-distance">
+set protocols static route &lt;subnet&gt; reject distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-reject-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the reject route.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 reject distance 200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-reject-tag-tag">
+set protocols static route &lt;subnet&gt; reject tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-reject-tag-tag" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a numeric tag for the reject route.</strong></p>
+<p>The allowed range is 1 to 4294967295.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 192.0.2.0/24 reject tag 100
+</pre></div>
+</div>
+</section>
+<section id="ipv4-blackhole-routes">
+<h3>IPv4 blackhole routes<a class="headerlink" href="#ipv4-blackhole-routes" title="Link to this heading"></a></h3>
+<p>Blackhole routes silently discard traffic destined for a specific subnet.
+Unlike a reject route, which notifies the sender with an ICMP destination
+unreachable message, a blackhole route drops the packets without generating
+any response.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-blackhole">
+set protocols static route &lt;subnet&gt; blackhole</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-blackhole" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a blackhole route for the specified subnet.</strong></p>
+<p>The system silently discards matching packets without sending an ICMP
+response to the source.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.0.0.0/8 blackhole
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-blackhole-distance-distance">
+set protocols static route &lt;subnet&gt; blackhole distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-blackhole-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the blackhole route.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.0.0.0/8 blackhole distance 200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route-subnet-blackhole-tag-tag">
+set protocols static route &lt;subnet&gt; blackhole tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route-subnet-blackhole-tag-tag" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a numeric tag for the blackhole route.</strong></p>
+<p>The allowed range is 1 to 4294967295.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 10.0.0.0/8 blackhole tag 100
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ipv6-unicast-routes">
+<h2>IPv6 unicast routes<a class="headerlink" href="#ipv6-unicast-routes" title="Link to this heading"></a></h2>
+<p>IPv6 unicast routes direct traffic destined for a single IPv6 host or subnet
+toward a specific next hop. Use the following commands to configure IPv6
+unicast routes for a specific remote subnet.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the next-hop IPv6 address for the specified subnet.</strong></p>
+<p>You can configure multiple next-hop IPv6 addresses for the same destination
+subnet.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-disable">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the route via the specified next-hop IPv6 address.</strong></p>
+<p>This command temporarily deactivates the route while preserving the
+configured subnet, next-hop, and distance parameters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1 disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-distance-distance">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the route via the
+specified next-hop IPv6 address.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255. The default distance is 1.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Routes with a distance of 255 are disabled and not used for packet
+forwarding.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1 distance 10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-segments-segments">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; segments &lt;segments&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-segments-segments" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an IPv6 unicast route that utilizes Segment Routing over IPv6 (SRv6)
+to reach the destination subnet.</strong></p>
+<p>Use a forward slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) to separate multiple IPv6 segment identifiers
+(SIDs) in your sequence.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1000::/36 next-hop 2001:db8:201::ffff segments '2001:db8:aaaa::7/2002::4/2002::3/2002::2'
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ipv6 route
+Codes: K - kernel route, C - connected, S - static, R - RIPng,
+       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+       v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+ C&gt;* 2001:db8:201::/64 is directly connected, eth0.201, 00:00:46
+ S&gt;* 2001:db8:1000::/36 [1/0] via 2001:db8:201::ffff, eth0.201, seg6 2001:db8:aaaa::7,2002::4,2002::3,2002::2, weight 1, 00:00:08
+</pre></div>
+</div>
+<section id="ipv6-interface-routes">
+<h3>IPv6 interface routes<a class="headerlink" href="#ipv6-interface-routes" title="Link to this heading"></a></h3>
+<p>IPv6 interface routes direct traffic destined for a single IPv6 host or subnet
+out of a specific local interface. Use the following commands to configure IPv6
+interface routes for a specific remote subnet.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-interface-interface">
+set protocols static route6 &lt;subnet&gt; interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the next-hop interface for the specified subnet.</strong></p>
+<p>You can configure multiple next-hop interfaces for the same destination
+subnet.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-interface-interface-disable">
+set protocols static route6 &lt;subnet&gt; interface &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-interface-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the route via the specified next-hop interface.</strong></p>
+<p>This command temporarily deactivates the route while preserving the
+configured subnet, interface, and distance parameters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 interface eth0 disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-interface-interface-distance-distance">
+set protocols static route6 &lt;subnet&gt; interface &lt;interface&gt; distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-interface-interface-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the route via the
+specified next-hop interface.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255. The default distance is 1.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 interface eth0 distance 10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-interface-interface-segments-segments">
+set protocols static route6 &lt;subnet&gt; interface &lt;interface&gt; segments &lt;segments&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-interface-interface-segments-segments" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an IPv6 interface route that utilizes Segment Routing over IPv6
+(SRv6) to reach a destination subnet.</strong></p>
+<p>Use a forward slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) to separate multiple IPv6 segment identifiers
+(SIDs) in your sequence.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1000::/36 interface eth0 segments '2001:db8:aaaa::7/2002::4/2002::3/2002::2'
+</pre></div>
+</div>
+</section>
+<section id="ipv6-bfd">
+<h3>IPv6 BFD<a class="headerlink" href="#ipv6-bfd" title="Link to this heading"></a></h3>
+<p><abbr title="Bidirectional Forwarding Detection">BFD</abbr> monitors the reachability
+of a static route’s next-hop IPv6 address. Use the following commands to
+configure <abbr title="Bidirectional Forwarding Detection">BFD</abbr> parameters for your
+IPv6 static routes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; bfd</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable BFD monitoring for the route via the specified next-hop IPv6
+address.</strong></p>
+<p>The system uses the next-hop IPv6 address as the BFD peer destination.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1 bfd
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-profile-profile">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; bfd profile &lt;profile&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-profile-profile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Apply the settings from a designated BFD profile to the BFD session
+that monitors the specified next-hop IPv6 address.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1 bfd profile custom-profile
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-multi-hop-source-address-source-address">
+set protocols static route6 &lt;subnet&gt; next-hop &lt;address&gt; bfd multi-hop source-address &lt;source-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-next-hop-address-bfd-multi-hop-source-address-source-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable a multi-hop BFD session to monitor the reachability of the
+specified next-hop IPv6 address.</strong></p>
+<p>The system initiates the BFD session from the specified local source IPv6
+address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 next-hop 2001:db8:100::1 bfd multi-hop source-address 2001:db8:200::1
+</pre></div>
+</div>
+</section>
+<section id="ipv6-reject-routes">
+<h3>IPv6 reject routes<a class="headerlink" href="#ipv6-reject-routes" title="Link to this heading"></a></h3>
+<p>IPv6 reject routes explicitly drop traffic destined for a single IPv6 host or
+subnet and return an ICMPv6 unreachable message to the sending device. Use the
+following commands to configure IPv6 reject routes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-reject">
+set protocols static route6 &lt;subnet&gt; reject</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-reject" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a reject route for the specified subnet.</strong></p>
+<p>The system discards traffic destined for this subnet and returns an ICMPv6
+destination unreachable message to the sending device.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 reject
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-reject-distance-distance">
+set protocols static route6 &lt;subnet&gt; reject distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-reject-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the reject route.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 reject distance 200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-reject-tag-tag">
+set protocols static route6 &lt;subnet&gt; reject tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-reject-tag-tag" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a numeric tag for the reject route.</strong></p>
+<p>The allowed range is 1 to 4294967295.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 reject tag 100
+</pre></div>
+</div>
+</section>
+<section id="ipv6-blackhole-routes">
+<h3>IPv6 blackhole routes<a class="headerlink" href="#ipv6-blackhole-routes" title="Link to this heading"></a></h3>
+<p>Blackhole routes silently discard traffic destined for a specific subnet.
+Unlike a reject route, which notifies the sender with an ICMPv6 destination
+unreachable message, a blackhole route drops the packets without generating
+any response.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-blackhole">
+set protocols static route6 &lt;subnet&gt; blackhole</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-blackhole" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a blackhole route for the specified subnet.</strong></p>
+<p>The system silently discards matching packets without sending an ICMPv6
+response to the source.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 blackhole
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-blackhole-distance-distance">
+set protocols static route6 &lt;subnet&gt; blackhole distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-blackhole-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the administrative distance for the blackhole route.</strong></p>
+<p>Routes with a lower administrative distance are prioritized over routes with
+a higher distance.</p>
+<p>The allowed range is 1 to 255.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 blackhole distance 200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-static-route6-subnet-blackhole-tag-tag">
+set protocols static route6 &lt;subnet&gt; blackhole tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-static-route6-subnet-blackhole-tag-tag" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a numeric tag for the blackhole route.</strong></p>
+<p>The allowed range is 1 to 4294967295.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route6 2001:db8:1::/64 blackhole tag 100
+</pre></div>
+</div>
+</section>
+</section>
+<section id="alternate-routing-tables">
+<h2>Alternate routing tables<a class="headerlink" href="#alternate-routing-tables" title="Link to this heading"></a></h2>
+<p>Alternate routing tables are utilized to implement both Policy-Based Routing
+(PBR) and Virtual Routing and Forwarding (<a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rpki.html" class="btn btn-neutral float-left" title="RPKI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../service/index.html" class="btn btn-neutral float-right" title="Service" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

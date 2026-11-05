@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VyOS Configuration for VPP &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/dataplane/system.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP Dataplane Buffers Configuration" href="buffers.html" />
+    <link rel="prev" title="VPP Dataplane Core Configuration" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">VPP Dataplane Core Configuration</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VyOS Configuration for VPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="buffers.html">VPP Dataplane Buffers Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu.html">VPP Dataplane CPU Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interface.html">VPP Dataplane Interfaces Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv6.html">VPP IPv6 Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="l2learn.html">VPP L2LEARN Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lcp.html">VPP LCP Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="logging.html">VPP Logging Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="memory.html">VPP Memory Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unix.html">VPP Unix Dataplane Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/index.html">VPP Interfaces Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nat/index.html">VPP NAT Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Configuration</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Dataplane Core Configuration</a></li>
+      <li class="breadcrumb-item active">VyOS Configuration for VPP</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/dataplane/system.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-system">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vyos-configuration-for-vpp">
+<h1>VyOS Configuration for VPP<a class="headerlink" href="#vyos-configuration-for-vpp" title="Link to this heading"></a></h1>
+<section id="hugepages">
+<span id="vpp-config-hugepages"></span><h2>Hugepages<a class="headerlink" href="#hugepages" title="Link to this heading"></a></h2>
+<p>VPP uses hugepages for efficient memory management. Hugepages are larger
+memory pages that reduce the overhead of page management and improve
+performance for applications that require large amounts of memory.</p>
+<p>Hugepages can be configured in VyOS using the following commands:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Changes to hugepage settings require a system reboot to take effect.</p>
+<p>Hugepages must be enabled before VPP configuration is applied.</p>
+</div>
+<p>To enable hugepages:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-memory-hugepage-size-size-hugepage-count-count">
+set system option kernel memory hugepage-size &lt;size&gt; hugepage-count ‘&lt;count&gt;’</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-memory-hugepage-size-size-hugepage-count-count" title="Permalink to this Command"></a></div></div>
+<p>Enables hugepages with the specified size and count. The size can be either
+2MB or 1GB, and the count specifies the number of hugepages to allocate.</p>
+<p>If your system has multiple NUMA nodes, the total amount of hugepages will be
+divided equally among them.</p>
+</section>
+<section id="resources-limits">
+<h2>Resources Limits<a class="headerlink" href="#resources-limits" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, system will calculate and set the recommended values for
+resource limits. Avoid tuning these values if you are not sure what you
+are doing.</p>
+</div>
+<p>During operations VPP utilizes a significant amount of system resources,
+especially memory. There are two main settings that may need to be
+adjusted to ensure VPP runs smoothly:</p>
+<p>Maximum number of memory map areas a process may have:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-resource-limits-max-map-count-value">
+set system option resource-limits max-map-count &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-resource-limits-max-map-count-value" title="Permalink to this Command"></a></div></div>
+<p>Maximum shared memory segment size:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-resource-limits-shmmax-value">
+set system option resource-limits shmmax &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-resource-limits-shmmax-value" title="Permalink to this Command"></a></div></div>
+<p>Both settings are automatically calculated based on configured hugepages.</p>
+</section>
+<section id="kernel-tuning">
+<h2>Kernel Tuning<a class="headerlink" href="#kernel-tuning" title="Link to this heading"></a></h2>
+<p>VPP performance greatly benefits from proper kernel tuning, especially
+CPU isolation and disabling unnecessary kernel features. These
+optimizations ensure dedicated CPU cores are available exclusively for
+VPP dataplane processing without interference from the kernel scheduler
+or other system processes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Kernel tuning changes require a system reboot to take effect.</p>
+<p>Improper CPU isolation can lead to system instability if essential
+system processes are starved of CPU resources.</p>
+</div>
+<section id="cpu-isolation-and-optimization">
+<h3>CPU Isolation and Optimization<a class="headerlink" href="#cpu-isolation-and-optimization" title="Link to this heading"></a></h3>
+<p>CPU isolation is crucial for VPP performance as it dedicates specific
+CPU cores exclusively to VPP dataplane processing. The isolated cores are
+removed from the kernel scheduler and will not run regular system
+processes.</p>
+<p><strong>Disable NMI Watchdog</strong></p>
+<p>The NMI (Non-Maskable Interrupt) watchdog can interfere with VPP
+performance by generating interrupts on isolated cores and is not
+compatible with nohz-full mode:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-cpu-disable-nmi-watchdog">
+set system option kernel cpu disable-nmi-watchdog</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-cpu-disable-nmi-watchdog" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables the NMI watchdog for detecting hard CPU lockups. This
+prevents unnecessary interrupts on VPP worker cores.</p>
+</div>
+</div>
+<p><strong>CPU Core Isolation</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-cpu-isolate-cpus-cpu-range">
+set system option kernel cpu isolate-cpus &lt;cpu-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-cpu-isolate-cpus-cpu-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Isolates specified CPUs from the kernel scheduler. Isolated cores will
+not run regular system processes and are dedicated to applications like
+VPP.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;cpu-range&gt;</span></code> can be:</p>
+<ul class="simple">
+<li><p>Single core: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+<li><p>Range: <code class="docutils literal notranslate"><span class="pre">2-5</span></code></p></li>
+<li><p>Mixed: <code class="docutils literal notranslate"><span class="pre">1,3-5,7</span></code></p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Always reserve at least 2 cores for the operating system to ensure
+system stability. For example, on a 4-core system, isolate cores
+2-3 for VPP and leave cores 0-1 for the OS.</p>
+<p>Assign the first isolated core as the VPP main core and the
+remaining isolated cores as VPP worker cores. Ensure that VPP CPU
+assignments match the isolated CPU range.</p>
+</div>
+</div>
+</div>
+<p><strong>Adaptive-Tick Mode</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-cpu-nohz-full-cpu-range">
+set system option kernel cpu nohz-full &lt;cpu-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-cpu-nohz-full-cpu-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables adaptive-tick mode (NO_HZ_FULL) for specified CPUs. This
+causes the kernel to avoid sending scheduling-clock interrupts to CPUs
+that have only one runnable task, significantly reducing interrupt
+overhead for dedicated workloads like VPP.</p>
+<p>Use the same CPU range as configured for <code class="docutils literal notranslate"><span class="pre">isolate-cpus</span></code>.</p>
+</div>
+</div>
+<p><strong>RCU Callback Offloading</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-cpu-rcu-no-cbs-cpu-range">
+set system option kernel cpu rcu-no-cbs &lt;cpu-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-cpu-rcu-no-cbs-cpu-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Offloads Read-Copy-Update (RCU) callback processing from specified
+CPUs. This ensures that RCU callbacks do not prevent the specified CPUs
+from entering dyntick-idle or adaptive-tick mode, which is essential
+for nohz-full functionality.</p>
+<p>Use the same CPU range as configured for <code class="docutils literal notranslate"><span class="pre">isolate-cpus</span></code>.</p>
+</div>
+</div>
+</section>
+<section id="system-optimization">
+<h3>System Optimization<a class="headerlink" href="#system-optimization" title="Link to this heading"></a></h3>
+<p>Additional kernel optimizations can further improve VPP performance by
+disabling unnecessary features and reducing system overhead.</p>
+<p><strong>Disable High Precision Event Timer</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-disable-hpet">
+set system option kernel disable-hpet</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-disable-hpet" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables the High Precision Event Timer (HPET). HPET can cause
+additional interrupts and overhead that may impact VPP performance.</p>
+</div>
+</div>
+<p><strong>Disable Machine Check Exceptions</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-disable-mce">
+set system option kernel disable-mce</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-disable-mce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables Machine Check Exception (MCE) reporting and handling. While
+MCE provides hardware error detection, it can introduce latency in
+high-performance scenarios.</p>
+</div>
+</div>
+<p><strong>Disable CPU Power Saving</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-disable-power-saving">
+set system option kernel disable-power-saving</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-disable-power-saving" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables CPU power saving mechanisms (C-states). This keeps CPU cores
+at maximum performance levels, eliminating latency from power state
+transitions.</p>
+</div>
+</div>
+<p><strong>Disable Soft Lockup Detection</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-disable-softlockup">
+set system option kernel disable-softlockup</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-disable-softlockup" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables the soft lockup detector for kernel threads. This prevents
+false positives when VPP worker threads are busy processing packets.</p>
+</div>
+</div>
+<p><strong>Disable CPU Mitigations</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-option-kernel-disable-mitigations">
+set system option kernel disable-mitigations</span>
+<a class="cmdlink" href="#cfgcmd-set-system-option-kernel-disable-mitigations" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disables all optional CPU mitigations for security vulnerabilities
+(for example, Spectre, Meltdown). This may improve performance on some
+platforms.</p>
+</div>
+</div>
+</section>
+<section id="optimal-configuration-example">
+<span id="vpp-config-setup-order"></span><h3>Optimal Configuration Example<a class="headerlink" href="#optimal-configuration-example" title="Link to this heading"></a></h3>
+<p>For a system with 4 CPU cores (0-3) where cores 2-3 are dedicated to VPP.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Kernel options and VPP settings <strong>cannot be applied in the same commit</strong>.</p>
+<p>Everything under <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">option</span> <span class="pre">kernel</span></code> only takes effect after a reboot,
+while the VPP configuration is validated against the <em>running</em> kernel. VPP is
+also committed before <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">option</span></code>, so within a single commit the kernel
+options are never in place yet and the VPP part is rejected.</p>
+<p>Configure the kernel options first, save, reboot, and only then configure VPP.</p>
+</div>
+<p><strong>Step 1 — kernel options</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Kernel CPU optimizations
+set system option kernel cpu disable-nmi-watchdog
+set system option kernel cpu isolate-cpus '2-3'
+set system option kernel cpu nohz-full '2-3'
+set system option kernel cpu rcu-no-cbs '2-3'
+
+# Hugepages
+set system option kernel memory hugepage-size 2M hugepage-count '2048'
+
+# System optimizations
+set system option kernel disable-hpet
+set system option kernel disable-mce
+set system option kernel disable-power-saving
+set system option kernel disable-softlockup
+</pre></div>
+</div>
+<p>Commit, save and reboot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>commit
+save
+exit
+reboot
+</pre></div>
+</div>
+<p><strong>Step 2 — VPP configuration, after the reboot</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># VPP CPU assignment
+set vpp settings resource-allocation cpu-cores '2'
+
+# Interfaces to attach to the dataplane
+set vpp settings interface eth0
+set vpp settings interface eth1
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>commit
+save
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the VPP part is committed too early, the commit fails with a message such
+as <code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">enough</span> <span class="pre">free</span> <span class="pre">memory</span> <span class="pre">to</span> <span class="pre">start</span> <span class="pre">VPP!</span></code> or <code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">enough</span> <span class="pre">isolated</span> <span class="pre">CPU</span> <span class="pre">cores</span> <span class="pre">available</span></code>, both of which point back at <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">option</span> <span class="pre">kernel</span> <span class="pre">...</span></code>. That
+means the reboot from step 1 has not happened yet.</p>
+<p>Note that such a commit is <em>partial</em>: the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">option</span> <span class="pre">kernel</span></code> part is still
+applied even though the commit is reported as failed. The <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vpp</span> <span class="pre">...</span></code>
+statements stay in the configuration session, but they are neither applied nor
+written by <code class="docutils literal notranslate"><span class="pre">save</span></code>, which writes the <em>running</em> configuration. They are lost on
+the reboot and have to be entered again.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="VPP Dataplane Core Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="buffers.html" class="btn btn-neutral float-right" title="VPP Dataplane Buffers Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

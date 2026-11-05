@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/installation/install.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Virtual Environments" href="virtual/index.html" />
+    <link rel="prev" title="Installation and Image Management" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation and Image Management</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-requirements">Hardware requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download">Download</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#registered-subscribers">Registered Subscribers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building-from-source">Building from source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rolling-release">Rolling Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-verification">Download Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#live-installation">Live installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permanent-installation">Permanent installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pxe-boot">PXE Boot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client-boot">Client Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#black-screen-on-install">Black screen on install</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="virtual/index.html">Virtual Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud/index.html">Cloud Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bare-metal.html">Bare Metal Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">Update VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secure-boot.html">Secure Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Installation and Image Management</a></li>
+      <li class="breadcrumb-item active">Installation</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/installation/install.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>VyOS installation requires a VyOS .iso file. This file is a live installation
+image that you can use to boot a live VyOS system. From there, you can proceed
+with a permanent installation on a hard drive or other storage device.</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Comparison of VyOS image releases</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.5%" />
+<col style="width: 29.2%" />
+<col style="width: 12.5%" />
+<col style="width: 20.8%" />
+<col style="width: 12.5%" />
+<col style="width: 12.5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Release Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Release Cycle</p></th>
+<th class="head"><p>Intended Use</p></th>
+<th class="head"><p>Access to Images</p></th>
+<th class="head"><p>Access to Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nightly (Current)</p></td>
+<td><p>Automatically built from the <code class="docutils literal notranslate"><span class="pre">rolling</span></code> branch. Always up to date
+with cutting edge development but guaranteed to contain bugs.</p></td>
+<td><p>Every night</p></td>
+<td><p>Developing VyOS, testing new features, experimenting.</p></td>
+<td><p>Everyone</p></td>
+<td><p>Everyone</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stream</p></td>
+<td><p>VyOS Stream serves as a technology preview and a quality gate
+for the upcoming LTS release. Allows everyone to try new features
+and check if they work well or need improvements.</p></td>
+<td><p>Every quarter</p></td>
+<td><p>Non-critical production environments, preparing for the LTS
+release.</p></td>
+<td><p>Everyone</p></td>
+<td><p>Everyone</p></td>
+</tr>
+<tr class="row-even"><td><p>Release Candidate</p></td>
+<td><p>Rather stable. All development focuses on testing and hunting
+down remaining bugs following the feature freeze.</p></td>
+<td><p>Irregularly until EPA comes out</p></td>
+<td><p>Labs, small offices and non-critical production systems backed
+by a high-availability setup.</p></td>
+<td><p>Everyone</p></td>
+<td><p>Everyone</p></td>
+</tr>
+<tr class="row-odd"><td><p>Early Production Access</p></td>
+<td><p>Highly stable with no known bugs. Needs to be tested repeatedly
+under different conditions before it can become the final
+release.</p></td>
+<td><p>Irregularly until LTS comes out</p></td>
+<td><p>Non-critical production environments, preparing for the LTS
+release.</p></td>
+<td><p>Everyone</p></td>
+<td><p>Everyone</p></td>
+</tr>
+<tr class="row-even"><td><p>Long-Term Support</p></td>
+<td><p>Guaranteed to be stable and carefully maintained for several
+years after the release. No features are introduced but security
+updates are released in a timely manner.</p></td>
+<td><p>Every major version</p></td>
+<td><p>Large-scale enterprise networks, internet service providers,
+critical production environments that call for minimum downtime.</p></td>
+<td><p>Subscribers, contributors, non-profits, emergency services,
+academic institutions</p></td>
+<td><p>Subscribers, contributors, non-profits, emergency services,
+academic institutions</p></td>
+</tr>
+</tbody>
+</table>
+<section id="hardware-requirements">
+<h2>Hardware requirements<a class="headerlink" href="#hardware-requirements" title="Link to this heading"></a></h2>
+<p>The minimum system requirements for VyOS are 4 GB RAM and 10 GB storage.
+Depending on your use case, you might need additional RAM and CPU resources.</p>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Link to this heading"></a></h2>
+<section id="registered-subscribers">
+<h3>Registered Subscribers<a class="headerlink" href="#registered-subscribers" title="Link to this heading"></a></h3>
+<p>Registered subscribers can log into <a class="reference external" href="https://support.vyos.io/">https://support.vyos.io/</a> to access
+a variety of different downloads via the “Downloads” link. These
+downloads include LTS (Long-Term Support), the associated hot-fix releases,
+early public access releases, pre-built VM images, as well as device
+specific installation ISOs.</p>
+<figure class="align-default">
+<img alt="../images/vyosnew-downloads.webp" src="../images/vyosnew-downloads.webp" />
+</figure>
+</section>
+<section id="building-from-source">
+<h3>Building from source<a class="headerlink" href="#building-from-source" title="Link to this heading"></a></h3>
+<p>Subscribers can download the source code for the LTS release from the
+“Downloads” link. Non-subscribers can access the source code for the
+Rolling release. For instructions, see the <a class="reference internal" href="../contributing/build-vyos.html#build"><span class="std std-ref">Build VyOS</span></a> section. The
+VyOS source code repository is available at
+<a class="reference external" href="https://github.com/vyos/vyos-build">https://github.com/vyos/vyos-build</a>.</p>
+</section>
+<section id="rolling-release">
+<h3>Rolling Release<a class="headerlink" href="#rolling-release" title="Link to this heading"></a></h3>
+<p>Everyone can download bleeding-edge VyOS rolling images from:
+<a class="reference external" href="https://downloads.vyos.io/">https://downloads.vyos.io/</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Rolling releases contain the latest enhancements and fixes.
+This means there may be new bugs. If you encounter a bug, follow the
+guide at <a class="reference internal" href="../contributing/issues-features.html#bug-report"><span class="std std-ref">Bug Report/Issue</span></a>. We depend on your feedback to improve VyOS.</p>
+</div>
+<p>The following link contains the most recent VyOS builds for AMD64
+systems from the <code class="docutils literal notranslate"><span class="pre">rolling</span></code> branch: <a class="reference external" href="https://vyos.net/get/nightly-builds/">https://vyos.net/get/nightly-builds/</a></p>
+</section>
+<section id="download-verification">
+<h3>Download Verification<a class="headerlink" href="#download-verification" title="Link to this heading"></a></h3>
+<p>LTS images are signed with the VyOS lead package maintainer’s private key.
+You can verify the authenticity of the package using the official public key
+and Minisign.</p>
+<section id="minisign-verification">
+<span id="id2"></span><h4>Minisign verification<a class="headerlink" href="#minisign-verification" title="Link to this heading"></a></h4>
+<p>VyOS signs its release images with <a class="reference external" href="https://github.com/jedisct1/minisign">minisign</a>,</p>
+<p>a portable Ed25519-based signing tool available for Linux, macOS, and
+Windows. Minisign uses the same signature format as OpenBSD’s signify,
+introduced in 2014.</p>
+<p>All <strong>VyOS rolling (nightly) images</strong> are signed with the following key:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>RWSIhkR/dkM2DSaBRniv/bbbAf8hmDqdbOEmgXkf1RxRoxzodgKcDyGq
+</pre></div>
+</div>
+<p>This key is also published in the</p>
+<p><a class="reference external" href="https://github.com/vyos/vyos-nightly-build/blob/rolling/minisign.pub">vyos-nightly-build</a></p>
+<p>repository.</p>
+<p>To verify a downloaded rolling image, place the image and its <code class="docutils literal notranslate"><span class="pre">.minisig</span></code>
+signature file in the same directory, and run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ minisign -V -P RWSIhkR/dkM2DSaBRniv/bbbAf8hmDqdbOEmgXkf1RxRoxzodgKcDyGq -m vyos-1.x-rolling-YYYYMMDDHHMM-generic-amd64.iso
+Signature and comment signature verified
+Trusted comment: timestamp:&lt;unix_ts&gt;    file:vyos-1.x-rolling-YYYYMMDDHHMM-generic-amd64.iso    hashed
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><abbr title="Long-Term Support">LTS</abbr> release images are signed with a
+<strong>different key</strong>. If you are verifying an LTS image, see the Minisign
+verification section in the LTS installation documentation for the
+correct key and example.</p>
+</div>
+<p>When you upgrade using <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">system</span> <span class="pre">image</span></code>, VyOS verifies the downloaded
+image’s minisign signature before installation, using the <strong>signing keys</strong>
+installed on the system. The <strong>release signing key</strong>, which signs LTS images,
+is present on every system, but the <strong>rolling signing key</strong>, which signs
+rolling images, was added only in VyOS 1.4. A pre-1.4 system therefore
+cannot verify a rolling image.</p>
+<p>To add the <strong>rolling signing key</strong> to such systems, upgrade them to LTS
+version 1.4 or later, and then proceed with installing a recent rolling
+image.</p>
+</section>
+</section>
+</section>
+<section id="live-installation">
+<span id="id3"></span><h2>Live installation<a class="headerlink" href="#live-installation" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To permanently install VyOS, you must first complete a live
+installation.</p>
+</div>
+<p>You can test VyOS without installing it on your hard drive. <strong>Using your
+downloaded VyOS .iso file, you can create a bootable USB drive to boot
+into a fully functional VyOS system</strong>. After testing it, you can start a
+<a class="reference internal" href="#permanent-installation"><span class="std std-ref">Permanent installation</span></a> on your hard drive or power off your system
+and remove the USB drive.</p>
+<p>If you have a GNU/Linux system, you can create a bootable VyOS USB drive using
+the <code class="docutils literal notranslate"><span class="pre">dd</span></code> command:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open your terminal emulator.</p></li>
+<li><p>Find the device name of your USB drive (use the <code class="docutils literal notranslate"><span class="pre">lsblk</span></code> command).</p></li>
+<li><p>Unmount the USB drive. Replace <code class="docutils literal notranslate"><span class="pre">X</span></code> with your device letter and keep the
+asterisk (*) to unmount all partitions.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ umount /dev/sdX*
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Write the image (your VyOS .iso file) to the USB drive. Use the device
+name (for example, <code class="docutils literal notranslate"><span class="pre">/dev/sdb</span></code>), not the partition name
+(for example, <code class="docutils literal notranslate"><span class="pre">/dev/sdb1</span></code>).</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Warning</strong>: This will destroy all data on the USB drive!</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># dd if=/path/to/vyos.iso of=/dev/sdX bs=8M; sync
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Wait for the operation to complete (bytes copied). On some systems, this
+may take more than one minute.</p></li>
+<li><p>Once <code class="docutils literal notranslate"><span class="pre">dd</span></code> has finished, pull the USB drive out and plug it into
+the powered-off computer where you want to install (or test) VyOS.</p></li>
+<li><p>Power on the computer and ensure it boots from the USB drive
+(you may need to select the boot device or change boot settings).</p></li>
+<li><p>When VyOS finishes loading, sign in using the default credentials
+(login: <code class="docutils literal notranslate"><span class="pre">vyos</span></code>, password: <code class="docutils literal notranslate"><span class="pre">vyos</span></code>).</p></li>
+</ol>
+</div></blockquote>
+<p>If you encounter issues with this method, prefer a different operating
+system, or want a GUI program, you can use other tools to create a
+bootable USB drive, such as <a class="reference external" href="https://www.balena.io/etcher/">balenaEtcher</a> (GNU/Linux, macOS, and Windows),
+<a class="reference external" href="https://rufus.ie/">Rufus</a> (Windows), and <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_tools_to_create_Live_USB_systems">many others</a>. Follow their instructions to create
+a bootable USB drive from an <code class="docutils literal notranslate"><span class="pre">.iso</span></code> file.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The default username and password for the live system is <em>vyos</em>.</p>
+</div>
+</section>
+<section id="permanent-installation">
+<span id="id4"></span><h2>Permanent installation<a class="headerlink" href="#permanent-installation" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before a permanent installation, VyOS requires a
+<a class="reference internal" href="#live-installation"><span class="std std-ref">Live installation</span></a>.</p>
+</div>
+<p>Unlike general-purpose Linux distributions, VyOS uses “image installation”,
+which mimics the user experience of traditional hardware routers and allows
+you to keep multiple VyOS versions installed simultaneously. This lets you
+switch to a previous version if something breaks or misbehaves after an
+image upgrade.</p>
+<p>Each version is contained in its own squashfs image mounted in a union
+filesystem along with a directory for mutable data such as configurations,
+keys, and custom scripts.</p>
+<p>In order to proceed with a permanent installation:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Sign in to the VyOS live system using the default credentials
+(login: <code class="docutils literal notranslate"><span class="pre">vyos</span></code>, password: <code class="docutils literal notranslate"><span class="pre">vyos</span></code>).</p></li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">image</span></code> command and follow the wizard:</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ install image
+Welcome to VyOS installation!
+This command will install VyOS to your permanent storage.
+Would you like to continue? [y/N] y
+What would you like to name this image? (Default: 2025.09.17-0018-rolling)
+Please enter a password for the "vyos" user:
+Please confirm password for the "vyos" user:
+What console should be used by default? (K: KVM, S: Serial)? (Default: S)
+Probing disks
+1 disk(s) found
+The following disks were found:
+Drive: /dev/vda (10.0 GB)
+Which one should be used for installation? (Default: /dev/vda)
+Installation will delete all data on the drive. Continue? [y/N] y
+Searching for data from previous installations
+No previous installation found
+Would you like to use all the free space on the drive? [Y/n] Y
+Creating partition table...
+The following config files are available for boot:
+        1: /opt/vyatta/etc/config/config.boot
+        2: /opt/vyatta/etc/config.boot.default
+Which file would you like as boot config? (Default: 1)
+Creating temporary directories
+Mounting new partitions
+Creating a configuration file
+Copying system image files
+Installing GRUB configuration files
+Installing GRUB to the drive
+Cleaning up
+Unmounting target filesystems
+Removing temporary files
+The image installed successfully; please reboot now.
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>After installation completes, remove the live USB drive or CD.</p></li>
+<li><p>Reboot the system.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ reboot
+Proceed with reboot? (Yes/No) [No] Yes
+</pre></div>
+</div>
+<p>You will boot now into a permanent VyOS system.</p>
+</div></blockquote>
+</section>
+<section id="pxe-boot">
+<h2>PXE Boot<a class="headerlink" href="#pxe-boot" title="Link to this heading"></a></h2>
+<p>You can also install VyOS using PXE, a more complex installation method that
+allows you to deploy VyOS over the network.</p>
+<p><strong>Requirements</strong></p>
+<ul class="simple">
+<li><p>A machine (client) with a PXE-enabled NIC.</p></li>
+<li><p><a class="reference internal" href="../configuration/service/dhcp-server.html#dhcp-server"><span class="std std-ref">DHCP Server</span></a></p></li>
+<li><p><a class="reference internal" href="../configuration/service/tftp-server.html#tftp-server"><span class="std std-ref">TFTP server</span></a></p></li>
+<li><p>Webserver (HTTP). Optional, but speeds up installation.</p></li>
+<li><p>VyOS ISO image (do not use images prior to VyOS <code class="docutils literal notranslate"><span class="pre">1.2.3</span></code>).</p></li>
+<li><p>Files <em>pxelinux.0</em> and <em>ldlinux.c32</em> from the
+<a class="reference external" href="https://kernel.org/pub/linux/utils/boot/syslinux/">Syslinux distribution</a>.</p></li>
+</ul>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<section id="step-1-dhcp">
+<h4>Step 1: DHCP<a class="headerlink" href="#step-1-dhcp" title="Link to this heading"></a></h4>
+<p>Configure a DHCP server to provide the client with:</p>
+<ul class="simple">
+<li><p>An IP address</p></li>
+<li><p>The TFTP server address (DHCP option 66), sometimes referred to as the
+<em>boot server</em></p></li>
+<li><p>The <em>bootfile name</em> (DHCP option 67): <em>pxelinux.0</em></p></li>
+</ul>
+<p>In this example we configured an existent VyOS as the DHCP server:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show service dhcp-server
+ shared-network-name mydhcp {
+     subnet 192.168.1.0/24 {
+         option {
+             bootfile-name pxelinux.0
+             bootfile-server 192.168.1.50
+             default-router 192.168.1.50
+         }
+         range 0 {
+             start 192.168.1.70
+             stop 192.168.1.100
+         }
+         subnet-id 1
+     }
+ }
+</pre></div>
+</div>
+</section>
+<section id="step-2-tftp">
+<span id="install-from-tftp"></span><h4>Step 2: TFTP<a class="headerlink" href="#step-2-tftp" title="Link to this heading"></a></h4>
+<p>Configure a TFTP server to serve the following:</p>
+<ul class="simple">
+<li><p>The <em>pxelinux.0</em> file from the Syslinux distribution</p></li>
+<li><p>The <em>ldlinux.c32</em> file from the Syslinux distribution</p></li>
+<li><p>The VyOS kernel you want to deploy (<em>vmlinuz</em> file from the
+<em>/live</em> directory in the extracted ISO file)</p></li>
+<li><p>The VyOS initial ramdisk (<em>initrd.img</em> file from the <em>/live</em> directory
+in the extracted ISO file). Do not use an empty (0 bytes) initrd.img
+file; the correct file may have a longer name.</p></li>
+<li><p>A directory named <em>pxelinux.cfg</em> containing the configuration file.
+By default, the VyOS configuration file is named <a class="reference external" href="https://wiki.syslinux.org/wiki/index.php?title=PXELINUX#Configuration">default</a>.</p></li>
+</ul>
+<p>In the example you configured your existent VyOS as the TFTP server too:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show service tftp-server
+ directory /config/tftpboot
+ listen-address 192.168.1.50
+</pre></div>
+</div>
+<p>Example of the contents of the TFTP server:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# ls -hal /config/tftpboot/
+total 29M
+drwxr-sr-x 3 tftp tftp      4.0K Oct 14 00:23 .
+drwxrwsr-x 9 root vyattacfg 4.0K Oct 18 00:05 ..
+-r--r--r-- 1 root vyattacfg  25M Oct 13 23:24 initrd.img-4.19.54-amd64-vyos
+-rwxr-xr-x 1 root vyattacfg 120K Oct 13 23:44 ldlinux.c32
+-rw-r--r-- 1 root vyattacfg  46K Oct 13 23:24 pxelinux.0
+drwxr-xr-x 2 root vyattacfg 4.0K Oct 14 01:10 pxelinux.cfg
+-r--r--r-- 1 root vyattacfg 3.7M Oct 13 23:24 vmlinuz
+
+vyos@vyos# ls -hal /config/tftpboot/pxelinux.cfg
+total 12K
+drwxr-xr-x 2 root vyattacfg 4.0K Oct 14 01:10 .
+drwxr-sr-x 3 tftp tftp      4.0K Oct 14 00:23 ..
+-rw-r--r-- 1 root root       191 Oct 14 01:10 default
+</pre></div>
+</div>
+<p>Example of simple (no menu) configuration file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# cat /config/tftpboot/pxelinux.cfg/default
+DEFAULT VyOS123
+
+LABEL VyOS123
+ KERNEL vmlinuz
+ APPEND initrd=initrd.img-4.19.54-amd64-vyos boot=live nopersistence noautologin nonetworking fetch=http://address:8000/filesystem.squashfs
+</pre></div>
+</div>
+</section>
+<section id="step-3-http">
+<h4>Step 3: HTTP<a class="headerlink" href="#step-3-http" title="Link to this heading"></a></h4>
+<p>You also need to provide the <em>filesystem.squashfs</em> file. Because this is a
+large file and TFTP is slow, you can send it through HTTP to speed up the
+transfer. In our example, we do this—see the configuration file above.</p>
+<ol class="arabic simple">
+<li><p>Start a web server. You can use one like
+<a class="reference external" href="https://docs.python.org/2/library/simplehttpserver.html">Python’s SimpleHTTPServer</a> to serve the <code class="docutils literal notranslate"><span class="pre">filesystem.squashfs</span></code> file.
+The file is in the <code class="docutils literal notranslate"><span class="pre">/live</span></code> directory of the extracted ISO file.</p></li>
+<li><p>Edit the <a class="reference internal" href="#install-from-tftp"><span class="std std-ref">Step 2: TFTP</span></a> configuration file to show the correct
+URL: <code class="docutils literal notranslate"><span class="pre">fetch=http://&lt;address_of_your_HTTP_server&gt;/filesystem.squashfs</span></code>.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not rename the <em>filesystem.squashfs</em> file. If you’re working with
+different versions, create different directories instead.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>restart the TFTP service. If you’re using VyOS as your TFTP server, restart
+the service with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">tftpd-hpa</span> <span class="pre">restart</span></code>.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ensure the directories and files on both the TFTP and HTTP servers
+have the correct permissions for the booting clients to access them.</p>
+</div>
+</section>
+</section>
+<section id="client-boot">
+<h3>Client Boot<a class="headerlink" href="#client-boot" title="Link to this heading"></a></h3>
+<p>Finally, power on your PXE-enabled clients. They will automatically receive an
+IP address from the DHCP server and boot into VyOS live using files from the
+TFTP and HTTP servers.</p>
+<p>Once finished you will be able to proceed with the <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">image</span></code>
+command as in a regular VyOS installation.</p>
+</section>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Link to this heading"></a></h2>
+<p>This is a list of known issues that can arise during installation.</p>
+<section id="black-screen-on-install">
+<h3>Black screen on install<a class="headerlink" href="#black-screen-on-install" title="Link to this heading"></a></h3>
+<p>GRUB redirects all output to a serial port to facilitate installation
+on headless hosts. On some hardware that lacks a serial port, this causes
+a hard lockup and displays a black screen after you select the
+<code class="docutils literal notranslate"><span class="pre">Live</span> <span class="pre">system</span></code> option from the installation image.</p>
+<p>The workaround is to press <code class="docutils literal notranslate"><span class="pre">e</span></code> when the boot menu appears and edit the
+GRUB boot options. Specifically, remove the:</p>
+<p><code class="docutils literal notranslate"><span class="pre">console=ttyS0,115200</span></code></p>
+<p>option, and type CTRL-X to boot.</p>
+<p>Installation can then continue as outlined above.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Installation and Image Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="virtual/index.html" class="btn btn-neutral float-right" title="Virtual Environments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

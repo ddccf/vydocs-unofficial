@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Firewall global options are firewall settings that apply system-wide, covering ICMP handling, directed broadcast forwarding, source routing, martian packet logging, source validation, TCP behavior, bridged traffic, the global state policy, connection tracking timeouts, and the GeoIP databases. " name="description" />
+<meta content="firewall, global options, state policy, connection tracking" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firewall global options &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/firewall/global-options.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Firewall groups" href="groups.html" />
+    <link rel="prev" title="Firewall" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Firewall</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#packet-flow">Packet flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#zone-based-firewall">Zone-based firewall</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#firewall-configuration">Firewall configuration</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Firewall global options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="groups.html">Firewall groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bridge.html">Bridge layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zone.html">Zone-Based Firewall</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Firewall</a></li>
+      <li class="breadcrumb-item active">Firewall global options</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/firewall/global-options.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="firewall-global-options">
+<span id="id1"></span><h1>Firewall global options<a class="headerlink" href="#firewall-global-options" title="Link to this heading"></a></h1>
+<p>Firewall global options are firewall settings that apply system-wide.
+They let you configure ICMP echo and redirect handling, directed broadcast
+forwarding, source routing, martian packet logging, source validation,
+TCP behavior, bridged traffic processing, the global state policy,
+connection tracking timeouts, domain name resolution, and the GeoIP
+databases.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="icmp-echo-requests">
+<h3>ICMP echo requests<a class="headerlink" href="#icmp-echo-requests" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-all-ping-enable-disable">
+set firewall global-options all-ping &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-all-ping-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router responds to IPv4 ICMP echo requests sent
+to it.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router ignores all IPv4 ICMP echo requests, even if the
+firewall accepts them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router responds to IPv4 ICMP unicast echo requests,
+unless the firewall drops or rejects them first. The router responds to
+echo requests sent to it via a broadcast or multicast address only if
+<code class="docutils literal notranslate"><span class="pre">broadcast-ping</span></code> is also <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p></li>
+</ul>
+<p>Forwarded echo requests and ICMPv6 echo requests are not affected.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options all-ping disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-broadcast-ping-enable-disable">
+set firewall global-options broadcast-ping &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-broadcast-ping-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router responds to IPv4 ICMP echo and timestamp
+requests sent to it via a broadcast or multicast address.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router ignores echo and timestamp requests, even if the
+firewall accepts them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router responds to timestamp requests, unless the
+firewall drops or rejects them first. The router responds to echo
+requests only if <code class="docutils literal notranslate"><span class="pre">all-ping</span></code> is also <code class="docutils literal notranslate"><span class="pre">enable</span></code> and the firewall does not
+drop or reject them first.</p></li>
+</ul>
+<p>Unicast requests, forwarded requests, and ICMPv6 requests are not
+affected.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options broadcast-ping enable
+</pre></div>
+</div>
+</section>
+<section id="directed-broadcast">
+<h3>Directed broadcast<a class="headerlink" href="#directed-broadcast" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-directed-broadcast-enable-disable">
+set firewall global-options directed-broadcast &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-directed-broadcast-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router forwards IPv4 directed broadcast
+packets.</strong></p>
+<p>A directed broadcast packet is an IPv4 packet addressed to all hosts of a
+specific network (<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc2644">RFC 2644</a>).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router does not forward directed broadcast packets, even
+if the interface on which it receives them has
+<code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">enable-directed-broadcast</span></code> set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router forwards directed broadcast packets only if the
+interface on which it receives them has <code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">enable-directed-broadcast</span></code>
+set.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options directed-broadcast enable
+</pre></div>
+</div>
+</section>
+<section id="bridged-traffic">
+<h3>Bridged traffic<a class="headerlink" href="#bridged-traffic" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-ipv4">
+set firewall global-options apply-to-bridged-traffic ipv4</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-ipv4" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Evaluate IPv4 packets that a bridge forwards between its member
+interfaces against the rules that apply to routed IPv4 traffic.</strong></p>
+<p>These rules include the <code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">ipv4</span> <span class="pre">prerouting</span></code> and
+<code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">ipv4</span> <span class="pre">forward</span></code> rules, and the NAT, policy route, and connection
+tracking rules. When unset, the firewall does not evaluate these packets
+against these rules.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options apply-to-bridged-traffic ipv4
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-ipv6">
+set firewall global-options apply-to-bridged-traffic ipv6</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-ipv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Evaluate IPv6 packets that a bridge forwards between its member
+interfaces against the rules that apply to routed IPv6 traffic.</strong></p>
+<p>These rules include the <code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">ipv6</span> <span class="pre">prerouting</span></code> and
+<code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">ipv6</span> <span class="pre">forward</span></code> rules, and the NAT66, policy route6, and
+connection tracking rules. When unset, the firewall does not evaluate
+these packets against these rules.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options apply-to-bridged-traffic ipv6
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-accept-invalid-ethernet-type-arp-dhcp-pppoe-802-1q-802-1ad-pppoe-discovery-wol">
+set firewall global-options apply-to-bridged-traffic accept-invalid ethernet-type &lt;arp | dhcp | pppoe | 802.1q | 802.1ad | pppoe-discovery | wol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-apply-to-bridged-traffic-accept-invalid-ethernet-type-arp-dhcp-pppoe-802-1q-802-1ad-pppoe-discovery-wol" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Accept packets of the specified type that the router sends through a
+bridge, even if connection tracking classifies them as invalid.</strong></p>
+<p>The accepted packets are not evaluated by the global state policy or the
+<code class="docutils literal notranslate"><span class="pre">firewall</span> <span class="pre">bridge</span> <span class="pre">output</span></code> rules.</p>
+<p>Repeat the command to accept multiple packet types.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">arp</span></code>: <abbr title="Address Resolution Protocol">ARP</abbr> packets (Ethernet type
+0x0806).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dhcp</span></code>: DHCP packets, matched by UDP source port 67 and destination
+port 68.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pppoe</span></code>: <abbr title="Point-to-Point Protocol over Ethernet">PPPoE</abbr> session
+packets (Ethernet type 0x8864).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pppoe-discovery</span></code>: PPPoE discovery packets (Ethernet type 0x8863).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">802.1q</span></code>: packets with Ethernet type 0x8100.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">802.1ad</span></code>: packets with Ethernet type 0x88A8.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wol</span></code>: Wake-on-LAN packets (Ethernet type 0x0842).</p></li>
+</ul>
+<p>Packets that a bridge receives or forwards are not affected.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options apply-to-bridged-traffic accept-invalid ethernet-type arp
+set firewall global-options apply-to-bridged-traffic accept-invalid ethernet-type dhcp
+</pre></div>
+</div>
+</section>
+<section id="source-routing">
+<h3>Source routing<a class="headerlink" href="#source-routing" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-ip-src-route-enable-disable">
+set firewall global-options ip-src-route &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-ip-src-route-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router accepts IPv4 packets that carry a source
+route option.</strong></p>
+<p>Source route options (Loose and Strict Source and Record Route) are
+defined in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc791#section-3.1">RFC 791, §3.1</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router drops IPv4 packets that carry a source route
+option.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router accepts these packets and processes the source
+route option.</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">log-martians</span></code> is also <code class="docutils literal notranslate"><span class="pre">enable</span></code>, the router logs the dropped packets
+within its logging limit (see <code class="docutils literal notranslate"><span class="pre">log-martians</span></code>).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options ip-src-route enable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-ipv6-src-route-enable-disable">
+set firewall global-options ipv6-src-route &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-ipv6-src-route-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router accepts IPv6 packets that carry a Type 2
+Routing header.</strong></p>
+<p>The Type 2 Routing header is used by Mobile IPv6
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc6275#section-6.4">RFC 6275, §6.4</a>).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router rejects these packets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router accepts these packets and processes the header.</p></li>
+</ul>
+<p>This applies to packets addressed to the router. IPv6 packets that carry
+other Routing header types are not affected.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options ipv6-src-route enable
+</pre></div>
+</div>
+</section>
+<section id="icmp-redirects">
+<h3>ICMP redirects<a class="headerlink" href="#icmp-redirects" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-receive-redirects-enable-disable">
+set firewall global-options receive-redirects &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-receive-redirects-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router accepts IPv4 ICMP Redirect messages.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router ignores ICMP Redirect messages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router accepts valid ICMP Redirect messages and uses the
+gateway that a message advises as the next hop for the destination.</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">log-martians</span></code> is also <code class="docutils literal notranslate"><span class="pre">enable</span></code>, the router logs rejected ICMP
+Redirect messages within its logging limit (see <code class="docutils literal notranslate"><span class="pre">log-martians</span></code>).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options receive-redirects enable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-ipv6-receive-redirects-enable-disable">
+set firewall global-options ipv6-receive-redirects &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-ipv6-receive-redirects-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router accepts ICMPv6 Redirect messages.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router ignores ICMPv6 Redirect messages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router accepts valid ICMPv6 Redirect messages only on
+interfaces where IPv6 forwarding is disabled, and uses the target that a
+message advises as the next hop for the destination.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options ipv6-receive-redirects enable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-send-redirects-enable-disable">
+set firewall global-options send-redirects &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-send-redirects-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router sends IPv4 ICMP Redirect messages.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router does not send ICMP Redirect messages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router sends a packet’s sender an ICMP Redirect when it routes
+the packet back out of the receiving interface to a next hop on the sender’s
+subnet.</p></li>
+</ul>
+<p>The router stops sending ICMP Redirect messages to a sender that keeps ignoring
+them. When <code class="docutils literal notranslate"><span class="pre">log-martians</span></code> is also <code class="docutils literal notranslate"><span class="pre">enable</span></code>, the router logs a message when it
+stops (see <code class="docutils literal notranslate"><span class="pre">log-martians</span></code>).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options send-redirects disable
+</pre></div>
+</div>
+</section>
+<section id="martian-packets">
+<h3>Martian packets<a class="headerlink" href="#martian-packets" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-log-martians-enable-disable">
+set firewall global-options log-martians &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-log-martians-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router logs IPv4 packets with an impossible
+source or destination address (martian packets), and related events.</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router does not log these events.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router logs a message for each of the following events:</p>
+<ul class="simple">
+<li><p>A packet has an impossible IPv4 source or destination address.</p></li>
+<li><p>A packet carries a source route option, and the router drops it (see
+<code class="docutils literal notranslate"><span class="pre">ip-src-route</span></code>).</p></li>
+<li><p>An ICMP Redirect message arrives, and the router rejects it (see
+<code class="docutils literal notranslate"><span class="pre">receive-redirects</span></code>).</p></li>
+<li><p>A host keeps ignoring the ICMP Redirect messages that the router sends
+(see <code class="docutils literal notranslate"><span class="pre">send-redirects</span></code>).</p></li>
+</ul>
+<p>If events occur faster than the router’s logging limit, it discards the
+excess messages.</p>
+</li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options log-martians disable
+</pre></div>
+</div>
+</section>
+<section id="source-validation">
+<h3>Source validation<a class="headerlink" href="#source-validation" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-source-validation-strict-loose-disable">
+set firewall global-options source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the firewall drops IPv4 packets whose source address
+fails a <abbr title="Reverse Path Forwarding">RPF</abbr> check, as described in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704">RFC 3704</a>.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">strict</span></code>: Strict RPF
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704#section-2.2">RFC 3704, §2.2</a>).
+The firewall drops a packet unless a route to its source address points
+out of the interface on which the packet arrived.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loose</span></code>: Loose RPF
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704#section-2.4">RFC 3704, §2.4</a>).
+The firewall drops a packet if no route to its source address exists. A
+default route counts as a route.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The firewall does not validate source addresses.</p></li>
+</ul>
+<p>In <code class="docutils literal notranslate"><span class="pre">strict</span></code> and <code class="docutils literal notranslate"><span class="pre">loose</span></code> mode, the firewall does not check:</p>
+<ul class="simple">
+<li><p>Packets that arrive on the loopback interface.</p></li>
+<li><p>Packets with source address 0.0.0.0 and with destination address either
+255.255.255.255 or a multicast address from 224.0.0.0 to 224.0.0.255.</p></li>
+</ul>
+<p>For packets that arrive on an interface with its own <code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">source-validation</span></code>
+set to <code class="docutils literal notranslate"><span class="pre">strict</span></code> or <code class="docutils literal notranslate"><span class="pre">loose</span></code>, the firewall uses that mode instead.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options source-validation strict
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-ipv6-source-validation-strict-loose-disable">
+set firewall global-options ipv6-source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-ipv6-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the firewall drops IPv6 packets whose source address
+fails an RPF check, as described in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704">RFC 3704</a>.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">strict</span></code>: Strict RPF
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704#section-2.2">RFC 3704, §2.2</a>).
+The firewall drops a packet unless a route to its source address points
+out of the interface on which the packet arrived.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loose</span></code>: Loose RPF
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3704#section-2.4">RFC 3704, §2.4</a>).
+The firewall drops a packet if no route to its source address exists. A
+default route counts as a route.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The firewall does not validate source addresses.</p></li>
+</ul>
+<p>In <code class="docutils literal notranslate"><span class="pre">strict</span></code> and <code class="docutils literal notranslate"><span class="pre">loose</span></code> mode, the firewall does not check:</p>
+<ul class="simple">
+<li><p>Packets that arrive on the loopback interface.</p></li>
+<li><p>ICMPv6 packets with source address :: and with destination address
+either a link-local unicast address or a multicast address with
+link-local scope.</p></li>
+</ul>
+<p>For packets that arrive on an interface with its own
+<code class="docutils literal notranslate"><span class="pre">ipv6</span> <span class="pre">source-validation</span></code> set to <code class="docutils literal notranslate"><span class="pre">strict</span></code> or <code class="docutils literal notranslate"><span class="pre">loose</span></code>, the firewall uses
+that mode instead.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options ipv6-source-validation strict
+</pre></div>
+</div>
+</section>
+<section id="tcp">
+<h3>TCP<a class="headerlink" href="#tcp" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-syn-cookies-enable-disable">
+set firewall global-options syn-cookies &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-syn-cookies-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how the router handles TCP connection requests that arrive
+while the queue of pending requests of a service that listens on the
+router is full.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router answers such requests with a SYN cookie and keeps
+no state for them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router drops such requests.</p></li>
+</ul>
+<p>This option applies to connection requests over both IPv4 and IPv6.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options syn-cookies disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-twa-hazards-protection-enable-disable">
+set firewall global-options twa-hazards-protection &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-twa-hazards-protection-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure protection against <abbr title="TIME-WAIT Assassination">TWA</abbr>, the
+premature end of the TIME-WAIT state of a TCP connection by an RST
+segment, as described in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc1337#section-1">RFC 1337, §1</a>.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: The router ignores an RST segment that arrives for a
+connection in the TIME-WAIT state.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: The router ends the TIME-WAIT state of the connection when
+such an RST segment arrives.</p></li>
+</ul>
+<p>The router acts only on an RST segment whose sequence number is the next
+one it expects, and ignores other RST segments in both cases. This applies
+to TCP over both IPv4 and IPv6.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">disable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options twa-hazards-protection enable
+</pre></div>
+</div>
+</section>
+<section id="global-state-policy">
+<h3>Global state policy<a class="headerlink" href="#global-state-policy" title="Link to this heading"></a></h3>
+<p>The firewall applies the global state policy at the input, forward, and
+output processing points of the IP layer and the Bridge layer, and at the
+zone-based firewall’s input, forward, and output processing points, before
+the rules of those processing points. A packet that matches a state with
+an <code class="docutils literal notranslate"><span class="pre">accept</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>, or <code class="docutils literal notranslate"><span class="pre">reject</span></code> action is not evaluated by the rules of
+that processing point.</p>
+<p>If connection tracking is disabled with <code class="docutils literal notranslate"><span class="pre">disable-conntrack</span></code> while a global
+state policy exists, the commit prints a warning.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-action-accept-drop-reject">
+set firewall global-options state-policy &lt;established | invalid | related&gt; action &lt;accept | drop | reject&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-action-accept-drop-reject" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the action that the global state policy applies to packets in
+the specified connection tracking state.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">accept</span></code>: The firewall accepts such packets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drop</span></code>: The firewall drops such packets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reject</span></code>: The firewall rejects such packets. At the Bridge layer, the
+firewall drops them instead.</p></li>
+</ul>
+<p>The states are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">established</span></code>: Packets of an established connection, in either
+direction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">related</span></code>: Packets that start a connection related to an existing
+connection, and ICMP error messages about a connection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">invalid</span></code>: Packets that connection tracking cannot associate with a
+connection.</p></li>
+</ul>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy established action accept
+set firewall global-options state-policy related action accept
+set firewall global-options state-policy invalid action drop
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-log">
+set firewall global-options state-policy &lt;established | invalid | related&gt; log</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-log" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the firewall to log packets in the specified connection
+tracking state that the global state policy processes.</strong></p>
+<p>The firewall logs a message for each such packet. The message starts with
+the prefix <code class="docutils literal notranslate"><span class="pre">[STATE-POLICY-&lt;state&gt;-&lt;action&gt;]</span></code>, where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;state&gt;</span></code> is <code class="docutils literal notranslate"><span class="pre">EST</span></code> for <code class="docutils literal notranslate"><span class="pre">established</span></code>, <code class="docutils literal notranslate"><span class="pre">INV</span></code> for <code class="docutils literal notranslate"><span class="pre">invalid</span></code>, or <code class="docutils literal notranslate"><span class="pre">REL</span></code> for
+<code class="docutils literal notranslate"><span class="pre">related</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;action&gt;</span></code> is <code class="docutils literal notranslate"><span class="pre">A</span></code> for <code class="docutils literal notranslate"><span class="pre">accept</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code> for <code class="docutils literal notranslate"><span class="pre">drop</span></code>, or <code class="docutils literal notranslate"><span class="pre">R</span></code> for <code class="docutils literal notranslate"><span class="pre">reject</span></code>. At
+the Bridge layer, the firewall logs <code class="docutils literal notranslate"><span class="pre">reject</span></code> as <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p></li>
+</ul>
+<p>If no <code class="docutils literal notranslate"><span class="pre">action</span></code> is configured for the state, the firewall logs <code class="docutils literal notranslate"><span class="pre">A</span></code> as
+<code class="docutils literal notranslate"><span class="pre">&lt;action&gt;</span></code>, but applies no action to the packet and continues processing
+it.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy invalid action drop
+set firewall global-options state-policy invalid log
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-log-level-emerg-alert-crit-err-warn-notice-info-debug">
+set firewall global-options state-policy &lt;established | invalid | related&gt; log-level &lt;emerg | alert | crit | err | warn | notice | info | debug&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-state-policy-established-invalid-related-log-level-emerg-alert-crit-err-warn-notice-info-debug" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the severity level of the log messages that the firewall
+writes for packets in the specified connection tracking state.</strong></p>
+<p>This option takes effect only if <code class="docutils literal notranslate"><span class="pre">log</span></code> is also configured for that state.
+When no level is configured, the firewall logs the messages at the <code class="docutils literal notranslate"><span class="pre">warn</span></code>
+level.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy invalid action drop
+set firewall global-options state-policy invalid log
+set firewall global-options state-policy invalid log-level notice
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-state-policy-offload-offload-target-name">
+set firewall global-options state-policy offload offload-target &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-state-policy-offload-offload-target-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the flowtable to which the firewall offloads forwarded
+connections.</strong></p>
+<p>When <code class="docutils literal notranslate"><span class="pre">offload-target</span></code> is configured, the firewall offloads a forwarded
+connection at the <code class="docutils literal notranslate"><span class="pre">forward</span></code> processing point of the IP layer, before the
+global state policy rules, once connection tracking classifies the
+connection as established.</p>
+<p>After a connection is offloaded, the firewall does not process the
+subsequent packets of that connection at any processing point of the IP
+layer.</p>
+<p>The flowtable must be defined with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">flowtable</span> <span class="pre">&lt;name&gt;</span></code>.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall flowtable FT01 interface eth0
+set firewall flowtable FT01 interface eth1
+set firewall global-options state-policy offload offload-target FT01
+</pre></div>
+</div>
+</section>
+<section id="connection-tracking-timeouts">
+<h3>Connection tracking timeouts<a class="headerlink" href="#connection-tracking-timeouts" title="Link to this heading"></a></h3>
+<p>Connection tracking tracks the state of each connection the router
+receives, forwards, or generates, enabling the firewall to match packets
+by the connection’s current state. A connection stays tracked until it
+times out after the router last receives or generates a packet of the
+connection, in either direction.</p>
+<p>The router applies a separate timeout to each protocol. For TCP and UDP,
+it also applies a separate timeout to each tracked connection state.</p>
+<p>The following commands configure connection tracking timeouts, in seconds.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-icmp-1-21474836">
+set firewall global-options timeout icmp &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-icmp-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for IPv4 ICMP connections.</strong></p>
+<p>This timeout does not apply to ICMPv6 connections.</p>
+<p>The default is 30.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout icmp 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-other-1-21474836">
+set firewall global-options timeout other &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-other-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for connections of protocols
+that have no timeout of their own.</strong></p>
+<p>The default is 600.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout other 300
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-close-1-21474836">
+set firewall global-options timeout tcp close &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-close-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+CLOSE state.</strong></p>
+<p>The default is 10.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp close 20
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-close-wait-1-21474836">
+set firewall global-options timeout tcp close-wait &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-close-wait-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+CLOSE-WAIT state.</strong></p>
+<p>The default is 60.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp close-wait 30
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-established-1-21474836">
+set firewall global-options timeout tcp established &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-established-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+ESTABLISHED state.</strong></p>
+<p>The default is 432000 (5 days).</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp established 86400
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-fin-wait-1-21474836">
+set firewall global-options timeout tcp fin-wait &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-fin-wait-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+FIN-WAIT state.</strong></p>
+<p>The default is 120.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp fin-wait 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-last-ack-1-21474836">
+set firewall global-options timeout tcp last-ack &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-last-ack-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+LAST-ACK state.</strong></p>
+<p>The default is 30.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp last-ack 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-syn-recv-1-21474836">
+set firewall global-options timeout tcp syn-recv &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-syn-recv-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+SYN-RECV state.</strong></p>
+<p>The default is 60.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp syn-recv 30
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-syn-sent-1-21474836">
+set firewall global-options timeout tcp syn-sent &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-syn-sent-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+SYN-SENT state.</strong></p>
+<p>The default is 120.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp syn-sent 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-tcp-time-wait-1-21474836">
+set firewall global-options timeout tcp time-wait &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-tcp-time-wait-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for TCP connections in the
+TIME-WAIT state.</strong></p>
+<p>The default is 120.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout tcp time-wait 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-udp-other-1-21474836">
+set firewall global-options timeout udp other &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-udp-other-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for UDP connections with
+traffic in one direction only.</strong></p>
+<p>This timeout also applies to a connection with traffic in both directions
+during the first two seconds of the connection.</p>
+<p>The default is 30.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout udp other 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-timeout-udp-stream-1-21474836">
+set firewall global-options timeout udp stream &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-timeout-udp-stream-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the connection tracking timeout for UDP connections with
+traffic in both directions.</strong></p>
+<p>This timeout applies once such a connection has been active for more than
+two seconds. Until then, <code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">udp</span> <span class="pre">other</span></code> applies.</p>
+<p>The default is 180.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options timeout udp stream 300
+</pre></div>
+</div>
+</section>
+<section id="domain-name-resolution">
+<h3>Domain name resolution<a class="headerlink" href="#domain-name-resolution" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-resolver-interval-10-3600">
+set firewall global-options resolver-interval &lt;10-3600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-resolver-interval-10-3600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, at which the router updates the IP
+addresses of the domain names used in firewall rules, firewall domain groups,
+and <abbr title="Network Address Translation">NAT</abbr> rules.</strong></p>
+<p>The router also uses this interval to update the address list of a firewall
+remote group, unless the group has its own <code class="docutils literal notranslate"><span class="pre">interval</span></code> configured.
+The default is 300.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options resolver-interval 600
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-resolver-cache">
+set firewall global-options resolver-cache</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-resolver-cache" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Retain the last successfully resolved addresses of a domain name if a later
+attempt to resolve that domain name fails.</strong></p>
+<p>The last successfully resolved addresses of each domain name are kept until the
+router restarts or applies the firewall or NAT configuration.
+This option applies to the domain names used in firewall rules, firewall domain
+groups, and NAT rules.
+Without this option, the router removes the addresses of a domain name that
+fails to resolve from the rules and groups that use it until the name resolves
+again.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options resolver-cache
+</pre></div>
+</div>
+</section>
+<section id="geoip-database">
+<h3>GeoIP database<a class="headerlink" href="#geoip-database" title="Link to this heading"></a></h3>
+<p>GeoIP databases map IP address ranges to country codes and
+<abbr title="Autonomous System Numbers">ASNs</abbr> for GeoIP matches. The router
+downloads the databases every Monday at 04:30 and when <code class="docutils literal notranslate"><span class="pre">update</span> <span class="pre">geoip</span></code> is
+run. The download fails unless a DNS server is configured with
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">name-server</span></code>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-provider-db-ip-maxmind">
+set firewall global-options geoip provider &lt;db-ip | maxmind&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-provider-db-ip-maxmind" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the GeoIP database provider that supplies the IP address
+ranges used for firewall GeoIP country-code and ASN matching.</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">db-ip</span></code>: Uses the DB-IP Lite databases and requires no credentials.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxmind</span></code>: Uses the MaxMind databases and requires both
+<code class="docutils literal notranslate"><span class="pre">maxmind-account-id</span></code> and <code class="docutils literal notranslate"><span class="pre">maxmind-license-key</span></code>. Otherwise, the commit
+fails.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">db-ip</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip provider maxmind
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-maxmind-account-id-id">
+set firewall global-options geoip maxmind-account-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-maxmind-account-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the MaxMind account ID the router uses to authenticate when
+downloading the MaxMind databases.</strong></p>
+<p>Required when <code class="docutils literal notranslate"><span class="pre">provider</span></code> is <code class="docutils literal notranslate"><span class="pre">maxmind</span></code>. You must configure both
+<code class="docutils literal notranslate"><span class="pre">maxmind-account-id</span></code> and <code class="docutils literal notranslate"><span class="pre">maxmind-license-key</span></code>. Otherwise, the commit
+fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip maxmind-account-id 123456
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-maxmind-license-key-key">
+set firewall global-options geoip maxmind-license-key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-maxmind-license-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the MaxMind license key used to authenticate when downloading
+the MaxMind databases.</strong></p>
+<p>Required when <code class="docutils literal notranslate"><span class="pre">provider</span></code> is <code class="docutils literal notranslate"><span class="pre">maxmind</span></code>. You must configure both
+<code class="docutils literal notranslate"><span class="pre">maxmind-account-id</span></code> and <code class="docutils literal notranslate"><span class="pre">maxmind-license-key</span></code>. Otherwise, the commit
+fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip maxmind-license-key YOUR_LICENSE_KEY
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-maxmind-lite">
+set firewall global-options geoip maxmind-lite</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-maxmind-lite" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Select the MaxMind GeoLite2 databases instead of the GeoIP2 databases as
+the GeoIP data source.</strong></p>
+<p>By default, the router downloads the GeoIP2 databases.</p>
+<p>The command applies only when <code class="docutils literal notranslate"><span class="pre">provider</span></code> is <code class="docutils literal notranslate"><span class="pre">maxmind</span></code>. GeoLite2 still
+requires <code class="docutils literal notranslate"><span class="pre">maxmind-account-id</span></code> and <code class="docutils literal notranslate"><span class="pre">maxmind-license-key</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip maxmind-lite
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-source-address-address">
+set firewall global-options geoip source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the source address that the router uses to connect to the
+GeoIP database provider when it downloads the GeoIP databases.</strong></p>
+<p>The address can be IPv4 or IPv6 and must be assigned to a router
+interface. Otherwise, the download fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip source-address 192.0.2.10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-global-options-geoip-vrf-name">
+set firewall global-options geoip vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-global-options-geoip-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the <abbr title="Virtual Routing and Forwarding">VRF</abbr> through which
+the router downloads the GeoIP databases.</strong></p>
+<p>The VRF must be configured. Otherwise, the download fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options geoip vrf MGMT
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Firewall" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="groups.html" class="btn btn-neutral float-right" title="Firewall groups" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

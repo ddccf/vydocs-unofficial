@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenVPN with LDAP &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configexamples/autotest/OpenVPN_with_LDAP/OpenVPN_with_LDAP.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP Dataplane" href="../../../vpp/index.html" />
+    <link rel="prev" title="Wireguard" href="../Wireguard/Wireguard.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../gcp-ha-vpn-bgp.html">Route-Based Site-to-Site VPN to Google Cloud HA VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dmvpn-dualhub-dualcloud.html">DMVPN Dual HUB Dual Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ansible.html">Ansible example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-cisco-policy-based.html">Policy-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-cisco-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-pa-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Palo Alto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../DHCPRelay_through_GRE/DHCPRelay_through_GRE.html">DHCP Relay through GRE-Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tunnelbroker/tunnelbroker.html">Tunnelbroker.net (IPv6)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../L3VPN_EVPN/L3VPN_EVPN.html">L3VPN EVPN with VyOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Wireguard/Wireguard.html">Wireguard</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OpenVPN with LDAP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#active-directory-on-windows-server">Active Directory on Windows server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-vyos-as-openvpn-server">Configure VyOS as OpenVPN Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client-configuration">Client configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">OpenVPN with LDAP</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configexamples/autotest/OpenVPN_with_LDAP/OpenVPN_with_LDAP.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="openvpn-with-ldap">
+<span id="examples-openvpn-with-ldap"></span><h1>OpenVPN with LDAP<a class="headerlink" href="#openvpn-with-ldap" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">Testdate: 2023-05-11</div>
+<div class="line">Version: 1.4-rolling-202305100734</div>
+</div>
+<p>This LAB shows how to use OpenVPN with a Active Directory authentication method.</p>
+<dl class="simple myst">
+<dt>Topology consists of:</dt><dd><ul class="simple">
+<li><p>Windows Server 2019 with a running Active Directory</p></li>
+<li><p>VyOS as a OpenVPN Server</p></li>
+<li><p>VyOS as Client</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="OpenVPN with LDAP topology image" src="../../../images/topology2.webp" />
+<section id="active-directory-on-windows-server">
+<h2>Active Directory on Windows server<a class="headerlink" href="#active-directory-on-windows-server" title="Link to this heading"></a></h2>
+<p>The lab assumes a full running Active Directory on the Windows Server.
+Here are some PowerShell commands to quickly add a Test Active Directory.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># install the Active Directory Server role</span>
+<span class="nb">Install-WindowsFeature</span> <span class="n">AD-Domain-Services</span> <span class="n">-IncludeManagementTools</span>
+
+<span class="c"># install the Active Directory Server role</span>
+<span class="nb">Install-ADDSForest</span> <span class="n">-DomainName</span> <span class="s2">"vyos.local"</span> <span class="n">-DomainNetBiosName</span> <span class="s2">"VYOS"</span> <span class="n">-InstallDns</span><span class="p">:</span><span class="nv">$true</span> <span class="n">-NoRebootCompletion</span><span class="p">:</span><span class="nv">$true</span>
+
+<span class="c"># create test user01 and binduser</span>
+<span class="nb">New-ADUser</span> <span class="n">binduser</span> <span class="n">-AccountPassword</span><span class="p">(</span><span class="nb">Read-Host</span> <span class="n">-AsSecureString</span> <span class="s2">"Input Password"</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span>
+<span class="nb">New-ADUser</span> <span class="n">user01</span> <span class="n">-AccountPassword</span><span class="p">(</span><span class="nb">Read-Host</span> <span class="n">-AsSecureString</span> <span class="s2">"Input Password"</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-vyos-as-openvpn-server">
+<h2>Configure VyOS as OpenVPN Server<a class="headerlink" href="#configure-vyos-as-openvpn-server" title="Link to this heading"></a></h2>
+<p>In this example OpenVPN will be setup with a client certificate and username / password authentication.</p>
+<p>First a CA, a signed server and client ceftificate and a Diffie-Hellman parameter musst be generated and installed.
+Please look <a class="reference internal" href="../../../configuration/pki/index.html#pki"><span class="std std-ref">here</span></a> for more information.</p>
+<div class="line-block">
+<div class="line">Add the LDAP plugin configuration file <cite>/config/auth/ldap-auth.config</cite></div>
+</div>
+<div class="line-block">
+<div class="line">Check all possible settings <a class="reference external" href="https://github.com/threerings/openvpn-auth-ldap/blob/master/auth-ldap.conf">here</a>.</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;LDAP&gt;
+URL ldap://192.168.1.10
+BindDN bind_user@vyos.local
+Password P4ssw0rd123
+Timeout 15
+TLSEnable no
+FollowReferrals no
+&lt;/LDAP&gt;
+&lt;Authorization&gt;
+BaseDN "DC=vyos,DC=local"
+SearchFilter "sAMAccountName=%u"
+RequireGroup false
+&lt;/Authorization&gt;
+</pre></div>
+</div>
+<p>Now generate all required certificates on the ovpn-server:</p>
+<p>First the CA</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@ovpn-server# run generate pki ca install OVPN-CA
+</pre></div>
+</div>
+<p>after this create a signed server and a client certificate</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@ovpn-server# run generate pki certificate sign OVPN-CA install SRV
+vyos@ovpn-server# run generate pki certificate sign OVPN-CA install CLIENT
+</pre></div>
+</div>
+<p>and last the DH Key</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@ovpn-server# run generate pki dh install DH
+</pre></div>
+</div>
+<p>after all these steps the config look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set pki ca OVPN-CA certificate 'MIIFnTCCA4WgAwIBAgIUIPFIXvCxYdavCnSPFNjr6lUtlsswDQYJKoZIhvcNAQELBQAwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcMCVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0yMzA1MTExMjM4MjJaFw0zMzA1MDgxMjM4MjJaMFcxCzAJBgNVBAYTAkdCMRMwEQYDVQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5T1MxEDAOBgNVBAMMB3Z5b3MuaW8wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDg45vAzS6xNqU+Pa7wk1Imt1/az1C22Sbp3wPJLfgOmy0K3TA5qVsx/c/8gatsatMkCsekGnK5BPzCDd5eCCLo//B25HFO6fBYRNvHvVyCUx7QEXw4FHFNG88zCIizx114AGtVwZfGGG9xCc53xjLPUpH6iqTXme41cCFFQlqXwZ7fuySieSdoV8SAsJTTOsGCEUEcDEnNPn6tX3KWTzNuyFPECy8WCmNgWNyG2nmH+U7WRTX0ehZ5dZyU5au7TxpRN4a+JtE0gNqcWJ+nh1A543q2pcRoQpPAzHFclgj8wG/EyauQMY/LC4tLc6moPaNlTwA9HJv8s6xUqpzNptDoUHKOqKuw2JRFnno5SCQ788KkKNgVWBy2o3BGoewfHFhAdR61CXeLpmuneuhi96GcM031gW8ptXbd4DkCF7H6KRtqeIvwiyG79ttC8kZf01Sn1fM5fTjGxaE38dAk/RchtHRC6rtFavHJjB2cUcCkhhQofUE6IR2dYJZ1cw0Wy5CI3bXHf43BpvDGmuxIlNGirTq8wf5RCWzDJJgmkQpYhUYe8x4faF4gTo00uH4ZvAYjQu3JNZGkb50p4kM9Mu5rQAiZJUeMAz/QD+EIV9xXgOk14+BbnHKWbZ7Ou5emewFuE/bjl79oNJklpXdc4soRkCPCTEGK3zDBdmUtCYk1DwIDAQABo2EwXzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwHQYDVR0OBBYEFP5NDac/yC+mQmaTpZDUv9GZMGMBMA0GCSqGSIb3DQEBCwUAA4ICAQDEqpF2ibwYFxsF1XDIPS5/Gs0sZTZBuByNm5d2+jTyO7d5alZUdbvobbwhxZOhWasmFNyPLr4TYmZm5zF+efFsiOxjyRuEoVU+Fe8rZmpRIF/+6+nYX5r9vMI4QxGjeeyP20OHJ85Kvz182CTsITrM15Vw/kVVjAVzFI5Gm/QolalAoFQza9rAL4kDqaUszjHjPbysvDpGF+NLPjiYDHXcty/BC48bnuzAeEM60SGZ7EXvf8l0X8YsO7z39w6780A/3rbZvFhCYMKp/+p5xBRDjnX91dM6DJw73RwYQ1KHbHk9wWUwnL1giL71jzp/y4Oj6SSK2PQv+OnO80J6Zg06WIQx9xYcxr108Xh9FotUrlG7GYPI3Udf95t6SjuydDhULAVD0lMBxlDe9DHW1k1q1pOXaHZg926tY66xx/lda6dcuwJjA2Dx5JI6L0u9ureQmQAtxvnoTCtf+hR1iX/IkskZCKs34SjNiCnBuw/DNfdOpfaABm7y+tWiXBwnu5l/K8poXcQYQByyZj6YMmpgsbVPr5KNsLWOgRA81M6IPof8qxvnFrkazhiQWh1YHSjnaHtA3z5/BdgwHVICuFyrIOlbkKyJOjKcKBsDdMwIV0tsnpnyli2xEPZKu1tAQFAavXrK/RGYYhOZ3e0aRSV8hlP8i/mf7p0I45cJiBCqPg=='
+set pki ca OVPN-CA private key '&lt;REDACTED&gt;'
+set pki certificate SRV certificate 'MIIFtTCCA52gAwIBAgIUeZnSAMPohIvKL/1Fy/pW2cV73HkwDQYJKoZIhvcNAQELBQAwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcMCVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0yMzA1MTExMjM4MzFaFw0zMzA1MDgxMjM4MzFaMFsxCzAJBgNVBAYTAkdCMRMwEQYDVQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5T1MxFDASBgNVBAMMC292cG4tc2VydmVyMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApDWzTcB5LFM/tacaRHvpchBKLigJ5FlqNNfJ2vnP87KfCmTA5tkWF7MtuY990tHZtl1vQ3Pim4d6XBOngiQmaw7tZeWAIrv1L2/VBjORUrLrQhkkg9nSpcYFxoyUQzukTY75PcwhYLkS6ZO/vPPSBuh97f3XR645Aauf7ZIk2NsUidP2uGZz/Sr5VC7ovH2l3zz1kIHPCinfvpPEVb5oTt7qEffk4vnKjy9RY+H1hZowvcAp1zfLaOt/dXaK6vfNutbmwDHbYAlIals0EcjtTr+63ymxmupn7RBjgWtK7MgocGZnt6HKJ4J6teP3WgiSd+I9pdFG4wHZOSVL3axf3rBx7q09DMn/Snvfbly+SlhXw9Ebk368J6j6rhNUkxo/M9fbfgxS0JnNjHInRNAvRQW5CgQfT9KyUdxR63BeSnngk2XYX+bDinb0ig+VDpZcr6PgOBR8aNFsCPbXRwDy0bmuFnFYMzs/7ZmFQhzE6rQykHvVvAsyv7FYrlW0E02H4+Xe6bEVpE1fLcH8OCGY2cfuTfq1Ax6R4r+tdHYW1kzFLjwdh3uqTLF11zcbkAwd78E/ItrfEadvgxrYR9gfhX79AkK0VHmZ/hzrLFeGznnVcqoTKgq21dfMfQG2P13QvqS7tCE5swM9N09ASVrifyVDuoL6jaW96wgeqR6eHMECAwEAAaN1MHMwDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwEwHQYDVR0OBBYEFE1U3Zamfuv6ocYiF9q7H//U8h+AMB8GA1UdIwQYMBaAFP5NDac/yC+mQmaTpZDUv9GZMGMBMA0GCSqGSIb3DQEBCwUAA4ICAQBZwHvGj/jziNFwXS2W1Q11I12YANmVhISP39AA7DNhXR+E1hXFs+U52ehurZoLTi5YTjd8PD0KcE58mw8CLsFQB/+pni9EwJuAhpMb6XsmYEp0PeOH7C/q5eOc4TB/NBsvEa5IdTmUoewmjubKeJ8OHdRBMI77Me53lSC6iskc9DGyixSLqQogQW4aiTposFJOW/YugBy7kiuygmFNJv4luDbyRBb9131zH0qSSishLT4Bp5lXQNYWI4AU0JeyQcYaSHWCr0h6H9GN3QOf/emc3/2Tee40FcEMsszJBRnQ3IISzU5xVLlfU02SJMpjvFT2MGfHAs7obrNbwiFeoLZ6fQeGLe53aOQ5M9XeW5bdIeR2ZrLoO1hW33x5jYI8nLnU0FnqpMMY14r7LZE/mjwfdrTsGChFzsLasB0Tj++mGMOXw3DSusppub17AE2bO2uO6J9XMlbkOC8EmDCF1Hetija4D3aunhtu6jRBOcR8DHVBqNae2YgUk1ALqGrNUGFH4bEioTjDDx2GieOtp9rUwJMlkAyUEe0k/wzcBLjZaO8KBCtrmTdr1wMXizPT+XcjAlzRNXvHiZFq0NG5Rnim+LH9tp90EHzO7EeVXV+LegnIKQqboIrY3KOw5Qx8ska+t1WrWHpyzpwsA0WjA6sDTyWthgNYSxb1ikNGO8STCA=='
+set pki certificate SRV private key '&lt;REDACTED&gt;'
+set pki certificate CLIENT certificate 'MIIFsDCCA5igAwIBAgIUSzQgwzGsfJFecGxCwLXVsGCLMkAwDQYJKoZIhvcNAQELBQAwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcMCVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0yMzA1MTExMjM4MzlaFw0zMzA1MDgxMjM4MzlaMFYxCzAJBgNVBAYTAkdCMRMwEQYDVQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5T1MxDzANBgNVBAMMBmNsaWVudDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBANHNJOSwcDbRqziL1gXYnHIq7P7vEUFvS8d/XLYJ1xIpcYTRXTut2CTGRar7fZZicu7x0yoK4TzrHvGVf1o4NC4NSGV5RX6kwRdrfWBmvpIkjSLGtCREFyhb+PHDpnsIS7cfN9udC0vocqVlx/xM/sfcP6Vja/uFp+9TQcneJIxYw34zkF+TtOVbE3pP5VxU7ZAj8F5/q1ONhTMdzG4Ol4/0nBqZfdYA3LVDeSSNIJNF5jlaKXXFHz1EJRemTYDx+f5bfCVcK2Qs8fU9jCFBlATjMu9O5rgk6nMLRwEnJZuZ1gj2tWQvz4e9yo5yUqf1PUhOrn3c81MRliUNHKr+CkxgQJal6P3Ar3q4iftJih3K+/j4o194mQ/Dt/Et+/Qn/DUFk2FB0rTMcQwJLTEAzxtTdmBJeJpipIPDR0u7UMZLNh/raQ8s3FsbY4uYORt2f5YQlCVHbth4dRa9xa+oRbm7eomNACIbWfkLh5Bzud1+qIfdBMZKaZbnf0HEeuH0J5LBJeova8EPxWbYMJPrRHzu5gowkIKl+uIxcy8IiNTA9YEoJVonCjmlr8NEtYShrIVbicdMNSI3pOQR60MFhkHwBjSU2l/z+4wwLxtzq/c2xKw9yrOZ46ZVLwGDFq8rPwp7/P9r6mDKsbn6jIvGOeH71dMZvoc4lCaClw+hKIzLAgMBAAGjdTBzMAwGA1UdEwEB/wQCMAAwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMCMB0GA1UdDgQWBBS6j30FmL6kZW7rDH8QjRMoWoA/njAfBgNVHSMEGDAWgBT+TQ2nP8gvpkJmk6WQ1L/RmTBjATANBgkqhkiG9w0BAQsFAAOCAgEANW2Y4bgaB9oexEjj6rkGvePtQmXRkF/adVQREY9iZDGTe72ePybVzrfMkZHjse3o7JvXWRIVVztWSzEpv5noIOX7lAioGG3wsFTHotTFR0zrYJHXHBcV2Neq4Kx2Ta/TZwD8QnZHAAxEQ1pYb4fxwN/A60VElAZoz9zYsbrJyVrfuHDL9queQxPFzqis+7W1BiVIcv4rn0DMQ560jTGh4t4rImOSu5gUsUrQaih85XDdOBPxViSNwfVdZJIgbvamudpfEaKsIun/uCjcxpNnzIp0rhyYmDeqVat4GnTV7Sy48e/Uvcq71ZWbBYJF4+yW4pylIU2Sh/Uy2sAz4C2M71FlFB7qsmcnPRsFFHf+r1NyD1lkVI9k2371fTG/Kub9V0rOz4pvKz4Em5b4MUPdDbZOqJ8hQ+atGE3ovFJIovA3NFb0OtnyC4l+kG7dfjqFudOnmDa+Qsya+2YOxBZBIRfuhlXhb6Y6Smsk9R6x0jBmcQTPS5ZmvKaTxQCFc53xMdQNAswjiI2L9rw4BcqQfVmf/vpoN+VusD/XEv2V0Ixm10YybA7BI/tixh9vwj3fdQXVLy3jSYjVBd5WOFPizbQZeD10ElvlLqZZyWrP/Wre7Nmi/gEOnhBXXmo034fFF/vXf0JRpQsd2oDs24+4XwZYb8mbM31j7Nx8YvhR+64='
+set pki certificate CLIENT private key '&lt;REDACTED&gt;'
+set pki dh DH parameters 'MIIBCAKCAQEAzPOQWrWaIX2qt4sbV6bRbUnFx4jmeE+WXC8GIvulnC4pIr1nt2Gc/7uNfEPjDZ4X6csD3X6zAWxtSuWeNuml9Yuy+tS8gI7d0FlbQRAFO/9GIlRuVdMcbCtEhg8ja7Y0g3fQjOSQJ9mqFo7sRoXyYQALD+MDEJOxhnV7neCrgDi1pqnN4xZLoR9DLARp0ad30VIvnv0ay55wxFWAKh2iwNRwyeXIEOtUDBkfcLGSNNfK0kQsos/J8Q+7YXmk4cN9tiVX4xR92edVO4z/vhMkjsGKLSDm/E6EMusX+N0UhQ3dv7qDgeSS8vDsqBm8XJonumNZLvFbYt2ARGRZYL6DUwIBAg=='
+</pre></div>
+</div>
+<p>Once all the required certificates and keys are installed, the remaining
+OpenVPN Server configuration can be carried out.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interface ethernet eth1 address '192.168.1.1/24'
+set interface ethernet eth2 address '198.51.100.254/24'
+set interfaces openvpn vtun10 local-host '198.51.100.254'
+set interfaces openvpn vtun10 local-port '1194'
+set interfaces openvpn vtun10 mode 'server'
+set interfaces openvpn vtun10 openvpn-option '--plugin /usr/lib/openvpn/openvpn-auth-ldap.so /config/auth/ldap-auth.config'
+set interfaces openvpn vtun10 persistent-tunnel
+set interfaces openvpn vtun10 protocol 'udp'
+set interfaces openvpn vtun10 server push-route '192.168.1.0/24'
+set interfaces openvpn vtun10 server subnet '10.23.1.0/24'
+
+set interfaces openvpn vtun10 tls ca-certificate OVPN-CA
+set interfaces openvpn vtun10 tls certificate SRV
+set interfaces openvpn vtun10 tls dh-params DH
+set protocols static route 10.1.1.0/24 interface vtun10
+</pre></div>
+</div>
+</section>
+<section id="client-configuration">
+<h2>Client configuration<a class="headerlink" href="#client-configuration" title="Link to this heading"></a></h2>
+<p>One advantage of having the client certificate stored is the ability to create the client configuration.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@ovpn-server:~$ generate openvpn client-config interface vtun10 ca OVPN-CA certificate CLIENT
+</pre></div>
+</div>
+<p>save the output to a file and import it in nearly all openvpn clients.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>client
+nobind
+remote 198.51.100.254 1194
+remote-cert-tls server
+proto udp
+dev tun
+dev-type tun
+persist-key
+persist-tun
+verb 3
+
+# Encryption options
+
+keysize 256
+comp-lzo no
+
+&lt;ca&gt;
+-----BEGIN CERTIFICATE-----
+MIIFnTCCA4WgAwIBAgIUIPFIXvCxYdavCnSPFNjr6lUtlsswDQYJKoZIhvcNAQEL
+BQAwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcM
+CVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0y
+MzA1MTExMjM4MjJaFw0zMzA1MDgxMjM4MjJaMFcxCzAJBgNVBAYTAkdCMRMwEQYD
+VQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5
+T1MxEDAOBgNVBAMMB3Z5b3MuaW8wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
+AoICAQDg45vAzS6xNqU+Pa7wk1Imt1/az1C22Sbp3wPJLfgOmy0K3TA5qVsx/c/8
+gatsatMkCsekGnK5BPzCDd5eCCLo//B25HFO6fBYRNvHvVyCUx7QEXw4FHFNG88z
+CIizx114AGtVwZfGGG9xCc53xjLPUpH6iqTXme41cCFFQlqXwZ7fuySieSdoV8SA
+sJTTOsGCEUEcDEnNPn6tX3KWTzNuyFPECy8WCmNgWNyG2nmH+U7WRTX0ehZ5dZyU
+5au7TxpRN4a+JtE0gNqcWJ+nh1A543q2pcRoQpPAzHFclgj8wG/EyauQMY/LC4tL
+c6moPaNlTwA9HJv8s6xUqpzNptDoUHKOqKuw2JRFnno5SCQ788KkKNgVWBy2o3BG
+oewfHFhAdR61CXeLpmuneuhi96GcM031gW8ptXbd4DkCF7H6KRtqeIvwiyG79ttC
+8kZf01Sn1fM5fTjGxaE38dAk/RchtHRC6rtFavHJjB2cUcCkhhQofUE6IR2dYJZ1
+cw0Wy5CI3bXHf43BpvDGmuxIlNGirTq8wf5RCWzDJJgmkQpYhUYe8x4faF4gTo00
+uH4ZvAYjQu3JNZGkb50p4kM9Mu5rQAiZJUeMAz/QD+EIV9xXgOk14+BbnHKWbZ7O
+u5emewFuE/bjl79oNJklpXdc4soRkCPCTEGK3zDBdmUtCYk1DwIDAQABo2EwXzAP
+BgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEF
+BQcDAgYIKwYBBQUHAwEwHQYDVR0OBBYEFP5NDac/yC+mQmaTpZDUv9GZMGMBMA0G
+CSqGSIb3DQEBCwUAA4ICAQDEqpF2ibwYFxsF1XDIPS5/Gs0sZTZBuByNm5d2+jTy
+O7d5alZUdbvobbwhxZOhWasmFNyPLr4TYmZm5zF+efFsiOxjyRuEoVU+Fe8rZmpR
+IF/+6+nYX5r9vMI4QxGjeeyP20OHJ85Kvz182CTsITrM15Vw/kVVjAVzFI5Gm/Qo
+lalAoFQza9rAL4kDqaUszjHjPbysvDpGF+NLPjiYDHXcty/BC48bnuzAeEM60SGZ
+7EXvf8l0X8YsO7z39w6780A/3rbZvFhCYMKp/+p5xBRDjnX91dM6DJw73RwYQ1KH
+bHk9wWUwnL1giL71jzp/y4Oj6SSK2PQv+OnO80J6Zg06WIQx9xYcxr108Xh9FotU
+rlG7GYPI3Udf95t6SjuydDhULAVD0lMBxlDe9DHW1k1q1pOXaHZg926tY66xx/ld
+a6dcuwJjA2Dx5JI6L0u9ureQmQAtxvnoTCtf+hR1iX/IkskZCKs34SjNiCnBuw/D
+NfdOpfaABm7y+tWiXBwnu5l/K8poXcQYQByyZj6YMmpgsbVPr5KNsLWOgRA81M6I
+Pof8qxvnFrkazhiQWh1YHSjnaHtA3z5/BdgwHVICuFyrIOlbkKyJOjKcKBsDdMwI
+V0tsnpnyli2xEPZKu1tAQFAavXrK/RGYYhOZ3e0aRSV8hlP8i/mf7p0I45cJiBCq
+Pg==
+-----END CERTIFICATE-----
+
+&lt;/ca&gt;
+
+&lt;cert&gt;
+-----BEGIN CERTIFICATE-----
+MIIFsDCCA5igAwIBAgIUSzQgwzGsfJFecGxCwLXVsGCLMkAwDQYJKoZIhvcNAQEL
+BQAwVzELMAkGA1UEBhMCR0IxEzARBgNVBAgMClNvbWUtU3RhdGUxEjAQBgNVBAcM
+CVNvbWUtQ2l0eTENMAsGA1UECgwEVnlPUzEQMA4GA1UEAwwHdnlvcy5pbzAeFw0y
+MzA1MTExMjM4MzlaFw0zMzA1MDgxMjM4MzlaMFYxCzAJBgNVBAYTAkdCMRMwEQYD
+VQQIDApTb21lLVN0YXRlMRIwEAYDVQQHDAlTb21lLUNpdHkxDTALBgNVBAoMBFZ5
+T1MxDzANBgNVBAMMBmNsaWVudDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoC
+ggIBANHNJOSwcDbRqziL1gXYnHIq7P7vEUFvS8d/XLYJ1xIpcYTRXTut2CTGRar7
+fZZicu7x0yoK4TzrHvGVf1o4NC4NSGV5RX6kwRdrfWBmvpIkjSLGtCREFyhb+PHD
+pnsIS7cfN9udC0vocqVlx/xM/sfcP6Vja/uFp+9TQcneJIxYw34zkF+TtOVbE3pP
+5VxU7ZAj8F5/q1ONhTMdzG4Ol4/0nBqZfdYA3LVDeSSNIJNF5jlaKXXFHz1EJRem
+TYDx+f5bfCVcK2Qs8fU9jCFBlATjMu9O5rgk6nMLRwEnJZuZ1gj2tWQvz4e9yo5y
+Uqf1PUhOrn3c81MRliUNHKr+CkxgQJal6P3Ar3q4iftJih3K+/j4o194mQ/Dt/Et
++/Qn/DUFk2FB0rTMcQwJLTEAzxtTdmBJeJpipIPDR0u7UMZLNh/raQ8s3FsbY4uY
+ORt2f5YQlCVHbth4dRa9xa+oRbm7eomNACIbWfkLh5Bzud1+qIfdBMZKaZbnf0HE
+euH0J5LBJeova8EPxWbYMJPrRHzu5gowkIKl+uIxcy8IiNTA9YEoJVonCjmlr8NE
+tYShrIVbicdMNSI3pOQR60MFhkHwBjSU2l/z+4wwLxtzq/c2xKw9yrOZ46ZVLwGD
+Fq8rPwp7/P9r6mDKsbn6jIvGOeH71dMZvoc4lCaClw+hKIzLAgMBAAGjdTBzMAwG
+A1UdEwEB/wQCMAAwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMC
+MB0GA1UdDgQWBBS6j30FmL6kZW7rDH8QjRMoWoA/njAfBgNVHSMEGDAWgBT+TQ2n
+P8gvpkJmk6WQ1L/RmTBjATANBgkqhkiG9w0BAQsFAAOCAgEANW2Y4bgaB9oexEjj
+6rkGvePtQmXRkF/adVQREY9iZDGTe72ePybVzrfMkZHjse3o7JvXWRIVVztWSzEp
+v5noIOX7lAioGG3wsFTHotTFR0zrYJHXHBcV2Neq4Kx2Ta/TZwD8QnZHAAxEQ1pY
+b4fxwN/A60VElAZoz9zYsbrJyVrfuHDL9queQxPFzqis+7W1BiVIcv4rn0DMQ560
+jTGh4t4rImOSu5gUsUrQaih85XDdOBPxViSNwfVdZJIgbvamudpfEaKsIun/uCjc
+xpNnzIp0rhyYmDeqVat4GnTV7Sy48e/Uvcq71ZWbBYJF4+yW4pylIU2Sh/Uy2sAz
+4C2M71FlFB7qsmcnPRsFFHf+r1NyD1lkVI9k2371fTG/Kub9V0rOz4pvKz4Em5b4
+MUPdDbZOqJ8hQ+atGE3ovFJIovA3NFb0OtnyC4l+kG7dfjqFudOnmDa+Qsya+2YO
+xBZBIRfuhlXhb6Y6Smsk9R6x0jBmcQTPS5ZmvKaTxQCFc53xMdQNAswjiI2L9rw4
+BcqQfVmf/vpoN+VusD/XEv2V0Ixm10YybA7BI/tixh9vwj3fdQXVLy3jSYjVBd5W
+OFPizbQZeD10ElvlLqZZyWrP/Wre7Nmi/gEOnhBXXmo034fFF/vXf0JRpQsd2oDs
+24+4XwZYb8mbM31j7Nx8YvhR+64=
+-----END CERTIFICATE-----
+
+&lt;/cert&gt;
+
+&lt;key&gt;
+-----BEGIN PRIVATE KEY-----
+...REDACTED...
+-----END PRIVATE KEY-----
+
+&lt;/key&gt;
+</pre></div>
+</div>
+<section id="configure-vyos-as-client">
+<h3>Configure VyOS as client<a class="headerlink" href="#configure-vyos-as-client" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces openvpn vtun10 authentication username 'user01'
+set interfaces openvpn vtun10 authentication password '$ecret'
+set interfaces openvpn vtun10 encryption cipher 'aes256'
+set interfaces openvpn vtun10 hash 'sha512'
+set interfaces openvpn vtun10 mode 'client'
+set interfaces openvpn vtun10 persistent-tunnel
+set interfaces openvpn vtun10 protocol 'udp'
+set interfaces openvpn vtun10 remote-host '198.51.100.254'
+set interfaces openvpn vtun10 remote-port '1194'
+set interfaces openvpn vtun10 tls ca-certificate 'OVPN-CA'
+set interfaces openvpn vtun10 tls certificate 'CLIENT'
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<p>If the client is connected successfully you can check the status</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@ovpn-server:~$ show openvpn server
+OpenVPN status on vtun10
+
+Client CN    Remote Host         Tunnel IP    Local Host           TX bytes    RX bytes    Connected Since
+-----------  ------------------  -----------  -------------------  ----------  ----------  -------------------
+client       198.51.100.1:55150  10.23.1.6    198.51.100.254:1194  4.7 KB      4.7 KB      2023-05-11 12:47:11
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../Wireguard/Wireguard.html" class="btn btn-neutral float-left" title="Wireguard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../vpp/index.html" class="btn btn-neutral float-right" title="VPP Dataplane" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

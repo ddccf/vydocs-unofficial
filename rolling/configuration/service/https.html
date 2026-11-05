@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="VyOS provides an HTTP API for running operational-mode commands and managing configuration. The API is available as both REST and GraphQL, served by an HTTPS listener with configurable TLS. " name="description" />
+<meta content="http-api, https, rest, graphql, api-key, jwt, tls, cors" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTTP API &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/https.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="IPoE server" href="ipoe-server.html" />
+    <link rel="prev" title="Event handler" href="eventhandler.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HTTP API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">HTTP API</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/https.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="http-api">
+<span id="id1"></span><h1>HTTP API<a class="headerlink" href="#http-api" title="Link to this heading"></a></h1>
+<p>VyOS provides an HTTP API. You can use it to run operational-mode
+commands or to change or delete configuration. The API is available as
+both a REST API and a GraphQL API.</p>
+<p>For REST API request examples, endpoints, and authentication details,
+see <a class="reference internal" href="../../automation/vyos-api.html#vyosapi"><span class="std std-ref">VyOS API</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If no PKI certificate is configured for the service, VyOS automatically
+generates a self-signed certificate. This is not recommended for production use.</p>
+</div>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="https-listener">
+<h3>HTTPS listener<a class="headerlink" href="#https-listener" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-listen-address-address">
+set service https listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IPv4 or IPv6 address on which the HTTPS listener
+accepts incoming connections.</strong></p>
+<p>The IP address must already be assigned to a local interface. Repeat
+the command to configure multiple IP addresses.</p>
+<p>When unset, the listener accepts incoming connections on all local IP
+addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https listen-address 192.0.2.1
+set service https listen-address 2001:db8::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-port-1-65535">
+set service https port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which the HTTPS listener accepts incoming
+connections.</strong></p>
+<p>The default is 443.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the chosen port is already in use by another service, the commit
+fails.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https port 8443
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-vrf-name">
+set service https vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Bind the HTTPS listener to the specified
+<abbr title="Virtual Routing and Forwarding">VRF</abbr> instance.</strong></p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https vrf mgmt
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-allow-client-address-address">
+set service https allow-client address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-allow-client-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Restrict access to the HTTPS API endpoints to the specified IPv4 or
+IPv6 address or prefix.</strong></p>
+<p>Repeat the command to allow multiple IP addresses or prefixes.</p>
+<p>When unset, the API accepts connections from any IP address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https allow-client address 192.0.2.0/24
+set service https allow-client address 2001:db8::/32
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-enable-http-redirect">
+set service https enable-http-redirect</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-enable-http-redirect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable redirection of incoming HTTP requests (port 80) to HTTPS.</strong></p>
+<p>The redirect sends traffic to the default HTTPS port (443). If you
+have changed the HTTPS port, the redirect will not work.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https enable-http-redirect
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-request-body-size-limit-1-256">
+set service https request-body-size-limit &lt;1-256&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-request-body-size-limit-1-256" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum size, in megabytes, of an HTTP request body
+accepted by the listener.</strong></p>
+<p>Requests exceeding this limit are rejected.</p>
+<p>The default is 1.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https request-body-size-limit 10
+</pre></div>
+</div>
+</section>
+<section id="tls">
+<h3>TLS<a class="headerlink" href="#tls" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-tls-version-1-2-1-3">
+set service https tls-version &lt;1.2 | 1.3&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-tls-version-1-2-1-3" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable a specific TLS protocol version for the HTTPS listener.</strong></p>
+<p>Repeat the command to enable multiple protocol versions.</p>
+<p>By default, both TLS 1.2 and TLS 1.3 are enabled.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https tls-version 1.3
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-certificates-certificate-name">
+set service https certificates certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-certificates-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Bind a TLS certificate from the PKI subsystem to the HTTPS
+listener.</strong></p>
+<p>The certificate must already be defined under
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">certificate</span> <span class="pre">&lt;name&gt;</span></code> with both a certificate and a private
+key.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https certificates certificate my-server-cert
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-certificates-ca-certificate-name">
+set service https certificates ca-certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-certificates-ca-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Bind a <abbr title="Certificate Authority">CA</abbr> certificate from the PKI
+subsystem to the HTTPS listener.</strong></p>
+<p>The CA must already be defined under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">ca</span> <span class="pre">&lt;name&gt;</span></code>. The CA
+certificate is appended to the TLS certificate to form a full chain
+presented to clients during the TLS handshake.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https certificates ca-certificate my-internal-ca
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-certificates-dh-params-name">
+set service https certificates dh-params &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-certificates-dh-params-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Choose Diffie-Hellman parameters from the PKI subsystem for the HTTPS
+listener.</strong></p>
+<p>The parameters must already be defined under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">dh</span> <span class="pre">&lt;name&gt;</span></code> with
+a key size of at least 2048 bits. The parameters are used by DHE
+cipher suites in TLS 1.2. TLS 1.3 does not use them.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https certificates dh-params my-dh-2048
+</pre></div>
+</div>
+</section>
+<section id="api-authentication">
+<h3>API authentication<a class="headerlink" href="#api-authentication" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-keys-id-name-key-apikey">
+set service https api keys id &lt;name&gt; key &lt;apikey&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-keys-id-name-key-apikey" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an HTTP API key to authenticate REST requests, and GraphQL
+requests unless GraphQL is switched to JWT token authentication.</strong></p>
+<p>The key is specified in plaintext and grants full access to the API.</p>
+<p>At least one key must be configured to use the REST API. GraphQL can
+run without keys if JWT token authentication is enabled.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api keys id MY-HTTPS-API-ID key 'MY-HTTPS-API-PLAINTEXT-KEY'
+</pre></div>
+</div>
+</section>
+<section id="rest">
+<h3>REST<a class="headerlink" href="#rest" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-rest">
+set service https api rest</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-rest" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable the REST API for managing VyOS over HTTPS.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api rest
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-rest-strict">
+set service https api rest strict</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-rest-strict" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Reject delete requests on the <code class="docutils literal notranslate"><span class="pre">/configure</span></code> endpoint when the target
+configuration path does not exist.</strong></p>
+<p>Without this flag, such requests succeed silently.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api rest strict
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-rest-debug">
+set service https api rest debug</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-rest-debug" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Log detailed error messages to the systemd journal when API
+configuration requests fail.</strong></p>
+<p>Without this flag, only short error messages are logged.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api rest debug
+</pre></div>
+</div>
+</section>
+<section id="graphql">
+<h3>GraphQL<a class="headerlink" href="#graphql" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-graphql-introspection">
+set service https api graphql introspection</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-graphql-introspection" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable GraphQL schema introspection.</strong></p>
+<p>Authenticated clients can then query the endpoint for the full schema.
+Disabled by default, and typically kept disabled in production due to
+security concerns.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api graphql introspection
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-graphql-authentication-type-key-token">
+set service https api graphql authentication type &lt;key | token&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-graphql-authentication-type-key-token" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication type for GraphQL requests:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">key</span></code>: Uses the API keys configured in <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">https</span> <span class="pre">api</span> <span class="pre">keys</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">token</span></code>: Uses <abbr title="JSON Web Token">JWT</abbr> tokens.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api graphql authentication type token
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-graphql-authentication-expiration-60-31536000">
+set service https api graphql authentication expiration &lt;60-31536000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-graphql-authentication-expiration-60-31536000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the lifetime, in seconds, of JWT tokens.</strong></p>
+<p>The default is 3600.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api graphql authentication expiration 86400
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-graphql-authentication-secret-length-16-65535">
+set service https api graphql authentication secret-length &lt;16-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-graphql-authentication-secret-length-16-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the length, in bytes, of the shared secret used to sign
+JWT tokens.</strong></p>
+<p>The default is 32.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api graphql authentication secret-length 64
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-https-api-graphql-cors-allow-origin-origin">
+set service https api graphql cors allow-origin &lt;origin&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-https-api-graphql-cors-allow-origin-origin" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure which websites (origins) can read responses from the
+GraphQL API in a browser, using
+<abbr title="Cross-Origin Resource Sharing">CORS</abbr>.</strong></p>
+<p>Repeat the command to allow multiple origins.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api graphql cors allow-origin https://app.example.com
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The minimal configuration for a working REST API requires enabling REST
+and configuring at least one API key:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https api keys id MY-HTTPS-API-ID key MY-HTTPS-API-PLAINTEXT-KEY
+set service https api rest
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="eventhandler.html" class="btn btn-neutral float-left" title="Event handler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipoe-server.html" class="btn btn-neutral float-right" title="IPoE server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

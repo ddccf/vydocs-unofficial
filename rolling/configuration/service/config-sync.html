@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Config sync is a VyOS service that replicates selected sections of one router's configuration to another by pushing changes from a primary to a secondary over the HTTPS API. " name="description" />
+<meta content="config-sync, configuration synchronization, primary, secondary, https api" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Config sync &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/config-sync.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Conntrack sync" href="conntrack-sync.html" />
+    <link rel="prev" title="UDP broadcast relay" href="broadcast-relay.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Config sync</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">Config sync</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/config-sync.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="config-sync">
+<span id="id1"></span><h1>Config sync<a class="headerlink" href="#config-sync" title="Link to this heading"></a></h1>
+<p>Configuration synchronization (config-sync) is a VyOS service that
+replicates selected sections of one router’s configuration to another
+router. It eliminates the need to manually mirror configuration changes
+from a primary router to a secondary.</p>
+<p>Synchronization is performed by a post-commit hook on the primary
+router. The hook watches the sections selected for synchronization. When
+any of them is modified by a commit, the hook calls the HTTPS API on the
+secondary router and sends the current state of all selected sections in
+one of the following modes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load</span></code>: Replaces the selected sections on the secondary with the
+primary’s version. Anything that exists only on the secondary inside
+those sections is removed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Merges the primary’s version of the selected sections into the
+secondary. Conflicting values are overwritten by the primary. Entries
+that exist only on the secondary are kept.</p></li>
+</ul>
+<p>Synchronization is strictly unidirectional from primary to secondary;
+changes made on the secondary are not sent back.</p>
+<p>Both routers must be online during a commit on the primary that modifies
+a configured section. If the secondary is unreachable, the primary’s
+commit still succeeds, but the configuration is not synchronized, and
+the failure is recorded in the system log.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="secondary-router-parameters">
+<h3>Secondary router parameters<a class="headerlink" href="#secondary-router-parameters" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-secondary-address-address">
+set service config-sync secondary address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-secondary-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the address of the secondary router.</strong></p>
+<p>The primary router pushes the synchronized configuration to this address
+over the secondary’s HTTPS API. The value can be an IPv4 address, an
+IPv6 address, or an <abbr title="Fully Qualified Domain Name">FQDN</abbr>. This
+value is mandatory.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The address must be set whenever <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">config-sync</span></code> is configured.
+Otherwise, the commit is rejected.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync secondary address 192.0.2.112
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-secondary-port-1-65535">
+set service config-sync secondary port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-secondary-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which the secondary router’s HTTPS API
+listens.</strong></p>
+<p>The value must match the port configured under <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">https</span> <span class="pre">port</span></code> on
+the secondary router. If they diverge, the primary’s commit succeeds,
+but the post-commit sync fails. The secondary is not updated, and the
+primary logs the error to the system log.</p>
+<p>The default is 443, matching the default of <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">https</span> <span class="pre">port</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync secondary port 8443
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-secondary-key-key">
+set service config-sync secondary key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-secondary-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the HTTPS API key the primary router uses to authenticate
+to the secondary router’s HTTPS API.</strong></p>
+<p>The value must match a key configured under <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">https</span> <span class="pre">api</span> <span class="pre">keys</span> <span class="pre">id</span> <span class="pre">&lt;ID&gt;</span> <span class="pre">key</span></code> on the secondary. If no matching key exists on the secondary,
+the primary’s commit still succeeds, but the post-commit sync fails.
+The secondary is not updated, and the primary logs the error to the
+system log.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This value must be set whenever <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">config-sync</span></code> is configured.
+Otherwise, the commit is rejected.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync secondary key 'foo'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-secondary-timeout-1-3600">
+set service config-sync secondary timeout &lt;1-3600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-secondary-timeout-1-3600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how long, in seconds, the primary router waits for an HTTPS
+response from the secondary after pushing configuration.</strong></p>
+<p>The default is 60 seconds.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync secondary timeout 120
+</pre></div>
+</div>
+</section>
+<section id="synchronization-mode">
+<h3>Synchronization mode<a class="headerlink" href="#synchronization-mode" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-mode-load-set">
+set service config-sync mode &lt;load | set&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-mode-load-set" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how the secondary router applies the configuration pushed
+by the primary:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load</span></code>: Replaces the selected sections on the secondary with the
+primary’s version. Anything that exists only on the secondary inside
+those sections is removed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Merges the primary’s version of the selected sections into the
+secondary. Conflicting values are overwritten by the primary. Entries
+that exist only on the secondary are kept.</p></li>
+</ul>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This value must be set whenever <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">config-sync</span></code> is configured.
+Otherwise, the commit is rejected.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync mode load
+</pre></div>
+</div>
+</section>
+<section id="sections-to-synchronize">
+<h3>Sections to synchronize<a class="headerlink" href="#sections-to-synchronize" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-config-sync-section-section">
+set service config-sync section &lt;section&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-config-sync-section-section" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure one or more configuration sections to be synchronized from
+the primary to the secondary router.</strong></p>
+<p>Repeat the command to add additional sections. If any configured
+section was modified by a commit on the primary, the hook pushes the
+current state of all configured sections to the secondary. If none of
+the configured sections were modified, the hook does nothing.</p>
+<p>Supported sections:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">firewall</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interfaces</span> <span class="pre">&lt;bonding</span> <span class="pre">|</span> <span class="pre">bridge</span> <span class="pre">|</span> <span class="pre">dummy</span> <span class="pre">|</span> <span class="pre">ethernet</span> <span class="pre">|</span> <span class="pre">geneve</span> <span class="pre">|</span> <span class="pre">input</span> <span class="pre">|</span> <span class="pre">l2tpv3</span> <span class="pre">|</span> <span class="pre">loopback</span> <span class="pre">|</span> <span class="pre">macsec</span> <span class="pre">|</span> <span class="pre">openvpn</span> <span class="pre">|</span> <span class="pre">pppoe</span> <span class="pre">|</span> <span class="pre">pseudo-ethernet</span> <span class="pre">|</span> <span class="pre">sstpc</span> <span class="pre">|</span> <span class="pre">tunnel</span> <span class="pre">|</span> <span class="pre">virtual-ethernet</span> <span class="pre">|</span> <span class="pre">vti</span> <span class="pre">|</span> <span class="pre">vxlan</span> <span class="pre">|</span> <span class="pre">wireguard</span> <span class="pre">|</span> <span class="pre">wireless</span> <span class="pre">|</span> <span class="pre">wwan&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nat</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nat66</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pki</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">policy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">protocols</span> <span class="pre">&lt;babel</span> <span class="pre">|</span> <span class="pre">bfd</span> <span class="pre">|</span> <span class="pre">bgp</span> <span class="pre">|</span> <span class="pre">failover</span> <span class="pre">|</span> <span class="pre">igmp-proxy</span> <span class="pre">|</span> <span class="pre">isis</span> <span class="pre">|</span> <span class="pre">mpls</span> <span class="pre">|</span> <span class="pre">nhrp</span> <span class="pre">|</span> <span class="pre">ospf</span> <span class="pre">|</span> <span class="pre">ospfv3</span> <span class="pre">|</span> <span class="pre">pim</span> <span class="pre">|</span> <span class="pre">pim6</span> <span class="pre">|</span> <span class="pre">rip</span> <span class="pre">|</span> <span class="pre">ripng</span> <span class="pre">|</span> <span class="pre">rpki</span> <span class="pre">|</span> <span class="pre">segment-routing</span> <span class="pre">|</span> <span class="pre">static&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qos</span> <span class="pre">&lt;interface</span> <span class="pre">|</span> <span class="pre">policy&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">&lt;console-server</span> <span class="pre">|</span> <span class="pre">dhcp-relay</span> <span class="pre">|</span> <span class="pre">dhcp-server</span> <span class="pre">|</span> <span class="pre">dhcpv6-relay</span> <span class="pre">|</span> <span class="pre">dhcpv6-server</span> <span class="pre">|</span> <span class="pre">dns</span> <span class="pre">|</span> <span class="pre">lldp</span> <span class="pre">|</span> <span class="pre">mdns</span> <span class="pre">|</span> <span class="pre">monitoring</span> <span class="pre">|</span> <span class="pre">ndp-proxy</span> <span class="pre">|</span> <span class="pre">ntp</span> <span class="pre">|</span> <span class="pre">snmp</span> <span class="pre">|</span> <span class="pre">tftp-server</span> <span class="pre">|</span> <span class="pre">webproxy&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">&lt;conntrack</span> <span class="pre">|</span> <span class="pre">flow-accounting</span> <span class="pre">|</span> <span class="pre">login</span> <span class="pre">|</span> <span class="pre">option</span> <span class="pre">|</span> <span class="pre">sflow</span> <span class="pre">|</span> <span class="pre">static-host-mapping</span> <span class="pre">|</span> <span class="pre">sysctl</span> <span class="pre">|</span> <span class="pre">time-zone&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vpn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vrf</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At least one section must be set whenever <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">config-sync</span></code> is
+configured. Otherwise, the commit is rejected.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync section protocols ospf
+set service config-sync section system time-zone
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-configuration-secondary-sync-commands-running-candidate-saved-config-node-path">
+show configuration secondary sync [commands] [running | candidate | saved [&lt;config-node-path&gt;]]</span>
+<a class="cmdlink" href="#opcmd-show-configuration-secondary-sync-commands-running-candidate-saved-config-node-path" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the difference between the local configuration on the primary
+and the running configuration on the secondary.</strong></p>
+<p>The command fetches the secondary’s running configuration live over the
+HTTPS API, so the secondary must be reachable.</p>
+<p>The local configuration defaults to <code class="docutils literal notranslate"><span class="pre">running</span></code> and can be set to
+<code class="docutils literal notranslate"><span class="pre">candidate</span></code> (uncommitted changes) or <code class="docutils literal notranslate"><span class="pre">saved</span></code> (last saved configuration).
+The remote side is always the secondary’s running configuration.</p>
+<p>By default, the difference is shown in the curly-brace configuration
+format with <code class="docutils literal notranslate"><span class="pre">-</span></code> prefixing lines that exist only on the secondary and
+<code class="docutils literal notranslate"><span class="pre">+</span></code> prefixing lines that exist only on the primary. The optional
+<code class="docutils literal notranslate"><span class="pre">commands</span></code> keyword renders the same difference as a sequence of <code class="docutils literal notranslate"><span class="pre">set</span></code>
+and <code class="docutils literal notranslate"><span class="pre">delete</span></code> configuration commands, where <code class="docutils literal notranslate"><span class="pre">set</span></code> lists paths present
+only on the primary, and <code class="docutils literal notranslate"><span class="pre">delete</span></code> lists paths present only on the
+secondary.</p>
+<p>The optional <code class="docutils literal notranslate"><span class="pre">&lt;config-node-path&gt;</span></code> argument limits the difference to a
+single section and must be one of the sections already configured under
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">config-sync</span> <span class="pre">section</span></code>. If omitted, the difference covers
+all configured sections.</p>
+</div>
+</div>
+<p>Examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Compare the full running configuration against the secondary
+show configuration secondary sync
+
+# Compare only the OSPF protocol configuration against the secondary
+show configuration secondary sync running protocols ospf
+
+# Compare the candidate configuration against the secondary,
+# rendered as commands
+show configuration secondary sync commands candidate
+</pre></div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The following example synchronizes the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">time-zone</span></code> and
+<code class="docutils literal notranslate"><span class="pre">protocols</span> <span class="pre">ospf</span></code> sections from Router A (primary, <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code>) to
+Router B (secondary, <code class="docutils literal notranslate"><span class="pre">192.0.2.112</span></code>). Router B’s HTTPS API listens on
+TCP port 8443.</p>
+<p>Enable and configure the HTTPS API service on Router B:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service https listen-address '192.0.2.112'
+set service https port '8443'
+set service https api keys id primary key 'foo'
+set service https api rest
+</pre></div>
+</div>
+<p>Configure the config-sync service on Router A:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service config-sync mode 'load'
+set service config-sync secondary address '192.0.2.112'
+set service config-sync secondary port '8443'
+set service config-sync secondary key 'foo'
+set service config-sync section protocols 'ospf'
+set service config-sync section system 'time-zone'
+</pre></div>
+</div>
+<p>Make changes on Router A that fall under one of the synchronized
+sections. The post-commit hook fires automatically on commit:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos-A# set system time-zone 'America/Los_Angeles'
+vyos@vyos-A# commit
+INFO:vyos_config_sync:Config synchronization: Mode=load, Secondary=192.0.2.112
+vyos@vyos-A# save
+
+vyos@vyos-A# set protocols ospf area 0 network '198.51.100.0/30'
+vyos@vyos-A# commit
+INFO:vyos_config_sync:Config synchronization: Mode=load, Secondary=192.0.2.112
+vyos@vyos-A# save
+</pre></div>
+</div>
+<p>Each commit on Router A modifies one section, but because the hook
+pushes all configured sections whenever any of them is modified, both
+commits replace the full state of <code class="docutils literal notranslate"><span class="pre">system</span></code> and <code class="docutils literal notranslate"><span class="pre">protocols</span> <span class="pre">ospf</span></code> on
+Router B.</p>
+<p>Verify that the changes have been applied on Router B:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos-B:~$ show configuration commands | match time-zone
+set system time-zone 'America/Los_Angeles'
+
+vyos@vyos-B:~$ show configuration commands | match ospf
+set protocols ospf area 0 network '198.51.100.0/30'
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="broadcast-relay.html" class="btn btn-neutral float-left" title="UDP broadcast relay" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="conntrack-sync.html" class="btn btn-neutral float-right" title="Conntrack sync" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/genindex.html" />
+  <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="static/jquery.js?v=5d32c60e"></script>
+        <script src="static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="static/documentation_options.js?v=57cd15ac"></script>
+        <script src="static/doctools.js?v=888ff710"></script>
+        <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="static/design-tabs.js?v=36754332"></script>
+        <script src="static/js/version-picker.js?v=592f8c19"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            VyOS
+              <img src="static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/genindex" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#N"><strong>N</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ 
+</div>
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="operation/boot-options.html#term-no-vyos-firewall"><strong>no-vyos-firewall</strong></a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="operation/boot-options.html#term-no-vyos-migrate"><strong>no-vyos-migrate</strong></a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    RFC
+
+      <ul>
+        <li><a href="configuration/protocols/ospf.html#index-5">RFC 1583</a>
+</li>
+        <li><a href="configuration/vpn/dmvpn.html#index-1">RFC 1702</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-0">RFC 1812</a>, <a href="configuration/interfaces/bonding.html#index-8">[1]</a>, <a href="configuration/interfaces/bridge.html#index-0">[2]</a>, <a href="configuration/interfaces/bridge.html#index-8">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-0">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-16">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-8">[6]</a>, <a href="configuration/interfaces/geneve.html#index-0">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-0">[8]</a>, <a href="configuration/interfaces/macsec.html#index-0">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-0">[10]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-0">[11]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-8">[12]</a>, <a href="configuration/interfaces/tunnel.html#index-0">[13]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-0">[14]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-8">[15]</a>, <a href="configuration/interfaces/vti.html#index-0">[16]</a>, <a href="configuration/interfaces/vxlan.html#index-1">[17]</a>, <a href="configuration/interfaces/wireless.html#index-0">[18]</a>, <a href="configuration/interfaces/wireless.html#index-16">[19]</a>, <a href="configuration/interfaces/wireless.html#index-8">[20]</a>, <a href="configuration/interfaces/wwan.html#index-0">[21]</a>
+</li>
+        <li><a href="configuration/nat/nat44.html#index-0">RFC 1918</a>, <a href="configuration/nat/nat44.html#index-1">[1]</a>, <a href="configuration/nat/nat44.html#index-2">[2]</a>
+</li>
+        <li><a href="configuration/service/webproxy.html#index-0">RFC 2037</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-14">RFC 2131</a>, <a href="configuration/interfaces/bonding.html#index-6">[1]</a>, <a href="configuration/interfaces/bridge.html#index-14">[2]</a>, <a href="configuration/interfaces/bridge.html#index-6">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-14">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-22">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-6">[6]</a>, <a href="configuration/interfaces/macsec.html#index-6">[7]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-14">[8]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-6">[9]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-14">[10]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-6">[11]</a>, <a href="configuration/interfaces/wireless.html#index-14">[12]</a>, <a href="configuration/interfaces/wireless.html#index-22">[13]</a>, <a href="configuration/interfaces/wireless.html#index-6">[14]</a>, <a href="configuration/interfaces/wwan.html#index-6">[15]</a>
+</li>
+        <li><a href="configuration/service/webproxy.html#index-1">RFC 2254</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-0">RFC 2328</a>, <a href="configuration/protocols/ospf.html#index-4">[1]</a>
+</li>
+        <li><a href="configuration/vpn/dmvpn.html#index-0">RFC 2332</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-7">RFC 2370</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-2">RFC 2409</a>
+</li>
+        <li><a href="configuration/trafficpolicy/index.html#index-0">RFC 2474</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-1">RFC 2644</a>, <a href="configuration/interfaces/bonding.html#index-9">[1]</a>, <a href="configuration/interfaces/bridge.html#index-1">[2]</a>, <a href="configuration/interfaces/bridge.html#index-9">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-1">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-17">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-9">[6]</a>, <a href="configuration/interfaces/geneve.html#index-1">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-1">[8]</a>, <a href="configuration/interfaces/macsec.html#index-1">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-1">[10]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-1">[11]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-9">[12]</a>, <a href="configuration/interfaces/tunnel.html#index-1">[13]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-1">[14]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-9">[15]</a>, <a href="configuration/interfaces/vti.html#index-1">[16]</a>, <a href="configuration/interfaces/vxlan.html#index-2">[17]</a>, <a href="configuration/interfaces/wireless.html#index-1">[18]</a>, <a href="configuration/interfaces/wireless.html#index-17">[19]</a>, <a href="configuration/interfaces/wireless.html#index-9">[20]</a>, <a href="configuration/interfaces/wwan.html#index-1">[21]</a>
+</li>
+        <li><a href="configuration/nat/nat44.html#index-3">RFC 2860</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-10">RFC 3069</a>, <a href="configuration/interfaces/bonding.html#index-2">[1]</a>, <a href="configuration/interfaces/bridge.html#index-10">[2]</a>, <a href="configuration/interfaces/bridge.html#index-2">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-10">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-18">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-2">[6]</a>, <a href="configuration/interfaces/geneve.html#index-2">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-2">[8]</a>, <a href="configuration/interfaces/macsec.html#index-2">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-2">[10]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-10">[11]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-2">[12]</a>, <a href="configuration/interfaces/tunnel.html#index-2">[13]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-10">[14]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-2">[15]</a>, <a href="configuration/interfaces/vti.html#index-2">[16]</a>, <a href="configuration/interfaces/vxlan.html#index-3">[17]</a>, <a href="configuration/interfaces/wireless.html#index-10">[18]</a>, <a href="configuration/interfaces/wireless.html#index-18">[19]</a>, <a href="configuration/interfaces/wireless.html#index-2">[20]</a>, <a href="configuration/interfaces/wwan.html#index-2">[21]</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-2">RFC 3137</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-3">RFC 3407</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-3">RFC 3509</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-10">RFC 3623</a>, <a href="configuration/protocols/ospf.html#index-11">[1]</a>, <a href="configuration/protocols/ospf.html#index-8">[2]</a>, <a href="configuration/protocols/ospf.html#index-9">[3]</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-15">RFC 3633</a>, <a href="configuration/interfaces/bonding.html#index-7">[1]</a>, <a href="configuration/interfaces/bridge.html#index-15">[2]</a>, <a href="configuration/interfaces/bridge.html#index-7">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-15">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-23">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-7">[6]</a>, <a href="configuration/interfaces/macsec.html#index-7">[7]</a>, <a href="configuration/interfaces/pppoe.html#index-2">[8]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-15">[9]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-7">[10]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-15">[11]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-7">[12]</a>, <a href="configuration/interfaces/wireless.html#index-15">[13]</a>, <a href="configuration/interfaces/wireless.html#index-23">[14]</a>, <a href="configuration/interfaces/wireless.html#index-7">[15]</a>, <a href="configuration/interfaces/wwan.html#index-7">[16]</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-11">RFC 3704</a>, <a href="configuration/interfaces/bonding.html#index-3">[1]</a>, <a href="configuration/interfaces/bridge.html#index-11">[2]</a>, <a href="configuration/interfaces/bridge.html#index-3">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-11">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-19">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-3">[6]</a>, <a href="configuration/interfaces/geneve.html#index-3">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-3">[8]</a>, <a href="configuration/interfaces/macsec.html#index-3">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-3">[10]</a>, <a href="configuration/interfaces/pppoe.html#index-0">[11]</a>, <a href="configuration/interfaces/pppoe.html#index-1">[12]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-11">[13]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-3">[14]</a>, <a href="configuration/interfaces/sstp-client.html#index-0">[15]</a>, <a href="configuration/interfaces/sstp-client.html#index-1">[16]</a>, <a href="configuration/interfaces/tunnel.html#index-3">[17]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-11">[18]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-3">[19]</a>, <a href="configuration/interfaces/vti.html#index-3">[20]</a>, <a href="configuration/interfaces/vxlan.html#index-4">[21]</a>, <a href="configuration/interfaces/wireless.html#index-11">[22]</a>, <a href="configuration/interfaces/wireless.html#index-19">[23]</a>, <a href="configuration/interfaces/wireless.html#index-3">[24]</a>, <a href="configuration/interfaces/wwan.html#index-3">[25]</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-6">RFC 3706</a>
+</li>
+        <li><a href="documentation.html#index-1">RFC 3849</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-4">RFC 3947</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-5">RFC 3948</a>
+</li>
+        <li><a href="configuration/interfaces/tunnel.html#index-6">RFC 4213</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-13">RFC 4291</a>, <a href="configuration/interfaces/bonding.html#index-5">[1]</a>, <a href="configuration/interfaces/bridge.html#index-13">[2]</a>, <a href="configuration/interfaces/bridge.html#index-5">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-13">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-21">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-5">[6]</a>, <a href="configuration/interfaces/geneve.html#index-5">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-5">[8]</a>, <a href="configuration/interfaces/macsec.html#index-5">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-5">[10]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-13">[11]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-5">[12]</a>, <a href="configuration/interfaces/tunnel.html#index-5">[13]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-13">[14]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-5">[15]</a>, <a href="configuration/interfaces/vti.html#index-5">[16]</a>, <a href="configuration/interfaces/vxlan.html#index-6">[17]</a>, <a href="configuration/interfaces/wireless.html#index-13">[18]</a>, <a href="configuration/interfaces/wireless.html#index-21">[19]</a>, <a href="configuration/interfaces/wireless.html#index-5">[20]</a>, <a href="configuration/interfaces/wwan.html#index-5">[21]</a>
+</li>
+        <li><a href="configuration/vpn/dmvpn.html#index-2">RFC 4301</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-0">RFC 4302</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-1">RFC 4303</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-10">RFC 4555</a>
+</li>
+        <li><a href="configuration/trafficpolicy/index.html#index-1">RFC 4595</a>
+</li>
+        <li><a href="configuration/interfaces/bonding.html#index-12">RFC 4862</a>, <a href="configuration/interfaces/bonding.html#index-4">[1]</a>, <a href="configuration/interfaces/bridge.html#index-12">[2]</a>, <a href="configuration/interfaces/bridge.html#index-4">[3]</a>, <a href="configuration/interfaces/ethernet.html#index-12">[4]</a>, <a href="configuration/interfaces/ethernet.html#index-20">[5]</a>, <a href="configuration/interfaces/ethernet.html#index-4">[6]</a>, <a href="configuration/interfaces/geneve.html#index-4">[7]</a>, <a href="configuration/interfaces/l2tpv3.html#index-4">[8]</a>, <a href="configuration/interfaces/macsec.html#index-4">[9]</a>, <a href="configuration/interfaces/openvpn.html#index-4">[10]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-12">[11]</a>, <a href="configuration/interfaces/pseudo-ethernet.html#index-4">[12]</a>, <a href="configuration/interfaces/tunnel.html#index-4">[13]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-12">[14]</a>, <a href="configuration/interfaces/virtual-ethernet.html#index-4">[15]</a>, <a href="configuration/interfaces/vti.html#index-4">[16]</a>, <a href="configuration/interfaces/vxlan.html#index-5">[17]</a>, <a href="configuration/interfaces/wireless.html#index-12">[18]</a>, <a href="configuration/interfaces/wireless.html#index-20">[19]</a>, <a href="configuration/interfaces/wireless.html#index-4">[20]</a>, <a href="configuration/interfaces/wwan.html#index-4">[21]</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-1">RFC 5340</a>
+</li>
+        <li><a href="documentation.html#index-2">RFC 5389</a>
+</li>
+        <li><a href="configuration/protocols/ospf.html#index-6">RFC 5443</a>
+</li>
+        <li><a href="documentation.html#index-0">RFC 5737</a>
+</li>
+        <li><a href="configuration/protocols/bfd.html#index-0">RFC 5880</a>
+</li>
+        <li><a href="configuration/protocols/bfd.html#index-1">RFC 5881</a>
+</li>
+        <li><a href="configuration/protocols/bfd.html#index-2">RFC 5883</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-9">RFC 6023</a>
+</li>
+        <li><a href="configuration/nat/cgnat.html#index-2">RFC 6598</a>, <a href="configuration/nat/nat44.html#index-4">[1]</a>
+</li>
+        <li><a href="configuration/nat/cgnat.html#index-0">RFC 6888</a>, <a href="configuration/nat/cgnat.html#index-1">[1]</a>, <a href="configuration/nat/cgnat.html#index-3">[2]</a>
+</li>
+        <li><a href="documentation.html#index-3">RFC 7042</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-7">RFC 7296</a>
+</li>
+        <li><a href="configuration/interfaces/vxlan.html#index-0">RFC 7348</a>
+</li>
+        <li><a href="configuration/interfaces/vxlan.html#index-7">RFC 7432#section-10</a>
+</li>
+        <li><a href="configuration/system/proxy.html#index-0">RFC 7617</a>, <a href="configuration/system/proxy.html#index-1">[1]</a>
+</li>
+        <li><a href="configuration/trafficpolicy/index.html#index-2">RFC 791</a>
+</li>
+        <li><a href="configuration/protocols/arp.html#index-0">RFC 826</a>
+</li>
+        <li><a href="configuration/vpn/ipsec/ipsec_general.html#index-8">RFC 8784</a>
+</li>
+        <li><a href="configuration/system/login.html#index-0">RFC 8907</a>
+</li>
+        <li><a href="configuration/service/ntp.html#index-0">RFC 8915</a>
+</li>
+        <li><a href="configuration/protocols/babel.html#index-0">RFC 8966</a>
+</li>
+        <li><a href="configuration/service/ntp.html#index-1">RFC 9769</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

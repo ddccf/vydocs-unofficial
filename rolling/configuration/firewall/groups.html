@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Firewall groups are named collections of addresses, networks, ports, MAC addresses, interfaces, and domain names that you can reference in rules. They cover address, network, interface, port, MAC, domain, remote, and dynamic groups, and nested groups. " name="description" />
+<meta content="firewall, groups, address group, remote group, dynamic group" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firewall groups &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/firewall/groups.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Bridge layer" href="bridge.html" />
+    <link rel="prev" title="Firewall global options" href="global-options.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Firewall</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#packet-flow">Packet flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#zone-based-firewall">Zone-based firewall</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#firewall-configuration">Firewall configuration</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="global-options.html">Firewall global options</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Firewall groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bridge.html">Bridge layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zone.html">Zone-Based Firewall</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Firewall</a></li>
+      <li class="breadcrumb-item active">Firewall groups</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/firewall/groups.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="firewall-groups">
+<span id="firewall-groups-configuration"></span><h1>Firewall groups<a class="headerlink" href="#firewall-groups" title="Link to this heading"></a></h1>
+<p>Firewall groups are named collections of IP addresses, networks, ports, MAC
+addresses, domain names, or interfaces. You can reference a group in firewall,
+NAT, and policy route rules as a source or destination match, and an interface
+group as an inbound or outbound interface match. Remote and dynamic
+groups are available in firewall rules only.</p>
+<p>Address, IPv6 address, network, IPv6 network, MAC, port, and interface groups
+can include other groups of the same type. A rule that references a group
+matches the members of that group and the members of the groups that it
+includes.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="address-groups">
+<h3>Address groups<a class="headerlink" href="#address-groups" title="Link to this heading"></a></h3>
+<p>An <strong>address group</strong> is a named collection of IPv4 addresses and IPv4 address
+ranges. An <strong>IPv6 address group</strong> is the IPv6 equivalent.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-address-group-name-address-ipv4-address-ipv4-range">
+set firewall group address-group &lt;name&gt; address &lt;ipv4-address | ipv4-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-address-group-name-address-ipv4-address-ipv4-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add an IPv4 address or address range to the specified address group.</strong></p>
+<p>Repeat the command to add more addresses or ranges to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group ADR-INSIDE-v4 address 192.0.2.1
+set firewall group address-group ADR-INSIDE-v4 address 198.51.100.1-198.51.100.8
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-address-group-name-address-ipv6-address-ipv6-range">
+set firewall group ipv6-address-group &lt;name&gt; address &lt;ipv6-address | ipv6-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-address-group-name-address-ipv6-address-ipv6-range" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add an IPv6 address or address range to the specified IPv6 address group.</strong></p>
+<p>Repeat the command to add more addresses or ranges to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-address-group ADR-INSIDE-v6 address 2001:db8::1
+set firewall group ipv6-address-group ADR-INSIDE-v6 address 2001:db8::10-2001:db8::1f
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-address-group-name-include-name">
+set firewall group address-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-address-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another address group in the specified address group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other address groups. The included group
+must exist, and address groups must not include each other in a circle.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group ADR-ALL-v4 include ADR-INSIDE-v4
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-address-group-name-include-name">
+set firewall group ipv6-address-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-address-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another IPv6 address group in the specified IPv6 address group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other IPv6 address groups. The included
+group must exist, and IPv6 address groups must not include each other in a
+circle. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-address-group ADR-ALL-v6 include ADR-INSIDE-v6
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-address-group-name-description-text">
+set firewall group address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-address-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified address group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group ADR-INSIDE-v4 description 'Inside hosts'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-address-group-name-description-text">
+set firewall group ipv6-address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-address-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified IPv6 address group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-address-group ADR-INSIDE-v6 description 'Inside hosts'
+</pre></div>
+</div>
+</section>
+<section id="remote-groups">
+<h3>Remote groups<a class="headerlink" href="#remote-groups" title="Link to this heading"></a></h3>
+<p>A <strong>remote group</strong> is a named collection of IPv4 and IPv6 addresses, address
+ranges, and networks. The router downloads them from the HTTP or HTTPS URL that
+you configure with the <code class="docutils literal notranslate"><span class="pre">url</span></code> option of the remote group.</p>
+<p>The file at the URL is a plain text file. Each line holds one entry: an IPv4 or
+IPv6 address, an address range, or a network in CIDR notation. A network must be
+in canonical form, with no host bits set. For example, <code class="docutils literal notranslate"><span class="pre">192.0.2.0/24</span></code> is valid
+and <code class="docutils literal notranslate"><span class="pre">192.0.2.1/24</span></code> is not. The file can contain IPv4 and IPv6 entries together.</p>
+<p>The router reads the first word of each line, up to the first space. Separate
+an entry from any following text, such as a comment, with a space. The router
+ignores:</p>
+<ul class="simple">
+<li><p>Empty lines.</p></li>
+<li><p>Lines whose first word is not a valid IPv4 or IPv6 address, range, or network.</p></li>
+</ul>
+<p>The router logs the first word of an ignored line when the word begins with a
+letter or a digit. An ignored line whose first word begins with another
+character, such as <code class="docutils literal notranslate"><span class="pre">#</span></code>, produces no log message.</p>
+<p>The following example shows valid lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>192.0.2.1
+192.0.2.1 # office
+198.51.100.0/24
+192.0.2.1-192.0.2.254
+2001:db8::1
+2001:db8:cafe::/48
+2001:db8:cafe::1-2001:db8:cafe::ffff
+</pre></div>
+</div>
+<p>The router downloads the file when it applies the firewall configuration and
+then at the <code class="docutils literal notranslate"><span class="pre">interval</span></code> of the group or, when no <code class="docutils literal notranslate"><span class="pre">interval</span></code> is configured, at
+<code class="docutils literal notranslate"><span class="pre">resolver-interval</span></code> (see <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">resolver-interval</span></code>).</p>
+<p>If a download fails, the router writes a message to the system log and uses the
+last downloaded file, which it keeps in persistent storage. The router retries
+the download after <code class="docutils literal notranslate"><span class="pre">resolver-interval</span></code>, or after the <code class="docutils literal notranslate"><span class="pre">interval</span></code> of the group, if
+configured, whichever is shorter. If the router has not downloaded the file
+before, the group has no addresses.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-remote-group-name-url-url">
+set firewall group remote-group &lt;name&gt; url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-remote-group-name-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the URL from which the router downloads the file of the specified
+remote group.</strong></p>
+<p>The URL must use the <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">https</span></code> scheme.</p>
+<p>To safely type or past a URL without worrying about having to escape
+<code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> characters in a query strings, enter an opening quote (<code class="docutils literal notranslate"><span class="pre">'</span></code>)
+before typing or pasting, then close the quote.</p>
+<p>You must configure <code class="docutils literal notranslate"><span class="pre">url</span></code> for every remote group. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group remote-group RMT url 'https://api.example.com/list?key=YOUR_KEY&amp;plaintext'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-remote-group-name-interval-60-2419200-number-suffix">
+set firewall group remote-group &lt;name&gt; interval &lt;60-2419200 | number+suffix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-remote-group-name-interval-60-2419200-number-suffix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval at which the router downloads the file of the
+specified remote group.</strong></p>
+<p>Enter a number of seconds, or a number followed by the suffix <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">h</span></code>,
+<code class="docutils literal notranslate"><span class="pre">d</span></code>, or <code class="docutils literal notranslate"><span class="pre">w</span></code>, for example <code class="docutils literal notranslate"><span class="pre">4h</span></code>. You can combine units, for example <code class="docutils literal notranslate"><span class="pre">1h30m</span></code>. The
+interval must be between 60 seconds and 4 weeks. Otherwise, the configuration
+is rejected.</p>
+<p>When no <code class="docutils literal notranslate"><span class="pre">interval</span></code> is configured, the router uses <code class="docutils literal notranslate"><span class="pre">resolver-interval</span></code> (see
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">resolver-interval</span></code>).</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group remote-group RMT interval 4h
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-remote-group-name-description-text">
+set firewall group remote-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-remote-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified remote group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group remote-group RMT description 'Blocklist'
+</pre></div>
+</div>
+</section>
+<section id="network-groups">
+<h3>Network groups<a class="headerlink" href="#network-groups" title="Link to this heading"></a></h3>
+<p>A <strong>network group</strong> is a named collection of IPv4 networks in CIDR notation. An
+<strong>IPv6 network group</strong> is the IPv6 equivalent. Both group types can also contain
+single hosts. You add a host to a network group with a prefix length of 32 and
+to an IPv6 network group with a prefix length of 128.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-network-group-name-network-ipv4-network">
+set firewall group network-group &lt;name&gt; network &lt;ipv4-network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-network-group-name-network-ipv4-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add an IPv4 network to the specified network group.</strong></p>
+<p>Repeat the command to add more networks to the same group.</p>
+<p>A network must be in canonical form, with no host bits set. For example,
+<code class="docutils literal notranslate"><span class="pre">192.0.2.0/24</span></code> is valid and <code class="docutils literal notranslate"><span class="pre">192.0.2.1/24</span></code> is not.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group network-group NET-INSIDE-v4 network 192.0.2.0/24
+set firewall group network-group NET-INSIDE-v4 network 198.51.100.0/24
+set firewall group network-group NET-INSIDE-v4 network 203.0.113.10/32
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-network-group-name-network-ipv6-network">
+set firewall group ipv6-network-group &lt;name&gt; network &lt;ipv6-network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-network-group-name-network-ipv6-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add an IPv6 network to the specified IPv6 network group.</strong></p>
+<p>Repeat the command to add more networks to the same group.</p>
+<p>A network must be in canonical form, with no host bits set. For example,
+<code class="docutils literal notranslate"><span class="pre">2001:db8::/64</span></code> is valid and <code class="docutils literal notranslate"><span class="pre">2001:db8::1/64</span></code> is not.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-network-group NET-INSIDE-v6 network 2001:db8::/64
+set firewall group ipv6-network-group NET-INSIDE-v6 network 2001:db8:1::10/128
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-network-group-name-include-name">
+set firewall group network-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-network-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another network group in the specified network group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other network groups. The included group
+must exist, and network groups must not include each other in a circle.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group network-group NET-ALL-v4 include NET-INSIDE-v4
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-network-group-name-include-name">
+set firewall group ipv6-network-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-network-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another IPv6 network group in the specified IPv6 network group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other IPv6 network groups. The included
+group must exist, and IPv6 network groups must not include each other in a
+circle. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-network-group NET-ALL-v6 include NET-INSIDE-v6
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-network-group-name-description-text">
+set firewall group network-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-network-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified network group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group network-group NET-INSIDE-v4 description 'Inside networks'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-ipv6-network-group-name-description-text">
+set firewall group ipv6-network-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-ipv6-network-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified IPv6 network group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group ipv6-network-group NET-INSIDE-v6 description 'Inside networks'
+</pre></div>
+</div>
+</section>
+<section id="interface-groups">
+<h3>Interface groups<a class="headerlink" href="#interface-groups" title="Link to this heading"></a></h3>
+<p>An <strong>interface group</strong> is a named collection of interfaces. You reference an
+interface group in the inbound interface match or the outbound interface match
+of a rule. The rule then matches packets by the receiving interface or the
+outgoing interface, and the packet matches if that interface is a member of the
+group. To match all other interfaces, prepend <code class="docutils literal notranslate"><span class="pre">!</span></code> to the group name in the rule,
+for example <code class="docutils literal notranslate"><span class="pre">outbound-interface</span> <span class="pre">group</span> <span class="pre">!LAN</span></code>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-interface-group-name-interface-interface">
+set firewall group interface-group &lt;name&gt; interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-interface-group-name-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add an interface to the specified interface group.</strong></p>
+<p>Repeat the command to add more interfaces to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group interface-group LAN interface eth1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-interface-group-name-include-name">
+set firewall group interface-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-interface-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another interface group in the specified interface group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other interface groups. The included
+group must exist, and interface groups must not include each other in a circle.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group interface-group LAN-ALL include LAN
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-interface-group-name-description-text">
+set firewall group interface-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-interface-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified interface group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group interface-group LAN description 'Inside interfaces'
+</pre></div>
+</div>
+</section>
+<section id="port-groups">
+<h3>Port groups<a class="headerlink" href="#port-groups" title="Link to this heading"></a></h3>
+<p>A <strong>port group</strong> is a named collection of ports and port ranges. A rule that
+references a port group must set <code class="docutils literal notranslate"><span class="pre">protocol</span></code> to <code class="docutils literal notranslate"><span class="pre">tcp</span></code>, <code class="docutils literal notranslate"><span class="pre">udp</span></code>, or <code class="docutils literal notranslate"><span class="pre">tcp_udp</span></code>.
+Otherwise, the commit fails. To match different ports for TCP and UDP, create a
+port group and a rule for each protocol.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-port-group-name-port-port-number-port-range-service-name">
+set firewall group port-group &lt;name&gt; port &lt;port-number | port-range | service-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-port-group-name-port-port-number-port-range-service-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add a port or a port range to the specified port group.</strong></p>
+<p>Enter a port number from 1 to 65535, a port range such as <code class="docutils literal notranslate"><span class="pre">5000-5010</span></code>, or a
+service name defined in <code class="docutils literal notranslate"><span class="pre">/etc/services</span></code>, such as <code class="docutils literal notranslate"><span class="pre">http</span></code>.</p>
+<p>The first port of a range must be less than or equal to the last port.</p>
+<p>Repeat the command to add more ports or ranges to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group port-group PORT-TCP-SERVER1 port http
+set firewall group port-group PORT-TCP-SERVER1 port 443
+set firewall group port-group PORT-TCP-SERVER1 port 5000-5010
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-port-group-name-include-name">
+set firewall group port-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-port-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another port group in the specified port group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other port groups. The included group
+must exist, and port groups must not include each other in a circle. Otherwise,
+the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group port-group PORT-ALL include PORT-TCP-SERVER1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-port-group-name-description-text">
+set firewall group port-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-port-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified port group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group port-group PORT-TCP-SERVER1 description 'Server 1 ports'
+</pre></div>
+</div>
+</section>
+<section id="mac-groups">
+<h3>MAC groups<a class="headerlink" href="#mac-groups" title="Link to this heading"></a></h3>
+<p>A <strong>MAC group</strong> is a named collection of MAC addresses. A rule that references a
+MAC group matches packets whose source or destination MAC address is a member of
+the group.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-mac-group-name-mac-address-mac-address">
+set firewall group mac-group &lt;name&gt; mac-address &lt;mac-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-mac-group-name-mac-address-mac-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add a MAC address to the specified MAC group.</strong></p>
+<p>Repeat the command to add more MAC addresses to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group mac-group MAC-G01 mac-address 00:00:5e:00:53:02
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-mac-group-name-include-name">
+set firewall group mac-group &lt;name&gt; include &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-mac-group-name-include-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include another MAC group in the specified MAC group.</strong></p>
+<p>A rule that references the specified group matches the members of the specified
+group and the members of the included group. The included group remains a
+separate group that rules can reference separately.</p>
+<p>The included group can itself include other MAC groups. The included group must
+exist, and MAC groups must not include each other in a circle. Otherwise, the
+commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group mac-group MAC-ALL include MAC-G01
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-mac-group-name-description-text">
+set firewall group mac-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-mac-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified MAC group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group mac-group MAC-G01 description 'Office devices'
+</pre></div>
+</div>
+</section>
+<section id="domain-groups">
+<h3>Domain groups<a class="headerlink" href="#domain-groups" title="Link to this heading"></a></h3>
+<p>A <strong>domain group</strong> is a named collection of domain names. The router resolves
+the domain names to IPv4 and IPv6 addresses at <code class="docutils literal notranslate"><span class="pre">resolver-interval</span></code> (see
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">resolver-interval</span></code>). A rule that references a
+domain group matches packets whose source or destination address is an address
+of a domain name in that group. A domain group name must begin with a letter or
+an underscore.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-domain-group-name-address-domain">
+set firewall group domain-group &lt;name&gt; address &lt;domain&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-domain-group-name-address-domain" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add a domain name to the specified domain group.</strong></p>
+<p>A domain name can contain letters, digits, hyphens, and dots, and must start
+with a letter or a digit.</p>
+<p>Repeat the command to add more domain names to the same group.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group domain-group DOM address example.com
+set firewall group domain-group DOM address www.example.net
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-domain-group-name-description-text">
+set firewall group domain-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-domain-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified domain group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group domain-group DOM description 'Update servers'
+</pre></div>
+</div>
+</section>
+<section id="dynamic-address-groups">
+<h3>Dynamic address groups<a class="headerlink" href="#dynamic-address-groups" title="Link to this heading"></a></h3>
+<p>A <strong>dynamic address group</strong> is a named collection of the source or destination
+IP addresses of packets that rules match. A rule adds these addresses to the
+group when you configure <code class="docutils literal notranslate"><span class="pre">add-address-to-group</span></code> in the rule and name the group.
+Several rules can add addresses to the same group.</p>
+<p>You can reference the group as a source or destination match in firewall rules.
+The router removes all addresses from dynamic address groups whenever it
+applies the firewall configuration.</p>
+<section id="define-a-dynamic-address-group">
+<h4>Define a dynamic address group<a class="headerlink" href="#define-a-dynamic-address-group" title="Link to this heading"></a></h4>
+<p>Dynamic address groups support both IPv4 and IPv6 families.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-address-group-name">
+set firewall group dynamic-group address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-address-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Define a dynamic IPv4 address group.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group dynamic-group address-group ALLOWED
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name">
+set firewall group dynamic-group ipv6-address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Define a dynamic IPv6 address group.</strong></p>
+<p>The name must begin with a letter or a digit.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group dynamic-group ipv6-address-group ALLOWED-v6
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-address-group-name-description-text">
+set firewall group dynamic-group address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-address-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified dynamic address group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group dynamic-group address-group ALLOWED description 'Hosts that completed knocking'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name-description-text">
+set firewall group dynamic-group ipv6-address-group &lt;name&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-group-dynamic-group-ipv6-address-group-name-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the specified dynamic IPv6 address group.</strong></p>
+<p>The description can contain up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group dynamic-group ipv6-address-group ALLOWED-v6 description 'Hosts that completed knocking'
+</pre></div>
+</div>
+</section>
+<section id="add-addresses-to-a-dynamic-address-group">
+<h4>Add addresses to a dynamic address group<a class="headerlink" href="#add-addresses-to-a-dynamic-address-group" title="Link to this heading"></a></h4>
+<p>After you define dynamic address groups, reference them with
+<code class="docutils literal notranslate"><span class="pre">add-address-to-group</span></code> in firewall rules to add addresses to them. A rule can
+add the source address, the destination address, or both. The rule must
+reference an existing dynamic address group of the matching family: IPv4 rules
+use <code class="docutils literal notranslate"><span class="pre">dynamic-group</span> <span class="pre">address-group</span></code>, and IPv6 rules use
+<code class="docutils literal notranslate"><span class="pre">dynamic-group</span> <span class="pre">ipv6-address-group</span></code>. Otherwise, the commit fails.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall [ipv4 | ipv6] [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall [ipv4 | ipv6] name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-source-address-address-group-name">
+set firewall [ipv4 | ipv6] [prerouting | output] raw rule &lt;1-999999&gt; add-address-to-group source-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-source-address-address-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add the source address of the packets that the rule matches to the
+specified dynamic address group.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 10 add-address-to-group source-address address-group ALLOWED
+set firewall ipv4 name KNOCK rule 10 add-address-to-group source-address address-group ALLOWED
+set firewall ipv4 prerouting raw rule 10 add-address-to-group source-address address-group ALLOWED
+set firewall ipv6 input filter rule 10 add-address-to-group source-address address-group ALLOWED-v6
+set firewall ipv6 name KNOCK6 rule 10 add-address-to-group source-address address-group ALLOWED-v6
+set firewall ipv6 prerouting raw rule 10 add-address-to-group source-address address-group ALLOWED-v6
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall [ipv4 | ipv6] [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall [ipv4 | ipv6] name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-destination-address-address-group-name">
+set firewall [ipv4 | ipv6] [prerouting | output] raw rule &lt;1-999999&gt; add-address-to-group destination-address address-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-destination-address-address-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add the destination address of the packets that the rule matches to the
+specified dynamic address group.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 forward filter rule 10 add-address-to-group destination-address address-group SEEN-SERVERS
+set firewall ipv4 name KNOCK rule 20 add-address-to-group destination-address address-group SEEN-SERVERS
+set firewall ipv4 prerouting raw rule 10 add-address-to-group destination-address address-group SEEN-SERVERS
+set firewall ipv6 forward filter rule 10 add-address-to-group destination-address address-group SEEN-SERVERS-v6
+set firewall ipv6 name KNOCK6 rule 20 add-address-to-group destination-address address-group SEEN-SERVERS-v6
+set firewall ipv6 prerouting raw rule 10 add-address-to-group destination-address address-group SEEN-SERVERS-v6
+</pre></div>
+</div>
+</section>
+<section id="set-a-timeout-for-added-addresses">
+<h4>Set a timeout for added addresses<a class="headerlink" href="#set-a-timeout-for-added-addresses" title="Link to this heading"></a></h4>
+<p>You can set a timeout for the addresses that a rule adds to a dynamic address
+group. The router removes an address with a timeout from the group when the
+timeout expires. An address that has no timeout remains in the group until the
+router removes all addresses from dynamic address groups.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix">
+set firewall [ipv4 | ipv6] [forward | input | output] filter rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;number+suffix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-forward-input-output-filter-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix">
+set firewall [ipv4 | ipv6] name &lt;name&gt; rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;number+suffix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-name-name-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix">
+set firewall [ipv4 | ipv6] [prerouting | output] raw rule &lt;1-999999&gt; add-address-to-group [destination-address | source-address] timeout &lt;number+suffix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-firewall-ipv4-ipv6-prerouting-output-raw-rule-1-999999-add-address-to-group-destination-address-source-address-timeout-number-suffix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how long an address that the rule adds remains in the dynamic
+address group.</strong></p>
+<p>Specify the timeout as a number followed by <code class="docutils literal notranslate"><span class="pre">s</span></code> (seconds), <code class="docutils literal notranslate"><span class="pre">m</span></code> (minutes),
+<code class="docutils literal notranslate"><span class="pre">h</span></code> (hours), or <code class="docutils literal notranslate"><span class="pre">d</span></code> (days).</p>
+<p>Set a timeout for the source address together with the command that adds the
+source address to a dynamic address group. Set a timeout for the destination
+address together with the command that adds the destination address to a
+dynamic address group. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>In the following example, the rule adds the source address to group <code class="docutils literal notranslate"><span class="pre">A</span></code> for two
+minutes and the destination address to group <code class="docutils literal notranslate"><span class="pre">B</span></code> for one hour:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 10 add-address-to-group source-address address-group A
+set firewall ipv4 input filter rule 10 add-address-to-group source-address timeout 2m
+set firewall ipv4 input filter rule 10 add-address-to-group destination-address address-group B
+set firewall ipv4 input filter rule 10 add-address-to-group destination-address timeout 1h
+</pre></div>
+</div>
+</section>
+<section id="reference-a-dynamic-address-group-in-a-rule">
+<h4>Reference a dynamic address group in a rule<a class="headerlink" href="#reference-a-dynamic-address-group-in-a-rule" title="Link to this heading"></a></h4>
+<p>You reference a dynamic address group in the source or destination of IPv4 and
+IPv6 firewall rules, like other groups. A rule matches packets whose source or
+destination IP address is in a dynamic address group.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 input filter rule 10 source group dynamic-address-group ALLOWED
+set firewall ipv6 input filter rule 10 destination group dynamic-address-group BLOCKED
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group">
+show firewall group</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all firewall groups.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group-name">
+show firewall group &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the firewall groups with the specified name.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> must match the name of the group exactly. Groups of different types
+can have the same name, and the command shows all of them.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group-detail">
+show firewall group detail</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all firewall groups with the description of each group.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-firewall-group-name-detail">
+show firewall group &lt;name&gt; detail</span>
+<a class="cmdlink" href="#opcmd-show-firewall-group-name-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the firewall groups with the specified name and the description of each
+group.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> must match the name of the group exactly. Groups of different types
+can have the same name, and the command shows all of them.</p>
+</div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="create-and-use-firewall-groups">
+<h3>Create and use firewall groups<a class="headerlink" href="#create-and-use-firewall-groups" title="Link to this heading"></a></h3>
+<p>The following commands create an address group, two network groups, an interface
+group, and a port group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall group address-group SERVERS address 198.51.100.101
+set firewall group address-group SERVERS address 198.51.100.102
+set firewall group network-group TRUSTEDv4 network 192.0.2.0/30
+set firewall group network-group TRUSTEDv4 network 203.0.113.128/25
+set firewall group ipv6-network-group TRUSTEDv6 network 2001:db8::/64
+set firewall group interface-group LAN interface eth2.2001
+set firewall group interface-group LAN interface bond0
+set firewall group port-group PORT-SERVERS port http
+set firewall group port-group PORT-SERVERS port 443
+set firewall group port-group PORT-SERVERS port 5000-5010
+</pre></div>
+</div>
+<p>The following commands reference the groups in firewall, NAT, and policy route
+rules:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 output filter rule 10 action accept
+set firewall ipv4 output filter rule 10 outbound-interface group !LAN
+set firewall ipv4 forward filter rule 20 action accept
+set firewall ipv4 forward filter rule 20 source group network-group TRUSTEDv4
+set firewall ipv6 input filter rule 10 action accept
+set firewall ipv6 input filter rule 10 source group network-group TRUSTEDv6
+set nat destination rule 101 inbound-interface group LAN
+set nat destination rule 101 destination group address-group SERVERS
+set nat destination rule 101 protocol tcp
+set nat destination rule 101 destination group port-group PORT-SERVERS
+set nat destination rule 101 translation address 203.0.113.250
+set policy route PBR rule 201 destination group port-group PORT-SERVERS
+set policy route PBR rule 201 protocol tcp
+set policy route PBR rule 201 set table 15
+</pre></div>
+</div>
+</section>
+<section id="restrict-ssh-access-with-port-knocking">
+<h3>Restrict SSH access with port knocking<a class="headerlink" href="#restrict-ssh-access-with-port-knocking" title="Link to this heading"></a></h3>
+<p>You can use dynamic address groups to implement port knocking: the router
+accepts SSH connections from a client only after the client sends TCP packets to
+a sequence of ports in the correct order. The following configuration uses the
+ports 9990, 9991, and 9992:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall global-options state-policy established action 'accept'
+set firewall global-options state-policy invalid action 'drop'
+set firewall global-options state-policy related action 'accept'
+set firewall group dynamic-group address-group ALLOWED
+set firewall group dynamic-group address-group PN_01
+set firewall group dynamic-group address-group PN_02
+set firewall ipv4 input filter default-action 'drop'
+set firewall ipv4 input filter rule 5 action 'accept'
+set firewall ipv4 input filter rule 5 protocol 'icmp'
+set firewall ipv4 input filter rule 10 action 'drop'
+set firewall ipv4 input filter rule 10 add-address-to-group source-address address-group 'PN_01'
+set firewall ipv4 input filter rule 10 add-address-to-group source-address timeout '2m'
+set firewall ipv4 input filter rule 10 description 'Port_knock 01'
+set firewall ipv4 input filter rule 10 destination port '9990'
+set firewall ipv4 input filter rule 10 protocol 'tcp'
+set firewall ipv4 input filter rule 20 action 'drop'
+set firewall ipv4 input filter rule 20 add-address-to-group source-address address-group 'PN_02'
+set firewall ipv4 input filter rule 20 add-address-to-group source-address timeout '3m'
+set firewall ipv4 input filter rule 20 description 'Port_knock 02'
+set firewall ipv4 input filter rule 20 destination port '9991'
+set firewall ipv4 input filter rule 20 protocol 'tcp'
+set firewall ipv4 input filter rule 20 source group dynamic-address-group 'PN_01'
+set firewall ipv4 input filter rule 30 action 'drop'
+set firewall ipv4 input filter rule 30 add-address-to-group source-address address-group 'ALLOWED'
+set firewall ipv4 input filter rule 30 add-address-to-group source-address timeout '2h'
+set firewall ipv4 input filter rule 30 description 'Port_knock 03'
+set firewall ipv4 input filter rule 30 destination port '9992'
+set firewall ipv4 input filter rule 30 protocol 'tcp'
+set firewall ipv4 input filter rule 30 source group dynamic-address-group 'PN_02'
+set firewall ipv4 input filter rule 99 action 'accept'
+set firewall ipv4 input filter rule 99 description 'Port_knock 04 - Allow ssh'
+set firewall ipv4 input filter rule 99 destination port '22'
+set firewall ipv4 input filter rule 99 protocol 'tcp'
+set firewall ipv4 input filter rule 99 source group dynamic-address-group 'ALLOWED'
+</pre></div>
+</div>
+<p>Before a client sends the first knocking packet, the dynamic address groups
+contain no addresses:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall group
+Firewall Groups
+
+Name     Type                    References            Members    Timeout    Expires
+-------  ----------------------  --------------------  ---------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D        N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  N/D        N/D        N/D
+PN_02    address_group(dynamic)  ipv4-input-filter-20  N/D        N/D        N/D
+</pre></div>
+</div>
+<p>With this configuration, a client must complete the following steps to connect
+to the router with SSH.</p>
+<ol class="arabic simple">
+<li><p>Send TCP packets to destination port 9990. The router adds the source address
+of the client to dynamic address group <code class="docutils literal notranslate"><span class="pre">PN_01</span></code> for two minutes.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall group
+Firewall Groups
+
+Name     Type                    References            Members       Timeout    Expires
+-------  ----------------------  --------------------  ------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D           N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  203.0.113.10  120        119
+PN_02    address_group(dynamic)  ipv4-input-filter-20  N/D           N/D        N/D
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Within two minutes, send TCP packets to destination port 9991. The router
+adds the source address to dynamic address group <code class="docutils literal notranslate"><span class="pre">PN_02</span></code> for three minutes.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall group
+Firewall Groups
+
+Name     Type                    References            Members       Timeout    Expires
+-------  ----------------------  --------------------  ------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  N/D           N/D        N/D
+PN_01    address_group(dynamic)  ipv4-input-filter-10  203.0.113.10  120        106
+PN_02    address_group(dynamic)  ipv4-input-filter-20  203.0.113.10  180        179
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Within three minutes, send TCP packets to destination port 9992. The router
+adds the source address to dynamic address group <code class="docutils literal notranslate"><span class="pre">ALLOWED</span></code> for two hours.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show firewall group
+Firewall Groups
+
+Name     Type                    References            Members         Timeout    Expires
+-------  ----------------------  --------------------  ------------  ---------  ---------
+ALLOWED  address_group(dynamic)  ipv4-input-filter-30  203.0.113.10       7200       7199
+PN_01    address_group(dynamic)  ipv4-input-filter-10  203.0.113.10        120         89
+PN_02    address_group(dynamic)  ipv4-input-filter-20  203.0.113.10        180        162
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Within two hours, connect to the router with SSH. Rule 99 accepts the SSH
+packets because the source address is in the dynamic address group
+<code class="docutils literal notranslate"><span class="pre">ALLOWED</span></code>.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="global-options.html" class="btn btn-neutral float-left" title="Firewall global options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bridge.html" class="btn btn-neutral float-right" title="Bridge layer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Connection tracking (conntrack) is a VyOS subsystem that records the state of network connections passing through the router. It activates for IPv4 or IPv6 once a dependent feature such as NAT or a stateful firewall rule is configured. Table sizes, helper modules, custom timeouts, ignore rules, and logging can all be tuned. " name="description" />
+<meta content="conntrack, connection tracking, helper modules, timeout" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conntrack &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/system/conntrack.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Serial console" href="console.html" />
+    <link rel="prev" title="Acceleration" href="acceleration.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acceleration.html">Acceleration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Conntrack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Serial console</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow-accounting.html">Flow accounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frr.html">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host-name.html">Host information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ip.html">IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd.html">System Display (LCD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="login.html">Login/user management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="name-server.html">System DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html">System Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">sFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syslog.html">Syslog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysctl.html">Sysctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task-scheduler.html">Task Scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time-zone.html">Time Zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="watchdog.html">Watchdog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default-route.html">Default Gateway/Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">System</a></li>
+      <li class="breadcrumb-item active">Conntrack</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/system/conntrack.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="conntrack">
+<span id="id1"></span><h1>Conntrack<a class="headerlink" href="#conntrack" title="Link to this heading"></a></h1>
+<p>Connection tracking is activated for one or both address families
+when any of the following features is configured:</p>
+<ul class="simple">
+<li><p>IPv4: NAT, WAN load balancing, or an IPv4 firewall rule that matches
+connection state or connection status, or enables flow offload.</p></li>
+<li><p>IPv6: NAT66, or an IPv6 firewall rule that matches connection state or
+connection status, or enables flow offload.</p></li>
+<li><p>Both IPv4 and IPv6: a global firewall <code class="docutils literal notranslate"><span class="pre">state-policy</span></code>.</p></li>
+</ul>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-table-size-1-50000000">
+set system conntrack table-size &lt;1-50000000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-table-size-1-50000000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum number of entries in the connection tracking
+table.</strong></p>
+<p>The router creates one entry for each tracked connection.</p>
+<p>The default is 262144.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack table-size 524288
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-expect-table-size-1-50000000">
+set system conntrack expect-table-size &lt;1-50000000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-expect-table-size-1-50000000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum number of entries in the connection tracking
+expect table.</strong></p>
+<p>The expect table holds one entry for each related connection that the
+router expects to see, but that has not started yet. A connection
+tracking helper module adds this entry when its protocol is about to open
+the related connection, such as an FTP data connection.</p>
+<p>The default is 2048.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack expect-table-size 4096
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-hash-size-1024-50000000">
+set system conntrack hash-size &lt;1024-50000000&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-hash-size-1024-50000000" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the number of buckets in the hash table that indexes the connection
+tracking table.</strong></p>
+<p>This value is not a limit on the number of hash entries and does not have to match
+or exceed <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">conntrack</span> <span class="pre">table-size</span></code>.</p>
+<p>A larger hash table makes looking up entries in the connection tracking
+table faster.</p>
+<p>The default is 65536.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack hash-size 131072
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-modules-ftp-h323-nfs-pptp-rtsp-sip-sqlnet-tftp">
+set system conntrack modules &lt;ftp | h323 | nfs | pptp | rtsp | sip | sqlnet | tftp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-modules-ftp-h323-nfs-pptp-rtsp-sip-sqlnet-tftp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable a connection tracking helper module.</strong></p>
+<p>Some protocols open a second, related connection for their data. The
+data connection uses a port that is not fixed but chosen for each session
+over the control connection. A helper reads the control connection to
+learn the port.</p>
+<p>Each helper monitors the control connection on the following ports:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ftp</span></code>: FTP on TCP port 21.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">h323</span></code>: H.323 RAS on UDP port 1719 and Q.931 on TCP port 1720.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nfs</span></code>: RPC on TCP and UDP port 111.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pptp</span></code>: PPTP on TCP port 1723. IPv4 only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rtsp</span></code>: RTSP on TCP port 554. IPv4 only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sip</span></code>: SIP on TCP and UDP ports 5060 and 5061.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sqlnet</span></code>: SQLnet (TNS) on TCP ports 1521, 1525, and 1536.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tftp</span></code>: TFTP on UDP port 69.</p></li>
+</ul>
+<p>A helper applies only while the router is already tracking connections in the
+helper’s address family. See the conditions at the top of this page.</p>
+<p>By default, all helper modules are disabled.</p>
+<p>Repeat the command to enable multiple modules.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack modules ftp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-tcp-half-open-connections-1-2147483647">
+set system conntrack tcp half-open-connections &lt;1-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-tcp-half-open-connections-1-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum number of half-open TCP connections to the
+router.</strong></p>
+<p>A half-open connection has reached the SYN-RECEIVED state and has not
+received the final acknowledgment from the client. The limit counts only
+connections to the router itself, such as an SSH or management session.
+It does not count connections that the router forwards between other
+hosts.</p>
+<p>By default, the limit is 512.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack tcp half-open-connections 1024
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-tcp-loose-enable-disable">
+set system conntrack tcp loose &lt;enable | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-tcp-loose-enable-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether the router tracks connections that were established
+before tracking started:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable</span></code>: Tracks previously established connections.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: Does not track previously established connections.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">enable</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack tcp loose disable
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-tcp-max-retrans-1-255">
+set system conntrack tcp max-retrans &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-tcp-max-retrans-1-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the number of packets that the sending end of a TCP
+connection can retransmit without being acknowledged by the receiving
+end.</strong></p>
+<p>When a tracked TCP connection passes this count, the router applies a
+shorter timeout than the connection’s state would normally use.</p>
+<p>The default is 3.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack tcp max-retrans 5
+</pre></div>
+</div>
+<section id="conntrack-timeouts">
+<h3>Conntrack timeouts<a class="headerlink" href="#conntrack-timeouts" title="Link to this heading"></a></h3>
+<p>Custom timeouts can be applied to a chosen subset of connections by
+creating a numbered rule under <code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">custom</span></code>. Each rule defines
+matching criteria, such as inbound interface, protocol, source or
+destination address, and port, to select which connections it applies
+to, along with timeout values. Matching connections use these values
+instead of defaults.</p>
+<p>A packet is checked against every rule. Rules are not mutually exclusive,
+so avoid overlapping match criteria that would set conflicting timeouts
+on the same connection.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-description-text">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the rule.</strong></p>
+<p>The text can be up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv4 rule 100 description 'Long-lived SSH'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-destination-source-address-address">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; &lt;destination | source&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-destination-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the source or destination address, prefix, or address range
+the rule matches on.</strong></p>
+<p>Accepted values for an IPv4 rule:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;</span></code>: Matches the address.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x/x&gt;</span></code>: Matches the prefix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;</span></code>: Matches the address range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x/x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;</span></code>: Matches everything
+except the given address, prefix, or range.</p></li>
+</ul>
+<p>Accepted values for an IPv6 rule:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;</span></code>: Matches the address.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h/x&gt;</span></code>: Matches the prefix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;-&lt;h:h:h:h:h:h:h:h&gt;</span></code>: Matches the address range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;address&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;prefix&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;range&gt;</span></code>: Matches everything except the
+given address, prefix, or range.</p></li>
+</ul>
+<p>A rule can set both a source and a destination address. It then matches a
+connection only when both the source and the destination match.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv4 rule 100 source address 198.51.100.0/24
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-inbound-interface-interface">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; inbound-interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-inbound-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface the rule matches on.</strong></p>
+<p>The rule matches packets that enter the router through this interface.
+The value <code class="docutils literal notranslate"><span class="pre">any</span></code> matches every interface.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv4 rule 100 inbound-interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-destination-source-port-port">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; &lt;destination | source&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-destination-source-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination or source port the rule matches on.</strong></p>
+<p>Accepted values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;port</span> <span class="pre">name&gt;</span></code>: Matches a named port from <code class="docutils literal notranslate"><span class="pre">/etc/services</span></code>, for example
+<code class="docutils literal notranslate"><span class="pre">http</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;1-65535&gt;</span></code>: Matches a port number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;start&gt;-&lt;end&gt;</span></code>: Matches a port range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;a,b,c&gt;</span></code>: Matches a comma-separated list of ports and ranges.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;list&gt;</span></code>: Matches every port except the ones in the given list, for
+example <code class="docutils literal notranslate"><span class="pre">!22,telnet,http,123,1001-1005</span></code>.</p></li>
+</ul>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv4 rule 100 destination port 22
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-protocol-tcp-close-close-wait-established-fin-wait-last-ack-syn-recv-syn-sent-time-wait-1-21474836">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; protocol tcp &lt;close | close-wait | established | fin-wait | last-ack | syn-recv | syn-sent | time-wait&gt; &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-protocol-tcp-close-close-wait-established-fin-wait-last-ack-syn-recv-syn-sent-time-wait-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the timeout, in seconds, that the router applies to a
+matching TCP connection while it is in the given state.</strong></p>
+<p>Each rule must configure timeouts for exactly one protocol, either <code class="docutils literal notranslate"><span class="pre">tcp</span></code>
+or <code class="docutils literal notranslate"><span class="pre">udp</span></code>. Otherwise, the commit fails.</p>
+<p>Repeat the command with a different state to set several timeouts in one
+rule.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv4 rule 100 protocol tcp established 3600
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-protocol-udp-replied-unreplied-1-21474836">
+set system conntrack timeout custom &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; protocol udp &lt;replied | unreplied&gt; &lt;1-21474836&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-timeout-custom-ipv4-ipv6-rule-1-999999-protocol-udp-replied-unreplied-1-21474836" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the timeout, in seconds, that the router applies to a
+matching UDP connection in the given state.</strong></p>
+<p>Each rule must configure timeouts for exactly one protocol, either <code class="docutils literal notranslate"><span class="pre">tcp</span></code>
+or <code class="docutils literal notranslate"><span class="pre">udp</span></code>. Otherwise, the commit fails.</p>
+<p>Repeat the command with a different state to set several timeouts in one
+rule.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack timeout custom ipv6 rule 200 protocol udp replied 30
+</pre></div>
+</div>
+</section>
+<section id="conntrack-ignore-rules">
+<h3>Conntrack ignore rules<a class="headerlink" href="#conntrack-ignore-rules" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Beginning with <code class="docutils literal notranslate"><span class="pre">vyos-1.5-rolling-202406120020</span></code>, ignore rules can be
+defined under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">&lt;ipv4</span> <span class="pre">|</span> <span class="pre">ipv6&gt;</span> <span class="pre">prerouting</span> <span class="pre">raw</span></code>. The conntrack
+ignore rules are expected to be removed in a future release.</p>
+</div>
+<p>A chosen subset of packets can be exempted from connection tracking by
+creating a numbered rule under <code class="docutils literal notranslate"><span class="pre">ignore</span></code>. Each rule defines matching
+criteria, such as inbound interface, protocol, source or destination
+address, port, and TCP flags, to select which packets it applies to. The
+router does not create a tracking entry for a packet that matches a rule.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-description-text">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; description &lt;text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-description-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a description for the rule.</strong></p>
+<p>The text can be up to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 description 'Do not track BGP'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-destination-source-address-address">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; &lt;destination | source&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-destination-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the source or destination address, prefix, or address range
+the rule matches on.</strong></p>
+<p>Accepted values for an IPv4 rule:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;</span></code>: Matches the address.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x/x&gt;</span></code>: Matches the prefix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;</span></code>: Matches the address range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x/x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;x.x.x.x&gt;-&lt;x.x.x.x&gt;</span></code>: Matches everything
+except the given address, prefix, or range.</p></li>
+</ul>
+<p>Accepted values for an IPv6 rule:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;</span></code>: Matches the address.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h/x&gt;</span></code>: Matches the prefix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;-&lt;h:h:h:h:h:h:h:h&gt;</span></code>: Matches the address range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;address&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;prefix&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">!&lt;range&gt;</span></code>: Matches everything except the
+given address, prefix, or range.</p></li>
+</ul>
+<p>A rule can set both a source and a destination address. It then matches a
+packet only when both the source and the destination match.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 destination address 192.0.2.10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-destination-source-port-port">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; &lt;destination | source&gt; port &lt;port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-destination-source-port-port" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination or source port the rule matches on.</strong> A rule that
+matches a port must also set <code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">tcp</span></code> or <code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">udp</span></code>. Otherwise, the
+commit fails.</p>
+<p>Accepted values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;port</span> <span class="pre">name&gt;</span></code>: Matches a named port, for example <code class="docutils literal notranslate"><span class="pre">http</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;1-65535&gt;</span></code>: Matches a port number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;start&gt;-&lt;end&gt;</span></code>: Matches a port range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;a,b,c&gt;</span></code>: Matches a comma-separated list of ports and ranges.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;list&gt;</span></code>: Matches every port except the ones in the given list, for example
+<code class="docutils literal notranslate"><span class="pre">!22,telnet,http,123,1001-1005</span></code>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 destination port 179
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-inbound-interface-interface">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; inbound-interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-inbound-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface the rule matches on.</strong></p>
+<p>The rule applies to packets that enter the router through this
+interface. The value <code class="docutils literal notranslate"><span class="pre">any</span></code> matches every interface.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 inbound-interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-protocol-protocol">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; protocol &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-protocol-protocol" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the protocol the rule matches on.</strong></p>
+<p>The protocol can be specified as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>: A protocol name, for example <code class="docutils literal notranslate"><span class="pre">tcp</span></code> or <code class="docutils literal notranslate"><span class="pre">udp</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;0-255&gt;</span></code>: A protocol number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code>: Every protocol.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tcp_udp</span></code>: TCP and UDP.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!&lt;name&gt;</span></code>: Every protocol except the named one.</p></li>
+</ul>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 protocol tcp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-tcp-flags-not-ack-cwr-ecn-fin-psh-rst-syn-urg">
+set system conntrack ignore &lt;ipv4 | ipv6&gt; rule &lt;1-999999&gt; tcp flags [not] &lt;ack | cwr | ecn | fin | psh | rst | syn | urg&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-ignore-ipv4-ipv6-rule-1-999999-tcp-flags-not-ack-cwr-ecn-fin-psh-rst-syn-urg" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP flag the rule matches on.</strong></p>
+<p>The optional <code class="docutils literal notranslate"><span class="pre">not</span></code> keyword inverts the match, so the rule matches only
+when the specified flag is absent. A packet matches the rule only when
+every flag listed without <code class="docutils literal notranslate"><span class="pre">not</span></code> is set and every flag listed with <code class="docutils literal notranslate"><span class="pre">not</span></code>
+is absent.</p>
+<p>The rule must also set <code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">tcp</span></code>, and cannot list the same flag both
+with and without <code class="docutils literal notranslate"><span class="pre">not</span></code>. Otherwise, the commit fails.</p>
+<p>Repeat the command to match on additional flags.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack ignore ipv4 rule 10 tcp flags syn
+</pre></div>
+</div>
+</section>
+<section id="conntrack-log">
+<h3>Conntrack log<a class="headerlink" href="#conntrack-log" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-log-event-destroy-new-update">
+set system conntrack log event &lt;destroy | new | update&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-log-event-destroy-new-update" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Log connection tracking events of the given type:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">new</span></code>: Logs the creation of an entry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code>: Logs changes to an entry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">destroy</span></code>: Logs the deletion of an entry.</p></li>
+</ul>
+<p>Repeat the command to log multiple event types.</p>
+<p>By default, the router logs events of the configured type for every
+protocol. To log only some protocols, add a protocol to the event type.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack log event new
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-log-event-destroy-new-update-icmp-other-tcp-udp">
+set system conntrack log event &lt;destroy | new | update&gt; &lt;icmp | other | tcp | udp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-log-event-destroy-new-update-icmp-other-tcp-udp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Restrict logging of an event type to the given protocol.</strong></p>
+<p>The value <code class="docutils literal notranslate"><span class="pre">other</span></code> covers every protocol except TCP, UDP, and ICMP.
+ICMPv6 is included in <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+<p>Repeat the command to log on additional protocols.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack log event destroy tcp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-log-timestamp">
+set system conntrack log timestamp</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-log-timestamp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Record the start and stop time of every tracked connection.</strong></p>
+<p>The log line for a destroyed connection then reports when the connection
+started, when it stopped, and how long it lasted.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack log timestamp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-log-queue-size-100-2147483647">
+set system conntrack log queue-size &lt;100-2147483647&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-log-queue-size-100-2147483647" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how many connection tracking events the router holds in
+memory before writing them to the log.</strong></p>
+<p>Raise the value if events are lost under heavy load.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack log queue-size 65536
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-conntrack-log-log-level-info-debug">
+set system conntrack log log-level &lt;info | debug&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-conntrack-log-log-level-info-debug" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how much detail the router writes for each connection
+tracking event.</strong></p>
+<p>With <code class="docutils literal notranslate"><span class="pre">info</span></code>, each log line reports the event itself. With <code class="docutils literal notranslate"><span class="pre">debug</span></code>, the
+line also carries the raw event data and is prefixed with its time and
+level.</p>
+<p>By default, the level is <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system conntrack log log-level debug
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acceleration.html" class="btn btn-neutral float-left" title="Acceleration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="console.html" class="btn btn-neutral float-right" title="Serial console" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

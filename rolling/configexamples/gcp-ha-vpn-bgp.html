@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route-Based Site-to-Site VPN to Google Cloud HA VPN &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configexamples/gcp-ha-vpn-bgp.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="High Availability Walkthrough" href="ha.html" />
+    <link rel="prev" title="Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)" href="azure-vpn-dual-bgp.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Route-Based Site-to-Site VPN to Google Cloud HA VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#google-cloud-configuration">Google Cloud configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vyos-edge-1-configuration">VyOS edge 1 configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vyos-edge-2-configuration">VyOS edge 2 configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmvpn-dualhub-dualcloud.html">DMVPN Dual HUB Dual Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-cisco-policy-based.html">Policy-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-cisco-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-pa-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Palo Alto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">Route-Based Site-to-Site VPN to Google Cloud HA VPN</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configexamples/gcp-ha-vpn-bgp.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="route-based-site-to-site-vpn-to-google-cloud-ha-vpn">
+<span id="examples-gcp-ha-vpn-bgp"></span><h1>Route-Based Site-to-Site VPN to Google Cloud HA VPN<a class="headerlink" href="#route-based-site-to-site-vpn-to-google-cloud-ha-vpn" title="Link to this heading"></a></h1>
+<p>This guide shows an example of a redundant route-based IKEv2 site-to-site
+VPN from two VyOS edge peers to Google Cloud HA VPN. The tunnels use VTI
+interfaces and BGP over link-local <code class="docutils literal notranslate"><span class="pre">/30</span></code> address ranges for dynamic routing.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>A Google Cloud HA VPN gateway with tunnels on both gateway interfaces.</p></li>
+<li><p>A Cloud Router with BGP enabled.</p></li>
+<li><p>An external VPN gateway resource in Google Cloud with two interfaces,
+where each interface represents one VyOS edge peer.</p></li>
+<li><p>Manual BGP IPv4 next-hop addresses from unique <code class="docutils literal notranslate"><span class="pre">/30</span></code> ranges inside
+<code class="docutils literal notranslate"><span class="pre">169.254.0.0/16</span></code>.</p></li>
+<li><p>Firewall policy that permits UDP 500, UDP 4500, and ESP from the two
+HA VPN public IP addresses to the VyOS edge peers.</p></li>
+</ul>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>WAN interface</p></td>
+<td><p>eth0</p></td>
+</tr>
+<tr class="row-even"><td><p>Cloud prefix advertised by Google</p></td>
+<td><p>10.70.0.0/20</p></td>
+</tr>
+<tr class="row-odd"><td><p>Edge prefix advertised by VyOS</p></td>
+<td><p>10.80.0.0/24</p></td>
+</tr>
+<tr class="row-even"><td><p>VyOS edge 1 public IP</p></td>
+<td><p>198.51.100.10</p></td>
+</tr>
+<tr class="row-odd"><td><p>VyOS edge 2 public IP</p></td>
+<td><p>198.51.100.11</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Cloud HA VPN interface 0 IP</p></td>
+<td><p>203.0.113.10</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Cloud HA VPN interface 1 IP</p></td>
+<td><p>203.0.113.11</p></td>
+</tr>
+<tr class="row-even"><td><p>Tunnel 0 VyOS BGP IP</p></td>
+<td><p>169.254.10.1/30</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tunnel 0 Google Cloud BGP IP</p></td>
+<td><p>169.254.10.2/30</p></td>
+</tr>
+<tr class="row-even"><td><p>Tunnel 1 VyOS BGP IP</p></td>
+<td><p>169.254.10.5/30</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tunnel 1 Google Cloud BGP IP</p></td>
+<td><p>169.254.10.6/30</p></td>
+</tr>
+<tr class="row-even"><td><p>VyOS ASN</p></td>
+<td><p>65010</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Cloud ASN</p></td>
+<td><p>64514</p></td>
+</tr>
+<tr class="row-even"><td><p>Tunnel 0 pre-shared key</p></td>
+<td><p>example-gcp-ha-vpn-psk-0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tunnel 1 pre-shared key</p></td>
+<td><p>example-gcp-ha-vpn-psk-1</p></td>
+</tr>
+</tbody>
+</table>
+<p>Use unique, high-entropy pre-shared keys in production. This example assumes
+that each VyOS public IP address is configured directly on the WAN interface.
+If a VyOS edge peer is behind one-to-one NAT, use the interface address for
+<code class="docutils literal notranslate"><span class="pre">local-address</span></code> and keep <code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">local-id</span></code> set to the public IP
+registered in Google Cloud.</p>
+<p>Both VyOS edge peers must be able to route the edge prefix they advertise.
+If only one peer can reach <code class="docutils literal notranslate"><span class="pre">10.80.0.0/24</span></code>, advertise a different prefix or
+adjust the export policy for the other peer.</p>
+</section>
+<section id="google-cloud-configuration">
+<h2>Google Cloud configuration<a class="headerlink" href="#google-cloud-configuration" title="Link to this heading"></a></h2>
+<p>On the Google Cloud side, create an HA VPN gateway, a Cloud Router, an
+external VPN gateway resource that represents the two VyOS edge peers, and
+two VPN tunnels:</p>
+<ul class="simple">
+<li><p>This example follows the topology for two separate peer VPN gateways,
+each with one interface and one public IP address.</p></li>
+<li><p>In Google Cloud, model those two peer gateways as one external VPN gateway
+resource with two interfaces.</p></li>
+<li><p>Tunnel 0 connects HA VPN interface 0 to VyOS edge 1.</p></li>
+<li><p>Tunnel 1 connects HA VPN interface 1 to VyOS edge 2.</p></li>
+<li><p>The Cloud Router interface for tunnel 0 uses <code class="docutils literal notranslate"><span class="pre">169.254.10.2/30</span></code> and peers
+with <code class="docutils literal notranslate"><span class="pre">169.254.10.1</span></code>.</p></li>
+<li><p>The Cloud Router interface for tunnel 1 uses <code class="docutils literal notranslate"><span class="pre">169.254.10.6/30</span></code> and peers
+with <code class="docutils literal notranslate"><span class="pre">169.254.10.5</span></code>.</p></li>
+<li><p>Both Cloud Router BGP peers use peer ASN <code class="docutils literal notranslate"><span class="pre">65010</span></code>.</p></li>
+<li><p>Advertise <code class="docutils literal notranslate"><span class="pre">10.70.0.0/20</span></code> from Google Cloud.</p></li>
+</ul>
+</section>
+<section id="vyos-edge-1-configuration">
+<h2>VyOS edge 1 configuration<a class="headerlink" href="#vyos-edge-1-configuration" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Configure IKE and ESP settings supported by Google Cloud:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group GCP-ESP lifetime '10800'
+set vpn ipsec esp-group GCP-ESP mode 'tunnel'
+set vpn ipsec esp-group GCP-ESP pfs 'dh-group14'
+set vpn ipsec esp-group GCP-ESP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group GCP-ESP proposal 10 hash 'sha256'
+
+set vpn ipsec ike-group GCP-IKE dead-peer-detection action 'restart'
+set vpn ipsec ike-group GCP-IKE dead-peer-detection interval '30'
+set vpn ipsec ike-group GCP-IKE key-exchange 'ikev2'
+set vpn ipsec ike-group GCP-IKE lifetime '36000'
+set vpn ipsec ike-group GCP-IKE proposal 10 dh-group '14'
+set vpn ipsec ike-group GCP-IKE proposal 10 encryption 'aes256'
+set vpn ipsec ike-group GCP-IKE proposal 10 hash 'sha256'
+set vpn ipsec ike-group GCP-IKE proposal 10 prf 'prfsha256'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Enable IPsec on the WAN interface:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec interface 'eth0'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Disable IPsec route autoinstall because routing is handled by VTI and BGP:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec options disable-route-autoinstall
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure the VTI:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vti vti10 address '169.254.10.1/30'
+set interfaces vti vti10 description 'Google Cloud HA VPN tunnel 0'
+set interfaces vti vti10 ip adjust-mss '1350'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure the VPN tunnel:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk gcp-ha-vpn-0 id '198.51.100.10'
+set vpn ipsec authentication psk gcp-ha-vpn-0 id '203.0.113.10'
+set vpn ipsec authentication psk gcp-ha-vpn-0 secret 'example-gcp-ha-vpn-psk-0'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 authentication local-id '198.51.100.10'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 authentication remote-id '203.0.113.10'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 connection-type 'initiate'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 description 'Google Cloud HA VPN tunnel 0'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 ike-group 'GCP-IKE'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 local-address '198.51.100.10'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 remote-address '203.0.113.10'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 vti bind 'vti10'
+set vpn ipsec site-to-site peer gcp-ha-vpn-0 vti esp-group 'GCP-ESP'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add an interface route to reach the Google Cloud BGP peer:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 169.254.10.2/32 interface vti10
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure BGP routing policy and the BGP session:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy prefix-list GCP-IN rule 10 action 'permit'
+set policy prefix-list GCP-IN rule 10 prefix '10.70.0.0/20'
+set policy prefix-list GCP-OUT rule 10 action 'permit'
+set policy prefix-list GCP-OUT rule 10 prefix '10.80.0.0/24'
+
+set policy route-map GCP-IN rule 10 action 'permit'
+set policy route-map GCP-IN rule 10 match ip address prefix-list 'GCP-IN'
+set policy route-map GCP-IN rule 20 action 'deny'
+set policy route-map GCP-OUT rule 10 action 'permit'
+set policy route-map GCP-OUT rule 10 match ip address prefix-list 'GCP-OUT'
+set policy route-map GCP-OUT rule 20 action 'deny'
+
+set protocols bgp system-as '65010'
+set protocols bgp parameters router-id '10.80.0.11'
+set protocols bgp address-family ipv4-unicast network '10.80.0.0/24'
+set protocols bgp neighbor 169.254.10.2 remote-as '64514'
+set protocols bgp neighbor 169.254.10.2 address-family ipv4-unicast route-map import 'GCP-IN'
+set protocols bgp neighbor 169.254.10.2 address-family ipv4-unicast route-map export 'GCP-OUT'
+set protocols bgp neighbor 169.254.10.2 address-family ipv4-unicast soft-reconfiguration 'inbound'
+set protocols bgp neighbor 169.254.10.2 timers holdtime '30'
+set protocols bgp neighbor 169.254.10.2 timers keepalive '10'
+set protocols bgp neighbor 169.254.10.2 disable-connected-check
+</pre></div>
+</div>
+</section>
+<section id="vyos-edge-2-configuration">
+<h2>VyOS edge 2 configuration<a class="headerlink" href="#vyos-edge-2-configuration" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Configure IKE and ESP settings supported by Google Cloud:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group GCP-ESP lifetime '10800'
+set vpn ipsec esp-group GCP-ESP mode 'tunnel'
+set vpn ipsec esp-group GCP-ESP pfs 'dh-group14'
+set vpn ipsec esp-group GCP-ESP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group GCP-ESP proposal 10 hash 'sha256'
+
+set vpn ipsec ike-group GCP-IKE dead-peer-detection action 'restart'
+set vpn ipsec ike-group GCP-IKE dead-peer-detection interval '30'
+set vpn ipsec ike-group GCP-IKE key-exchange 'ikev2'
+set vpn ipsec ike-group GCP-IKE lifetime '36000'
+set vpn ipsec ike-group GCP-IKE proposal 10 dh-group '14'
+set vpn ipsec ike-group GCP-IKE proposal 10 encryption 'aes256'
+set vpn ipsec ike-group GCP-IKE proposal 10 hash 'sha256'
+set vpn ipsec ike-group GCP-IKE proposal 10 prf 'prfsha256'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Enable IPsec on the WAN interface:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec interface 'eth0'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Disable IPsec route autoinstall because routing is handled by VTI and BGP:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec options disable-route-autoinstall
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure the VTI:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vti vti11 address '169.254.10.5/30'
+set interfaces vti vti11 description 'Google Cloud HA VPN tunnel 1'
+set interfaces vti vti11 ip adjust-mss '1350'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure the VPN tunnel:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk gcp-ha-vpn-1 id '198.51.100.11'
+set vpn ipsec authentication psk gcp-ha-vpn-1 id '203.0.113.11'
+set vpn ipsec authentication psk gcp-ha-vpn-1 secret 'example-gcp-ha-vpn-psk-1'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 authentication local-id '198.51.100.11'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 authentication remote-id '203.0.113.11'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 connection-type 'initiate'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 description 'Google Cloud HA VPN tunnel 1'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 ike-group 'GCP-IKE'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 local-address '198.51.100.11'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 remote-address '203.0.113.11'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 vti bind 'vti11'
+set vpn ipsec site-to-site peer gcp-ha-vpn-1 vti esp-group 'GCP-ESP'
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add an interface route to reach the Google Cloud BGP peer:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols static route 169.254.10.6/32 interface vti11
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Configure BGP routing policy and the BGP session:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy prefix-list GCP-IN rule 10 action 'permit'
+set policy prefix-list GCP-IN rule 10 prefix '10.70.0.0/20'
+set policy prefix-list GCP-OUT rule 10 action 'permit'
+set policy prefix-list GCP-OUT rule 10 prefix '10.80.0.0/24'
+
+set policy route-map GCP-IN rule 10 action 'permit'
+set policy route-map GCP-IN rule 10 match ip address prefix-list 'GCP-IN'
+set policy route-map GCP-IN rule 20 action 'deny'
+set policy route-map GCP-OUT rule 10 action 'permit'
+set policy route-map GCP-OUT rule 10 match ip address prefix-list 'GCP-OUT'
+set policy route-map GCP-OUT rule 20 action 'deny'
+
+set protocols bgp system-as '65010'
+set protocols bgp parameters router-id '10.80.0.12'
+set protocols bgp address-family ipv4-unicast network '10.80.0.0/24'
+set protocols bgp neighbor 169.254.10.6 remote-as '64514'
+set protocols bgp neighbor 169.254.10.6 address-family ipv4-unicast route-map import 'GCP-IN'
+set protocols bgp neighbor 169.254.10.6 address-family ipv4-unicast route-map export 'GCP-OUT'
+set protocols bgp neighbor 169.254.10.6 address-family ipv4-unicast soft-reconfiguration 'inbound'
+set protocols bgp neighbor 169.254.10.6 timers holdtime '30'
+set protocols bgp neighbor 169.254.10.6 timers keepalive '10'
+set protocols bgp neighbor 169.254.10.6 disable-connected-check
+</pre></div>
+</div>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<p>Use the following commands to verify the IPsec and BGP state on each VyOS
+edge peer:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>show vpn ike sa
+show vpn ipsec sa
+show ip bgp summary
+show ip route bgp
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn">Google Cloud: create an HA VPN gateway to a peer VPN gateway</a></p></li>
+<li><p><a class="reference external" href="https://docs.cloud.google.com/network-connectivity/docs/vpn/concepts/topologies">Google Cloud: HA VPN topologies</a></p></li>
+<li><p><a class="reference external" href="https://docs.cloud.google.com/network-connectivity/docs/vpn/concepts/supported-ike-ciphers">Google Cloud: supported IKE ciphers</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="azure-vpn-dual-bgp.html" class="btn btn-neutral float-left" title="Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ha.html" class="btn btn-neutral float-right" title="High Availability Walkthrough" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

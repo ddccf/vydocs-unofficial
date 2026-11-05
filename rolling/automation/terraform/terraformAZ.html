@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy VyOS on Microsoft Azure with Terraform and Ansible &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/automation/terraform/terraformAZ.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Deploy VyOS on Google Cloud with Terraform and Ansible" href="terraformGoogle.html" />
+    <link rel="prev" title="Deploy VyOS on AWS with Terraform and Ansible" href="terraformAWS.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">VyOS automation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../vyos-api.html">VyOS API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VyOS Terraform</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="terraformvyos.html">Terraform for VyOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformAWS.html">Deploy VyOS on AWS with Terraform and Ansible</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Deploy VyOS on Microsoft Azure with Terraform and Ansible</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-to-deploy-vyos-with-terraform-on-azure">Prepare to deploy VyOS with Terraform on Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-in-terraform-for-azure">Structure of files in Terraform for Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-terraform-for-azure">File contents of Terraform for Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-in-ansible-for-azure">Structure of files in Ansible for Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-ansible-for-azure">File contents of Ansible for Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-files-on-github">Source files on GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="terraformGoogle.html">Deploy VyOS on Google Cloud with Terraform and Ansible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformvSphere.html">Deploy VyOS on VMware vSphere with Terraform and Ansible</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-napalm.html">NAPALM VyOS driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-salt.html">Salt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command-scripting.html">Command scripting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-pyvyos.html">PyVyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-govyos.html">Go-VyOS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VyOS automation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Terraform</a></li>
+      <li class="breadcrumb-item active">Deploy VyOS on Microsoft Azure with Terraform and Ansible</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/automation/terraform/terraformAZ.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploy-vyos-on-microsoft-azure-with-terraform-and-ansible">
+<span id="terraformaz"></span><h1>Deploy VyOS on Microsoft Azure with Terraform and Ansible<a class="headerlink" href="#deploy-vyos-on-microsoft-azure-with-terraform-and-ansible" title="Link to this heading"></a></h1>
+<p>You can use Terraform to quickly deploy VyOS-based infrastructure
+on Microsoft Azure (hereafter referred to as <em>Azure</em>) and remove
+infrastructure when it’s no longer needed.
+Additionally, you can use Ansible for provisioning.</p>
+<p>On this page you’ll learn how to:</p>
+<ul class="simple">
+<li><p>Create the necessary files for Terraform and Ansible.</p></li>
+<li><p>Use Terraform to create a single instance on Azure and use Ansible for
+provisioning.</p></li>
+</ul>
+<section id="prepare-to-deploy-vyos-with-terraform-on-azure">
+<h2>Prepare to deploy VyOS with Terraform on Azure<a class="headerlink" href="#prepare-to-deploy-vyos-with-terraform-on-azure" title="Link to this heading"></a></h2>
+<p>To create a single instance and install your configuration using
+Terraform, Ansible, and Azure, follow these steps:</p>
+<section id="azure">
+<h3>Azure<a class="headerlink" href="#azure" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Create an <a class="reference external" href="https://azure.microsoft.com/">Azure account</a>.</p></li>
+</ul>
+</section>
+<section id="terraform">
+<h3>Terraform<a class="headerlink" href="#terraform" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create an UNIX or Windows instance.</p></li>
+<li><p>Download and install
+<a class="reference external" href="https://developer.hashicorp.com/terraform/install">Terraform</a>.</p></li>
+<li><p>Create the folder for example <code class="docutils literal notranslate"><span class="pre">/root/azvyos/</span></code>.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir /root/azvyos
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Copy all files into your Terraform project “/root/azvyos”
+(<code class="docutils literal notranslate"><span class="pre">vyos.tf</span></code>, <code class="docutils literal notranslate"><span class="pre">var.tf</span></code>, <code class="docutils literal notranslate"><span class="pre">terraform.tfvars</span></code>). For more details, see
+<a class="reference external" href="#structure-of-files-in-terraform-for-azure">Structure of files in Terraform for Azure</a>.</p></li>
+</ol>
+<ol class="arabic simple" start="5">
+<li><p>Log in to Azure using the command:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>az login
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>Run the following commands to initialize Terraform:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform init
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="ansible">
+<h3>Ansible<a class="headerlink" href="#ansible" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create an UNIX instance either locally or in the cloud.</p></li>
+<li><p>Download and install Ansible</p></li>
+<li><p>Create a folder, for example <code class="docutils literal notranslate"><span class="pre">/root/az/</span></code>.</p></li>
+<li><p>Copy all files into your Ansible project <code class="docutils literal notranslate"><span class="pre">/root/az/</span></code> (<code class="docutils literal notranslate"><span class="pre">ansible.cfg</span></code>,
+<code class="docutils literal notranslate"><span class="pre">instance.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>). For more details, see
+<a class="reference internal" href="#structure-of-files-in-ansible-for-azure"><span class="xref myst">Structure of files in Ansible for Azure</span></a></p></li>
+</ol>
+</section>
+<section id="deploy-with-terraform">
+<h3>Deploy with Terraform<a class="headerlink" href="#deploy-with-terraform" title="Link to this heading"></a></h3>
+<p>Run the following commands on your Terraform instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform plan
+terraform apply
+yes
+</pre></div>
+</div>
+<p>After executing all the commands, your VyOS instance is deployed to
+Azure with your configuration.
+If you need to delete the instance, run the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>terraform destroy
+</pre></div>
+</div>
+</section>
+</section>
+<section id="structure-of-files-in-terraform-for-azure">
+<h2>Structure of files in Terraform for Azure<a class="headerlink" href="#structure-of-files-in-terraform-for-azure" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── vyos.tf                            # The main script
+├── var.tf                             # File for the Terraform version.
+└── terraform.tfvars           # Values for all variables (passwords,
+                       # login, IP addresses, etc.)
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-terraform-for-azure">
+<h2>File contents of Terraform for Azure<a class="headerlink" href="#file-contents-of-terraform-for-azure" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vyos.tf</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# HashiCorp Guide to Using Terraform on Azure
+# This Terraform configuration will create the following:
+# Resource group with a virtual network and subnet
+# A VyOS server without SSH key (only login+password)
+##############################################################################
+
+# Choose a provider
+
+provider "azurerm" {
+  features {}
+}
+
+# Create a resource group. In Azure, every resource belongs to a
+# resource group.
+
+resource "azurerm_resource_group" "azure_vyos" {
+  name     = "${var.resource_group}"
+  location = "${var.location}"
+}
+
+# The next resource is a Virtual Network.
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "${var.virtual_network_name}"
+  location            = "${var.location}"
+  address_space       = ["${var.address_space}"]
+  resource_group_name = "${var.resource_group}"
+}
+
+# Build a subnet to run your VMs.
+
+resource "azurerm_subnet" "subnet" {
+  name                 = "${var.prefix}subnet"
+  virtual_network_name = "${azurerm_virtual_network.vnet.name}"
+  resource_group_name = "${var.resource_group}"
+  address_prefixes       = ["${var.subnet_prefix}"]
+}
+
+##############################################################################
+# Build a VyOS VM from the Marketplace.
+# To find the necessary image, use the command:
+#
+# az vm image list --offer vyos --all
+#
+# Now that you have a network, you can deploy a VyOS server.
+# An Azure Virtual Machine has several components. In this example,
+# you build a security group, a network interface, a public IP
+# address, a storage account, and finally the VM itself. Terraform
+# handles all the dependencies automatically, and each resource is
+# named with user-defined variables.
+##############################################################################
+
+
+# Security group to allow inbound access on port 22 (SSH)
+
+resource "azurerm_network_security_group" "vyos-sg" {
+  name                = "${var.prefix}-sg"
+  location            = "${var.location}"
+  resource_group_name = "${var.resource_group}"
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "${var.source_network}"
+    destination_address_prefix = "*"
+  }
+}
+
+# A network interface.
+
+resource "azurerm_network_interface" "vyos-nic" {
+  name                      = "${var.prefix}vyos-nic"
+  location                  = "${var.location}"
+  resource_group_name       = "${var.resource_group}"
+
+  ip_configuration {
+    name                          = "${var.prefix}ipconfig"
+    subnet_id                     = "${azurerm_subnet.subnet.id}"
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = "${azurerm_public_ip.vyos-pip.id}"
+  }
+}
+
+# Add a public IP address.
+
+resource "azurerm_public_ip" "vyos-pip" {
+  name                         = "${var.prefix}-ip"
+  location                     = "${var.location}"
+  resource_group_name          = "${var.resource_group}"
+  allocation_method            = "Dynamic"
+}
+
+# Build a virtual machine. This is a standard VyOS instance from
+# Marketplace.
+
+resource "azurerm_virtual_machine" "vyos" {
+  name                = "${var.hostname}-vyos"
+  location            = "${var.location}"
+  resource_group_name = "${var.resource_group}"
+  vm_size             = "${var.vm_size}"
+
+  network_interface_ids         = ["${azurerm_network_interface.vyos-nic.id}"]
+  delete_os_disk_on_termination = "true"
+
+# To find information about the plan, use the command:
+# az vm image list --offer vyos --all
+
+  plan {
+    publisher = "sentriumsl"
+    name      = "vyos-1-3"
+    product   = "vyos-1-2-lts-on-azure"
+  }
+
+  storage_image_reference {
+    publisher = "${var.image_publisher}"
+    offer     = "${var.image_offer}"
+    sku       = "${var.image_sku}"
+    version   = "${var.image_version}"
+  }
+
+  storage_os_disk {
+    name              = "${var.hostname}-osdisk"
+    managed_disk_type = "Standard_LRS"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+  }
+
+  os_profile {
+    computer_name  = "${var.hostname}"
+    admin_username = "${var.admin_username}"
+    admin_password = "${var.admin_password}"
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+}
+
+data "azurerm_public_ip" "example" {
+  depends_on = ["azurerm_virtual_machine.vyos"]
+  name                = "vyos-ip"
+  resource_group_name = "${var.resource_group}"
+}
+output "public_ip_address" {
+  value = data.azurerm_public_ip.example.ip_address
+}
+
+# IP of AZ instance copied to a file ip.txt in the local system.
+
+resource "local_file" "ip" {
+    content  = data.azurerm_public_ip.example.ip_address
+    filename = "ip.txt"
+}
+
+# Connect to the Ansible control node via SSH
+
+resource "null_resource" "nullremote1" {
+depends_on = ["azurerm_virtual_machine.vyos"]
+connection {
+ type     = "ssh"
+ user     = "root"
+ password = var.password
+     host = var.host
+}
+
+# Copy the ip.txt file to the Ansible control node from the local
+# system
+
+ provisioner "file" {
+    source      = "ip.txt"
+    destination = "/root/az/ip.txt"
+       }
+}
+
+resource "null_resource" "nullremote2" {
+depends_on = ["azurerm_virtual_machine.vyos"]
+connection {
+      type     = "ssh"
+      user     = "root"
+      password = var.password
+      host = var.host
+}
+
+# Run the Ansible playbook on the remote Linux OS
+
+provisioner "remote-exec" {
+
+    inline = [
+      "cd /root/az/",
+      "ansible-playbook instance.yml"
+]
+}
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">var.tf</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# Variables File
+#
+# Default values for all variables used in Terraform code.
+##############################################################################
+
+variable "resource_group" {
+  description = "The name of your Azure Resource Group."
+  default     = "my_resource_group"
+}
+
+variable "prefix" {
+  description = "This prefix will be included in the name of some resources."
+  default     = "vyos"
+}
+
+variable "hostname" {
+  description = "Virtual machine hostname. Used for local hostname, DNS, and storage-related names."
+  default     = "vyos_terraform"
+}
+
+variable "location" {
+  description = "The region where the virtual network is created."
+  default     = "centralus"
+}
+
+variable "virtual_network_name" {
+  description = "The name for your virtual network."
+  default     = "vnet"
+}
+
+variable "address_space" {
+  description = "The address space that is used by the virtual network. You can supply more than one address space. Changing this forces a new resource to be created."
+  default     = "10.0.0.0/16"
+}
+
+variable "subnet_prefix" {
+  description = "The address prefix to use for the subnet."
+  default     = "10.0.10.0/24"
+}
+
+variable "storage_account_tier" {
+  description = "Defines the storage tier. Valid options are Standard and Premium."
+  default     = "Standard"
+}
+
+variable "storage_replication_type" {
+  description = "Defines the replication type to use for this storage account. Valid options include LRS, GRS etc."
+  default     = "LRS"
+}
+
+# The most cost-effective size
+
+variable "vm_size" {
+  description = "Specifies the size of the virtual machine."
+  default     = "Standard_B1s"
+}
+
+variable "image_publisher" {
+  description = "Name of the publisher of the image (az vm image list)"
+  default     = "sentriumsl"
+}
+
+variable "image_offer" {
+  description = "Name of the offer (az vm image list)"
+  default     = "vyos-1-2-lts-on-azure"
+}
+
+variable "image_sku" {
+  description = "Image SKU to apply (az vm image list)"
+  default     = "vyos-1-3"
+}
+
+variable "image_version" {
+  description = "Version of the image to apply (az vm image list)"
+  default     = "1.3.3"
+}
+
+variable "admin_username" {
+  description = "Administrator user name"
+  default     = "vyos"
+}
+
+variable "admin_password" {
+  description = "Administrator password"
+  type        = string
+  sensitive   = true
+}
+
+variable "source_network" {
+  description = "Allow access from this network prefix. Defaults to '*'."
+  default     = "*"
+}
+
+variable "password" {
+   description = "pass for Ansible"
+   type = string
+   sensitive = true
+}
+variable "host"{
+   description = "IP of my Ansible"
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">terraform.tfvars</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>password  = ""   # password for Ansible SSH
+host      = ""   # IP of my Ansible
+</pre></div>
+</div>
+</section>
+<section id="structure-of-files-in-ansible-for-azure">
+<h2>Structure of files in Ansible for Azure<a class="headerlink" href="#structure-of-files-in-ansible-for-azure" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── group_vars
+    └── all
+├── ansible.cfg
+└── instance.yml
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-ansible-for-azure">
+<h2>File contents of Ansible for Azure<a class="headerlink" href="#file-contents-of-ansible-for-azure" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ansible.cfg</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[defaults]
+inventory = /root/az/ip.txt
+host_key_checking= False
+remote_user=vyos
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">instance.yml</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# About tasks:
+# "Wait 300 seconds, but only start checking after 60 seconds" - Tries
+# to make SSH connection every 60 seconds until 300 seconds.
+# "Configure general settings for the VyOS hosts group" - Provision
+# the Azure VyOS node.
+# Add all necessary commands for VyOS under the block "lines:"
+##############################################################################
+
+
+- name: integration of terraform and ansible
+  hosts: all
+  gather_facts: 'no'
+
+  tasks:
+
+    - name: "Wait 300 seconds, but only start checking after 60 seconds"
+      wait_for_connection:
+        delay: 60
+        timeout: 300
+
+    - name: "Configure general settings for the VyOS hosts group"
+      vyos_config:
+        lines:
+          - set system name-server xxx.xxx.xxx.xxx
+        save:
+          true
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">group_vars/all</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: vyos.vyos.vyos
+
+# user and password gets from terraform variables "admin_username" and "admin_password" in the file /root/azvyos/var.tf
+ansible_user: vyos
+ansible_ssh_pass: "{{ vault_vyos_ssh_pass }}"
+</pre></div>
+</div>
+</section>
+<section id="source-files-on-github">
+<h2>Source files on GitHub<a class="headerlink" href="#source-files-on-github" title="Link to this heading"></a></h2>
+<p>All files related to deploying VyOS on Azure with Terraform and Ansible
+can be found in the <a class="reference external" href="https://github.com/vyos/vyos-automation/tree/main/TerraformCloud/Azure_terraform_ansible_single_vyos_instance-main">vyos-automation</a> repository.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="terraformAWS.html" class="btn btn-neutral float-left" title="Deploy VyOS on AWS with Terraform and Ansible" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="terraformGoogle.html" class="btn btn-neutral float-right" title="Deploy VyOS on Google Cloud with Terraform and Ansible" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

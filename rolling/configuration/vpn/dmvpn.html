@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMVPN &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/vpn/dmvpn.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VRF" href="../vrf/index.html" />
+    <link rel="prev" title="SSTP Server" href="sstp.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPN</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ipsec/index.html">IPsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp.html">SSTP Server</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DMVPN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPN</a></li>
+      <li class="breadcrumb-item active">DMVPN</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/vpn/dmvpn.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dmvpn">
+<span id="vpn-dmvpn"></span><h1>DMVPN<a class="headerlink" href="#dmvpn" title="Link to this heading"></a></h1>
+<p><abbr title="Dynamic Multipoint Virtual Private Network">DMVPN</abbr> is a dynamic
+<abbr title="Virtual Private Network">VPN</abbr> technology originally developed by Cisco.
+While their implementation was somewhat proprietary, the underlying
+technologies are actually standards based. The three technologies are:</p>
+<ul class="simple">
+<li><p><abbr title="Next Hop Resolution Protocol">NHRP</abbr> <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2332.html"><strong>RFC 2332</strong></a></p></li>
+<li><p><abbr title="Multipoint Generic Routing Encapsulation">mGRE</abbr> <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1702.html"><strong>RFC 1702</strong></a></p></li>
+<li><p><abbr title="IP Security">IPSec</abbr> - too many RFCs to list, but start with
+<span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4301.html"><strong>RFC 4301</strong></a></p></li>
+</ul>
+<p>NHRP provides the dynamic tunnel endpoint discovery mechanism (endpoint
+registration, and endpoint discovery/lookup), mGRE provides the tunnel
+encapsulation itself, and the IPSec protocols handle the key exchange, and
+crypto mechanism.</p>
+<p>In short, DMVPN provides the capability for creating a dynamic-mesh VPN
+network without having to pre-configure (static) all possible tunnel end-point
+peers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DMVPN only automates the tunnel endpoint discovery and setup. A
+complete solution also incorporates the use of a routing protocol. BGP is
+particularly well suited for use with DMVPN.</p>
+</div>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../images/vpn_dmvpn_topology01.webp"><img alt="Baseline DMVPN topology" src="../../images/vpn_dmvpn_topology01.webp" style="width: 721.2px; height: 516.8000000000001px;" /></a>
+<figcaption>
+<p><span class="caption-text">Baseline DMVPN topology</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="tunnel-interface-configuration">
+<h3>Tunnel interface configuration<a class="headerlink" href="#tunnel-interface-configuration" title="Link to this heading"></a></h3>
+<p>NHRP never handles routing of prefixes itself. You need to run some real routing
+protocol (e.g. BGP) to advertise routes over the tunnels. What nhrpd does it
+establishes ‘shortcut routes’ that optimizes the routing protocol to avoid going
+through extra nodes in NBMA GRE mesh.</p>
+<p>NHRP does route NHRP domain addresses individually using per-host prefixes.
+This is similar to Cisco FlexVPN, but in contrast to opennhrp which uses
+a generic subnet route.</p>
+<p>To create NBMA GRE tunnel you might use the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun100 address '10.0.0.1/32'
+set interfaces tunnel tun100 enable-multicast
+set interfaces tunnel tun100 encapsulation 'gre'
+set interfaces tunnel tun100 ip adjust-mss '1360'
+set interfaces tunnel tun100 mtu '1400'
+set interfaces tunnel tun100 parameters ip key '42'
+set interfaces tunnel tun100 source-interface 'eth0'
+</pre></div>
+</div>
+<ul>
+<li><p>Please refer to the <a class="reference internal" href="../interfaces/tunnel.html#tunnel-interface"><span class="std std-ref">Tunnel</span></a> documentation for the individual
+tunnel related options.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The IP-address is assigned as host prefix to tunnel interface.
+NHRP will automatically create additional host routes pointing to tunnel
+interface when a connection with these hosts is established.</p>
+</div>
+</li>
+</ul>
+<p>The tunnel interface subnet prefix should be announced by routing protocol
+from the hub nodes (e.g. BGP ‘network’ announce). This allows the routing
+protocol to decide which is the closest hub and determine the relay hub on
+prefix basis when direct tunnel is not established.</p>
+</section>
+<section id="nhrp-protocol-configuration">
+<h3>NHRP protocol configuration<a class="headerlink" href="#nhrp-protocol-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-authentication-secret">
+set protocols nhrp tunnel &lt;tunnel&gt; authentication &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-authentication-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enables Cisco style authentication on NHRP packets. This embeds the
+plaintext password to the outgoing NHRP packets. Maximum length of
+the password is 8 characters.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-holdtime-timeout">
+set protocols nhrp tunnel &lt;tunnel&gt; holdtime &lt;timeout&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-holdtime-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Holdtime is the number of seconds that have to pass before stopping to
+advertise an NHRP NBMA address as valid. It also controls how often NHRP
+registration requests are sent. By default registrations are sent every
+one third of the holdtime</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-map-tunnel-ip-tunnel-ip-nbma-nbma-ip">
+set protocols nhrp tunnel &lt;tunnel&gt; map tunnel-ip &lt;tunnel-ip&gt; nbma &lt;nbma-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-map-tunnel-ip-tunnel-ip-nbma-nbma-ip" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<ul class="simple">
+<li><p><strong>tunnel-ip</strong> - Tunnel ip address in format <strong>x.x.x.x</strong>.</p></li>
+<li><p><strong>nbma-ip</strong> - NBMA ip address in format <strong>x.x.x.x</strong> or <strong>local</strong></p></li>
+</ul>
+<p>Map an IP address of a station to the station’s NBMA address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-mtu-mtu">
+set protocols nhrp tunnel &lt;tunnel&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure NHRP advertised MTU.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-multicast-nbma-ip">
+set protocols nhrp tunnel &lt;tunnel&gt; multicast &lt;nbma-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-multicast-nbma-ip" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<ul class="simple">
+<li><p><strong>nbma-ip</strong> - NBMA ip address in format <strong>x.x.x.x</strong> or <strong>dynamic</strong></p></li>
+</ul>
+<p>Sends multicast packets to the specified NBMA address. If dynamic is specified
+then destination NBMA address (or addresses) are learnt dynamically.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-network-id-network-id">
+set protocols nhrp tunnel &lt;tunnel&gt; network-id &lt;network-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-network-id-network-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<ul class="simple">
+<li><p><strong>network-id</strong> - NHRP network id &lt;1-4294967295&gt;</p></li>
+</ul>
+<p>Enable NHRP on this interface and set the interface’s network ID.
+The network ID is used to allow creating multiple nhrp domains on a router when
+multiple interfaces are configured on the router. Interfaces configured with
+the same ID are part of the same logical NBMA network. The ID is a local only
+parameter and is not sent to other NHRP nodes and so IDs on different nodes
+do not need to match. When NHRP packets are received on an interface they
+are assigned to the local NHRP domain for that interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-nhs-tunnel-ip-tunnel-ip-nbma-nbma-ip">
+set protocols nhrp tunnel &lt;tunnel&gt; nhs tunnel-ip &lt;tunnel-ip&gt; nbma &lt;nbma-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-nhs-tunnel-ip-tunnel-ip-nbma-nbma-ip" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<ul class="simple">
+<li><p><strong>tunnel-ip</strong> - Tunnel ip address in format <strong>x.x.x.x</strong> or <strong>dynamic</strong></p></li>
+<li><p><strong>nbma-ip</strong> - NBMA ip address in format <strong>x.x.x.x</strong></p></li>
+</ul>
+<p>Configure the Next Hop Server address and its NBMA address. If dynamic is
+specified then Next Hop Server can have dynamic address which maps to
+its NBMA address.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-redirect">
+set protocols nhrp tunnel &lt;tunnel&gt; redirect</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-redirect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>This enable redirect replies on the NHS similar to ICMP redirects except this is
+managed by the nhrp protocol. This setting allows spokes to communicate with
+each others directly.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-registration-no-unique">
+set protocols nhrp tunnel &lt;tunnel&gt; registration-no-unique</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-registration-no-unique" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Allow the client to not set the unique flag in the NHRP packets. This is useful
+when a station has a dynamic IP address that could change over time.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-nhrp-tunnel-tunnel-shortcut">
+set protocols nhrp tunnel &lt;tunnel&gt; shortcut</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-nhrp-tunnel-tunnel-shortcut" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable shortcut (spoke-to-spoke) tunnels to allow NHC to talk to each others
+directly after establishing a connection without going through the hub.</p>
+</div>
+</div>
+</section>
+<section id="ipsec-configuration">
+<h3>IPSEC configuration<a class="headerlink" href="#ipsec-configuration" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Please refer to the <a class="reference internal" href="ipsec/ipsec_general.html#ipsec-general"><span class="std std-ref">IPsec General Information</span></a> documentation for the individual
+IPSec related options.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>NHRP daemon based on FRR nhrpd. It controls IPSEC. That’s why ‘close-action’
+parameter in IKE configuration always is set to ‘close’
+and ‘dead-peer-detection action’ always is set to ‘clear’.</p>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-profile-profile-name-authentication-mode-pre-shared-secret">
+set vpn ipsec profile &lt;profile-name&gt; authentication mode pre-shared-secret</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-profile-profile-name-authentication-mode-pre-shared-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set preshared secret mode authentication</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-profile-profile-name-authentication-pre-shared-secret-secret">
+set vpn ipsec profile &lt;profile-name&gt; authentication pre-shared-secret &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-profile-profile-name-authentication-pre-shared-secret-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set preshared secret</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-profile-profile-name-bind-tunnel-tunnel-name">
+set vpn ipsec profile &lt;profile-name&gt; bind tunnel &lt;tunnel name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-profile-profile-name-bind-tunnel-tunnel-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Bind IPSEC profile to the specific tunnel interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-profile-profile-name-esp-group-esp-hub">
+set vpn ipsec profile &lt;profile-name&gt; esp-group ‘ESP-HUB’</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-profile-profile-name-esp-group-esp-hub" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Map ESP group to IPSEC profile</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-profile-profile-name-ike-group-ike-hub">
+set vpn ipsec profile &lt;profile-name&gt; ike-group ‘IKE-HUB’</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-profile-profile-name-ike-group-ike-hub" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Map IKE group to IPSEC profile</p>
+</div>
+</div>
+</section>
+<section id="protecting-against-unencrypted-traffic-leaks">
+<h3>Protecting against unencrypted traffic leaks<a class="headerlink" href="#protecting-against-unencrypted-traffic-leaks" title="Link to this heading"></a></h3>
+<p>In DMVPN, the mGRE tunnel and the IPSec SA that protects it are handled
+independently: GRE forwarding follows the DMVPN/NHRP routing decisions on its
+own and does not depend on IPSec SAs being established.</p>
+<p>Because peers are discovered and IPSec SAs are negotiated on demand,
+there are conditions when traffic is routed over the tunnel while there is
+no active IPSec security association for a given peer—for example, while
+the SA for a newly discovered spoke is still being negotiated, or after an
+existing SA has expired.</p>
+<p>Such conditions can be short-lived, but they can also persist for a long time
+depending on the state of IPSec.
+Whenever they occur, the affected packets may leave the router as
+unencrypted GRE. This is an inherent property of running GRE and IPSec
+independently and is common to DMVPN implementations in general.</p>
+<p>To close this gap you can add a firewall rule that drops any GRE traffic that is
+not protected by an outbound IPSec policy. The <code class="docutils literal notranslate"><span class="pre">match-none-out</span></code> matcher matches
+packets leaving the router that did not match any outbound IPSec policy, so
+combined with <code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">gre</span></code> and <code class="docutils literal notranslate"><span class="pre">action</span> <span class="pre">drop</span></code> it discards GRE that would
+otherwise leave the router in cleartext:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 output filter rule 10 action 'drop'
+set firewall ipv4 output filter rule 10 protocol 'gre'
+set firewall ipv4 output filter rule 10 ipsec match-none-out
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This rule must be evaluated before any rule that permits GRE. Give it a low rule
+number (here <code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">10</span></code>) so that it is placed ahead of any GRE-permitting rules
+in the <code class="docutils literal notranslate"><span class="pre">output</span></code> filter. Only GRE that is already protected by IPSec
+(i.e., matches an outbound IPSec policy) will then be allowed out.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because this rule drops all GRE that is not protected by IPSec, it disables
+In that case, refine the rule so that it only matches the DMVPN traffic you want
+to protect (for example, by also matching on the tunnel source).
+Alternatively, you can explicitly allow traffic of known unencrypted tunnels
+by their source or destination addresses, or other criteria.
+to protect (for example, by also matching on the tunnel source).
+Alternatively, you can explicitly allow traffic of known unencrypted tunnels
+by their source or destination addresses, or other criteria.</p>
+</div>
+<ul class="simple">
+<li><p>Please refer to the <a class="reference internal" href="../firewall/ipv4.html#firewall-ipv4-configuration"><span class="std std-ref">IPv4 Firewall Configuration</span></a> documentation for
+details on the <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">ipv4</span> <span class="pre">output</span> <span class="pre">filter</span> <span class="pre">rule</span> <span class="pre">&lt;N&gt;</span> <span class="pre">ipsec</span> <span class="pre">match-none-out</span></code>
+matcher and other firewall options.</p></li>
+</ul>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ip-nhrp-cache">
+show ip nhrp cache</span>
+<a class="cmdlink" href="#opcmd-show-ip-nhrp-cache" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Forwarding cache information.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ip-nhrp-nhs">
+show ip nhrp nhs</span>
+<a class="cmdlink" href="#opcmd-show-ip-nhrp-nhs" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Next hop server information.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ip-nhrp-shortcut">
+show ip nhrp shortcut</span>
+<a class="cmdlink" href="#opcmd-show-ip-nhrp-shortcut" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shortcut information.</p>
+</div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>This blueprint uses VyOS as the DMVPN Hub and Cisco IOSv 15.5(3)M and VyOS as
+multiple spoke sites.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../../images/blueprint-dmvpn.webp"><img alt="DMVPN Network Topology Diagram" src="../../images/blueprint-dmvpn.webp" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-text">DMVPN Network Topology Diagram</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Each node (Hub and Spoke) uses an IP address from the network 10.0.0.0/24.</p>
+<p>The below referenced IP address <code class="docutils literal notranslate"><span class="pre">192.168.0.2</span></code> is used as example address
+representing a global unicast address under which the HUB can be contacted by
+each and every individual spoke.</p>
+<section id="dmvpn-example-configuration">
+<span id="id1"></span><h3>Configuration<a class="headerlink" href="#dmvpn-example-configuration" title="Link to this heading"></a></h3>
+<section id="hub">
+<h4>Hub<a class="headerlink" href="#hub" title="Link to this heading"></a></h4>
+<section id="vyos-hub-1">
+<h5>VyOS-HUB-1<a class="headerlink" href="#vyos-hub-1" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '192.168.0.2/30'
+
+set interfaces tunnel tun100 address '10.0.0.100/32'
+set interfaces tunnel tun100 enable-multicast
+set interfaces tunnel tun100 encapsulation 'gre'
+set interfaces tunnel tun100 parameters ip key '42'
+set interfaces tunnel tun100 source-interface 'eth0'
+
+set protocols nhrp tunnel tun100 authentication 'test123'
+set protocols nhrp tunnel tun100 holdtime '300'
+set protocols nhrp tunnel tun100 multicast 'dynamic'
+set protocols nhrp tunnel tun100 network-id '1'
+set protocols nhrp tunnel tun100 redirect
+set protocols nhrp tunnel tun100 registration-no-unique
+
+set protocols static route 0.0.0.0/0 next-hop 192.168.0.1
+
+set vpn ipsec esp-group ESP-HUB lifetime '1800'
+set vpn ipsec esp-group ESP-HUB mode 'transport'
+set vpn ipsec esp-group ESP-HUB pfs 'dh-group2'
+set vpn ipsec esp-group ESP-HUB proposal 1 encryption 'aes256'
+set vpn ipsec esp-group ESP-HUB proposal 1 hash 'sha1'
+set vpn ipsec ike-group IKE-HUB key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-HUB lifetime '3600'
+set vpn ipsec ike-group IKE-HUB proposal 1 dh-group '2'
+set vpn ipsec ike-group IKE-HUB proposal 1 encryption 'aes256'
+set vpn ipsec ike-group IKE-HUB proposal 1 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec profile NHRPVPN authentication mode 'pre-shared-secret'
+set vpn ipsec profile NHRPVPN authentication pre-shared-secret 'secret'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun100'
+set vpn ipsec profile NHRPVPN esp-group 'ESP-HUB'
+set vpn ipsec profile NHRPVPN ike-group 'IKE-HUB'
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Setting this up on AWS will require a “Custom Protocol Rule” for
+protocol number “47” (GRE) Allow Rule in TWO places. Firstly on the VPC
+Network ACL, and secondly on the security group network ACL attached to the
+EC2 instance. This has been tested as working for the official AMI image on
+the AWS Marketplace. (Locate the correct VPC and security group by navigating
+through the details pane below your EC2 instance in the AWS console).</p>
+</div>
+</section>
+</section>
+<section id="spokes">
+<h4>Spokes<a class="headerlink" href="#spokes" title="Link to this heading"></a></h4>
+<blockquote>
+<div><p>The individual spoke configurations only differ in interface IP addresses.</p>
+</div></blockquote>
+<section id="vyos-spoke-1-and-vyos-spoke-2">
+<h5>VyOS-Spoke-1 and VyOS-Spoke-2<a class="headerlink" href="#vyos-spoke-1-and-vyos-spoke-2" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '192.168.1.2/30'
+
+set interfaces tunnel tun100 address '10.0.0.1/32'
+set interfaces tunnel tun100 enable-multicast
+set interfaces tunnel tun100 encapsulation 'gre'
+set interfaces tunnel tun100 parameters ip key '42'
+set interfaces tunnel tun100 source-interface 'eth0'
+
+set protocols nhrp tunnel tun100 authentication 'test123'
+set protocols nhrp tunnel tun100 holdtime '300'
+set protocols nhrp tunnel tun100 multicast 'dynamic'
+set protocols nhrp tunnel tun100 network-id '1'
+set protocols nhrp tunnel tun100 nhs tunnel-ip dynamic nbma '192.168.0.2'
+set protocols nhrp tunnel tun100 registration-no-unique
+set protocols nhrp tunnel tun100 shortcut
+
+set protocols static route 0.0.0.0/0 next-hop 192.168.1.1
+set protocols static route 10.0.0.0/24 next-hop 10.0.0.100
+
+set vpn ipsec esp-group ESP-HUB lifetime '1800'
+set vpn ipsec esp-group ESP-HUB mode 'transport'
+set vpn ipsec esp-group ESP-HUB pfs 'dh-group2'
+set vpn ipsec esp-group ESP-HUB proposal 1 encryption 'aes256'
+set vpn ipsec esp-group ESP-HUB proposal 1 hash 'sha1'
+set vpn ipsec ike-group IKE-HUB key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-HUB lifetime '3600'
+set vpn ipsec ike-group IKE-HUB proposal 1 dh-group '2'
+set vpn ipsec ike-group IKE-HUB proposal 1 encryption 'aes256'
+set vpn ipsec ike-group IKE-HUB proposal 1 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec profile NHRPVPN authentication mode 'pre-shared-secret'
+set vpn ipsec profile NHRPVPN authentication pre-shared-secret 'secret'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun100'
+set vpn ipsec profile NHRPVPN esp-group 'ESP-HUB'
+set vpn ipsec profile NHRPVPN ike-group 'IKE-HUB'
+</pre></div>
+</div>
+</section>
+<section id="cisco-spoke-3">
+<h5>Cisco-Spoke-3<a class="headerlink" href="#cisco-spoke-3" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>crypto isakmp policy 10
+ encr aes 256
+ authentication pre-share
+ group 2
+ lifetime 3600
+crypto isakmp key secret address 0.0.0.0
+!
+!
+crypto ipsec transform-set DMVPNESP esp-aes 256 esp-sha-hmac
+ mode transport
+!
+crypto ipsec profile DMVPNPROFILE
+ set security-association lifetime seconds 1800
+ set transform-set DMVPNESP
+ set pfs group2
+!
+!
+!
+!
+!
+!
+!
+interface Tunnel100
+ ip address 10.0.0.3 255.255.255.0
+ no ip redirects
+ ip nhrp authentication test123
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 1
+ ip nhrp holdtime 300
+ ip nhrp nhs 10.0.0.100 nbma 192.168.0.2
+ ip nhrp registration no-unique
+ ip nhrp redirect
+tunnel source GigabitEthernet0/0
+ tunnel mode gre multipoint
+ tunnel key 42
+ tunnel protection ipsec profile DMVPNPROFILE
+!
+interface GigabitEthernet0/0
+ ip address 192.168.3.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+</pre></div>
+</div>
+</section>
+<section id="monitoring-dmvpn-network">
+<h5>Monitoring DMVPN Network<a class="headerlink" href="#monitoring-dmvpn-network" title="Link to this heading"></a></h5>
+<p>Let send ICMP packets from VyOS-SPOKE-1 to Cisco-SPOKE-3</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ ping 10.0.0.3
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=255 time=3.44 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=255 time=3.07 ms
+^C
+--- 10.0.0.3 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 3.072/3.257/3.442/0.185 ms
+</pre></div>
+</div>
+</section>
+<section id="monitoring-on-hub">
+<h5>Monitoring on HUB<a class="headerlink" href="#monitoring-on-hub" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip nhrp cache
+Iface    Type     Protocol                 NBMA                     Claimed NBMA             Flags  Identity
+tun100   dynamic  10.0.0.1                 192.168.1.2              192.168.1.2               T     192.168.1.2
+tun100   dynamic  10.0.0.3                 192.168.3.2              192.168.3.2               T     192.168.3.2
+tun100   dynamic  10.0.0.2                 192.168.2.2              192.168.2.2               T     192.168.2.2
+tun100   local    10.0.0.100               192.168.0.2              192.168.0.2                     -
+
+vyos@vyos:~$ show vpn ipsec sa
+Connection                  State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------
+dmvpn-NHRPVPN-tun100-child  up       3m46s     230B/270B       2/2               192.168.1.2       192.168.1.2  AES_CBC_256/HMAC_SHA1_96/MODP_1024
+dmvpn-NHRPVPN-tun100-child  up       5m48s     460B/540B       4/4               192.168.2.2       192.168.2.2  AES_CBC_256/HMAC_SHA1_96/MODP_1024
+dmvpn-NHRPVPN-tun100-child  up       16m26s    1K/1K           13/12             192.168.3.2       192.168.3.2  AES_CBC_256/HMAC_SHA1_96/MODP_1024
+</pre></div>
+</div>
+</section>
+<section id="monitoring-on-spokes">
+<h5>Monitoring on Spokes<a class="headerlink" href="#monitoring-on-spokes" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show ip nhrp cache
+Iface    Type     Protocol                 NBMA                     Claimed NBMA             Flags  Identity
+tun100   local    10.0.0.1                 192.168.1.2              192.168.1.2                     -
+tun100   dynamic  10.0.0.3                 192.168.3.2              192.168.3.2               T     192.168.3.2
+tun100   nhs      10.0.0.100               192.168.0.2              192.168.0.2               T     192.168.0.2
+
+vyos@vyos:~$ show ip nhrp nhs
+Iface    FQDN                     NBMA             Protocol
+tun100   192.168.0.2              192.168.0.2      10.0.0.100
+
+vyos@vyos:~$ show ip nhrp shortcut
+Type     Prefix                   Via                      Identity
+dynamic  10.0.0.3/32              10.0.0.3                 192.168.3.2
+
+vyos@vyos:~$ show vpn ipsec sa
+Connection                  State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------
+dmvpn-NHRPVPN-tun100-child  up       6m43s     898B/695B       7/6               192.168.0.2       192.168.0.2  AES_CBC_256/HMAC_SHA1_96/MODP_1024
+dmvpn-NHRPVPN-tun100-child  up       49s       215B/187B       2/2               192.168.3.2       192.168.3.2  AES_CBC_256/HMAC_SHA1_96/MODP_1024
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sstp.html" class="btn btn-neutral float-left" title="SSTP Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vrf/index.html" class="btn btn-neutral float-right" title="VRF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

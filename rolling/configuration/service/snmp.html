@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="SNMP is an Internet standard protocol for collecting and organizing information about managed devices on IP networks and for modifying that information to change device behavior. " name="description" />
+<meta content="snmp, snmpv2c, snmpv3, mib, community, trap, usm, vacm, engineid" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNMP &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/snmp.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="SSH" href="ssh.html" />
+    <link rel="prev" title="Router Advertisements" href="router-advert.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SNMP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snmp-protocol-versions">SNMP protocol versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vyos-mibs">VyOS MIBs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solarwinds-orion">SolarWinds Orion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">SNMP</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/snmp.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="snmp">
+<span id="id1"></span><h1>SNMP<a class="headerlink" href="#snmp" title="Link to this heading"></a></h1>
+<p><abbr title="Simple Network Management Protocol">SNMP</abbr> is an Internet
+standard protocol for collecting and organizing information about
+managed devices on IP networks and for modifying that information to
+change device behavior. Devices that support SNMP typically include
+routers, switches, servers, workstations, and printers.</p>
+<p>SNMP exposes management data as variables organized in a management
+information base (<abbr title="Management Information Base">MIB</abbr>), which
+describes the managed system’s status and configuration. Managed
+devices run a software component called an agent, which has local
+knowledge of management information and translates it to and from an
+SNMP-specific form. One or more administrative computers, running
+<abbr title="Network Management System">NMS</abbr> software, remotely query (and,
+in some circumstances, manipulate) these variables.</p>
+<p>Three significant versions of SNMP have been developed and deployed.
+SNMPv1 is the original version of the protocol. More recent versions,
+SNMPv2c and SNMPv3, feature improvements in performance, flexibility,
+and security.</p>
+<p>A VyOS router is such a managed device: VyOS provides its SNMP agent,
+configurable under <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span></code>. When you commit the configuration,
+VyOS generates the agent configuration from these settings and starts
+the agent, which then answers SNMP requests and sends notifications to
+any configured monitoring systems (trap targets).</p>
+<section id="snmp-protocol-versions">
+<h2>SNMP protocol versions<a class="headerlink" href="#snmp-protocol-versions" title="Link to this heading"></a></h2>
+<p>VyOS supports community-based SNMPv2c and SNMPv3. SNMPv3 is recommended
+because of improved security (authentication and encryption).</p>
+<section id="snmpv2c">
+<h3>SNMPv2c<a class="headerlink" href="#snmpv2c" title="Link to this heading"></a></h3>
+<p>SNMPv2c authorizes clients using the concept of communities. A
+community may be authorized read-only (<code class="docutils literal notranslate"><span class="pre">ro</span></code>, the most common case) or
+read-write (<code class="docutils literal notranslate"><span class="pre">rw</span></code>). A configured community also authorizes SNMPv1
+requests.</p>
+<p>SNMP can work synchronously or asynchronously. In synchronous
+communication, the monitoring system queries the router periodically.
+In asynchronous communication, the router sends notifications to a trap
+target.</p>
+<p>SNMPv2c authenticates requests only by the community string, which is
+transmitted in clear text, and supports no encryption. Restrict access
+to the addresses or networks of trusted clients, and prefer SNMPv3
+where possible.</p>
+</section>
+<section id="snmpv3">
+<h3>SNMPv3<a class="headerlink" href="#snmpv3" title="Link to this heading"></a></h3>
+<p>SNMPv3 introduced the security features missing from previous protocol
+versions. Each SNMPv3 message carries security parameters whose meaning
+depends on the security model in use. VyOS uses the
+<abbr title="User-based Security Model">USM</abbr> (RFC 3414) together with the
+<abbr title="View-based Access Control Model">VACM</abbr> (RFC 3415).</p>
+<p>The security approach in SNMPv3 targets:</p>
+<ul class="simple">
+<li><p>Confidentiality: Encryption of packets to prevent snooping by an
+unauthorized source.</p></li>
+<li><p>Integrity: Message integrity to ensure that a packet has not been
+tampered with while in transit, including an optional packet replay
+protection mechanism.</p></li>
+<li><p>Authentication: Verification that the message is from a valid source.</p></li>
+</ul>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="listener">
+<h3>Listener<a class="headerlink" href="#listener" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-listen-address-address-port-1-65535">
+set service snmp listen-address &lt;address&gt; port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-listen-address-address-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a local IPv4 or IPv6 address, and optionally a port, on which
+the SNMP agent listens for incoming SNMP requests.</p>
+<p>The address must already be assigned to a local interface in the same
+<abbr title="Virtual Routing and Forwarding">VRF</abbr> as the agent. Otherwise,
+the commit fails.</p>
+<p>Repeat the command to configure multiple addresses.</p>
+<p>When unset, the agent listens on all local IPv4 and IPv6 addresses.</p>
+<p>The default port is 161.</p>
+<p>When at least one listen address is configured, VyOS automatically adds
+127.0.0.1 and ::1 (port 161) to the configured listen addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp listen-address 192.0.2.1
+set service snmp listen-address 2001:db8::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-protocol-udp-tcp">
+set service snmp protocol &lt;udp | tcp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-protocol-udp-tcp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the transport protocol on which the SNMP agent listens.</strong></p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">udp</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp protocol tcp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-vrf-name">
+set service snmp vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Bind the SNMP agent to the specified VRF instance.</p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp vrf mgmt
+</pre></div>
+</div>
+</section>
+<section id="system-information">
+<h3>System information<a class="headerlink" href="#system-information" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-contact-contact">
+set service snmp contact &lt;contact&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-contact-contact" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the system contact information that the SNMP agent publishes
+in the SNMPv2-MIB <code class="docutils literal notranslate"><span class="pre">sysContact</span></code> object (RFC 3418).</p>
+<p>The value is limited to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp contact 'admin@example.com'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-location-location">
+set service snmp location &lt;location&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-location-location" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the system location information that the SNMP agent publishes
+in the SNMPv2-MIB <code class="docutils literal notranslate"><span class="pre">sysLocation</span></code> object (RFC 3418).</p>
+<p>The value is limited to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp location 'UK, London'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-description-description">
+set service snmp description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the system description that the SNMP agent publishes in the
+SNMPv2-MIB <code class="docutils literal notranslate"><span class="pre">sysDescr</span></code> object (RFC 3418).</p>
+<p>By default, the SNMP agent publishes <code class="docutils literal notranslate"><span class="pre">VyOS</span> <span class="pre">&lt;version&gt;</span></code> as the system
+description. The value is limited to 255 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp description 'Edge router'
+</pre></div>
+</div>
+</section>
+<section id="snmpv2c-communities">
+<h3>SNMPv2c communities<a class="headerlink" href="#snmpv2c-communities" title="Link to this heading"></a></h3>
+<p>By default, a community grants access to the whole MIB except the
+routing and address resolution tables. <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">oid-enable</span></code>
+adds them.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-community-name">
+set service snmp community &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-community-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a community string that authorizes client requests.</p>
+<p>The community name may contain alphanumeric characters and <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span></code>,
+<code class="docutils literal notranslate"><span class="pre">!</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">#</span></code>, with a maximum length of 100 characters.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp community routers
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-community-name-authorization-ro-rw">
+set service snmp community &lt;name&gt; authorization &lt;ro | rw&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-community-name-authorization-ro-rw" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the authorization granted to clients using the specified
+community: read-only (<code class="docutils literal notranslate"><span class="pre">ro</span></code>) or read-write (<code class="docutils literal notranslate"><span class="pre">rw</span></code>).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">ro</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp community routers authorization ro
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-community-name-client-address">
+set service snmp community &lt;name&gt; client &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-community-name-client-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an IPv4 or IPv6 address of a client allowed to contact the
+router using the specified community.</strong></p>
+<p>Repeat the command to allow multiple clients.</p>
+<p>On its own, this does not restrict access, because the default for
+<code class="docutils literal notranslate"><span class="pre">network</span></code> permits requests from any source address. Configure <code class="docutils literal notranslate"><span class="pre">network</span></code>
+as well, so that the agent accepts requests for this community only from
+the addresses and prefixes you list.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp community routers client 203.0.113.10
+set service snmp community routers client 2001:db8::10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-community-name-network-prefix">
+set service snmp community &lt;name&gt; network &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-community-name-network-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an IPv4 or IPv6 prefix from which clients are allowed to
+contact the router using the specified community.</strong></p>
+<p>Repeat the command to allow multiple prefixes.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">0.0.0.0/0</span></code> and <code class="docutils literal notranslate"><span class="pre">::/0</span></code>, which permits requests from any
+source address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp community routers network 192.0.2.0/24
+set service snmp community routers network 2001:db8:ffff:eeee::/64
+</pre></div>
+</div>
+</section>
+<section id="trap-notifications">
+<h3>Trap notifications<a class="headerlink" href="#trap-notifications" title="Link to this heading"></a></h3>
+<p>VyOS pre-configures <code class="docutils literal notranslate"><span class="pre">linkUp</span></code> and <code class="docutils literal notranslate"><span class="pre">linkDown</span></code> notification events. Every
+10 seconds, the SNMP agent evaluates the operational status of the
+interfaces it collects data from and notifies the configured trap
+targets of interface state changes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-trap-target-address-community-community">
+set service snmp trap-target &lt;address&gt; community &lt;community&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-trap-target-address-community-community" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure a destination host for SNMPv2c trap notifications and the
+community string that the SNMP agent sends with them.</p>
+<p>Repeat the command to configure multiple trap targets.</p>
+<p>Each trap target requires a community. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp trap-target 203.0.113.10 community routers
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-trap-target-address-port-1-65535">
+set service snmp trap-target &lt;address&gt; port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-trap-target-address-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the destination port for traps that the SNMP agent sends to
+the specified trap target.</p>
+<p>The default is 162.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp trap-target 203.0.113.10 port 10162
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-trap-source-address">
+set service snmp trap-source &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-trap-source-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the source IPv4 or IPv6 address that the router uses for SNMP
+notifications.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp trap-source 192.0.2.1
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>SNMPv3<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Access to the MIB over SNMPv3 is configured in three parts: views,
+groups, and users. A view is a named list of MIB subtrees. A subtree is
+written as an <abbr title="object identifier">OID</abbr> and contains every object
+whose OID starts with it. A group combines a view, an access
+permission, and a security level. Each user belongs to a group, and the
+group’s view determines what that user may reach.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-engineid-id">
+set service snmp v3 engineid &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-engineid-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the unique identifier of the SNMP agent (snmpEngineID, RFC
+3411).</p>
+<p>The value must contain an even number of lowercase hexadecimal
+characters and be 2 to 36 characters long.</p>
+<p>The ID must be configured when any user is defined under
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">user</span></code>. Otherwise, the commit fails.</p>
+<p>Changing the ID after users are configured leaves their stored keys
+tied to the previous value. Set their passwords again under
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">user</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 engineid 000000000000000000000002
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-group-name-view-view">
+set service snmp v3 group &lt;name&gt; view &lt;view&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-group-name-view-view" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the MIB view that determines which objects members of the
+specified group can access.</strong></p>
+<p>Each group requires a view, and the view must already be defined under
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">view</span></code>. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 group default view default
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-group-name-mode-ro-rw">
+set service snmp v3 group &lt;name&gt; mode &lt;ro | rw&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-group-name-mode-ro-rw" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the access permission granted to the specified group:
+read-only (<code class="docutils literal notranslate"><span class="pre">ro</span></code>) or read-write (<code class="docutils literal notranslate"><span class="pre">rw</span></code>).</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">rw</span></code>, the SNMP agent uses the group’s view for both read and write
+access. The default is <code class="docutils literal notranslate"><span class="pre">ro</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 group default mode ro
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-group-name-seclevel-noauth-auth-priv">
+set service snmp v3 group &lt;name&gt; seclevel &lt;noauth | auth | priv&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-group-name-seclevel-noauth-auth-priv" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the security level required for the specified group.</p>
+<ul class="simple">
+<li><p>noauth: Messages are not authenticated and not encrypted.</p></li>
+<li><p>auth: Messages are authenticated but not encrypted.</p></li>
+<li><p>priv: Messages are authenticated and encrypted.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">auth</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 group default seclevel priv
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-auth-plaintext-password-encrypted-password-value">
+set service snmp v3 user &lt;name&gt; auth &lt;plaintext-password | encrypted-password&gt; &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-auth-plaintext-password-encrypted-password-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication key for the specified SNMPv3 user,
+either as a plaintext password or as the derived key itself.</strong></p>
+<p>A plaintext password must be at least 8 characters long. A key must use
+lowercase hexadecimal characters (<code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code> to <code class="docutils literal notranslate"><span class="pre">f</span></code>).</p>
+<p>Upon commit, VyOS derives a key from the plaintext password and the ID,
+using the selected authentication protocol, and replaces
+<code class="docutils literal notranslate"><span class="pre">plaintext-password</span></code> with the resulting <code class="docutils literal notranslate"><span class="pre">encrypted-password</span></code> in the
+configuration.</p>
+<p>Each user requires an authentication key. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos auth plaintext-password vyos12345678
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-auth-type-md5-sha">
+set service snmp v3 user &lt;name&gt; auth type &lt;md5 | sha&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-auth-type-md5-sha" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the authentication protocol used by the specified user:
+HMAC-MD5-96 (md5) or HMAC-SHA-96 (sha).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">md5</span></code>.</p>
+<p>VyOS derives both the authentication key and the privacy key of the
+user using this protocol. Changing it after the keys are derived leaves
+them tied to the previous protocol. Set the authentication and privacy
+passwords again under <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">user</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos auth type sha
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-privacy-plaintext-password-encrypted-password-value">
+set service snmp v3 user &lt;name&gt; privacy &lt;plaintext-password | encrypted-password&gt; &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-privacy-plaintext-password-encrypted-password-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the privacy key for the specified SNMPv3 user, either as a
+plaintext password or as the derived key itself.</p>
+<p>A plaintext password must be at least 8 characters long. A key must use
+lowercase hexadecimal characters (<code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code> to <code class="docutils literal notranslate"><span class="pre">f</span></code>).</p>
+<p>Upon commit, VyOS derives a key from the plaintext password and the ID,
+using the selected authentication protocol, and replaces
+<code class="docutils literal notranslate"><span class="pre">plaintext-password</span></code> with the resulting <code class="docutils literal notranslate"><span class="pre">encrypted-password</span></code> in the
+configuration.</p>
+<p>Each user requires a privacy key. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos privacy plaintext-password vyos12345678
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-privacy-type-des-aes">
+set service snmp v3 user &lt;name&gt; privacy type &lt;des | aes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-privacy-type-des-aes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the privacy protocol used by the specified user: CBC-DES
+(des) or CFB128-AES-128 (aes).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">des</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos privacy type aes
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-group-group">
+set service snmp v3 user &lt;name&gt; group &lt;group&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-group-group" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Assign the specified SNMPv3 user to a group.</strong></p>
+<p>Groups are defined under <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">group</span></code>.</p>
+<p>Each user must be assigned a group. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos group default
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-user-name-mode-ro-rw">
+set service snmp v3 user &lt;name&gt; mode &lt;ro | rw&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-user-name-mode-ro-rw" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the access permission of the specified user: read-only
+(<code class="docutils literal notranslate"><span class="pre">ro</span></code>) or read-write (<code class="docutils literal notranslate"><span class="pre">rw</span></code>).</strong></p>
+<p>The value does not affect what the user may access. Access is
+determined by the group the user belongs to, configured under
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">group</span></code>.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">ro</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 user vyos mode ro
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-view-name-oid-oid">
+set service snmp v3 view &lt;name&gt; oid &lt;oid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-view-name-oid-oid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an OID subtree included in the specified MIB view.</strong></p>
+<p>Repeat the command to include multiple subtrees.</p>
+<p>Each view requires at least one OID. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 view default oid 1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-view-name-oid-oid-exclude-oid">
+set service snmp v3 view &lt;name&gt; oid &lt;oid&gt; exclude &lt;oid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-view-name-oid-oid-exclude-oid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Exclude an OID subtree from the specified MIB view.</strong></p>
+<p>Repeat the command to exclude multiple subtrees.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 view default oid 1 exclude 1.3.6.1.2.1.4
+</pre></div>
+</div>
+<!-- The command below is intentionally left undocumented. The CLI accepts
+and stores the value, but the generated agent configuration omits it,
+so the mask never reaches the running service. Verified on VyOS 1.5.0.
+
+```{cfgcmd} set service snmp v3 view \<name\> oid \<oid\> mask \<hex-octets\>
+
+**Define a bitmask indicating which numbers of the OID an object's OID
+must match, instead of all of them, for the object to be in the view.**
+```
+-->
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address">
+set service snmp v3 trap-target &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a destination host (trap target) for SNMPv3
+notifications.</strong></p>
+<p>The SNMP agent authenticates and encrypts every notification it sends
+to an SNMPv3 trap target.</p>
+<p>Each SNMPv3 trap target requires an authentication key and a privacy
+key. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-port-1-65535">
+set service snmp v3 trap-target &lt;address&gt; port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination port for notifications that the SNMP agent
+sends to the specified trap target.</strong></p>
+<p>The default is 162.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 port 10162
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-protocol-udp-tcp">
+set service snmp v3 trap-target &lt;address&gt; protocol &lt;udp | tcp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-protocol-udp-tcp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the transport protocol for notifications that the SNMP agent
+sends to the specified trap target.</p>
+<p>The default is udp.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 protocol udp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-type-inform-trap">
+set service snmp v3 trap-target &lt;address&gt; type &lt;inform | trap&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-type-inform-trap" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure whether the SNMP agent sends notifications to the specified
+trap target as acknowledged InformRequests (inform) or as unacknowledged
+traps (trap).</p>
+<p>The default is inform.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 type trap
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-user-name">
+set service snmp v3 trap-target &lt;address&gt; user &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-user-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the security name that the SNMP agent sends in
+notifications to the specified trap target.</strong></p>
+<p>The name does not have to match any user configured under
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">snmp</span> <span class="pre">v3</span> <span class="pre">user</span></code>. Those users authorize incoming queries, not
+outgoing notifications.</p>
+<p>The agent sends the name in clear text. The receiver uses it to select
+the keys for verifying and decrypting the notification. Configure the
+receiver with this name and the keys from <code class="docutils literal notranslate"><span class="pre">auth</span></code> and <code class="docutils literal notranslate"><span class="pre">privacy</span></code> of this
+trap target.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 user vyos
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-auth-plaintext-password-encrypted-password-value">
+set service snmp v3 trap-target &lt;address&gt; auth &lt;plaintext-password | encrypted-password&gt; &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-auth-plaintext-password-encrypted-password-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication key for notifications that the SNMP
+agent sends to the specified trap target, either as a plaintext password
+or as the key itself.</strong></p>
+<p>A plaintext password must be at least 8 characters long. A key must use
+lowercase hexadecimal characters (<code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code> to <code class="docutils literal notranslate"><span class="pre">f</span></code>).</p>
+<p>VyOS stores the value as entered and passes it to the SNMP agent
+unchanged. A plaintext password therefore stays readable in the
+configuration and in configuration backups. An encrypted password keeps
+the password itself out of the configuration, but it is a working key.
+Anyone who obtains it can send notifications in the router’s name.</p>
+<p>Exactly one of <code class="docutils literal notranslate"><span class="pre">plaintext-password</span></code> or <code class="docutils literal notranslate"><span class="pre">encrypted-password</span></code> must be
+configured. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 auth plaintext-password vyos12345678
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-auth-type-md5-sha">
+set service snmp v3 trap-target &lt;address&gt; auth type &lt;md5 | sha&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-auth-type-md5-sha" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the authentication protocol for notifications that the SNMP
+agent sends to the specified trap target: HMAC-MD5-96 (md5) or
+HMAC-SHA-96 (sha).</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">md5</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 auth type sha
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-privacy-plaintext-password-encrypted-password-value">
+set service snmp v3 trap-target &lt;address&gt; privacy &lt;plaintext-password | encrypted-password&gt; &lt;value&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-privacy-plaintext-password-encrypted-password-value" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the privacy key for notifications that the SNMP agent sends
+to the specified trap target, either as a plaintext password or as the
+key itself.</strong></p>
+<p>A plaintext password must be at least 8 characters long. A key must use
+lowercase hexadecimal characters (<code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code> to <code class="docutils literal notranslate"><span class="pre">f</span></code>).</p>
+<p>VyOS stores the value as entered and passes it to the SNMP agent
+unchanged. A plaintext password therefore stays readable in the
+configuration and in configuration backups. An encrypted password keeps
+the password itself out of the configuration, but it is a working key.
+Anyone who obtains it can decrypt captured notifications.</p>
+<p>Exactly one of <code class="docutils literal notranslate"><span class="pre">plaintext-password</span></code> or <code class="docutils literal notranslate"><span class="pre">encrypted-password</span></code> must be
+configured. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 privacy plaintext-password vyos12345678
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-v3-trap-target-address-privacy-type-des-aes">
+set service snmp v3 trap-target &lt;address&gt; privacy type &lt;des | aes&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-v3-trap-target-address-privacy-type-des-aes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure the privacy protocol for notifications that the SNMP agent
+sends to the specified trap target: CBC-DES (des) or CFB128-AES-128
+(aes).</p>
+<p>The default is des.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp v3 trap-target 203.0.113.10 privacy type aes
+</pre></div>
+</div>
+</section>
+<section id="mib-options">
+<h3>MIB options<a class="headerlink" href="#mib-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-mib-interface-max-1-4294967295">
+set service snmp mib interface-max &lt;1-4294967295&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-mib-interface-max-1-4294967295" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Limit how many interfaces the SNMP agent collects data from.</strong></p>
+<p>By default, the agent collects data from all local interfaces.</p>
+<p>Once a limit is set, the agent sorts the interfaces by their number and
+collects data from that many, starting with the lowest.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp mib interface-max 1000
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-mib-interface-prefix">
+set service snmp mib interface &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-mib-interface-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Restrict the interfaces the SNMP agent collects data from to those
+whose names begin with the specified prefix.</strong></p>
+<p>By default, the agent collects data from all local interfaces.</p>
+<p>Accepted prefixes: <code class="docutils literal notranslate"><span class="pre">br</span></code>, <code class="docutils literal notranslate"><span class="pre">bond</span></code>, <code class="docutils literal notranslate"><span class="pre">dum</span></code>, <code class="docutils literal notranslate"><span class="pre">eth</span></code>, <code class="docutils literal notranslate"><span class="pre">gnv</span></code>, <code class="docutils literal notranslate"><span class="pre">macsec</span></code>, <code class="docutils literal notranslate"><span class="pre">peth</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sstpc</span></code>, <code class="docutils literal notranslate"><span class="pre">tun</span></code>, <code class="docutils literal notranslate"><span class="pre">veth</span></code>, <code class="docutils literal notranslate"><span class="pre">vti</span></code>, <code class="docutils literal notranslate"><span class="pre">vtun</span></code>, <code class="docutils literal notranslate"><span class="pre">vxlan</span></code>, <code class="docutils literal notranslate"><span class="pre">wg</span></code>, <code class="docutils literal notranslate"><span class="pre">wlan</span></code>, <code class="docutils literal notranslate"><span class="pre">wwan</span></code>.</p>
+<p>Repeat the command to include multiple prefixes.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp mib interface eth
+set service snmp mib interface bond
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-oid-enable-ip-forward-ip-route-table-ip-net-to-media-table-ip-net-to-physical-phys-address">
+set service snmp oid-enable &lt;ip-forward | ip-route-table | ip-net-to-media-table | ip-net-to-physical-phys-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-oid-enable-ip-forward-ip-route-table-ip-net-to-media-table-ip-net-to-physical-phys-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable OID subtrees that community-based access excludes by default.</p>
+<ul class="simple">
+<li><p>ip-forward: ipForward (.1.3.6.1.2.1.4.24)</p></li>
+<li><p>ip-route-table: ipRouteTable (.1.3.6.1.2.1.4.21)</p></li>
+<li><p>ip-net-to-media-table: ipNetToMediaTable (.1.3.6.1.2.1.4.22)</p></li>
+<li><p>ip-net-to-physical-phys-address: ipNetToPhysicalPhysAddress (.1.3.6.1.2.1.4.35)</p></li>
+</ul>
+<p>Repeat the command to enable multiple subtrees.</p>
+<p>Enabling these subtrees may lead to system instability and high
+resource consumption, for example, on systems with large routing
+tables. VyOS prints a corresponding warning at commit time.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp oid-enable ip-forward
+</pre></div>
+</div>
+</section>
+<section id="smux-peer">
+<h3>SMUX peer<a class="headerlink" href="#smux-peer" title="Link to this heading"></a></h3>
+<p><abbr title="SNMP Multiplexing">SMUX</abbr>, defined in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc1227">RFC 1227</a>, is a legacy
+protocol that lets a separate process, called a SMUX peer, answer
+requests for part of the MIB on behalf of the SNMP agent.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-smux-peer-oid">
+set service snmp smux-peer &lt;oid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-smux-peer-oid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Register an OID subtree so that a SMUX peer can answer requests for
+it.</strong></p>
+<p>Repeat the command to register multiple subtrees.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp smux-peer 1.3.6.1.4.1.3317.1.2.2
+</pre></div>
+</div>
+</section>
+<section id="script-extensions">
+<h3>Script extensions<a class="headerlink" href="#script-extensions" title="Link to this heading"></a></h3>
+<p>The SNMP agent can run a custom script and report its output and exit
+status through the extension MIB (NET-SNMP-EXTEND-MIB), shown in the
+query below. Create the script, upload it to the router using
+<code class="docutils literal notranslate"><span class="pre">scp</span> <span class="pre">your_script.sh</span> <span class="pre">vyos&#64;your_router:/config/user-data</span></code>, and then
+register it with the command below.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-snmp-script-extensions-extension-name-name-script-script">
+set service snmp script-extensions extension-name &lt;name&gt; script &lt;script&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-snmp-script-extensions-extension-name-name-script-script" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a script that the SNMP agent runs under the specified
+name.</strong></p>
+<p>The agent reports the script’s output and exit status to clients. It
+runs the script when a client asks for either of them.</p>
+<p>Specify either a filename, which VyOS looks for in <code class="docutils literal notranslate"><span class="pre">/config/user-data/</span></code>,
+or an absolute path to a script kept elsewhere. Names and paths may
+contain lowercase letters, digits, and the characters <code class="docutils literal notranslate"><span class="pre">.</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span></code>,
+and paths may also contain <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
+<p>Every configured name must point to a script path. Otherwise, the
+commit fails.</p>
+<p>VyOS does not require the file to exist yet. If it is missing at commit
+time, VyOS prints a warning and commits anyway. If it is present, VyOS
+makes it executable.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp script-extensions extension-name my-extension script your_script.sh
+</pre></div>
+</div>
+<p>The script’s output and exit status can then be queried:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# snmpwalk -v2c -c routers 127.0.0.1 nsExtendOutput1Table
+NET-SNMP-EXTEND-MIB::nsExtendOutput1Line."my-extension" = STRING: hello
+NET-SNMP-EXTEND-MIB::nsExtendOutputFull."my-extension" = STRING: hello
+NET-SNMP-EXTEND-MIB::nsExtendOutNumLines."my-extension" = INTEGER: 1
+NET-SNMP-EXTEND-MIB::nsExtendResult."my-extension" = INTEGER: 0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-community-community">
+show snmp community &lt;community&gt;</span>
+<a class="cmdlink" href="#opcmd-show-snmp-community-community" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the status of the SNMP agent on the local system, queried over
+SNMPv1 with the specified community string.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-community-community-host-host">
+show snmp community &lt;community&gt; host &lt;host&gt;</span>
+<a class="cmdlink" href="#opcmd-show-snmp-community-community-host-host" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the status of the SNMP agent on the specified remote host, queried
+over SNMPv1 with the specified community string.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-mib-ifmib">
+show snmp mib ifmib</span>
+<a class="cmdlink" href="#opcmd-show-snmp-mib-ifmib" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the IF-MIB <code class="docutils literal notranslate"><span class="pre">ifAlias</span></code>, <code class="docutils literal notranslate"><span class="pre">ifDescr</span></code>, and <code class="docutils literal notranslate"><span class="pre">ifIndex</span></code> values for all
+interfaces.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-mib-ifmib-if-alias-if-descr-if-index-interface">
+show snmp mib ifmib &lt;if-alias | if-descr | if-index&gt; &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-snmp-mib-ifmib-if-alias-if-descr-if-index-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the IF-MIB <code class="docutils literal notranslate"><span class="pre">ifAlias</span></code>, <code class="docutils literal notranslate"><span class="pre">ifDescr</span></code>, or <code class="docutils literal notranslate"><span class="pre">ifIndex</span></code> value for the
+specified interface.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3">
+show snmp v3</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the configured SNMPv3 groups, trap targets, users, and views.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3-group">
+show snmp v3 group</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3-group" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the configured SNMPv3 groups.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3-trap-target">
+show snmp v3 trap-target</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3-trap-target" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the configured SNMPv3 trap targets.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3-user">
+show snmp v3 user</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3-user" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the configured SNMPv3 users.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3-view">
+show snmp v3 view</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3-view" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the configured SNMPv3 views.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-snmp-v3-certificates">
+show snmp v3 certificates</span>
+<a class="cmdlink" href="#opcmd-show-snmp-v3-certificates" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show SNMP <abbr title="Transport Security Model">TSM</abbr> certificates from
+<code class="docutils literal notranslate"><span class="pre">/etc/snmp/tls/certs/</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-snmp">
+show log snmp</span>
+<a class="cmdlink" href="#opcmd-show-log-snmp" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the SNMP agent log for the current boot.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-monitor-log-snmp">
+monitor log snmp</span>
+<a class="cmdlink" href="#opcmd-monitor-log-snmp" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the SNMP agent log for the current boot and follow new entries in
+real time.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-snmp">
+restart snmp</span>
+<a class="cmdlink" href="#opcmd-restart-snmp" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart the SNMP agent. The command fails when SNMP is not configured or
+while a commit is in progress.</p>
+</div>
+</div>
+</section>
+<section id="vyos-mibs">
+<h2>VyOS MIBs<a class="headerlink" href="#vyos-mibs" title="Link to this heading"></a></h2>
+<p>All SNMP MIBs shipped with a VyOS image are located in
+<code class="docutils literal notranslate"><span class="pre">/usr/share/snmp/mibs/</span></code>. An SNMP client uses these files to show
+symbolic object names such as <code class="docutils literal notranslate"><span class="pre">SNMPv2-MIB::sysDescr.0</span></code> instead of
+numeric OIDs. Copy them to the client to get the same names there, with
+SCP once the SSH service is configured:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>scp -r vyos@your_router:/usr/share/snmp/mibs /your_folder/mibs
+</pre></div>
+</div>
+</section>
+<section id="solarwinds-orion">
+<span id="solarwinds"></span><h2>SolarWinds Orion<a class="headerlink" href="#solarwinds-orion" title="Link to this heading"></a></h2>
+<p>SolarWinds Orion is a network monitoring and management platform. To
+manage the configuration of a device, it opens a command-line session
+and runs commands on it. Since every system has its own commands, Orion
+needs a device template that maps its actions, such as retrieving the
+configuration or rebooting, to that system’s commands.</p>
+<p>Orion selects the template by the system object identifier that a device
+reports in the SNMPv2-MIB <code class="docutils literal notranslate"><span class="pre">sysObjectID</span></code> object. A VyOS router always
+reports <code class="docutils literal notranslate"><span class="pre">1.3.6.1.4.1.44641</span></code>, so a template with this value applies to
+every VyOS device.</p>
+<p>To add the template, create a file named
+<code class="docutils literal notranslate"><span class="pre">VyOS-1.3.6.1.4.1.44641.ConfigMgmt-Commands</span></code> with the following content
+and then import it in Orion using Device Templates Management:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Configuration-Management Device="VyOS" SystemOID="1.3.6.1.4.1.44641"&gt;
+    &lt;Commands&gt;
+        &lt;Command Name="Reset" Value="set terminal width 0${CRLF}set terminal length 0"/&gt;
+        &lt;Command Name="Reboot" Value="reboot${CRLF}Yes"/&gt;
+        &lt;Command Name="EnterConfigMode" Value="configure"/&gt;
+        &lt;Command Name="ExitConfigMode" Value="commit${CRLF}exit"/&gt;
+        &lt;Command Name="DownloadConfig" Value="show configuration commands"/&gt;
+        &lt;Command Name="SaveConfig" Value="commit${CRLF}save"/&gt;
+        &lt;Command Name="Version" Value="show version"/&gt;
+        &lt;Command Name="MenuBased" Value="False"/&gt;
+        &lt;Command Name="VirtualPrompt" Value=":~"/&gt;
+    &lt;/Commands&gt;
+&lt;/Configuration-Management&gt;
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>SNMPv2c<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Define a community
+set service snmp community routers authorization 'ro'
+
+# Allow monitoring access only from these networks. For specific
+# addresses, use /32 and /128 prefixes.
+set service snmp community routers network '192.0.2.0/24'
+set service snmp community routers network '2001:db8:ffff:eeee::/64'
+
+# Define optional router information
+set service snmp location 'UK, London'
+set service snmp contact 'admin@example.com'
+
+# Send trap notifications to this host
+set service snmp trap-target 203.0.113.10 community 'routers'
+
+# Listen only on specific IP addresses (port defaults to 161)
+set service snmp listen-address 192.0.2.1 port 161
+set service snmp listen-address 2001:db8::1
+</pre></div>
+</div>
+</section>
+<section id="snmp-v3-example">
+<span id="id4"></span><h3>SNMPv3<a class="headerlink" href="#snmp-v3-example" title="Link to this heading"></a></h3>
+<p>The following example lets the SNMP agent listen only on IP address
+192.0.2.1 and configures a new user named “vyos” with password
+“vyos12345678”, using <code class="docutils literal notranslate"><span class="pre">sha</span></code> for authentication and <code class="docutils literal notranslate"><span class="pre">aes</span></code> for privacy.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service snmp listen-address 192.0.2.1
+set service snmp location 'VyOS Datacenter'
+set service snmp v3 engineid '000000000000000000000002'
+set service snmp v3 group default mode 'ro'
+set service snmp v3 group default view 'default'
+set service snmp v3 user vyos auth plaintext-password 'vyos12345678'
+set service snmp v3 user vyos auth type 'sha'
+set service snmp v3 user vyos group 'default'
+set service snmp v3 user vyos privacy plaintext-password 'vyos12345678'
+set service snmp v3 user vyos privacy type 'aes'
+set service snmp v3 view default oid 1
+</pre></div>
+</div>
+<p>After commit, VyOS replaces the plaintext passwords with the derived
+keys. The resulting configuration looks like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos# show service snmp
+ listen-address 192.0.2.1 {
+ }
+ location "VyOS Datacenter"
+ v3 {
+     engineid 000000000000000000000002
+     group default {
+         mode ro
+         view default
+     }
+     user vyos {
+         auth {
+             encrypted-password 4e52fe55fd011c9c51ae2c65f4b78ca93dcafdfe
+             type sha
+         }
+         group default
+         privacy {
+             encrypted-password 4e52fe55fd011c9c51ae2c65f4b78ca93dcafdfe
+             type aes
+         }
+     }
+     view default {
+         oid 1 {
+         }
+     }
+ }
+</pre></div>
+</div>
+<p>Test the configuration on the router itself or from another host by
+running the following command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">3</span> <span class="pre">-u</span> <span class="pre">vyos</span> <span class="pre">-a</span> <span class="pre">SHA</span> <span class="pre">-A</span> <span class="pre">vyos12345678</span> <span class="pre">-x</span> <span class="pre">AES</span> <span class="pre">-X</span> <span class="pre">vyos12345678</span> <span class="pre">-l</span> <span class="pre">authPriv</span> <span class="pre">192.0.2.1</span> <span class="pre">.1</span></code></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="router-advert.html" class="btn btn-neutral float-left" title="Router Advertisements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ssh.html" class="btn btn-neutral float-right" title="SSH" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

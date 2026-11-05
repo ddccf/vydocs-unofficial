@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP NAT44 Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/nat/nat44.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP sFlow Configuration" href="../sflow.html" />
+    <link rel="prev" title="VPP CGNAT Configuration" href="cgnat.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/index.html">VPP Interfaces Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">VPP NAT Configuration</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cgnat.html">VPP CGNAT Configuration</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VPP NAT44 Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#nat44">NAT44</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#cgnat">CGNAT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Configuration</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP NAT Configuration</a></li>
+      <li class="breadcrumb-item active">VPP NAT44 Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/nat/nat44.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-nat-nat44">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-nat44-configuration">
+<h1>VPP NAT44 Configuration<a class="headerlink" href="#vpp-nat44-configuration" title="Link to this heading"></a></h1>
+<p>NAT44 has two main use cases:</p>
+<ul class="simple">
+<li><p><strong>Source NAT (SNAT)</strong>: Enabling internet access for hosts in private
+networks using dynamic or static address translation.</p></li>
+<li><p><strong>Destination NAT (DNAT)</strong>: Providing external access to internal services
+through static port forwarding rules.</p></li>
+</ul>
+<p>VyOS supports both dynamic translation using address pools and static
+mappings for predictable address translation requirements.</p>
+<p>Configuring NAT44 involves a few steps:</p>
+<ol class="arabic simple">
+<li><p>Define the inside and outside interfaces.</p></li>
+<li><p>Create NAT rules for SNAT or DNAT.</p></li>
+</ol>
+<section id="dynamic-and-static-operations">
+<h2>Dynamic and Static Operations<a class="headerlink" href="#dynamic-and-static-operations" title="Link to this heading"></a></h2>
+<p>NAT44 configuration can be done in one of two ways or in both ways
+simultaneously:</p>
+<ol class="arabic simple">
+<li><p>Dynamically performing NAT using a pool of public IP addresses.</p></li>
+<li><p>Statically mapping private IP addresses to public IP addresses.</p></li>
+</ol>
+<p>To configure dynamic NAT, you need to define a pool of public IP
+addresses that will be used for translation. This offers an easy way to
+provide internet access to internal users.</p>
+<p>Static rules are suitable for scenarios where you need consistent and
+predictable mappings between private and public IP addresses. They are also
+the only way to configure DNAT.</p>
+<section id="nat-rule-processing-and-traffic-flow">
+<h3>NAT Rule Processing and Traffic Flow<a class="headerlink" href="#nat-rule-processing-and-traffic-flow" title="Link to this heading"></a></h3>
+<p>This section explains how different combinations of NAT rules affect
+traffic handling on a router. There are three possible combinations of NAT
+rule configurations:</p>
+<ol class="arabic simple">
+<li><p><strong>Dynamic NAT Only</strong></p>
+<ul class="simple">
+<li><p><strong>All</strong> traffic received on the “in” interface is processed by
+dynamic NAT rules without exceptions.</p></li>
+</ul>
+</li>
+<li><p><strong>Dynamic + Static NAT</strong></p>
+<ul class="simple">
+<li><p><strong>All</strong> traffic received on the “in” interface is first matched
+against static NAT rules.</p></li>
+<li><p>If no match is found, it is then processed against dynamic NAT rules.</p></li>
+</ul>
+</li>
+<li><p><strong>Static NAT Only</strong></p>
+<ul class="simple">
+<li><p><strong>All</strong> traffic on the “in” interface is checked against static NAT
+rules.</p></li>
+<li><p>If no match is found, the traffic is routed <strong>without NAT</strong>.</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul class="simple">
+<li><p>If <strong>dynamic NAT rules</strong> are present, <strong>all</strong> traffic received on
+“in” interfaces is subject to NAT processing.</p></li>
+<li><p>If <strong>only static NAT rules</strong> are configured, traffic that does not
+match any static rule is routed unchanged.</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="interfaces-configuration">
+<h2>Interfaces Configuration<a class="headerlink" href="#interfaces-configuration" title="Link to this heading"></a></h2>
+<p>The first step in configuring NAT44 is defining which interfaces handle
+inside (private) and outside (public) traffic. VyOS uses these interface
+designations to determine the direction of translation.</p>
+<section id="inside-interfaces">
+<h3>Inside Interfaces<a class="headerlink" href="#inside-interfaces" title="Link to this heading"></a></h3>
+<p>Inside interfaces connect to private networks where hosts need source NAT
+to access external networks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-interface-inside-inside-interface">
+set vpp nat nat44 interface inside &lt;inside-interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-interface-inside-inside-interface" title="Permalink to this Command"></a></div></div>
+<p>Traffic flowing <strong>from</strong> inside interfaces gets source NAT applied,
+translating private source addresses to public addresses from the
+translation pool.</p>
+</section>
+<section id="outside-interfaces">
+<h3>Outside Interfaces<a class="headerlink" href="#outside-interfaces" title="Link to this heading"></a></h3>
+<p>Outside interfaces connect to public networks where external hosts may
+need to access internal services.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-interface-outside-outside-interface">
+set vpp nat nat44 interface outside &lt;outside-interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-interface-outside-outside-interface" title="Permalink to this Command"></a></div></div>
+<p>Traffic flowing <strong>to</strong> outside interfaces can trigger destination NAT
+based on static rules, allowing external access to internal services.</p>
+</section>
+<section id="interface-roles-and-traffic-flow">
+<h3>Interface Roles and Traffic Flow<a class="headerlink" href="#interface-roles-and-traffic-flow" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While VyOS uses “inside” and “outside” as established conventions,
+the technical definitions are:</p>
+<ul class="simple">
+<li><p><strong>Inside interface</strong>: Interface where traffic originates that needs
+source NAT (SNAT)</p></li>
+<li><p><strong>Outside interface</strong>: Interface where traffic originates that needs
+destination NAT (DNAT)</p></li>
+</ul>
+<p>In complex network topologies, the same physical interface can be
+configured as both inside and outside to handle bidirectional NAT
+scenarios.</p>
+</div>
+<p><strong>Traffic Processing:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Inside → Outside</strong> (SNAT): Private hosts accessing external networks</p></li>
+<li><p><strong>Outside → Inside</strong> (DNAT): External hosts accessing internal services
+via static rules</p></li>
+<li><p><strong>Dynamic NAT</strong>: Created automatically for inside→outside traffic</p></li>
+<li><p><strong>Static NAT</strong>: Requires explicit configuration for outside→inside
+traffic</p></li>
+</ol>
+</section>
+<section id="multiple-interface-support">
+<h3>Multiple Interface Support<a class="headerlink" href="#multiple-interface-support" title="Link to this heading"></a></h3>
+<p>You can configure multiple interfaces as inside or outside to support
+complex network topologies:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Multiple inside interfaces (different private networks)
+set vpp nat nat44 interface inside eth0
+set vpp nat nat44 interface inside eth2
+
+# Multiple outside interfaces (redundancy or load balancing)  
+set vpp nat nat44 interface outside eth1
+set vpp nat nat44 interface outside eth3
+</pre></div>
+</div>
+</section>
+</section>
+<section id="address-pool-configuration">
+<h2>Address Pool Configuration<a class="headerlink" href="#address-pool-configuration" title="Link to this heading"></a></h2>
+<p>Address pools define ranges of IP addresses that can be used for NAT
+translations. VyOS NAT44 supports two types of address pools, each serving
+different purposes.</p>
+<section id="translation-pools">
+<h3>Translation Pools<a class="headerlink" href="#translation-pools" title="Link to this heading"></a></h3>
+<p>Translation pools are used for dynamic source NAT (SNAT). They provide a
+range of public IP addresses that can be dynamically assigned to private
+hosts when they access external networks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-address-pool-translation-address-ip-address-ip-address-range">
+set vpp nat nat44 address-pool translation address &lt;ip-address | ip-address-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-address-pool-translation-address-ip-address-ip-address-range" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-address-pool-translation-interface-interface-name">
+set vpp nat nat44 address-pool translation interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-address-pool-translation-interface-interface-name" title="Permalink to this Command"></a></div></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Single address pool
+set vpp nat nat44 address-pool translation address 203.0.113.10
+
+# Address range pool  
+set vpp nat nat44 address-pool translation address 203.0.113.10-203.0.113.20
+
+# Interface-based pool (use a first IP assigned to the interface)
+set vpp nat nat44 address-pool translation interface eth1
+</pre></div>
+</div>
+</section>
+<section id="twice-nat-pools">
+<h3>Twice-NAT Pools<a class="headerlink" href="#twice-nat-pools" title="Link to this heading"></a></h3>
+<p>Twice-NAT pools are used when performing both source and destination NAT on
+the same traffic flow. This is particularly useful in scenarios where you
+need to:</p>
+<ul class="simple">
+<li><p>Translate both source and destination addresses</p></li>
+<li><p>Provide access between networks with overlapping IP ranges</p></li>
+<li><p>Implement advanced NAT scenarios like self-twice-nat</p></li>
+</ul>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-address-pool-twice-nat-address-ip-address-ip-address-range">
+set vpp nat nat44 address-pool twice-nat address &lt;ip-address | ip-address-range&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-address-pool-twice-nat-address-ip-address-ip-address-range" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-address-pool-twice-nat-interface-interface-name">
+set vpp nat nat44 address-pool twice-nat interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-address-pool-twice-nat-interface-interface-name" title="Permalink to this Command"></a></div></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Twice-NAT pool for advanced scenarios
+set vpp nat nat44 address-pool twice-nat address 192.168.100.1-192.168.100.10
+
+# Interface-based twice-nat pool
+set vpp nat nat44 address-pool twice-nat interface eth2
+</pre></div>
+</div>
+</section>
+<section id="pool-requirements">
+<h3>Pool Requirements<a class="headerlink" href="#pool-requirements" title="Link to this heading"></a></h3>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul class="simple">
+<li><p>For dynamic NAT to work, you must configure at least one
+<strong>translation</strong> pool.</p></li>
+<li><p>For static rules with twice-nat options, you must configure a
+<strong>twice-nat</strong> pool.</p></li>
+<li><p>Interface-based pools automatically include main (first) IP address
+assigned to the specified interface.</p></li>
+</ul>
+</div>
+</section>
+<section id="pool-selection-priority">
+<h3>Pool Selection Priority<a class="headerlink" href="#pool-selection-priority" title="Link to this heading"></a></h3>
+<p>When multiple pools are configured, VyOS uses the following selection
+priority:</p>
+<ol class="arabic simple">
+<li><p><strong>Static mappings</strong>: Always use the specific external address defined in
+the rule.</p></li>
+<li><p><strong>Dynamic NAT</strong>: Use available addresses from translation pools in the
+order they were configured.</p></li>
+<li><p><strong>Twice-NAT</strong>: Use addresses from twice-nat pools for secondary
+translation.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As soon as you have configured interfaces and pool, the NAT44 is
+operational.</p>
+</div>
+</section>
+</section>
+<section id="static-rules-configuration">
+<h2>Static Rules Configuration<a class="headerlink" href="#static-rules-configuration" title="Link to this heading"></a></h2>
+<p>Static NAT rules provide predictable and consistent mappings between private
+and public IP addresses. They are essential for:</p>
+<ul class="simple">
+<li><p><strong>Destination NAT (DNAT)</strong>: Allowing external hosts to access services in
+the private network.</p></li>
+<li><p><strong>Server publishing</strong>: Making internal services available from the
+Internet.</p></li>
+<li><p><strong>Consistent mappings</strong>: Ensuring the same private IP always maps to the
+same public IP.</p></li>
+</ul>
+<p>Unlike dynamic NAT that uses a pool of addresses, static rules create
+one-to-one mappings that persist until explicitly removed.</p>
+<section id="basic-static-rule-configuration">
+<h3>Basic Static Rule Configuration<a class="headerlink" href="#basic-static-rule-configuration" title="Link to this heading"></a></h3>
+<p>To create a static NAT rule, you need to define the local (internal) and
+external (public) address mappings:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-address-internal-ip">
+set vpp nat nat44 static rule &lt;rule-number&gt; local address &lt;internal-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-address-internal-ip" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-address-external-ip">
+set vpp nat nat44 static rule &lt;rule-number&gt; external address &lt;external-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-address-external-ip" title="Permalink to this Command"></a></div></div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;rule-number&gt;</span></code> is a unique identifier for the rule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;internal-ip&gt;</span></code> is the private IP address in your local network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;external-ip&gt;</span></code> is the public IP address that external hosts will use</p></li>
+</ul>
+<p>This basic configuration creates a static one-to-one mapping. Traffic from
+outside to the external IP will be translated to the internal IP, and vice
+versa.</p>
+</section>
+<section id="port-based-static-rules">
+<h3>Port-based Static Rules<a class="headerlink" href="#port-based-static-rules" title="Link to this heading"></a></h3>
+<p>For more granular control, you can create port-specific static rules. This
+is useful when you want to publish specific services:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-address-internal-ip">
+set vpp nat nat44 static rule &lt;rule-number&gt; local address &lt;internal-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-address-internal-ip" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-port-internal-port">
+set vpp nat nat44 static rule &lt;rule-number&gt; local port &lt;internal-port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-local-port-internal-port" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-address-external-ip">
+set vpp nat nat44 static rule &lt;rule-number&gt; external address &lt;external-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-address-external-ip" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-port-external-port">
+set vpp nat nat44 static rule &lt;rule-number&gt; external port &lt;external-port&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-external-port-external-port" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-protocol-protocol">
+set vpp nat nat44 static rule &lt;rule-number&gt; protocol &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-protocol-protocol" title="Permalink to this Command"></a></div></div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;internal-port&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;external-port&gt;</span></code> are the port numbers used by
+the connection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;protocol&gt;</span></code> specifies the protocol (tcp, udp, icmp).</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If you do not specify ports and protocol, the rule will apply to <em>all</em>
+traffic between the specified internal and external addresses.</p>
+<p>Rules must contain either both ports and protocol, or neither.</p>
+</div>
+</section>
+<section id="advanced-static-rule-options">
+<h3>Advanced Static Rule Options<a class="headerlink" href="#advanced-static-rule-options" title="Link to this heading"></a></h3>
+<p>VyOS NAT44 supports several advanced options for static rules:</p>
+<section id="twice-nat">
+<h4>Twice-NAT<a class="headerlink" href="#twice-nat" title="Link to this heading"></a></h4>
+<p>Twice-NAT performs both source and destination NAT. When an external host
+accesses an internal service, the source IP of such a connection is
+translated to an address from the twice-NAT address pool.</p>
+<p>This is practical in scenarios where internal services cannot connect to
+public networks, so they see such traffic as internal.</p>
+<p>The twice-NAT option can be enabled with the following command:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-twice-nat">
+set vpp nat nat44 static rule &lt;rule-number&gt; options twice-nat</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-twice-nat" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="self-twice-nat">
+<h4>Self Twice-NAT<a class="headerlink" href="#self-twice-nat" title="Link to this heading"></a></h4>
+<p>Self Twice-NAT is used when a local host needs to access itself via the
+external address:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-self-twice-nat">
+set vpp nat nat44 static rule &lt;rule-number&gt; options self-twice-nat</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-self-twice-nat" title="Permalink to this Command"></a></div></div>
+<p>This option rewrites source IP addresses on packets sent only from a local
+address to an external address configured in a rule.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">self-twice-nat</span></code> option requires you to set the interface
+connected to the local network as both inside and outside, because
+both source and destination NAT need to be applied.</p></li>
+<li><p>External IP address used in static rules must belong to one of the
+configured translation pools.</p></li>
+</ul>
+</div>
+</section>
+<section id="out-to-in-only">
+<h4>Out-to-In Only<a class="headerlink" href="#out-to-in-only" title="Link to this heading"></a></h4>
+<p>Restricts the rule to only apply to traffic from outside to inside
+interfaces:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-out-to-in-only">
+set vpp nat nat44 static rule &lt;rule-number&gt; options out-to-in-only</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-out-to-in-only" title="Permalink to this Command"></a></div></div>
+<p>This prevents the creation of sessions from the inside interface, making it
+a purely DNAT rule.</p>
+</section>
+<section id="force-twice-nat-address">
+<h4>Force Twice-NAT Address<a class="headerlink" href="#force-twice-nat-address" title="Link to this heading"></a></h4>
+<p>When using twice-nat, you can force the use of a specific IP address from
+the twice-nat address pool:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-twice-nat-address-ip-address">
+set vpp nat nat44 static rule &lt;rule-number&gt; options twice-nat-address &lt;ip-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-options-twice-nat-address-ip-address" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="rule-description">
+<h4>Rule Description<a class="headerlink" href="#rule-description" title="Link to this heading"></a></h4>
+<p>To document your rules, you can add a description:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-description-description">
+set vpp nat nat44 static rule &lt;rule-number&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-static-rule-rule-number-description-description" title="Permalink to this Command"></a></div></div>
+</section>
+</section>
+<section id="static-rules-configuration-examples">
+<h3>Static Rules Configuration Examples<a class="headerlink" href="#static-rules-configuration-examples" title="Link to this heading"></a></h3>
+<p><strong>Full one-to-one NAT mapping:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp nat nat44 static rule 100 local address 192.168.1.10
+set vpp nat nat44 static rule 100 external address 203.0.113.10
+set vpp nat nat44 static rule 100 description "One-to-one mapping"
+</pre></div>
+</div>
+<p><strong>Port-specific SSH access:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp nat nat44 static rule 200 local address 192.168.1.20
+set vpp nat nat44 static rule 200 local port 22
+set vpp nat nat44 static rule 200 external address 203.0.113.10
+set vpp nat nat44 static rule 200 external port 2222
+set vpp nat nat44 static rule 200 protocol tcp
+set vpp nat nat44 static rule 200 description "SSH access to server"
+</pre></div>
+</div>
+<p><strong>Twice-NAT for local service access:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp nat nat44 static rule 300 local address 192.168.1.30
+set vpp nat nat44 static rule 300 local port 80
+set vpp nat nat44 static rule 300 external address 203.0.113.10
+set vpp nat nat44 static rule 300 external port 80
+set vpp nat nat44 static rule 300 protocol tcp
+set vpp nat nat44 static rule 300 options twice-nat
+set vpp nat nat44 static rule 300 description "Web service with twice-nat"
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using twice-nat or self-twice-nat options, ensure you have
+configured a twice-nat address pool using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp nat nat44 address-pool twice-nat address &lt;twice-nat-ip-range&gt;
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="exclude-rules-configuration">
+<h2>Exclude Rules Configuration<a class="headerlink" href="#exclude-rules-configuration" title="Link to this heading"></a></h2>
+<p>Exclude rules allow you to prevent specific traffic from undergoing NAT
+translation. This is particularly useful for:</p>
+<ul class="simple">
+<li><p><strong>Router management</strong>: Allowing SSH access to the router itself from
+external networks.</p></li>
+<li><p><strong>Service bypass</strong>: Excluding specific services from NAT processing</p></li>
+<li><p><strong>Traffic forwarding</strong>: Allowing forwarded traffic to bypass NAT with 1-to-1
+mapping.</p></li>
+</ul>
+<p>Exclude rules take precedence over both dynamic and static NAT rules,
+ensuring that matching traffic bypasses NAT processing. For forwarded
+traffic, exclude rules create invisible 1-to-1 mappings that allow packets
+to pass through without NAT modifications.</p>
+<section id="basic-exclude-rule-configuration">
+<h3>Basic Exclude Rule Configuration<a class="headerlink" href="#basic-exclude-rule-configuration" title="Link to this heading"></a></h3>
+<p>To create an exclude rule, you need to specify the traffic characteristics
+that should bypass NAT. You can configure exclude rules in two ways:</p>
+<p><strong>Option 1: Using local address</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-address-internal-ip">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; local-address &lt;internal-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-address-internal-ip" title="Permalink to this Command"></a></div></div>
+<p><strong>Option 2: Using external interface</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-external-interface-interface-name">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; external-interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-external-interface-interface-name" title="Permalink to this Command"></a></div></div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;rule-number&gt;</span></code> is a unique identifier for the exclude rule.</p></li>
+<li><dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;internal-ip&gt;</span></code> is the local IP address that should be excluded from</dt><dd><p>NAT.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;interface-name&gt;</span></code> is the external interface where the traffic</dt><dd><p>originates.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You must use either <code class="docutils literal notranslate"><span class="pre">local-address</span></code> OR <code class="docutils literal notranslate"><span class="pre">external-interface</span></code> in an
+exclude rule, but not both simultaneously. These options are mutually
+exclusive.</p>
+</div>
+</section>
+<section id="port-specific-exclude-rules">
+<h3>Port-specific Exclude Rules<a class="headerlink" href="#port-specific-exclude-rules" title="Link to this heading"></a></h3>
+<p>For more granular control, you can exclude only specific ports and protocols.
+You can combine port and protocol specifications with either <code class="docutils literal notranslate"><span class="pre">local-address</span></code> or
+<code class="docutils literal notranslate"><span class="pre">external-interface</span></code>:</p>
+<p><strong>With local address:</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-address-internal-ip">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; local-address &lt;internal-ip&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-address-internal-ip" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-port-port-number">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; local-port &lt;port-number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-port-port-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-protocol-protocol">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; protocol &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-protocol-protocol" title="Permalink to this Command"></a></div></div>
+<p><strong>With external interface:</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-external-interface-interface-name">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; external-interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-external-interface-interface-name" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-port-port-number">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; local-port &lt;port-number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-local-port-port-number" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-protocol-protocol">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; protocol &lt;protocol&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-protocol-protocol" title="Permalink to this Command"></a></div></div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;port-number&gt;</span></code> is the specific port to exclude (1-65535)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;protocol&gt;</span></code> can be <code class="docutils literal notranslate"><span class="pre">tcp</span></code>, <code class="docutils literal notranslate"><span class="pre">udp</span></code>, <code class="docutils literal notranslate"><span class="pre">icmp</span></code>, or <code class="docutils literal notranslate"><span class="pre">all</span></code> (default)</p></li>
+</ul>
+</section>
+<section id="rule-documentation">
+<h3>Rule Documentation<a class="headerlink" href="#rule-documentation" title="Link to this heading"></a></h3>
+<p>Add descriptions to your exclude rules for better management:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-description-description">
+set vpp nat nat44 exclude rule &lt;rule-number&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-exclude-rule-rule-number-description-description" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="exclude-rules-configuration-examples">
+<h3>Exclude Rules Configuration Examples<a class="headerlink" href="#exclude-rules-configuration-examples" title="Link to this heading"></a></h3>
+<p><strong>Exclude SSH access to router:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Allow external SSH access to router without NAT
+set vpp nat nat44 exclude rule 10 local-address 192.168.1.1
+set vpp nat nat44 exclude rule 10 local-port 22
+set vpp nat nat44 exclude rule 10 protocol tcp
+set vpp nat nat44 exclude rule 10 description "SSH access to router"
+</pre></div>
+</div>
+<p><strong>Exclude SNMP monitoring:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Allow SNMP monitoring without NAT translation
+set vpp nat nat44 exclude rule 20 local-port 161
+set vpp nat nat44 exclude rule 20 protocol udp
+set vpp nat nat44 exclude rule 20 external-interface eth1
+set vpp nat nat44 exclude rule 20 description "SNMP monitoring"
+</pre></div>
+</div>
+<p><strong>Exclude all traffic to router management interface:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Exclude all traffic to router's management IP
+set vpp nat nat44 exclude rule 30 local-address 192.168.100.1
+set vpp nat nat44 exclude rule 30 description "Management interface bypass"
+</pre></div>
+</div>
+<p><strong>Exclude all traffic from external interface:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Exclude all traffic from external interface (alternative approach)
+set vpp nat nat44 exclude rule 31 external-interface eth1
+set vpp nat nat44 exclude rule 31 description "External interface bypass"
+</pre></div>
+</div>
+<p><strong>Exclude forwarded traffic for specific service:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Allow external access to internal server without NAT translation
+set vpp nat nat44 exclude rule 40 local-address 192.168.1.50
+set vpp nat nat44 exclude rule 40 local-port 8080
+set vpp nat nat44 exclude rule 40 protocol tcp
+set vpp nat nat44 exclude rule 40 description "Direct access to internal service"
+</pre></div>
+</div>
+</section>
+<section id="common-use-cases">
+<h3>Common Use Cases<a class="headerlink" href="#common-use-cases" title="Link to this heading"></a></h3>
+<p><strong>Router Administration:</strong></p>
+<p>Exclude rules are essential when you need to manage the router from external
+networks. Without exclude rules, NAT would attempt to translate the router’s
+own traffic, potentially breaking management connections.</p>
+<p><strong>Service Monitoring:</strong></p>
+<p>Network monitoring systems often need direct access to router services.
+Exclude rules ensure that monitoring traffic bypasses NAT translation.</p>
+<p><strong>Routing Protocols:</strong></p>
+<p>Some routing protocols or network services may require direct communication
+without NAT interference.</p>
+<p><strong>Traffic Forwarding:</strong></p>
+<p>Exclude rules also work for forwarded traffic between networks. Without
+exclude rules, traffic from external to local networks must either match a
+static rule or be dropped. With exclude rules, traffic can bypass NAT
+processing with invisible 1-to-1 mappings.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Exclude rules affect both traffic destined for the router itself and
+forwarded traffic flowing through the router. For forwarded traffic, exclude
+rules create transparent 1-to-1 mappings that allow packets to pass without
+NAT modifications, while from the outside perspective, the traffic appears to
+bypass NAT entirely.</p>
+</div>
+</section>
+</section>
+<section id="advanced-nat44-settings">
+<h2>Advanced NAT44 Settings<a class="headerlink" href="#advanced-nat44-settings" title="Link to this heading"></a></h2>
+<p>VyOS provides additional NAT44 settings for fine-tuning performance and
+behavior.</p>
+<section id="session-timeouts">
+<h3>Session Timeouts<a class="headerlink" href="#session-timeouts" title="Link to this heading"></a></h3>
+<p>NAT44 maintains translation sessions with configurable timeout values for
+different protocols:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-timeout-icmp-seconds">
+set vpp nat nat44 timeout icmp &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-timeout-icmp-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the timeout for ICMP sessions (Default: 60 seconds).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-timeout-tcp-established-seconds">
+set vpp nat nat44 timeout tcp-established &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-timeout-tcp-established-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the timeout for established TCP connections (Default: 7440 seconds
+or 2 hours 4 minutes).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-timeout-tcp-transitory-seconds">
+set vpp nat nat44 timeout tcp-transitory &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-timeout-tcp-transitory-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the timeout for transitory TCP connections (setup/teardown) (Default:
+240 seconds or 4 minutes).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-timeout-udp-seconds">
+set vpp nat nat44 timeout udp &lt;seconds&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-timeout-udp-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the timeout for UDP sessions (Default: 300 seconds or 5 minutes).</p>
+</div>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Customize timeouts for high-traffic environment
+set vpp nat nat44 timeout tcp-established 3600
+set vpp nat nat44 timeout udp 600
+set vpp nat nat44 timeout icmp 30
+</pre></div>
+</div>
+</section>
+<section id="session-limits">
+<h3>Session Limits<a class="headerlink" href="#session-limits" title="Link to this heading"></a></h3>
+<p>Control the maximum number of concurrent NAT sessions:</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-nat44-session-limit-number">
+set vpp nat nat44 session-limit &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-nat44-session-limit-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the maximum number of NAT sessions per worker thread (Default:
+64512).</p>
+</div>
+</div>
+<p>This setting helps prevent memory exhaustion and ensures predictable
+performance under high load.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Increase session limit for high-capacity deployment
+set vpp nat nat44 session-limit 100000
+</pre></div>
+</div>
+</section>
+</section>
+<section id="complete-configuration-example">
+<h2>Complete Configuration Example<a class="headerlink" href="#complete-configuration-example" title="Link to this heading"></a></h2>
+<p>Here’s a complete example showing how to configure VyOS NAT44 for a typical
+network setup:</p>
+<p><strong>Network Topology:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Internet (203.0.113.0/24)
+        |
+┌───────────────────┐
+│   eth1 (outside)  │ 203.0.113.1/24
+│     VyOS Router   │
+│   eth0 (inside)   │ 192.168.1.1/24  
+└───────────────────┘
+        |
+Internal Network (192.168.1.0/24)
+├── 192.168.1.10 (Web Server)
+├── 192.168.1.20 (SSH Server)  
+└── 192.168.1.30 (API Service)
+</pre></div>
+</div>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Configure interfaces
+set vpp nat nat44 interface inside eth0
+set vpp nat nat44 interface outside eth1
+
+# Configure address pools
+set vpp nat nat44 address-pool translation address 203.0.113.10-203.0.113.50
+set vpp nat nat44 address-pool twice-nat address 203.0.113.100-203.0.113.110
+
+# Exclude rules for router management
+set vpp nat nat44 exclude rule 10 local-address 203.0.113.1
+set vpp nat nat44 exclude rule 10 local-port 22
+set vpp nat nat44 exclude rule 10 protocol tcp
+set vpp nat nat44 exclude rule 10 description "SSH access to router"
+
+set vpp nat nat44 exclude rule 11 local-address 203.0.113.1
+set vpp nat nat44 exclude rule 11 local-port 443
+set vpp nat nat44 exclude rule 11 protocol tcp
+set vpp nat nat44 exclude rule 11 description "HTTPS access to router web interface"
+
+# Static rule for web server (HTTP)
+set vpp nat nat44 static rule 100 local address 192.168.1.10
+set vpp nat nat44 static rule 100 local port 80
+set vpp nat nat44 static rule 100 external address 203.0.113.10
+set vpp nat nat44 static rule 100 external port 80
+set vpp nat nat44 static rule 100 protocol tcp
+set vpp nat nat44 static rule 100 description "Public web server"
+
+# Static rule for web server (HTTPS)
+set vpp nat nat44 static rule 101 local address 192.168.1.10
+set vpp nat nat44 static rule 101 local port 443
+set vpp nat nat44 static rule 101 external address 203.0.113.10
+set vpp nat nat44 static rule 101 external port 443
+set vpp nat nat44 static rule 101 protocol tcp
+set vpp nat nat44 static rule 101 description "Public web server HTTPS"
+
+# Static rule for SSH server with custom port
+set vpp nat nat44 static rule 200 local address 192.168.1.20
+set vpp nat nat44 static rule 200 local port 22
+set vpp nat nat44 static rule 200 external address 203.0.113.11
+set vpp nat nat44 static rule 200 external port 2222
+set vpp nat nat44 static rule 200 protocol tcp
+set vpp nat nat44 static rule 200 description "SSH access"
+
+# Static rule for API service (out-to-in only for security)
+set vpp nat nat44 static rule 300 local address 192.168.1.30
+set vpp nat nat44 static rule 300 local port 8080
+set vpp nat nat44 static rule 300 external address 203.0.113.12
+set vpp nat nat44 static rule 300 external port 8080
+set vpp nat nat44 static rule 300 protocol tcp
+set vpp nat nat44 static rule 300 options out-to-in-only
+set vpp nat nat44 static rule 300 description "API service (No Internet access for it)"
+</pre></div>
+</div>
+</section>
+<section id="best-practices-and-troubleshooting">
+<h2>Best Practices and Troubleshooting<a class="headerlink" href="#best-practices-and-troubleshooting" title="Link to this heading"></a></h2>
+<section id="recommendations">
+<h3>Recommendations<a class="headerlink" href="#recommendations" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Use exclude rules</strong> for router management services like SSH</p></li>
+<li><dl class="simple myst">
+<dt><strong>Use out-to-in-only</strong> for services that do not need access to external</dt><dd><p>networks.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>Limit port ranges</strong> in static rules to only necessary ports.</p></li>
+<li><p><strong>Document all rules</strong> using descriptions for easier management.</p></li>
+<li><dl class="simple myst">
+<dt><strong>Use non-standard ports</strong> for publishing SSH and other administrative</dt><dd><p>services.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple myst">
+<dt><strong>Configure appropriate pool sizes</strong> based on expected concurrent</dt><dd><p>connections in your network.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="common-configuration-issues">
+<h3>Common Configuration Issues<a class="headerlink" href="#common-configuration-issues" title="Link to this heading"></a></h3>
+<p><strong>Static rules not working:</strong></p>
+<ol class="arabic simple">
+<li><p>Verify that the external IP address is included in an address pool</p></li>
+<li><p>Check that interfaces are correctly configured as inside or outside</p></li>
+<li><p>Ensure firewall rules allow the traffic</p></li>
+</ol>
+<p><strong>Twice-NAT not functioning:</strong></p>
+<ol class="arabic simple">
+<li><p>Confirm twice-nat pool is configured</p></li>
+<li><p>Verify static rules have the correct twice-nat option</p></li>
+<li><p>Check that both translation and twice-nat pools are properly defined</p></li>
+</ol>
+<p><strong>Router management access issues:</strong></p>
+<ol class="arabic simple">
+<li><p>Verify exclude rules are configured for management services</p></li>
+<li><p>Check that local-address matches the router’s interface IP</p></li>
+<li><p>Ensure external-interface is correctly specified</p></li>
+</ol>
+<p><strong>Forwarded traffic from external networks not bypassing NAT:</strong></p>
+<ol class="arabic simple">
+<li><p>Verify exclude rules are configured for the specific traffic flow</p></li>
+<li><p>Check that local-address matches the destination IP in the internal
+network</p></li>
+<li><p>Ensure protocol and port specifications match the traffic requirements</p></li>
+</ol>
+</section>
+</section>
+<section id="operational-commands">
+<h2>Operational Commands<a class="headerlink" href="#operational-commands" title="Link to this heading"></a></h2>
+<p>Monitor NAT44 status and active connections using VyOS operational
+commands:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-nat44-addresses">
+show vpp nat nat44 addresses</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-nat44-addresses" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Display configured NAT44 address pools.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-nat44-interfaces">
+show vpp nat nat44 interfaces</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-nat44-interfaces" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show which interfaces are configured as inside or outside for NAT44.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-nat44-sessions">
+show vpp nat nat44 sessions</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-nat44-sessions" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Display active NAT44 translation sessions.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-nat44-static">
+show vpp nat nat44 static</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-nat44-static" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show all configured static NAT mappings.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-nat44-summary">
+show vpp nat nat44 summary</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-nat44-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Display a summary of NAT44 and statistics.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cgnat.html" class="btn btn-neutral float-left" title="VPP CGNAT Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sflow.html" class="btn btn-neutral float-right" title="VPP sFlow Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

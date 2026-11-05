@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/introducing/history.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Installation and Image Management" href="../installation/index.html" />
+    <link rel="prev" title="About" href="about.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#in-the-beginning">In the beginning…</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#major-releases">Major releases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hydrogen-1-0">Hydrogen (1.0)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helium-1-1">Helium (1.1)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#crux-1-2">Crux (1.2)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#equuleus-1-3">Equuleus (1.3)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sagitta-1-4">Sagitta (1.4)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#circinus-1-5">Circinus (1.5)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scutum-1-6">Scutum (1.6)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-note-on-copyright">A note on copyright</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">History</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/introducing/history.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="history">
+<span id="id1"></span><h1>History<a class="headerlink" href="#history" title="Link to this heading"></a></h1>
+<section id="in-the-beginning">
+<h2>In the beginning…<a class="headerlink" href="#in-the-beginning" title="Link to this heading"></a></h2>
+<p>There was a network operating system based on Debian GNU/Linux, called
+Vyatta. <a class="footnote-reference brackets" href="#footnote-1" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Introduced in 2006, it served as a great free-software alternative
+to proprietary products. Vyatta came in two editions: Vyatta Core
+(formerly known as Vyatta Community Edition), which was free software, and
+Vyatta Subscription Edition, which included proprietary features and was
+available only to paying customers.</p>
+<p>Brocade Communications Systems acquired Vyatta in 2012. Shortly after, Brocade
+renamed Vyatta Subscription Edition to Brocade vRouter, discontinued Vyatta
+Core, and shut down the community forum without notice. The bug tracker and Git
+repositories were closed the following year.</p>
+<p>By the time Brocade acquired Vyatta, the development of Vyatta Core had
+already stagnated. The focus had shifted to Vyatta Subscription Edition,
+where core components were replaced with proprietary software. As a result,
+Vyatta Core received fewer new features, and some of those added faced issues.</p>
+<p>In 2013, shortly after Vyatta Core was discontinued, the community forked its
+final version (6.6R1) to create the VyOS project. In 2014, the maintainers
+established a company to fund VyOS development through technical support,
+consulting services, and LTS release access subscriptions. The company was
+originally named Sentrium and was later reorganized under the VyOS brand.</p>
+</section>
+<section id="major-releases">
+<h2>Major releases<a class="headerlink" href="#major-releases" title="Link to this heading"></a></h2>
+<p>VyOS originally named its major versions after elements by atomic number.
+Beginning with version 1.2, this naming scheme was changed. It now uses the
+Latin names of constellations recognized by the International Astronomical
+Union (<a class="reference external" href="https://en.wikipedia.org/wiki/IAU_designated_constellations_by_area">IAU</a>),
+ordered by their solid angle area, beginning with the smallest.</p>
+<section id="hydrogen-1-0">
+<h3>Hydrogen (1.0)<a class="headerlink" href="#hydrogen-1-0" title="Link to this heading"></a></h3>
+<p>Released just in time for the holidays on 22 December 2013, Hydrogen was
+the first major VyOS release. It fixed features that were broken in
+Vyatta Core 6.6, such as IPv4 BGP peer groups and DHCPv6 relay, and
+introduced command scripting, a task scheduler, and web proxy LDAP
+authentication.</p>
+</section>
+<section id="helium-1-1">
+<h3>Helium (1.1)<a class="headerlink" href="#helium-1-1" title="Link to this heading"></a></h3>
+<p>Helium, released on 9 October 2014, marked the first anniversary of the
+VyOS Project. The release introduced an event handler, L2TPv3 support,
+802.1ad (QinQ), and IGMP proxy, as well as experimental support for VXLAN
+and DMVPN. Notably, DMVPN remained non-functional in Vyatta Core due to its
+reliance on a proprietary NHRP implementation.</p>
+</section>
+<section id="crux-1-2">
+<h3>Crux (1.2)<a class="headerlink" href="#crux-1-2" title="Link to this heading"></a></h3>
+<p>Crux (the Southern Cross) was released on 28 January 2019 and marked a
+departure from legacy Vyatta codebase and the start of the migration from
+Perl to Python as the primary language. The underlying base system was
+upgraded from Debian 6 (Squeeze) to Debian 8 (Jessie).</p>
+<p>Crux introduced many new features, some of the most noteworthy are:
+an mDNS repeater, a broadcast relay, a high-performance PPPoE server,
+an HFSC scheduler, and support for Wireguard, unicast VRRP, RPKI for BGP,
+and fully 802.1ad-compliant QinQ ethertype. The telnet server and support
+for P2P filtering were removed.</p>
+<p>Crux was the first VyOS release to feature a modular image build system.
+CLI definitions were written using an XML syntax automatically checked
+against a schema at build time. Python APIs were introduced for command
+scripting and configuration migration. New Perl code and old-style (non-XML)
+command definition were no longer accepted from that point.</p>
+<p>Crux reached the end of support in 2023.</p>
+</section>
+<section id="equuleus-1-3">
+<h3>Equuleus (1.3)<a class="headerlink" href="#equuleus-1-3" title="Link to this heading"></a></h3>
+<p>Equuleus (the Little Horse) was a long-term support version released
+on 21 December 2021, just in time for the winter holidays.</p>
+<p>Equuleus brought many long-awaited features, most notably an SSTP VPN
+server, an IPoE server, an OpenConnect VPN server, and a serial console
+server. It also introduced reworked support for WWAN interfaces, support
+for GENEVE and MACSec interfaces, VRF, IS-IS routing, and preliminary support
+for MPLS and LDP.</p>
+<p>Equuleus reached the end of support in 2025.</p>
+</section>
+<section id="sagitta-1-4">
+<h3>Sagitta (1.4)<a class="headerlink" href="#sagitta-1-4" title="Link to this heading"></a></h3>
+<p>Sagitta (the Arrow), the current LTS release, became generally available on
+4 June 2024. Its development began in late 2021 and focused on eliminating
+remaining legacy components and reworking core subsystems.</p>
+<p>The transition to XML-defined command definitions and script refactoring with
+separate verify, update, and apply stages were completed. The firewall
+subsystem was rebuilt on nftables, introducing interface-independent rulesets
+and the reimplemented zone-based firewall model. The PKI subsystem was
+redesigned to manage cryptographic material directly within the configuration
+file.</p>
+<p>Sagitta introduced rollback without reboot, support for Babel and PIM6 routing
+protocols, failover routes, segment routing, NAT64, an IKEv2 remote-access VPN
+server, Zabbix monitoring, HTTP load balancing, and configuration
+synchronization using the HTTP API.</p>
+<p>The underlying base system was upgraded to Debian 12 (Bookworm).</p>
+</section>
+<section id="circinus-1-5">
+<h3>Circinus (1.5)<a class="headerlink" href="#circinus-1-5" title="Link to this heading"></a></h3>
+<p>Circinus (the Drawing Compass) became generally available as an LTS release on
+31 March 2026. Its development began in 2024 and focused on major performance
+upgrades and modernizing core subsystems.</p>
+<p>Circinus introduces several major architectural improvements, most notably an
+optional VPP-based accelerated dataplane. Using the DPDK driver, this dataplane
+can offer performance up to 15x faster than the Linux kernel dataplane and
+allows administrators to selectively enable hardware acceleration on a
+per-interface and per-feature basis.</p>
+<p>Other significant additions and updates include:</p>
+<ul class="simple">
+<li><p>A high-performance kernel-mode NetFlow sensor based on ipt-netflow,
+replacing the older pmacct implementation.</p></li>
+<li><p>Unification of sFlow to exclusively use the much faster hsflowd
+implementation.</p></li>
+<li><p>Transition of the DHCP server to a Kea-based implementation, replacing the
+legacy, end-of-life ISC DHCPD.</p></li>
+<li><p>A completely rewritten WAN load balancing implementation to resolve
+long-standing stability issues and introduce support for firewall groups in
+load balancing rules.</p></li>
+<li><p>A new <code class="docutils literal notranslate"><span class="pre">execute</span></code> operational mode command family to separate action commands
+that do not depend on or modify system configuration.</p></li>
+</ul>
+<p>The release also cleans up several legacy and underutilized components.
+FastNetMon was removed, OpenVPN support for Blowfish and Twofish ciphers was
+dropped for security reasons, and the Salt minion integration was deprecated.</p>
+<p>Like Sagitta (1.4), the underlying base system for Circinus remains Debian 12
+(Bookworm).</p>
+</section>
+<section id="scutum-1-6">
+<h3>Scutum (1.6)<a class="headerlink" href="#scutum-1-6" title="Link to this heading"></a></h3>
+<p>Scutum (the Shield) is the codename for the upcoming development
+branch. VyOS 1.6 Scutum has not been released yet.</p>
+</section>
+</section>
+<section id="a-note-on-copyright">
+<h2>A note on copyright<a class="headerlink" href="#a-note-on-copyright" title="Link to this heading"></a></h2>
+<p>Unlike Vyatta, VyOS has never had closed-source code and never will.
+The only proprietary material in VyOS is non-code assets, such as
+graphics and the trademark “VyOS”. <a class="footnote-reference brackets" href="#footnote-2" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+<p>Note that we do not provide support for images distributed by a third party.
+See the
+<a class="reference external" href="https://github.com/vyos/vyos-build/blob/current/LICENSE.artwork">artwork license</a>
+and the end-user license agreement at <code class="docutils literal notranslate"><span class="pre">/usr/share/vyos/EULA</span></code> in
+any pre-built image for more information.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footnote-1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>From the Sanskrit adjective “Vyātta” (व्यात्त), meaning opened.</p>
+</aside>
+<aside class="footnote brackets" id="footnote-2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>This is similar to how Linus Torvalds owns the Linux trademark.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="about.html" class="btn btn-neutral float-left" title="About" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../installation/index.html" class="btn btn-neutral float-right" title="Installation and Image Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

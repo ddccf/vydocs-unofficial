@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="VyOS exports metrics to external monitoring systems through the Telegraf collector agent and through standalone Prometheus exporters. Telegraf writes the collected data to Azure Data Explorer, a Prometheus client endpoint, Splunk, or InfluxDB, and forwards the VyOS system log to Loki. " name="description" />
+<meta content="monitoring, telegraf, prometheus, node exporter, frr exporter" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/monitoring.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="NTP" href="ntp.html" />
+    <link rel="prev" title="mDNS repeater" href="mdns.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#telegraf">Telegraf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prometheus">Prometheus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">Monitoring</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/monitoring.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="monitoring">
+<span id="id1"></span><h1>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h1>
+<p>VyOS supports exporting metrics to external monitoring systems through
+the <a class="reference external" href="https://github.com/influxdata/telegraf">Telegraf</a> collector agent and through standalone
+Prometheus exporters. Telegraf can also forward system logs to Loki,
+Grafana Labs’ log aggregation system.</p>
+<section id="telegraf">
+<h2>Telegraf<a class="headerlink" href="#telegraf" title="Link to this heading"></a></h2>
+<p>Telegraf collects host and system metrics every 15 seconds through a
+predefined set of input plugins, covering CPU, memory, disk and disk
+I/O, network and network statistics, processes, kernel and interrupt
+counters, systemd unit state, conntrack, per-interface link statistics,
+and time synchronization. It also receives the VyOS system log through
+its syslog input plugin.</p>
+<p>The collected data is written to output plugins. Each plugin delivers it
+to a different backend in that backend’s format and protocol:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/azure_data_explorer">Azure Data Explorer</a>: Writes metrics to an
+Azure Data Explorer cluster.</p></li>
+<li><p><a class="reference external" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client">Prometheus client</a>: Exposes metrics on a
+<code class="docutils literal notranslate"><span class="pre">/metrics</span></code> HTTP endpoint that a Prometheus server periodically
+pulls.</p></li>
+<li><p><a class="reference external" href="https://www.splunk.com/en_us/blog/it/splunk-metrics-via-telegraf.html">Splunk</a>: Sends metrics to the Splunk HTTP Event Collector.</p></li>
+<li><p><a class="reference external" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/influxdb_v2">InfluxDB</a>: Writes metrics to a bucket on an InfluxDB v2 server.</p></li>
+<li><p><a class="reference external" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/loki">Loki</a>: Sends the VyOS system log to a Grafana Loki server.</p></li>
+</ul>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="general-options">
+<h3>General options<a class="headerlink" href="#general-options" title="Link to this heading"></a></h3>
+<!--
+NOTE: `source` is intentionally left commented out. It appears in the
+CLI with tab-completion but its value is never consumed. Verified on a
+live system.
+
+```{cfgcmd} set service monitoring telegraf source \<source\>
+
+**Select which categories of metrics the service collects.**
+
+Repeat the command to select multiple categories. Available categories
+are `all`, `hardware-utilization` (CPU, disk, memory), `logs`,
+`network` (net, netstat, nftables), `system` (system, processes,
+interrupts), and `telegraf` (the collector's own internal statistics).
+
+The default is `all`.
+```
+
+Example:
+
+```none
+set service monitoring telegraf source hardware-utilization
+set service monitoring telegraf source network
+```
+-->
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-vrf-name">
+set service monitoring telegraf vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Run the Telegraf service in the specified
+<abbr title="Virtual Routing and Forwarding">VRF</abbr> instance.</strong></p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf vrf mgmt
+</pre></div>
+</div>
+</section>
+<section id="agent-configuration">
+<h3>Agent Configuration<a class="headerlink" href="#agent-configuration" title="Link to this heading"></a></h3>
+<p>This section covers configuration commands which affect the overall agent behaviour.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-agent-collection-jitter-interval">
+set service monitoring telegraf agent collection-jitter &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-agent-collection-jitter-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the collection jitter to jitter the collection by a random interval.
+Each plugin will sleep for a random time within jitter before collecting.
+This can be used to avoid many plugins querying things like sysfs at the same time,
+which can have a measurable effect on the system.</p>
+<p>By default vyos sets it to 5s.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-agent-debug">
+set service monitoring telegraf agent debug</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-agent-debug" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable logging at debug level.</p>
+<p>Delete this node to disable logging at debug level.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-agent-flush-interval-interval">
+set service monitoring telegraf agent flush-interval &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-agent-flush-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the default flushing interval for all outputs. Maximum flush-interval will
+be flush-interval + flush-jitter.</p>
+<p>By default vyos sets it to 15s.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-agent-flush-jitter-interval">
+set service monitoring telegraf agent flush-jitter &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-agent-flush-jitter-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the default flush jitter for all outputs. This jitters the flush interval by
+a random amount. This is primarily to avoid large write spikes for users running
+a large number of telegraf instances. ie, a jitter of 5s and interval 10s means
+flushes will happen every 10-15s.</p>
+<p>By default vyos sets it to 0s.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-agent-interval-interval">
+set service monitoring telegraf agent interval &lt;interval&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-agent-interval-interval" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the default data collection interval for all inputs.</p>
+<p>By default vyos sets it to 15s.</p>
+</div>
+</div>
+</section>
+<section id="azure-data-explorer">
+<h3>Azure Data Explorer<a class="headerlink" href="#azure-data-explorer" title="Link to this heading"></a></h3>
+<p>A configuration for this plugin is committable only when
+<code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">client-id</span></code>, <code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">client-secret</span></code>,
+<code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">tenant-id</span></code>, <code class="docutils literal notranslate"><span class="pre">database</span></code>, and <code class="docutils literal notranslate"><span class="pre">url</span></code> are all configured.</p>
+<p><code class="docutils literal notranslate"><span class="pre">client-id</span></code>, <code class="docutils literal notranslate"><span class="pre">client-secret</span></code>, and <code class="docutils literal notranslate"><span class="pre">tenant-id</span></code> are credentials
+associated with a single application registration in Microsoft Entra ID
+(Azure AD), Microsoft’s cloud identity service. Telegraf presents these
+credentials to Entra ID to obtain an access token, then uses that token
+to authorize its writes to the Azure Data Explorer cluster, Microsoft’s
+cloud analytics database. Create the application registration and
+obtain these values from the Azure portal.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-client-id-client-id">
+set service monitoring telegraf azure-data-explorer authentication client-id &lt;client-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-client-id-client-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the client ID of the Telegraf application registration.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer authentication client-id a0b1c2d3-e4f5-0123-4567-89abcdef0123
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-client-secret-client-secret">
+set service monitoring telegraf azure-data-explorer authentication client-secret &lt;client-secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-client-secret-client-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the client secret of the Telegraf application
+registration.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer authentication client-secret MY-CLIENT-SECRET
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-tenant-id-tenant-id">
+set service monitoring telegraf azure-data-explorer authentication tenant-id &lt;tenant-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-authentication-tenant-id-tenant-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the tenant ID of the Telegraf application registration.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer authentication tenant-id b1c2d3e4-f5a6-7890-1234-56789abcdef0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-database-name">
+set service monitoring telegraf azure-data-explorer database &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-database-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the cloud-hosted database into which Telegraf writes
+metrics.</strong></p>
+<p>The database must already exist. Telegraf does not create it.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer database vyos-metrics
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-group-metrics-single-table-table-per-metric">
+set service monitoring telegraf azure-data-explorer group-metrics &lt;single-table | table-per-metric&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-group-metrics-single-table-table-per-metric" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how Telegraf groups metrics into tables in the configured
+database:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">single-table</span></code>: All metrics are written to the single table
+configured with <code class="docutils literal notranslate"><span class="pre">table</span></code>. If <code class="docutils literal notranslate"><span class="pre">single-table</span></code> is chosen, <code class="docutils literal notranslate"><span class="pre">table</span></code> becomes
+required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table-per-metric</span></code>: Metrics are grouped by metric name, and each
+group is written to its own table.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">table-per-metric</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer group-metrics single-table
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-table-name">
+set service monitoring telegraf azure-data-explorer table &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-table-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination table for Telegraf metrics when
+<code class="docutils literal notranslate"><span class="pre">group-metrics</span></code> is set to <code class="docutils literal notranslate"><span class="pre">single-table</span></code>.</strong></p>
+<p>When <code class="docutils literal notranslate"><span class="pre">group-metrics</span></code> is set to <code class="docutils literal notranslate"><span class="pre">table-per-metric</span></code>, this setting has no
+effect.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer table vyos
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-url-url">
+set service monitoring telegraf azure-data-explorer url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-azure-data-explorer-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the endpoint URL of the Azure Data Explorer cluster.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf azure-data-explorer url https://vyos-cluster.westeurope.kusto.windows.net
+</pre></div>
+</div>
+</section>
+<section id="prometheus-client">
+<h3>Prometheus client<a class="headerlink" href="#prometheus-client" title="Link to this heading"></a></h3>
+<p>The Prometheus client plugin is the Telegraf output plugin for exposing
+metrics to Prometheus. For standalone Prometheus exporters, see the
+<a class="reference internal" href="#prometheus-exporters"><span class="std std-ref">Prometheus</span></a> section.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client">
+set service monitoring telegraf prometheus-client</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable the Prometheus client output plugin.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-allow-from-prefix">
+set service monitoring telegraf prometheus-client allow-from &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-allow-from-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Restrict access to the metrics endpoint to clients whose source
+address is within the specified IPv4 or IPv6 prefix.</strong></p>
+<p>Repeat the command to allow multiple prefixes.</p>
+<p>When unset, the endpoint accepts queries from any IP address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client allow-from 192.0.2.0/24
+set service monitoring telegraf prometheus-client allow-from 2001:db8::/32
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-authentication-username-username">
+set service monitoring telegraf prometheus-client authentication username &lt;username&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-authentication-username-username" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the username for HTTP Basic authentication on the metrics
+endpoint.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client authentication username prometheus
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-authentication-password-password">
+set service monitoring telegraf prometheus-client authentication password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-authentication-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the password for HTTP Basic authentication on the metrics
+endpoint.</strong></p>
+<p>HTTP Basic authentication is enabled only when both <code class="docutils literal notranslate"><span class="pre">username</span></code> and
+<code class="docutils literal notranslate"><span class="pre">password</span></code> are configured.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client authentication password mysecurepassword
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-listen-address-address">
+set service monitoring telegraf prometheus-client listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IP address on which the Prometheus client plugin
+accepts incoming connections.</strong></p>
+<p>When unset, the plugin accepts incoming connections on all local IP
+addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client listen-address 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-metric-version-1-2">
+set service monitoring telegraf prometheus-client metric-version &lt;1-2&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-metric-version-1-2" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the metric mapping version used to translate Telegraf
+metrics to the Prometheus format.</strong></p>
+<p>The default is 2.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client metric-version 1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-prometheus-client-port-1-65535">
+set service monitoring telegraf prometheus-client port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-prometheus-client-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which the Prometheus client plugin accepts
+incoming connections.</strong></p>
+<p>The default is 9273.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf prometheus-client port 9274
+</pre></div>
+</div>
+<p>After enabling the plugin, the metrics endpoint can be queried with
+<code class="docutils literal notranslate"><span class="pre">curl</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@r14:~$ curl --silent localhost:9273/metrics | egrep -v "#" | grep cpu_usage_system
+cpu_usage_system{cpu="cpu-total",host="r14"} 0.20040080160320556
+cpu_usage_system{cpu="cpu0",host="r14"} 0.17182130584191915
+cpu_usage_system{cpu="cpu1",host="r14"} 0.22896393817971655
+</pre></div>
+</div>
+</section>
+<section id="splunk">
+<h3>Splunk<a class="headerlink" href="#splunk" title="Link to this heading"></a></h3>
+<p>A configuration for this plugin is committable only when
+<code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">token</span></code> and <code class="docutils literal notranslate"><span class="pre">url</span></code> are configured.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-splunk-authentication-insecure">
+set service monitoring telegraf splunk authentication insecure</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-splunk-authentication-insecure" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable TLS certificate chain and host name verification for
+connections to the Splunk HTTP Event Collector.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf splunk authentication insecure
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-splunk-authentication-token-token">
+set service monitoring telegraf splunk authentication token &lt;token&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-splunk-authentication-token-token" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the token used to authorize requests to the Splunk HTTP
+Event Collector.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf splunk authentication token xxxxf5b8-xxxx-452a-xxxx-43828911xxxx
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-splunk-url-url">
+set service monitoring telegraf splunk url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-splunk-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the URL of the Splunk HTTP Event Collector endpoint.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf splunk url 'https://192.0.2.10:8088/services/collector'
+</pre></div>
+</div>
+</section>
+<section id="influxdb">
+<h3>InfluxDB<a class="headerlink" href="#influxdb" title="Link to this heading"></a></h3>
+<p>A configuration for this plugin is committable only when
+<code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">organization</span></code>, <code class="docutils literal notranslate"><span class="pre">authentication</span> <span class="pre">token</span></code>, and <code class="docutils literal notranslate"><span class="pre">url</span></code> are
+configured.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-influxdb-authentication-organization-organization">
+set service monitoring telegraf influxdb authentication organization &lt;organization&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-influxdb-authentication-organization-organization" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the name of the organization that owns the bucket on the
+remote InfluxDB v2 server.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb authentication organization vyos
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-influxdb-authentication-token-token">
+set service monitoring telegraf influxdb authentication token &lt;token&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-influxdb-authentication-token-token" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the API token used to authenticate to the remote InfluxDB
+v2 server.</strong></p>
+<p>The token must be in the standard InfluxDB v2 Base64-encoded format.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb authentication token 'ZAml9Uy5wrhA...=='
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-influxdb-bucket-bucket">
+set service monitoring telegraf influxdb bucket &lt;bucket&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-influxdb-bucket-bucket" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the name of the InfluxDB v2 bucket that receives metrics.</strong></p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb bucket bucket_vyos
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-influxdb-port-1-65535">
+set service monitoring telegraf influxdb port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-influxdb-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port of the remote InfluxDB v2 server.</strong></p>
+<p>The default is 8086.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb port 8087
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-influxdb-url-url">
+set service monitoring telegraf influxdb url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-influxdb-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the URL of the remote InfluxDB v2 server.</strong></p>
+<p>VyOS appends the configured port to this URL, so specify the URL
+without a port number.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb url 'http://r1.influxdb2.local'
+</pre></div>
+</div>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<p>The following example configures Telegraf to write metrics to an
+InfluxDB v2 server at <code class="docutils literal notranslate"><span class="pre">r1.influxdb2.local</span></code> on port 8087, storing them
+in the <code class="docutils literal notranslate"><span class="pre">bucket_vyos</span></code> bucket of the <code class="docutils literal notranslate"><span class="pre">vyos</span></code> organization, authenticating
+to the InfluxDB v2 server with the configured API token.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf influxdb authentication organization 'vyos'
+set service monitoring telegraf influxdb authentication token 'ZAml9Uy5wrhA...=='
+set service monitoring telegraf influxdb bucket 'bucket_vyos'
+set service monitoring telegraf influxdb port '8087'
+set service monitoring telegraf influxdb url 'http://r1.influxdb2.local'
+</pre></div>
+</div>
+</section>
+</section>
+<section id="loki">
+<h3>Loki<a class="headerlink" href="#loki" title="Link to this heading"></a></h3>
+<p>A configuration for this plugin is committable only when <code class="docutils literal notranslate"><span class="pre">url</span></code> is
+configured.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-loki-port-1-65535">
+set service monitoring telegraf loki port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-loki-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port of the remote Loki server.</strong></p>
+<p>The default is 3100.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf loki port 3101
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-loki-url-url">
+set service monitoring telegraf loki url &lt;url&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-loki-url-url" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the URL of the remote Loki server.</strong></p>
+<p>VyOS appends the configured port to the host part of this URL. If the
+URL contains a path, the path is used as the endpoint of the Loki write
+API.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf loki url 'http://192.0.2.20'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-loki-authentication-username-username">
+set service monitoring telegraf loki authentication username &lt;username&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-loki-authentication-username-username" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the username for HTTP Basic authentication to the Loki
+server.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf loki authentication username loki
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-loki-authentication-password-password">
+set service monitoring telegraf loki authentication password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-loki-authentication-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the password for HTTP Basic authentication to the Loki
+server.</strong></p>
+<p>If either <code class="docutils literal notranslate"><span class="pre">username</span></code> or <code class="docutils literal notranslate"><span class="pre">password</span></code> is configured, both are required.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf loki authentication password mysecurepassword
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-telegraf-loki-metric-name-label-label">
+set service monitoring telegraf loki metric-name-label &lt;label&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-telegraf-loki-metric-name-label-label" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the label used to identify log streams from the VyOS system
+log in Loki.</strong></p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">__name</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring telegraf loki metric-name-label syslog
+</pre></div>
+</div>
+</section>
+</section>
+<section id="prometheus">
+<span id="prometheus-exporters"></span><h2>Prometheus<a class="headerlink" href="#prometheus" title="Link to this heading"></a></h2>
+<p>In addition to the Telegraf <code class="docutils literal notranslate"><span class="pre">prometheus-client</span></code> output plugin, VyOS can
+run the following standalone Prometheus exporters:</p>
+<ul class="simple">
+<li><p>Node Exporter</p></li>
+<li><p>FRR Exporter</p></li>
+<li><p>Blackbox Exporter</p></li>
+</ul>
+<section id="node-exporter">
+<h3>Node Exporter<a class="headerlink" href="#node-exporter" title="Link to this heading"></a></h3>
+<p>Prometheus <a class="reference external" href="https://github.com/prometheus/node_exporter">node_exporter</a> exposes hardware and operating system
+metrics such as CPU, memory, disk I/O, filesystem usage, and network
+interface statistics.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-node-exporter-listen-address-address">
+set service monitoring prometheus node-exporter listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-node-exporter-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IP address on which Node Exporter accepts incoming
+connections.</strong></p>
+<p>Repeat the command to configure multiple addresses.</p>
+<p>When unset, Node Exporter accepts incoming connections on all local IP
+addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus node-exporter listen-address 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-node-exporter-port-1-65535">
+set service monitoring prometheus node-exporter port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-node-exporter-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which Node Exporter accepts incoming
+connections.</strong></p>
+<p>The default is 9100.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus node-exporter port 9101
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-node-exporter-vrf-name">
+set service monitoring prometheus node-exporter vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-node-exporter-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Run Node Exporter in the specified VRF instance.</strong></p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus node-exporter vrf mgmt
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-node-exporter-collectors-textfile">
+set service monitoring prometheus node-exporter collectors textfile</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-node-exporter-collectors-textfile" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable the Node Exporter textfile collector, which exports custom
+metrics from files placed in <code class="docutils literal notranslate"><span class="pre">/run/node_exporter/collector</span></code>.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus node-exporter collectors textfile
+</pre></div>
+</div>
+</section>
+<section id="frr-exporter">
+<h3>FRR Exporter<a class="headerlink" href="#frr-exporter" title="Link to this heading"></a></h3>
+<p>The Prometheus <a class="reference external" href="https://github.com/tynany/frr_exporter">frr_exporter</a> exposes routing protocol metrics from
+FRRouting (FRR). By default, the exporter collects metrics for BGP
+(IPv4 and IPv6), OSPF, BFD, and the routing table. Use the options
+below to enable additional metric collection or add extra labels to the
+exported data.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-listen-address-address">
+set service monitoring prometheus frr-exporter listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IP address on which FRR Exporter accepts incoming
+connections.</strong></p>
+<p>Repeat the command to configure multiple addresses.</p>
+<p>When unset, FRR Exporter accepts incoming connections on all local IP
+addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter listen-address 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-port-1-65535">
+set service monitoring prometheus frr-exporter port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which FRR Exporter accepts incoming
+connections.</strong></p>
+<p>The default is 9342.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter port 9343
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-vrf-name">
+set service monitoring prometheus frr-exporter vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Run FRR Exporter in the specified VRF instance.</strong></p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter vrf mgmt
+</pre></div>
+</div>
+<section id="bgp-collector-options">
+<h4>BGP collector options<a class="headerlink" href="#bgp-collector-options" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-accept-filtered-prefixes">
+set service monitoring prometheus frr-exporter collector bgp accept-filtered-prefixes</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-accept-filtered-prefixes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export the counts of accepted and filtered prefixes per BGP peer.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp accept-filtered-prefixes
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-advertised-prefixes">
+set service monitoring prometheus frr-exporter collector bgp advertised-prefixes</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-advertised-prefixes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export the count of prefixes advertised to each BGP peer.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp advertised-prefixes
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-description-json-plain-text">
+set service monitoring prometheus frr-exporter collector bgp peer-description &lt;json | plain-text&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-description-json-plain-text" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add the BGP peer description as a label on that peer’s metrics:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">json</span></code>: Parses the peer description as a JSON object and extracts the
+value of the <code class="docutils literal notranslate"><span class="pre">desc</span></code> key to use as the label.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plain-text</span></code>: Uses the unparsed peer description string as the label.</p></li>
+</ul>
+<p>When unset, the peer description is not added as a label.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp peer-description plain-text
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-group">
+set service monitoring prometheus frr-exporter collector bgp peer-group</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-group" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add the peer group name of a BGP peer as a label on that peer’s
+metrics.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp peer-group
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-hostname">
+set service monitoring prometheus frr-exporter collector bgp peer-hostname</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add the hostname of a BGP peer as a label on that peer’s metrics.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp peer-hostname
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-type">
+set service monitoring prometheus frr-exporter collector bgp peer-type</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-peer-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export the number of established BGP peers per type.</strong></p>
+<p>The type is read from the <code class="docutils literal notranslate"><span class="pre">type</span></code> key of the JSON-formatted peer
+description.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp peer-type
+</pre></div>
+</div>
+</section>
+<section id="other-collector-options">
+<h4>Other collector options<a class="headerlink" href="#other-collector-options" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-l2-vpn">
+set service monitoring prometheus frr-exporter collector bgp-l2-vpn</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-bgp-l2-vpn" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export BGP L2VPN EVPN metrics.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector bgp-l2-vpn
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-pim">
+set service monitoring prometheus frr-exporter collector pim</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-pim" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export <abbr title="Protocol Independent Multicast">PIM</abbr> metrics.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector pim
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-ospf-instance-1-65535">
+set service monitoring prometheus frr-exporter collector ospf-instance &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-ospf-instance-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export metrics for the OSPF instance with the given ID.</strong></p>
+<p>Repeat the command to export metrics for multiple OSPF instances.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector ospf-instance 100
+set service monitoring prometheus frr-exporter collector ospf-instance 200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-detailed-routes">
+set service monitoring prometheus frr-exporter collector detailed-routes</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-frr-exporter-collector-detailed-routes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Export a route count for each route type.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus frr-exporter collector detailed-routes
+</pre></div>
+</div>
+</section>
+</section>
+<section id="blackbox-exporter">
+<h3>Blackbox Exporter<a class="headerlink" href="#blackbox-exporter" title="Link to this heading"></a></h3>
+<p>Prometheus <a class="reference external" href="https://github.com/prometheus/blackbox_exporter">blackbox_exporter</a> probes network endpoints and exposes the
+probe results as metrics. VyOS supports the DNS and ICMP probes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-listen-address-address">
+set service monitoring prometheus blackbox-exporter listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IP address on which Blackbox Exporter accepts
+incoming connections.</strong></p>
+<p>Repeat the command to configure multiple addresses.</p>
+<p>When unset, Blackbox Exporter accepts incoming connections on all local
+IP addresses.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter listen-address 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-port-1-65535">
+set service monitoring prometheus blackbox-exporter port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which Blackbox Exporter accepts incoming
+connections.</strong></p>
+<p>The default is 9115.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter port 9116
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-vrf-name">
+set service monitoring prometheus blackbox-exporter vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Run Blackbox Exporter in the specified VRF instance.</strong></p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter vrf mgmt
+</pre></div>
+</div>
+<section id="blackbox-exporter-modules">
+<h4>Blackbox Exporter modules<a class="headerlink" href="#blackbox-exporter-modules" title="Link to this heading"></a></h4>
+<p>Blackbox Exporter probes are organized into named modules. A module
+defines a probe type and its settings. Configure a DNS or ICMP module
+with the commands below.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-name-name-query-name-fqdn">
+set service monitoring prometheus blackbox-exporter modules dns name &lt;name&gt; query-name &lt;fqdn&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-name-name-query-name-fqdn" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the domain name that the specified DNS module queries.</strong></p>
+<p>This setting is mandatory for every DNS module. Otherwise, the commit
+fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules dns name my-dns-module query-name example.com
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-name-name-query-type-type">
+set service monitoring prometheus blackbox-exporter modules dns name &lt;name&gt; query-type &lt;type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-name-name-query-type-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DNS record type that the specified DNS module queries,
+for example <code class="docutils literal notranslate"><span class="pre">A</span></code> or <code class="docutils literal notranslate"><span class="pre">AAAA</span></code>.</strong></p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">ANY</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules dns name my-dns-module query-type AAAA
+</pre></div>
+</div>
+<p>The following options apply to both DNS and ICMP modules.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-preferred-ip-protocol-ipv4-ipv6">
+set service monitoring prometheus blackbox-exporter modules &lt;dns | icmp&gt; name &lt;name&gt; preferred-ip-protocol &lt;ipv4 | ipv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-preferred-ip-protocol-ipv4-ipv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure which IP protocol the module prefers when probing the
+target.</strong></p>
+<p>When unset, IPv6 is preferred.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules dns name my-dns-module preferred-ip-protocol ipv4
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-ip-protocol-fallback">
+set service monitoring prometheus blackbox-exporter modules &lt;dns | icmp&gt; name &lt;name&gt; ip-protocol-fallback</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-ip-protocol-fallback" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Allow the module to fall back to the other IP protocol if the
+preferred one is not usable.</strong></p>
+<p>When unset, fallback is disabled.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules icmp name my-icmp-module ip-protocol-fallback
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-timeout-1-60">
+set service monitoring prometheus blackbox-exporter modules &lt;dns | icmp&gt; name &lt;name&gt; timeout &lt;1-60&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-monitoring-prometheus-blackbox-exporter-modules-dns-icmp-name-name-timeout-1-60" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how long a single probe may run before it times out, in
+seconds.</strong></p>
+<p>The default is 5.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules dns name my-dns-module timeout 10
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="dns-module">
+<h3>DNS module<a class="headerlink" href="#dns-module" title="Link to this heading"></a></h3>
+<p>The following example defines a DNS module named <code class="docutils literal notranslate"><span class="pre">dns4</span></code> that looks up
+the <code class="docutils literal notranslate"><span class="pre">A</span></code> record for <code class="docutils literal notranslate"><span class="pre">vyos.io</span></code>, using IPv4 to reach the DNS server.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules dns name dns4 preferred-ip-protocol ipv4
+set service monitoring prometheus blackbox-exporter modules dns name dns4 query-name vyos.io
+set service monitoring prometheus blackbox-exporter modules dns name dns4 query-type A
+</pre></div>
+</div>
+</section>
+<section id="icmp-module">
+<h3>ICMP module<a class="headerlink" href="#icmp-module" title="Link to this heading"></a></h3>
+<p>The following example defines an ICMP module named <code class="docutils literal notranslate"><span class="pre">ping6</span></code> that pings a
+target over IPv6, falls back to IPv4 if IPv6 is not usable, and times
+out after 3 seconds.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service monitoring prometheus blackbox-exporter modules icmp name ping6 preferred-ip-protocol ipv6
+set service monitoring prometheus blackbox-exporter modules icmp name ping6 ip-protocol-fallback
+set service monitoring prometheus blackbox-exporter modules icmp name ping6 timeout 3
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mdns.html" class="btn btn-neutral float-left" title="mDNS repeater" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ntp.html" class="btn btn-neutral float-right" title="NTP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP CGNAT Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/nat/cgnat.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP NAT44 Configuration" href="nat44.html" />
+    <link rel="prev" title="VPP NAT Configuration" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/index.html">VPP Interfaces Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">VPP NAT Configuration</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VPP CGNAT Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nat44.html">VPP NAT44 Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#nat44">NAT44</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#cgnat">CGNAT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Configuration</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP NAT Configuration</a></li>
+      <li class="breadcrumb-item active">VPP CGNAT Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/nat/cgnat.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-nat-cgnat">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-cgnat-configuration">
+<h1>VPP CGNAT Configuration<a class="headerlink" href="#vpp-cgnat-configuration" title="Link to this heading"></a></h1>
+<p>Carrier-grade NAT (CGNAT) is a NAT type designed for Internet Service
+Providers (ISPs) to manage limited pools of public IP addresses. It
+solves two main problems:</p>
+<ul class="simple">
+<li><p>Enables fair sharing of a limited number of public IP addresses among
+multiple customers, ensuring all have internet access without interfering
+with each other.</p></li>
+<li><p>Enables tracking and logging of public IP address usage by different
+customers, which is often a regulatory requirement.</p></li>
+</ul>
+<p>CGNAT configuration is straightforward. Define the inside and outside
+interfaces, then create rules to manage the translation of private IP
+addresses to public IP addresses.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Enabling CGNAT</strong> on an interface (both inside and outside)
+<strong>disables normal routing</strong> on these interfaces and <strong>blocks management
+access</strong> to the VyOS router itself.</p>
+<p>Ensure you have an alternative management path to the router before applying
+your CGNAT configuration.</p>
+</div>
+<section id="interface-configuration">
+<h2>Interface Configuration<a class="headerlink" href="#interface-configuration" title="Link to this heading"></a></h2>
+<p>Define the inside and outside interfaces. The inside interface connects
+to the private network, while the outside interface connects to the public
+network.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-interface-inside-inside-interface">
+set vpp nat cgnat interface inside &lt;inside-interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-interface-inside-inside-interface" title="Permalink to this Command"></a></div></div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-interface-outside-outside-interface">
+set vpp nat cgnat interface outside &lt;outside-interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-interface-outside-outside-interface" title="Permalink to this Command"></a></div></div>
+<p>This is a mandatory step, as the CGNAT needs to know on which interfaces it
+needs to apply rules and operate.</p>
+</section>
+<section id="nat-rules-configuration">
+<h2>NAT Rules Configuration<a class="headerlink" href="#nat-rules-configuration" title="Link to this heading"></a></h2>
+<p>Next, you need to create the NAT rules.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-rule-rule-number-description-description">
+set vpp nat cgnat rule &lt;rule-number&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-rule-rule-number-description-description" title="Permalink to this Command"></a></div></div>
+<p>Add a description to the rule for easier identification.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-rule-rule-number-inside-prefix-inside-prefix">
+set vpp nat cgnat rule &lt;rule-number&gt; inside-prefix &lt;inside-prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-rule-rule-number-inside-prefix-inside-prefix" title="Permalink to this Command"></a></div></div>
+<p>Specify the inside prefix (private IP range) to translate.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-rule-rule-number-outside-prefix-outside-prefix">
+set vpp nat cgnat rule &lt;rule-number&gt; outside-prefix &lt;outside-prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-rule-rule-number-outside-prefix-outside-prefix" title="Permalink to this Command"></a></div></div>
+<p>Specify the outside prefix (public IP range) to use for translation.</p>
+</section>
+<section id="exclude-rules-configuration">
+<h2>Exclude Rules Configuration<a class="headerlink" href="#exclude-rules-configuration" title="Link to this heading"></a></h2>
+<p>CGNAT exclude rules are implemented as DET44 identity mappings. Matching
+traffic is excluded from CGNAT translation and keeps its original
+address/port tuple.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-description-description">
+set vpp nat cgnat exclude rule &lt;rule-number&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-description-description" title="Permalink to this Command"></a></div></div>
+<p>Adds a description (stored as VPP identity-mapping tag) for easier
+identification.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-local-address-local-address">
+set vpp nat cgnat exclude rule &lt;rule-number&gt; local-address &lt;local-address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-local-address-local-address" title="Permalink to this Command"></a></div></div>
+<p>Sets the local IPv4 address that should be excluded from translation. This
+option is mandatory for each exclude rule.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-protocol-tcp-udp-icmp-all">
+set vpp nat cgnat exclude rule &lt;rule-number&gt; protocol &lt;tcp|udp|icmp|all&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-protocol-tcp-udp-icmp-all" title="Permalink to this Command"></a></div></div>
+<p>Matches a specific protocol. Default is <code class="docutils literal notranslate"><span class="pre">all</span></code>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-local-port-1-65535">
+set vpp nat cgnat exclude rule &lt;rule-number&gt; local-port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpp-nat-cgnat-exclude-rule-rule-number-local-port-1-65535" title="Permalink to this Command"></a></div></div>
+<p>Matches a specific local port (or ICMP identifier in case of ICMP protocol).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Exclude-rule validation rules:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">local-address</span></code> must be specified.</p></li>
+<li><dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">protocol</span></code> and <code class="docutils literal notranslate"><span class="pre">local-port</span></code> must either both be specified or both be</dt><dd><p>omitted.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple myst">
+<dt>Duplicate identity mappings are not allowed (same local-address,</dt><dd><p>protocol, local-port tuple).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A common use case for exclude rules is preserving management-plane access to
+the router itself (for example SSH) and local-originated services (for
+example DNS queries) when CGNAT is enabled.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Memory Requirements</strong></p>
+<p>CGNAT memory usage scales with the number of internal customers.</p>
+<p><strong>Each 256 customers</strong> (equivalent to a /24 subnet) requires
+approximately <strong>4 MB of main heap memory</strong>. This memory maintains
+customer-to-port mappings and session state information.</p>
+<p>Configure your VPP main heap size appropriately based on your expected
+customer count. See <a class="reference internal" href="../dataplane/memory.html#vpp-config-dataplane-memory"><span class="std std-ref">VPP Memory Configuration</span></a> for details on adjusting main heap size.</p>
+</div>
+</section>
+<section id="session-limitations">
+<h2>Session Limitations<a class="headerlink" href="#session-limitations" title="Link to this heading"></a></h2>
+<p>CGNAT has built-in session limitations to ensure fair resource allocation:</p>
+<p>Each customer (internal IP address) is limited to a maximum of 1000
+simultaneous sessions, even if more than 1000 ports are allocated to that
+customer. This limitation applies to all session types (TCP, UDP, ICMP).</p>
+</section>
+<section id="timeouts-configuration">
+<h2>Timeouts Configuration<a class="headerlink" href="#timeouts-configuration" title="Link to this heading"></a></h2>
+<p>You can adjust NAT session timers to optimize address space usage by
+controlling how long sessions remain active and how long they occupy IP
+address and port combinations.</p>
+<p>Adjust these settings for different protocols individually:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">timeout</span> <span class="n">icmp</span> <span class="o">&lt;</span><span class="n">timeout</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">timeout</span> <span class="n">tcp</span><span class="o">-</span><span class="n">established</span> <span class="o">&lt;</span><span class="n">timeout</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">timeout</span> <span class="n">tcp</span><span class="o">-</span><span class="n">transitory</span> <span class="o">&lt;</span><span class="n">timeout</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">timeout</span> <span class="n">udp</span> <span class="o">&lt;</span><span class="n">timeout</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-configuration">
+<h2>Example Configuration<a class="headerlink" href="#example-configuration" title="Link to this heading"></a></h2>
+<p>Here is an example CGNAT configuration with these assumptions:</p>
+<ul class="simple">
+<li><p>Inside interface: <code class="docutils literal notranslate"><span class="pre">eth2</span></code></p></li>
+<li><p>Outside interface: <code class="docutils literal notranslate"><span class="pre">eth1</span></code></p></li>
+<li><p>Inside prefix: <code class="docutils literal notranslate"><span class="pre">100.64.0.0/16</span></code></p></li>
+<li><p>Outside prefix: <code class="docutils literal notranslate"><span class="pre">203.0.113.0/24</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">interface</span> <span class="n">inside</span> <span class="n">eth2</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">interface</span> <span class="n">outside</span> <span class="n">eth1</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">rule</span> <span class="mi">1</span> <span class="n">description</span> <span class="s2">"CGNAT Rule 1"</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">rule</span> <span class="mi">1</span> <span class="n">inside</span><span class="o">-</span><span class="n">prefix</span> <span class="mf">100.64.0.0</span><span class="o">/</span><span class="mi">16</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">rule</span> <span class="mi">1</span> <span class="n">outside</span><span class="o">-</span><span class="n">prefix</span> <span class="mf">203.0.113.0</span><span class="o">/</span><span class="mi">24</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">10</span> <span class="n">description</span> <span class="s2">"Bypass management host"</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">10</span> <span class="n">local</span><span class="o">-</span><span class="n">address</span> <span class="mf">100.64.0.10</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">20</span> <span class="n">description</span> <span class="s2">"Bypass subscriber DNS"</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">20</span> <span class="n">local</span><span class="o">-</span><span class="n">address</span> <span class="mf">100.64.0.20</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">20</span> <span class="n">protocol</span> <span class="n">udp</span>
+<span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">20</span> <span class="n">local</span><span class="o">-</span><span class="n">port</span> <span class="mi">53</span>
+</pre></div>
+</div>
+<section id="operational-commands">
+<h3>Operational Commands<a class="headerlink" href="#operational-commands" title="Link to this heading"></a></h3>
+<p>Once the CGNAT is configured, you can use the following commands to monitor
+its status and operation:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-cgnat-interfaces">
+show vpp nat cgnat interfaces</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-cgnat-interfaces" title="Permalink to this Command"></a></div></div>
+<p>Displays the configured inside and outside interfaces.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpp nat cgnat interfaces
+CGNAT interfaces:
+  eth2 in
+  eth1 out
+</pre></div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-cgnat-sessions">
+show vpp nat cgnat sessions</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-cgnat-sessions" title="Permalink to this Command"></a></div></div>
+<p>Display active NAT sessions. This command may produce extensive output if
+many sessions are active.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-cgnat-mappings">
+show vpp nat cgnat mappings</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-cgnat-mappings" title="Permalink to this Command"></a></div></div>
+<p>Display current NAT mappings, including inside and outside address
+prefixes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpp nat cgnat mappings
+Inside         Outside           Sharing ratio    Ports per host    Sessions
+-------------  --------------  ---------------  ----------------  ----------
+100.64.0.0/16  203.0.113.0/24              256               252           0
+</pre></div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-nat-cgnat-exclude-rules">
+show vpp nat cgnat exclude-rules</span>
+<a class="cmdlink" href="#opcmd-show-vpp-nat-cgnat-exclude-rules" title="Permalink to this Command"></a></div></div>
+<p>Displays configured CGNAT exclude rules (identity mappings).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpp nat cgnat exclude-rules
+Address      Protocol    Port    VRF  Description
+-----------  ----------  ------  -----  ---------------------
+100.64.0.10  all         any       0    Bypass management host
+100.64.0.20  udp         53        0    Bypass subscriber DNS
+</pre></div>
+</div>
+</section>
+<section id="potential-issues-and-troubleshooting">
+<h3>Potential Issues and Troubleshooting<a class="headerlink" href="#potential-issues-and-troubleshooting" title="Link to this heading"></a></h3>
+<p>Configuration fails to apply with an error similar to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpp_papi</span><span class="o">.</span><span class="n">vpp_papi</span><span class="o">.</span><span class="n">VPPIOError</span><span class="p">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">2</span><span class="p">]</span> <span class="n">VPP</span> <span class="n">API</span> <span class="n">client</span><span class="p">:</span> <span class="n">read</span> <span class="n">failed</span>
+</pre></div>
+</div>
+<p>CGNAT utilizes main heap memory and if you are trying to configure big
+prefixes or a large number of NAT sessions, you may run into memory allocation
+issues. Try to <span class="xref std std-ref">increase the main heap size in VPP configuration</span>.</p>
+</section>
+</section>
+<section id="ssh-dns-reachability-after-enabling-cgnat">
+<h2>SSH/DNS Reachability After Enabling CGNAT<a class="headerlink" href="#ssh-dns-reachability-after-enabling-cgnat" title="Link to this heading"></a></h2>
+<p>If SSH access to the router (or local-originated DNS queries) stops working
+after enabling CGNAT, traffic may be dropped by DET44 when it does not match a
+translation mapping.</p>
+<p>In this case, add an exclude rule for the router local address that must
+bypass CGNAT translation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span> <span class="n">rule</span> <span class="mi">100</span> <span class="n">local</span><span class="o">-</span><span class="n">address</span> <span class="o">&lt;</span><span class="n">router</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Then verify:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">show</span> <span class="n">vpp</span> <span class="n">nat</span> <span class="n">cgnat</span> <span class="n">exclude</span><span class="o">-</span><span class="n">rules</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="VPP NAT Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nat44.html" class="btn btn-neutral float-right" title="VPP NAT44 Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The `system ipv6` subtree provides IPv6 settings that apply to the whole router, such as packet forwarding, the neighbor cache, Duplicate Address Detection, and ECMP multipath hashing. It also controls route installation filtering and next hop tracking. " name="description" />
+<meta content="ipv6, neighbor cache, dad, ecmp, multipath, next hop tracking" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPv6 &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/system/ipv6.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="System Display (LCD)" href="lcd.html" />
+    <link rel="prev" title="IP" href="ip.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acceleration.html">Acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack.html">Conntrack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Serial console</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow-accounting.html">Flow accounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frr.html">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host-name.html">Host information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ip.html">IP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">IPv6</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lcd.html">System Display (LCD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="login.html">Login/user management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="name-server.html">System DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html">System Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">sFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syslog.html">Syslog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysctl.html">Sysctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task-scheduler.html">Task Scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time-zone.html">Time Zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="watchdog.html">Watchdog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default-route.html">Default Gateway/Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">System</a></li>
+      <li class="breadcrumb-item active">IPv6</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/system/ipv6.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipv6">
+<span id="id1"></span><h1>IPv6<a class="headerlink" href="#ipv6" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">ipv6</span></code> subtree provides IPv6 settings that apply to the whole router.</p>
+<p>To configure IPv6 settings for an individual interface, use
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">interfaces</span> <span class="pre">&lt;type&gt;</span> <span class="pre">&lt;name&gt;</span> <span class="pre">ipv6</span></code>.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="forwarding">
+<h3>Forwarding<a class="headerlink" href="#forwarding" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-disable-forwarding">
+set system ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable IPv6 forwarding between the router’s interfaces.</strong></p>
+<p>By default, the router forwards IPv6 packets between interfaces.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 disable-forwarding
+</pre></div>
+</div>
+</section>
+<section id="neighbor-cache">
+<h3>Neighbor cache<a class="headerlink" href="#neighbor-cache" title="Link to this heading"></a></h3>
+<p>The neighbor cache stores mappings between each neighbor’s IPv6 and
+link-layer addresses, together with the neighbor’s reachability state.
+The router learns these entries dynamically as it communicates with
+neighbors.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-neighbor-table-size-1024-2048-4096-8192-16384-32768">
+set system ipv6 neighbor table-size &lt;1024 | 2048 | 4096 | 8192 | 16384 | 32768&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-neighbor-table-size-1024-2048-4096-8192-16384-32768" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum number of dynamically learned entries in the
+neighbor cache.</strong></p>
+<p>The default is 8192.</p>
+<p>This limit counts only the entries that the router learns dynamically.
+It does not count entries added manually as permanent, nor entries
+that another subsystem installs and maintains.</p>
+<p>The router derives two more thresholds from this number. Once the
+neighbor cache reaches half of this number, the router removes
+entries older than 5 seconds. While the neighbor cache holds fewer
+than one eighth of this number, the router does not remove entries
+to reclaim space.</p>
+<p>The command also sets the following kernel parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">net.ipv6.neigh.default.gc_thresh3</span></code>: Takes the value of the configured
+maximum number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">net.ipv6.neigh.default.gc_thresh2</span></code>: Takes half of that number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">net.ipv6.neigh.default.gc_thresh1</span></code>: Takes one eighth of that number.</p></li>
+</ul>
+<p>If <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">sysctl</span> <span class="pre">parameter</span></code> sets any of these parameters, the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">sysctl</span></code> values take precedence.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 neighbor table-size 16384
+</pre></div>
+</div>
+</section>
+<section id="duplicate-address-detection">
+<h3>Duplicate address detection<a class="headerlink" href="#duplicate-address-detection" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-strict-dad">
+set system ipv6 strict-dad</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-strict-dad" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable IPv6 on any interface where <abbr title="Duplicate Address Detection">DAD</abbr> detects a duplicate of the interface’s MAC-based link-local
+address.</strong></p>
+<p>Without this command, a duplicate MAC-based link-local address does not
+disable IPv6 on the interface.</p>
+<p>When the router disables IPv6 on an interface this way, the router does
+not re-enable IPv6 on that interface automatically.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 strict-dad
+</pre></div>
+</div>
+</section>
+<section id="multipath-routing">
+<h3>Multipath routing<a class="headerlink" href="#multipath-routing" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-multipath-layer4-hashing">
+set system ipv6 multipath layer4-hashing</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-multipath-layer4-hashing" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Include Layer 4 information in the
+<abbr title="Equal-Cost Multi-Path">ECMP</abbr> hash.</strong></p>
+<p>By default, the router hashes the source and destination addresses, the
+protocol number, and the flow label.</p>
+<p>With this command, the router hashes the source and destination addresses,
+the protocol number, and the source and destination port numbers instead,
+so it distributes the flows between two hosts by port rather than by flow
+label.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 multipath layer4-hashing
+</pre></div>
+</div>
+</section>
+<section id="route-installation-filtering">
+<h3>Route installation filtering<a class="headerlink" href="#route-installation-filtering" title="Link to this heading"></a></h3>
+<p>The router can apply a <code class="docutils literal notranslate"><span class="pre">route-map</span></code> to filter a routing protocol’s
+routes before installing them in the router’s <abbr title="Forwarding Information Base">FIB</abbr>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-protocol-any-babel-bgp-isis-ospfv3-ripng-static-route-map-name">
+set system ipv6 protocol &lt;any | babel | bgp | isis | ospfv3 | ripng | static&gt; route-map &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-protocol-any-babel-bgp-isis-ospfv3-ripng-static-route-map-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Filter the routes of the specified protocol before the router installs
+them in the FIB.</strong></p>
+<p>The router evaluates the <code class="docutils literal notranslate"><span class="pre">route-map</span></code> for each next hop of a route and
+does not install a next hop that the <code class="docutils literal notranslate"><span class="pre">route-map</span></code> denies.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">route-map</span></code> configured for a specific protocol applies to that
+protocol instead of the <code class="docutils literal notranslate"><span class="pre">route-map</span></code> configured under <code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">any</span></code>. The
+router never applies both.</p>
+<p>This command applies to the default <abbr title="Virtual Routing and Forwarding">VRF</abbr>. Use <code class="docutils literal notranslate"><span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span> <span class="pre">ipv6</span> <span class="pre">protocol</span> <span class="pre">&lt;protocol&gt;</span> <span class="pre">route-map</span> <span class="pre">&lt;name&gt;</span></code> for another VRF.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">route-map</span></code> must exist under <code class="docutils literal notranslate"><span class="pre">policy</span> <span class="pre">route-map</span></code>. Otherwise, the
+commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 protocol ospfv3 route-map OSPFV3-SRC
+</pre></div>
+</div>
+</section>
+<section id="next-hop-tracking">
+<h3>Next hop tracking<a class="headerlink" href="#next-hop-tracking" title="Link to this heading"></a></h3>
+<p>Next hop tracking lets a routing protocol, such as BGP, learn whether a
+route’s next hop is reachable through the router’s <abbr title="Routing Information Base">RIB</abbr>.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-ipv6-nht-no-resolve-via-default">
+set system ipv6 nht no-resolve-via-default</span>
+<a class="cmdlink" href="#cfgcmd-set-system-ipv6-nht-no-resolve-via-default" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Prevent IPv6 next hop tracking from resolving next hops through the
+default route.</strong></p>
+<p>By default, next hop tracking considers a next hop reachable when only
+the default route covers it. This command makes next hop tracking
+require a more specific route.</p>
+<p>The default applies to the <code class="docutils literal notranslate"><span class="pre">traditional</span></code> profile of <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">frr</span> <span class="pre">profile</span></code>, which is the default profile. With the <code class="docutils literal notranslate"><span class="pre">datacenter</span></code> profile,
+next hop tracking does not resolve next hops through the default route,
+so this command has no effect under that profile.</p>
+<p>This command applies to the default VRF. Use <code class="docutils literal notranslate"><span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span> <span class="pre">ipv6</span> <span class="pre">nht</span> <span class="pre">no-resolve-via-default</span></code> for another VRF.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system ipv6 nht no-resolve-via-default
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<section id="show">
+<h3>Show<a class="headerlink" href="#show" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-forwarding">
+show ipv6 forwarding</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-forwarding" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the router’s IPv6 forwarding status.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-groups">
+show ipv6 groups</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-groups" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the router’s active IPv6 network connections and its IPv6
+multicast group memberships per interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-multicast-group">
+show ipv6 multicast group</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-multicast-group" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 multicast group memberships of the router’s
+interfaces, as a table sorted by interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-multicast-group-interface-interface">
+show ipv6 multicast group interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-multicast-group-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 multicast group memberships of the specified interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-neighbors">
+show ipv6 neighbors</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-neighbors" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the router’s neighbor cache.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-neighbors-interface-interface">
+show ipv6 neighbors interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-neighbors-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the neighbor cache entries on the specified interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-neighbors-state-reachable-stale-failed-permanent">
+show ipv6 neighbors state &lt;reachable | stale | failed | permanent&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-neighbors-state-reachable-stale-failed-permanent" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the neighbor cache entries in the specified state.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-nht">
+show ipv6 nht</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-nht" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 next hop tracking table.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-nht-vrf-name-default-all">
+show ipv6 nht vrf &lt;name | default | all&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-nht-vrf-name-default-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 next hop tracking table for the specified VRF, or for
+all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route">
+show ipv6 route</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the router’s RIB.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-kernel-connected-static-ripng-ospfv3-isis-bgp-openfabric">
+show ipv6 route &lt;kernel | connected | static | ripng | ospfv3 | isis | bgp | openfabric&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-kernel-connected-static-ripng-ospfv3-isis-bgp-openfabric" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show only the IPv6 routes from the given source.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-address-prefix">
+show ipv6 route &lt;address | prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-address-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the RIB for the specified address or prefix.</strong></p>
+<p>For an address, the router shows the routes for the most specific prefix
+that covers the address. For a prefix, the router shows only the routes
+for exactly that prefix.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-prefix-longer-prefixes">
+show ipv6 route &lt;prefix&gt; longer-prefixes</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-prefix-longer-prefixes" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes for the specified prefix and for all more specific
+prefixes within it.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-forward">
+show ipv6 route forward</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-forward" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the kernel’s main routing table.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-forward-address-prefix">
+show ipv6 route forward &lt;address | prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-forward-address-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the kernel’s main routing table that exactly
+match the specified address or prefix.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-summary">
+show ipv6 route summary</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the number of IPv6 routes from each source.</strong></p>
+<p>For each source, the output shows the number of routes in the RIB and
+the number of those routes installed in the FIB. BGP routes are counted
+separately for eBGP and iBGP.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-summary-table-tableid">
+show ipv6 route summary table &lt;tableid&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-summary-table-tableid" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the number of IPv6 routes from each source in the specified
+routing table.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-table-tableid">
+show ipv6 route table &lt;tableid&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-table-tableid" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the specified routing table.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-tag-tag">
+show ipv6 route tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-tag-tag" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes with the specified tag.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all">
+show ipv6 route vrf &lt;name | all&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes in the RIB of the specified VRF, or of all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all-connected-static-kernel-bgp-ospfv3-ripng-isis">
+show ipv6 route vrf &lt;name | all&gt; &lt;connected | static | kernel | bgp | ospfv3 | ripng | isis&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all-connected-static-kernel-bgp-ospfv3-ripng-isis" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes from the given source in the specified VRF, or
+in all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all-address-prefix">
+show ipv6 route vrf &lt;name | all&gt; &lt;address | prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all-address-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes for the given address or prefix in the
+specified VRF, or in all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all-prefix-longer-prefixes">
+show ipv6 route vrf &lt;name | all&gt; &lt;prefix&gt; longer-prefixes</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all-prefix-longer-prefixes" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes for the specified prefix and for all more
+specific prefixes within it in the specified VRF, or in all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all-summary">
+show ipv6 route vrf &lt;name | all&gt; summary</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the number of IPv6 routes from each source in the specified
+VRF, or in all VRFs.</strong></p>
+<p>For each source, the output shows the number of routes in the RIB and
+the number of those routes installed in the FIB. BGP routes are counted
+separately for eBGP and iBGP.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-route-vrf-name-all-tag-tag">
+show ipv6 route vrf &lt;name | all&gt; tag &lt;tag&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-route-vrf-name-all-tag-tag" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the IPv6 routes with the specified tag in the specified VRF, or
+in all VRFs.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list">
+show ipv6 prefix-list</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all IPv6 prefix lists configured on the router.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-name">
+show ipv6 prefix-list &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the specified IPv6 prefix list.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-detail">
+show ipv6 prefix-list detail</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all IPv6 prefix lists configured on the router, with details
+for each list and each entry.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-detail-name">
+show ipv6 prefix-list detail &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-detail-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the specified IPv6 prefix list, with details for the list and
+each entry.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-summary">
+show ipv6 prefix-list summary</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all IPv6 prefix lists configured on the router, with the entry
+count and sequence range of each list but without the entries.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-summary-name">
+show ipv6 prefix-list summary &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-summary-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the specified IPv6 prefix list, with its entry count and
+sequence range but without the entries.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-name-prefix">
+show ipv6 prefix-list &lt;name&gt; &lt;prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-name-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the entry of the specified IPv6 prefix list that matches the
+specified prefix.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-name-prefix-first-match">
+show ipv6 prefix-list &lt;name&gt; &lt;prefix&gt; first-match</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-name-prefix-first-match" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the first entry of the specified IPv6 prefix list that matches
+the specified prefix.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-name-prefix-longer">
+show ipv6 prefix-list &lt;name&gt; &lt;prefix&gt; longer</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-name-prefix-longer" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the entries of the specified IPv6 prefix list whose prefix is
+equal to or more specific than the specified prefix.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-prefix-list-name-seq-number">
+show ipv6 prefix-list &lt;name&gt; seq &lt;number&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-prefix-list-name-seq-number" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the entry with the given sequence number in the specified IPv6
+prefix list.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-access-list">
+show ipv6 access-list</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-access-list" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all IPv6 access lists configured on the router.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-ipv6-access-list-name">
+show ipv6 access-list &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-ipv6-access-list-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the specified IPv6 access list.</strong></p>
+</div>
+</div>
+</section>
+<section id="reset">
+<h3>Reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-ipv6-neighbors-address-address">
+reset ipv6 neighbors address &lt;address&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-ipv6-neighbors-address-address" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the neighbor cache entry for the specified IPv6 address.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-ipv6-neighbors-interface-interface">
+reset ipv6 neighbors interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-ipv6-neighbors-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the neighbor cache entries on the specified interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-ipv6-route-cache">
+reset ipv6 route cache</span>
+<a class="cmdlink" href="#opcmd-reset-ipv6-route-cache" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the entire IPv6 kernel route cache.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-ipv6-route-cache-address-prefix">
+reset ipv6 route cache &lt;address | prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-ipv6-route-cache-address-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the IPv6 kernel route cache entries for the specified address
+or prefix.</strong></p>
+</div>
+</div>
+</section>
+<section id="clear">
+<h3>Clear<a class="headerlink" href="#clear" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-clear-ipv6-prefix-list">
+clear ipv6 prefix-list</span>
+<a class="cmdlink" href="#opcmd-clear-ipv6-prefix-list" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the hit counts of all entries in all IPv6 prefix lists.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-clear-ipv6-prefix-list-name">
+clear ipv6 prefix-list &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-clear-ipv6-prefix-list-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the hit counts of all entries in the specified IPv6 prefix
+list.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-clear-ipv6-prefix-list-name-prefix">
+clear ipv6 prefix-list &lt;name&gt; &lt;prefix&gt;</span>
+<a class="cmdlink" href="#opcmd-clear-ipv6-prefix-list-name-prefix" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Reset the hit counts of the entries in the specified IPv6 prefix list
+whose prefix is equal to or less specific than the specified prefix.</strong></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ip.html" class="btn btn-neutral float-left" title="IP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lcd.html" class="btn btn-neutral float-right" title="System Display (LCD)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WWAN &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/interfaces/wwan.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Load-balancing" href="../loadbalancing/index.html" />
+    <link rel="prev" title="Wireless LAN / Wi-Fi" href="wireless.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bonding.html">Bond / link aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bridge.html">Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ethernet.html">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geneve.html">Geneve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2tpv3.html">L2TPv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loopback.html">Loopback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsec.html">MACsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openvpn.html">OpenVPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard.html">WireGuard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe.html">PPPoE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pseudo-ethernet.html">MACVLAN (pseudo-Ethernet)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sstp-client.html">SSTP client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tunnel.html">Tunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-ethernet.html">Virtual Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vti.html">VTI (virtual tunnel interface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxlan.html">VXLAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireless.html">Wireless LAN / Wi-Fi</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">WWAN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#supported-hardware">Supported hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firmware-update">Firmware update</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">WWAN</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/interfaces/wwan.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="wwan">
+<span id="wwan-interface"></span><h1>WWAN<a class="headerlink" href="#wwan" title="Link to this heading"></a></h1>
+<p><abbr title="Wireless Wide Area Network">WWAN</abbr> interfaces provide access to cellular
+networks via a cellular modem or card.</p>
+<p>Configure these interfaces under the <code class="docutils literal notranslate"><span class="pre">interfaces</span> <span class="pre">wwan</span></code> node.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="common-interface-configuration">
+<h3>Common interface configuration<a class="headerlink" href="#common-interface-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-address-address-dhcp-dhcpv6">
+set interfaces wwan &lt;interface&gt; address &lt;address | dhcp |  dhcpv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-address-address-dhcp-dhcpv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface with one or more IP addresses.</strong></p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><strong>address:</strong> Assign one or more IPv4 or IPv6 addresses to the interface.
+For example, use 192.0.2.1/24 for IPv4 or 2001:db8::1/64 for IPv6.</p></li>
+<li><p><strong>dhcp:</strong> The interface obtains an IPv4 address from a DHCP server on the
+same network segment.</p></li>
+<li><p><strong>dhcpv6:</strong> The interface obtains an IPv6 address from a DHCPv6 server on
+the same network segment.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the interface obtains an IPv4 address via DHCP, and specific
+adjustments are needed before/after the IP address is obtained, use the
+provided hook scripts:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/pre-hooks.d/</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/config/scripts/dhcp-client/post-hooks.d/</span></code></p></li>
+</ul>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 address 192.0.2.1/24
+set interfaces wwan wwan0 address 2001:db8::1/64
+set interfaces wwan wwan0 address dhcp
+set interfaces wwan wwan0 address dhcpv6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-description-description">
+set interfaces wwan &lt;interface&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a clear, descriptive alias for the interface.</strong></p>
+<p>This alias appears in the <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">interfaces</span></code> command and SNMP-based
+monitoring tools.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 description 'This is an interface running on VyOS.'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-disable">
+set interfaces wwan &lt;interface&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the interface.</strong></p>
+<p>The interface will be set to the administratively down
+(<code class="docutils literal notranslate"><span class="pre">A/D</span></code>) state.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 disable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-disable-link-detect">
+set interfaces wwan &lt;interface&gt; disable-link-detect</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-disable-link-detect" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable physical link-state change detection on the interface, such as
+when a cable is unplugged.</strong></p>
+<p>By default, the interface detects physical link-state changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 disable-link-detect
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-mtu-mtu">
+set interfaces wwan &lt;interface&gt; mtu &lt;mtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-mtu-mtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the MTU on the interface.</strong></p>
+<p>This value defines the largest packet size, in bytes, that the interface
+transmits without fragmentation.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 mtu 1600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces wwan &lt;interface&gt; ip adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the</strong> <abbr title="Maximum Segment Size">MSS</abbr> <strong>advertised in outgoing
+TCP SYN packets on the specified interface.</strong></p>
+<p>By clamping the MSS value in TCP SYN packets, you explicitly inform the
+remote side not to send packets larger than that size. This prevents
+connection issues that occur when Path MTU Discovery (PMTUD) fails.</p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><strong>mss:</strong> Sets the MSS to a specific value, in bytes. Use this option if
+you need to enforce a specific MSS, for example, to troubleshoot
+connectivity issues or accommodate specific network requirements.</p></li>
+<li><p><strong>clamp-mss-to-pmtu:</strong> The router automatically calculates the MSS to be
+the interface’s MTU minus 40 bytes for IPv4 traffic (20 bytes for the IPv4
+header and 20 bytes for the TCP header). This option is recommended to
+automatically set the proper value.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-arp-cache-timeout">
+set interfaces wwan &lt;interface&gt; ip arp-cache-timeout</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-arp-cache-timeout" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how long an ARP entry remains valid after learning an IP-to-MAC
+address mapping on this interface.</strong></p>
+<p>The default duration is 30 seconds.</p>
+<p>An ARP entry remains valid if it receives positive feedback from
+higher-level protocols.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip arp-cache-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-disable-arp-filter">
+set interfaces wwan &lt;interface&gt; ip disable-arp-filter</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-disable-arp-filter" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure ARP filtering on this interface.</strong></p>
+<p><strong>Default behavior:</strong> The kernel responds to ARP requests on this interface
+only if the traffic would be routed back to the ARP sender through that
+specific interface.</p>
+<p><strong>If configured:</strong> The kernel responds to ARP requests on this interface for any
+IP address configured on the local host, regardless of which specific interface
+that IP address is assigned to, and regardless of the routing table. This
+reflects the Linux concept that IP addresses belong to the host, not individual
+interfaces.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip disable-arp-filter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-disable-forwarding">
+set interfaces wwan &lt;interface&gt; ip disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface for host or router behavior.</strong></p>
+<p>If configured, the interface switches to host mode, and IPv4 forwarding is
+disabled on it.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-enable-directed-broadcast">
+set interfaces wwan &lt;interface&gt; ip enable-directed-broadcast</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-enable-directed-broadcast" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure whether to forward IP-directed broadcast packets received on this
+interface.</strong></p>
+<p><strong>Default behavior:</strong> IP-directed broadcast packets are dropped.</p>
+<p><strong>If configured:</strong> IP-directed broadcast packets are forwarded to all hosts
+on the destination subnet, as defined in <span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1812.html"><strong>RFC 1812</strong></a> and <span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2644.html"><strong>RFC 2644</strong></a>.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip enable-directed-broadcast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-accept">
+set interfaces wwan &lt;interface&gt; ip enable-arp-accept</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-accept" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how to process gratuitous ARPs on this interface.</strong></p>
+<p>If configured, an IP-to-MAC address mapping is added to the ARP table based
+on gratuitous ARP requests or replies.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the ARP table already contains the IP address from a gratuitous
+ARP, its entry is updated regardless of whether this setting is configured.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip enable-arp-accept
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-announce">
+set interfaces wwan &lt;interface&gt; ip enable-arp-announce</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-announce" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the source IP selection for ARP requests on this interface.</strong></p>
+<p><strong>Default behavior:</strong> The kernel can use any IP address the host owns as
+the source IP address in ARP requests on this interface.</p>
+<p><strong>If configured:</strong> The kernel first attempts to select a source IP address
+configured on the interface that shares a common subnet with the target
+IP address. If there is no such subnet, the kernel selects the IP address
+it would normally use (based on the routing table to reach the target
+destination).</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip enable-arp-announce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-ignore">
+set interfaces wwan &lt;interface&gt; ip enable-arp-ignore</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-enable-arp-ignore" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure which ARP requests will be ignored on this interface.</strong></p>
+<p><strong>Default behavior:</strong> The kernel responds to ARP requests for any local
+IP addresses, regardless of which interface they are assigned to.</p>
+<p><strong>If configured:</strong> The kernel responds to ARP requests only if the target
+IP address is assigned to this specific interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip enable-arp-ignore
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-enable-proxy-arp">
+set interfaces wwan &lt;interface&gt; ip enable-proxy-arp</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-enable-proxy-arp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure proxy ARP on this interface.</strong></p>
+<p>If configured, the router (kernel) intercepts ARP requests for non-local IP
+addresses and replies with the <abbr title="Media Access Control">MAC</abbr> address
+of the interface that received the request. Subsequent packets destined
+to these IP addresses are forwarded to their actual destinations on remote
+subnets.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ip enable-proxy-arp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-proxy-arp-pvlan">
+set interfaces wwan &lt;interface&gt; ip proxy-arp-pvlan</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-proxy-arp-pvlan" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure local proxy ARP on the interface.</strong></p>
+<p>If configured, the router (kernel) responds to ARP requests on this VLAN
+interface even if the target IP address resides on the same subnet and
+interface.</p>
+<p>This is used to support network isolation requirements (RFC 3069) for private
+VLANs (PVLANs). In PVLAN configurations, hosts on isolated ports are NOT
+allowed to communicate directly with each other at Layer 2, but they can
+communicate with the upstream router.</p>
+<p>By replying to inter-host ARP requests with its own <abbr title="Media Access Control">MAC</abbr>
+address, the router (kernel) directs inter-host traffic through itself instead of
+directly between hosts.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command works independently and does not require enabling
+the standard proxy ARP on the interface.</p>
+</div>
+<p>Local proxy ARP is also known as:</p>
+<ul class="simple">
+<li><p>VLAN aggregation (<span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3069.html"><strong>RFC 3069</strong></a>).</p></li>
+<li><p>Private VLAN  (Cisco, Allied Telesyn).</p></li>
+<li><p>Source-port filtering or port isolation (Hewlett-Packard).</p></li>
+<li><p>MAC-Forced Forwarding (Ericsson).</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ip-source-validation-strict-loose-disable">
+set interfaces wwan &lt;interface&gt; ip source-validation &lt;strict | loose | disable&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ip-source-validation-strict-loose-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure source IP address validation using</strong> <abbr title="Reverse Path Forwarding">RPF</abbr> <strong>on this interface, as specified in</strong> <span class="target" id="index-3"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3704.html"><strong>RFC 3704</strong></a>.</p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><strong>strict:</strong> Each incoming packet’s source IP address is checked against the
+Forwarding Information Base (FIB). If the interface is not the best route
+back to that source, validation fails, and the packet is dropped.</p></li>
+<li><p><strong>loose:</strong> Each incoming packet’s source IP address is checked against the
+FIB. If the source IP address is unreachable through any interface, validation
+fails.</p></li>
+<li><p><strong>disable:</strong> No source IP address validation is performed. All incoming
+packets are accepted.</p></li>
+</ul>
+<p>RFC 3704 recommends enabling strict mode to prevent IP spoofing, such as
+DDoS attacks. For asymmetric or other complex routing scenarios, use loose
+mode.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-address-autoconf">
+set interfaces wwan &lt;interface&gt; ipv6 address autoconf</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-address-autoconf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface to automatically obtain an IPv6 address using</strong>
+<abbr title="Stateless Address Autoconfiguration">SLAAC</abbr>, <strong>as specified in</strong>
+<span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4862.html"><strong>RFC 4862</strong></a>.</p>
+<p>IPv6 hosts can configure themselves automatically when connected to an
+IPv6 network using the Neighbor Discovery Protocol via ICMPv6 router
+discovery messages. When first connected to a network, a host sends a
+link-local router solicitation multicast request for its configuration
+parameters. The router responds with a router advertisement packet
+containing Internet Layer configuration parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method automatically disables IPv6 traffic forwarding
+on the interface.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 address autoconf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-address-eui64-prefix">
+set interfaces wwan &lt;interface&gt; ipv6 address eui64 &lt;prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-address-eui64-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface to assign itself an IPv6 address using the</strong>
+<abbr title="64-Bit Extended Unique Identifier">EUI-64</abbr> <strong>method, as
+specified</strong> in <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4291.html"><strong>RFC 4291</strong></a>.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 address eui64 2001:db8:beef::/64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-address-no-default-link-local">
+set interfaces wwan &lt;interface&gt; ipv6 address no-default-link-local</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-address-no-default-link-local" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Disable the automatic assignment of a link-local IPv6 address to
+this interface.</strong></p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 address no-default-link-local
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-disable-forwarding">
+set interfaces wwan &lt;interface&gt; ipv6 disable-forwarding</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-disable-forwarding" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface for host or router behavior.</strong></p>
+<p>If configured, the interface switches to host mode, and IPv6 forwarding is
+disabled on it.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 disable-forwarding
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu">
+set interfaces wwan &lt;interface&gt; ipv6 adjust-mss &lt;mss | clamp-mss-to-pmtu&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-adjust-mss-mss-clamp-mss-to-pmtu" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the</strong> <abbr title="Maximum Segment Size">MSS</abbr> <strong>advertised in outgoing
+TCP SYN packets on the specified interface.</strong></p>
+<p>By clamping the MSS value in TCP SYN packets, you explicitly inform
+the remote side not to send packets larger than that size. This prevents
+connection issues when Path MTU Discovery (PMTUD) fails.</p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><strong>mss:</strong> Set the MSS to a specific value, in bytes. Use this option to
+enforce a specific MSS, for example, to troubleshoot connectivity issues
+or accommodate specific network requirements.</p></li>
+<li><p><strong>clamp-mss-to-pmtu:</strong> The router calculates the MSS to be the interface’s
+MTU minus 60 bytes for IPv6 traffic (40 bytes for the IPv6 header and 20
+bytes for the TCP header). This option is recommended to automatically
+set the proper value.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-accept-dad-0-1-2">
+set interfaces wwan &lt;interface&gt; ipv6 accept-dad &lt;0 | 1 | 2&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-accept-dad-0-1-2" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure IPv6</strong> <abbr title="Duplicate Address Detection">DAD</abbr> <strong>on the
+interface.</strong></p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><strong>0:</strong> Disables DAD. No duplicate address detection is performed.</p></li>
+<li><p><strong>1:</strong> Enables DAD (default). Duplicate addresses are detected. The
+interface’s IPv6 operation continues for valid IPv6 addresses.</p></li>
+<li><p><strong>2:</strong> Enables DAD and, if a MAC-based duplicate link-local address
+is found, disables IPv6 operation on this interface.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 accept-dad 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-ipv6-dup-addr-detect-transmits-n">
+set interfaces wwan &lt;interface&gt; ipv6 dup-addr-detect-transmits &lt;n&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-ipv6-dup-addr-detect-transmits-n" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the number of</strong> <abbr title="Duplicate Address Detection">DAD</abbr>
+<strong>messages that the router (kernel) sends during IPv6 address assignment
+on this interface.</strong></p>
+<p>The default value is 1.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 ipv6 dup-addr-detect-transmits 5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-vrf-vrf">
+set interfaces wwan &lt;interface&gt; vrf &lt;vrf&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-vrf-vrf" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Assign the interface to a specific</strong> <abbr title="Virtual Routing and Forwarding">VRF</abbr> <strong>instance.</strong></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For information on configuring a VRF, refer to the <a class="reference internal" href="../vrf/index.html#vrf"><span class="std std-ref">VRF</span></a>
+section.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 vrf red
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCP(v6)</strong></p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-client-id-description">
+set interfaces wwan &lt;interface&gt; dhcp-options client-id &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-client-id-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a DHCP client identifier for the interface, as specified in</strong>
+<span class="target" id="index-6"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2131.html"><strong>RFC 2131</strong></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">client-id</span></code> is an identifier that the DHCP client sends to the DHCP
+server to uniquely identify itself for IP address assignment. By default,
+the client uses its MAC address. The <code class="docutils literal notranslate"><span class="pre">&lt;description&gt;</span></code> is a user-defined
+string that will be sent to the DHCP server as the DHCP client identifier.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options client-id 'foo-bar'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-host-name-hostname">
+set interfaces wwan &lt;interface&gt; dhcp-options host-name &lt;hostname&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-host-name-hostname" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a specific hostname for the interface.</strong></p>
+<p>Instead of the real hostname, the DHCP client will send the specific hostname
+to the DHCP server when requesting an IP address.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options host-name 'VyOS'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-vendor-class-id-vendor-id">
+set interfaces wwan &lt;interface&gt; dhcp-options vendor-class-id &lt;vendor-id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-vendor-class-id-vendor-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCP client to include a vendor-class identifier in its DHCP
+requests on this interface.</strong></p>
+<p>The vendor-class identifier is a vendor-specific byte string that enables
+the DHCP server to identify the device and, in some cases, provide
+configuration options.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options vendor-class-id 'VyOS'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-no-default-route">
+set interfaces wwan &lt;interface&gt; dhcp-options no-default-route</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-no-default-route" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCP client to obtain an IP address, but ignore any default
+gateway provided by the DHCP server on this interface.</strong></p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options no-default-route
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-default-route-distance-distance">
+set interfaces wwan &lt;interface&gt; dhcp-options default-route-distance &lt;distance&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-default-route-distance-distance" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the distance for the default route obtained from the DHCP server
+on this interface.</strong></p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options default-route-distance 220
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-reject-address">
+set interfaces wwan &lt;interface&gt; dhcp-options reject &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-reject-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCP client to reject the specific IP address or IP address
+range from the DHCP server on this interface.</strong></p>
+<p>This is useful when a modem assigns a local IP address upon start. To reject
+multiple addresses, run this command multiple times with different values.
+You can reject individual addresses (192.168.100.1) or entire subnets
+(192.168.100.0/24).</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options reject 192.168.100.0/24
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcp-options-user-class-string">
+set interfaces wwan &lt;interface&gt; dhcp-options user-class &lt;string&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcp-options-user-class-string" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCP client to send a specific user-class identifier in its
+DHCP requests on this interface.</strong></p>
+<p>The DHCP server can interpret this identifier and provide specific
+configuration options based on it (for example, default routes).
+The user-class value typically groups DHCP clients with similar configuration
+needs (for example, employees, guests, or printers).</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcp-options user-class VyOS
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-duid-duid">
+set interfaces wwan &lt;interface&gt; dhcpv6-options duid &lt;duid&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-duid-duid" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a specific</strong> <abbr title="DHCP Unique Identifier">DUID</abbr> <strong>for the
+DHCPv6 client on this interface.</strong></p>
+<p>The DUID is an identifier used by a DHCPv6 client to get an IPv6 address from
+a DHCPv6 server. It consists of a 2-byte type field, followed by a
+variable-length identifier field up to 128 bytes. The format of the identifier
+part depends on the DUID type:</p>
+<ul class="simple">
+<li><p><strong>DUID-LLT:</strong> The most common type, which includes a hardware type, a timestamp, and a MAC address.</p></li>
+<li><p><strong>DUID-EN:</strong> Is based on a vendor’s enterprise number and a unique identifier assigned by the vendor.</p></li>
+<li><p><strong>DUID-LL:</strong> Includes only a MAC address.</p></li>
+</ul>
+<p>The DHCP server matches the DUID against its database and provides
+configuration data (such as address, lease times, DNS servers, etc.)
+to the DHCP client.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 duid '0e:00:00:01:00:01:27:71:db:f0:00:50:56:bf:c5:6d'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-no-release">
+set interfaces wwan &lt;interface&gt; dhcpv6-options no-release</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-no-release" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCP client not to send a release message when it stops
+running on this interface.</strong></p>
+<p>This helps retain the assigned address or prefix.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options no-release
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-parameters-only">
+set interfaces wwan &lt;interface&gt; dhcpv6-options parameters-only</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-parameters-only" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable a stateless DHCPv6 client mode on this interface.</strong></p>
+<p>In stateless mode, the DHCPv6 client requests only stateless configuration
+parameters from the DHCP server (for example, DNS server addresses). It
+doesn’t request a stateful configuration, such as IPv6 addresses or prefixes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options parameters-only
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-rapid-commit">
+set interfaces wwan &lt;interface&gt; dhcpv6-options rapid-commit</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-rapid-commit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable DHCPv6 rapid commit on this interface.</strong></p>
+<p>When enabled, the DHCP client and server skip the negotiation steps
+(Advertise and Request), completing the DHCPv6 configuration process
+in just two messages (Solicit and final Reply).</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options rapid-commit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-temporary">
+set interfaces wwan &lt;interface&gt; dhcpv6-options temporary</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-temporary" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the DHCPv6 client to request a temporary IPv6 address on this
+interface.</strong></p>
+<p>When configured, the DHCP client doesn’t form an Identity Association for
+Non-temporary Addresses (IA_NA) partnership. Consequently, it only obtains
+a temporary IPv6 address and doesn’t obtain a permanent one.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options temporary
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>DHCPv6 Prefix Delegation (PD)</strong></p>
+<p>VyOS supports DHCPv6 Prefix Delegation (DHCPv6-PD) as described in <span class="target" id="index-7"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3633.html"><strong>RFC 3633</strong></a>.
+DHCPv6-PD is supported by most ISPs that provide native IPv6 for consumers on
+fixed networks.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-length-length">
+set interfaces wwan &lt;interface&gt; dhcpv6-options pd &lt;id&gt; length &lt;length&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-length-length" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a specific prefix length for DHCPv6-PD requests on this
+interface.</strong></p>
+<p>Some ISPs provide only a /64 prefix by default. Use this command to
+request a different prefix length for a specific DHCPv6-PD request,
+ranging from /32 (if allowed by your ISP) down to /64. &lt;id&gt; is a
+unique identifier for the DHCPv6-PD request.</p>
+<p>The default value is 64.</p>
+<p>To request a /56 prefix from your ISP, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options pd 0 length 56
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-interface-delegatee-address-address">
+set interfaces wwan &lt;interface&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-interface-delegatee-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the IPv6 interface identifier (host portion) for the delegatee
+interface.</strong></p>
+<p>The value must be a decimal integer. It is appended to the delegated prefix
+and the configured <abbr title="Site-Level Aggregation ID">SLA ID</abbr> to form the
+final IPv6 address.</p>
+<p>By default, the host portion is generated based on the parent interface’s
+MAC address (EUI-64 format).</p>
+<blockquote>
+<div></div></blockquote>
+<p><strong>Example:</strong></p>
+<p>If a /64 prefix is delegated to interface eth8 and you configure the host
+portion as 65535, the resulting IPv6 address will end with ::ffff, as
+65535 corresponds to ffff in hexadecimal notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options pd 0 interface eth8 address 65534
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-interface-delegatee-sla-id-id">
+set interfaces wwan &lt;interface&gt; dhcpv6-options pd &lt;id&gt; interface &lt;delegatee&gt; sla-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-dhcpv6-options-pd-id-interface-delegatee-sla-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the</strong> <abbr title="Site-Level Aggregation ID">SLA ID</abbr> <strong>for the
+delegatee interface.</strong></p>
+<p>The value must be a decimal integer greater than 0 and fit in the length of
+SLA IDs. It is converted to hexadecimal and appended to the delegated prefix
+to form the specific subnet prefix for the delegatee interface.</p>
+<p><strong>Example:</strong></p>
+<p>If SLA ID is 1 and the delegated prefix is <code class="docutils literal notranslate"><span class="pre">2001:db8:ffff::/48</span></code>, the
+resulting subnet prefix for the delegatee interface will be
+<code class="docutils literal notranslate"><span class="pre">2001:db8:ffff:1::/64</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 dhcpv6-options pd 0 interface eth8 sla-id 1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="wwan-options">
+<h3>WWAN options<a class="headerlink" href="#wwan-options" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-wwan-interface-apn-apn">
+set interfaces wwan &lt;interface&gt; apn &lt;apn&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-wwan-interface-apn-apn" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the</strong> <abbr title="Access Point Name">APN</abbr> <strong>for the WWAN connection.</strong></p>
+<p>Every WWAN connection requires an <abbr title="Access Point Name">APN</abbr> to connect to
+the cellular network.</p>
+<p>This parameter is mandatory. Contact your service provider for the correct
+<abbr title="Access Point Name">APN</abbr>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface">
+show interfaces wwan &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the operational status and traffic statistics for the specified WWAN
+interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0
+wwan0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 1000
+link/ether 02:c2:f3:00:01:02 brd ff:ff:ff:ff:ff:ff
+inet 10.155.144.12/30 brd 10.155.144.15 scope global dynamic wwan0
+valid_lft 7012sec preferred_lft 7012sec
+inet6 fe80::c2:f3ff:fe00:0102/64 scope link
+valid_lft forever preferred_lft forever
+
+RX:  bytes  packets  errors  dropped  overrun       mcast
+640        2       0        0        0           0
+TX:  bytes  packets  errors  dropped  carrier  collisions
+3229       16       0        0        0           0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-summary">
+show interfaces wwan &lt;interface&gt; summary</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-summary" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module hardware characteristics and connection information.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 summary
+--------------------------------
+General  |            dbus path: /org/freedesktop/ModemManager1/Modem/0
+|            device id: 79f4e9cc2e9fc8d4a3b8c8f6327c2e363170194d
+--------------------------------
+Hardware |         manufacturer: Sierra Wireless, Incorporated
+|                model: MC7710
+|             revision: SWI9200X_03.05.29.03ap r6485 CNSHZ-ED-XP0031 2014/12/02 17:53:15
+|         h/w revision: 1.0
+|            supported: gsm-umts, lte
+|              current: gsm-umts, lte
+|         equipment id: 358xxxxxxxxxxxx
+--------------------------------
+System   |               device: /sys/devices/pci0000:00/0000:00:13.0/usb3/3-1/3-1.3
+|              drivers: qcserial, qmi_wwan
+|               plugin: Generic
+|         primary port: cdc-wdm0
+|                ports: ttyUSB0 (qcdm), ttyUSB2 (at), cdc-wdm0 (qmi), wwan0 (net)
+--------------------------------
+Numbers  |                  own: 4917xxxxxxxx
+--------------------------------
+Status   |                 lock: sim-pin2
+|       unlock retries: sim-pin (3), sim-pin2 (3), sim-puk (10), sim-puk2 (10)
+|                state: connected
+|          power state: on
+|          access tech: lte
+|       signal quality: 63% (recent)
+--------------------------------
+Modes    |            supported: allowed: 2g; preferred: none
+|                       allowed: 3g; preferred: none
+|                       allowed: 4g; preferred: none
+|                       allowed: 2g, 3g; preferred: 3g
+|                       allowed: 2g, 3g; preferred: 2g
+|                       allowed: 2g, 4g; preferred: 4g
+|                       allowed: 2g, 4g; preferred: 2g
+|                       allowed: 3g, 4g; preferred: 3g
+|                       allowed: 3g, 4g; preferred: 4g
+|                       allowed: 2g, 3g, 4g; preferred: 4g
+|                       allowed: 2g, 3g, 4g; preferred: 3g
+|                       allowed: 2g, 3g, 4g; preferred: 2g
+|              current: allowed: 2g, 3g, 4g; preferred: 2g
+--------------------------------
+Bands    |            supported: egsm, dcs, pcs, utran-1, utran-8, eutran-1, eutran-3,
+|                       eutran-7, eutran-8, eutran-20
+|              current: egsm, dcs, pcs, utran-1, utran-8, eutran-1, eutran-3,
+|                       eutran-7, eutran-8, eutran-20
+--------------------------------
+IP       |            supported: ipv4, ipv6, ipv4v6
+--------------------------------
+3GPP     |                 imei: 358xxxxxxxxxxxx
+|          operator id: 26201
+|        operator name: Telekom.de
+|         registration: home
+--------------------------------
+3GPP EPS | ue mode of operation: ps-1
+--------------------------------
+SIM      |            dbus path: /org/freedesktop/ModemManager1/SIM/0
+--------------------------------
+Bearer   |            dbus path: /org/freedesktop/ModemManager1/Bearer/0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-capabilities">
+show interfaces wwan &lt;interface&gt; capabilities</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-capabilities" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module radio capabilities.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 capabilities
+Max TX channel rate: '50000000'
+Max RX channel rate: '100000000'
+Data Service: 'simultaneous-cs-ps'
+SIM: 'supported'
+Networks: 'gsm, umts, lte'
+Bands: 'gsm-dcs-1800, gsm-900-extended, gsm-900-primary, gsm-pcs-1900, wcdma-2100, wcdma-900'
+LTE bands: '1, 3, 7, 8, 20'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-firmware">
+show interfaces wwan &lt;interface&gt; firmware</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-firmware" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module firmware information.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 firmware
+Model: MC7710
+Boot version: SWI9200X_03.05.29.03bt r6485 CNSHZ-ED-XP0031 2014/12/02 17:33:08
+AMSS version: SWI9200X_03.05.29.03ap r6485 CNSHZ-ED-XP0031 2014/12/02 17:53:15
+SKU ID: unknown
+Package ID: unknown
+Carrier ID: 0
+Config version: unknown
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-imei">
+show interfaces wwan &lt;interface&gt; imei</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-imei" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module IMEI.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 imei
+ESN: '0'
+IMEI: '358xxxxxxxxxxxx'
+MEID: 'unknown'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-imsi">
+show interfaces wwan &lt;interface&gt; imsi</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-imsi" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the IMSI of the associated SIM card.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 imsi
+IMSI: '262xxxxxxxxxxxx'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-model">
+show interfaces wwan &lt;interface&gt; model</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-model" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module model.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 model
+Model: 'MC7710'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-msisdn">
+show interfaces wwan &lt;interface&gt; msisdn</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-msisdn" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show the MSISDN of the associated SIM card.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 msisdn
+MSISDN: '4917xxxxxxxx'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-revision">
+show interfaces wwan &lt;interface&gt; revision</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-revision" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module hardware revision.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 revision
+Revision: 'SWI9200X_03.05.29.03ap r6485 CNSHZ-ED-XP0031 2014/12/02 17:53:15'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-signal">
+show interfaces wwan &lt;interface&gt; signal</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-signal" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show signal information for the cellular connection.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 signal
+LTE:
+RSSI: '-74 dBm'
+RSRQ: '-7 dB'
+RSRP: '-100 dBm'
+SNR: '13.0 dB'
+Radio Interface:   'lte'
+Active Band Class: 'eutran-3'
+Active Channel:    '1300'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-interfaces-wwan-interface-sim">
+show interfaces wwan &lt;interface&gt; sim</span>
+<a class="cmdlink" href="#opcmd-show-interfaces-wwan-interface-sim" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Show WWAN module SIM card information.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show interfaces wwan wwan0 sim
+Provisioning applications:
+Primary GW:   slot '1', application '1'
+Primary 1X:   session doesn't exist
+Secondary GW: session doesn't exist
+Secondary 1X: session doesn't exist
+Slot [1]:
+Card state: 'present'
+UPIN state: 'not-initialized'
+UPIN retries: '0'
+UPUK retries: '0'
+Application [1]:
+Application type:  'usim (2)'
+Application state: 'ready'
+Application ID:
+A0:00:00:00:87:10:02:FF:49:94:20:89:03:10:00:00
+Personalization state: 'ready'
+UPIN replaces PIN1: 'no'
+PIN1 state: 'disabled'
+PIN1 retries: '3'
+PUK1 retries: '10'
+PIN2 state: 'enabled-not-verified'
+PIN2 retries: '3'
+PUK2 retries: '10'
+</pre></div>
+</div>
+</div>
+</div>
+<section id="connect-disconnect">
+<h3>Connect/disconnect<a class="headerlink" href="#connect-disconnect" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-disconnect-interface-interface">
+disconnect interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-disconnect-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Disconnect the specified interface.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-connect-interface-interface">
+connect interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-connect-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Initiate a session on the specified interface.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reconnect-interface-interface">
+reconnect interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-reconnect-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Reconnect the specified interface. The interface is disconnected and
+connected again in a single operation which runs detached from the current
+CLI session, so the command can safely be issued over the very interface
+being reconnected. Progress is logged to the journal.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The following example shows how to configure a cellular connection using a
+Sierra Wireless MC7710 miniPCIe card that operates over USB despite its form
+factor. The card is installed in a <a class="reference internal" href="../../installation/bare-metal.html#pc-engines-apu4"><span class="std std-ref">PC Engines APU4</span></a>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces wwan wwan0 apn 'internet.telekom'
+set interfaces wwan wwan0 address 'dhcp'
+</pre></div>
+</div>
+</section>
+<section id="supported-hardware">
+<h2>Supported hardware<a class="headerlink" href="#supported-hardware" title="Link to this heading"></a></h2>
+<p>The following WWAN modules have been successfully tested with a
+<a class="reference internal" href="../../installation/bare-metal.html#pc-engines-apu4"><span class="std std-ref">PC Engines APU4</span></a> board:</p>
+<ul class="simple">
+<li><p>Sierra Wireless AirPrime MC7304 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7430 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7455 miniPCIe card (LTE)</p></li>
+<li><p>Sierra Wireless AirPrime MC7710 miniPCIe card (LTE)</p></li>
+<li><p>Huawei ME909u-521 miniPCIe card (LTE)</p></li>
+<li><p>Huawei ME909s-120 miniPCIe card (LTE)</p></li>
+<li><p>HP LT4120 Snapdragon X5 LTE</p></li>
+</ul>
+</section>
+<section id="firmware-update">
+<h2>Firmware update<a class="headerlink" href="#firmware-update" title="Link to this heading"></a></h2>
+<p>WWAN modules include reprogrammable firmware, and most vendors regularly
+provide updates for it.</p>
+<p>Since VyOS communicates with these devices via the QMI interface, you can
+update firmware directly within the system using the <code class="docutils literal notranslate"><span class="pre">qmi-firmware-update</span></code>
+utility.</p>
+<p>The following example shows how to update the firmware for a Sierra Wireless
+MC7710 module using the provided .cwe file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>qmi-firmware-update<span class="w"> </span>--update<span class="w"> </span>-d<span class="w"> </span><span class="m">1199</span>:68a2<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>9999999_9999999_9200_03.05.14.00_00_generic_000.000_001_SPKG_MC.cwe
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wireless.html" class="btn btn-neutral float-left" title="Wireless LAN / Wi-Fi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../loadbalancing/index.html" class="btn btn-neutral float-right" title="Load-balancing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

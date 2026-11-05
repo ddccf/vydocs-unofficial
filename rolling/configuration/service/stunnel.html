@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stunnel &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/stunnel.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Suricata" href="suricata.html" />
+    <link rel="prev" title="SSH" href="ssh.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Stunnel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">Stunnel</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/stunnel.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stunnel">
+<span id="id1"></span><h1>Stunnel<a class="headerlink" href="#stunnel" title="Link to this heading"></a></h1>
+<p><strong>stunnel</strong> wraps TCP connections in <abbr title="Transport Layer Security">TLS</abbr>
+and authenticates peers using X.509 certificates, a pre-shared key, or
+both. It is commonly used to secure protocols that lack native TLS
+support, such as plain IMAP, POP3, or SMTP. You can also use it to build
+TLS-encrypted tunnels for other services, such as a SOCKS proxy.</p>
+<p>Each named service (<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">stunnel</span> <span class="pre">client|server</span> <span class="pre">&lt;name&gt;</span></code>) operates in
+one of the following modes:</p>
+<ul class="simple">
+<li><p><strong>Client:</strong> Accepts plaintext connections locally and forwards them,
+encrypted, to a remote TLS endpoint.</p></li>
+<li><p><strong>Server:</strong> Accepts TLS connections and forwards them, decrypted, to a
+local plaintext service.</p></li>
+</ul>
+<p>The following sections describe how to configure a service in each mode.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="connection-endpoints">
+<h3>Connection endpoints<a class="headerlink" href="#connection-endpoints" title="Link to this heading"></a></h3>
+<p>The following commands define where a service accepts connections and
+where it forwards them. They are the same for client and server modes.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-listen-address-address">
+set service stunnel &lt;client | server&gt; &lt;name&gt; listen address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the local address on which the specified service accepts
+incoming connections.</strong></p>
+<p>The value can be an IPv4 address, an IPv6 address, or an
+<abbr title="Fully Qualified Domain Name">FQDN</abbr>.</p>
+<p>When unset, the service accepts connections on all local IPv4 addresses,
+and the listen port must then be free on every local IPv4 address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 listen address 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-listen-port-1-65535">
+set service stunnel &lt;client | server&gt; &lt;name&gt; listen port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-listen-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port on which the specified service accepts incoming
+connections.</strong></p>
+<p>A listen port is mandatory for every named service.</p>
+<p>The listen address and port together must not already be in use on the
+router, either by another stunnel service or by any other local process.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 listen port 443
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-connect-address-address">
+set service stunnel &lt;client | server&gt; &lt;name&gt; connect address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-connect-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination address to which the specified service
+forwards accepted connections.</strong></p>
+<p>The value can be an IPv4 address, an IPv6 address, or an FQDN.</p>
+<p>In client mode, the destination is typically a remote TLS server, and in
+server mode, it is typically a plaintext service.</p>
+<p>When unset, the service uses the local host as the destination.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 connect address 203.0.113.10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-connect-port-1-65535">
+set service stunnel &lt;client | server&gt; &lt;name&gt; connect port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-connect-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the destination TCP port to which the specified service
+forwards accepted connections.</strong></p>
+<p>A connect port is mandatory for every named service, except a
+server-mode service using the <code class="docutils literal notranslate"><span class="pre">socks</span></code> protocol, where <code class="docutils literal notranslate"><span class="pre">connect</span></code> must not
+be configured at all. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 connect port 443
+</pre></div>
+</div>
+</section>
+<section id="tls-certificates">
+<h3>TLS certificates<a class="headerlink" href="#tls-certificates" title="Link to this heading"></a></h3>
+<p>The following commands configure certificate-based authentication for a
+service.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-ssl-certificate-name">
+set service stunnel &lt;client | server&gt; &lt;name&gt; ssl certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-ssl-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Reference a TLS certificate and its private key from the
+<a class="reference internal" href="../pki/index.html"><span class="doc">PKI subsystem</span></a>
+to the specified service.</strong></p>
+<p>The pair must already be defined under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">certificate</span> <span class="pre">&lt;cert-name&gt;</span></code>.</p>
+<p>The service presents this certificate to authenticate itself to the
+remote peer during the TLS handshake.</p>
+<p>A server-mode service requires either a TLS certificate from the PKI
+subsystem or at least one pre-shared key. Otherwise, the commit fails.</p>
+<p>A TLS certificate is optional for a client-mode service.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 ssl certificate srv-cert
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-ssl-ca-certificate-name">
+set service stunnel &lt;client | server&gt; &lt;name&gt; ssl ca-certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-ssl-ca-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Add a CA certificate from the PKI subsystem to the trusted CA store of
+the specified service.</strong></p>
+<p>The CA certificate must already be defined under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">ca</span> <span class="pre">&lt;ca-name&gt;</span></code>.</p>
+<p>Repeat the command to add multiple CA certificates.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Configuring a CA certificate loads it into the service’s trusted CA
+store, but it does not make the service validate the certificate that the
+peer presents. Peer-certificate validation cannot currently be enabled
+from the CLI, so the handshake completes even when the peer certificate
+is not signed by a CA in the store.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 ssl ca-certificate my-ca
+</pre></div>
+</div>
+</section>
+<section id="pre-shared-keys">
+<h3>Pre-shared keys<a class="headerlink" href="#pre-shared-keys" title="Link to this heading"></a></h3>
+<p>As an alternative or in addition to TLS certificates, a service can
+authenticate its peers with TLS pre-shared keys. Each PSK entry pairs an
+identity with a secret key, and the client and server must be configured
+with a matching identity and secret.</p>
+<p>During the TLS handshake, a server-mode service accepts any peer whose
+identity matches one of its configured PSK pairs. A client-mode service
+presents only a single identity. If several PSK entries are defined on a
+client, only one is used, so configure exactly one.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-psk-name-id-id">
+set service stunnel &lt;client | server&gt; &lt;name&gt; psk &lt;name&gt; id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-psk-name-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the identity for the specified PSK entry.</strong></p>
+<p>The PSK entry name is only a local configuration label. The <code class="docutils literal notranslate"><span class="pre">id</span></code> value is
+the identity exchanged with the peer.</p>
+<p>Both an identity and a secret must be configured for every PSK entry.</p>
+<p>To configure additional identities, define separate PSK entries
+(<code class="docutils literal notranslate"><span class="pre">psk</span> <span class="pre">&lt;name&gt;</span></code>), each with its own <code class="docutils literal notranslate"><span class="pre">id</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 psk key1 id client1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-psk-name-secret-secret">
+set service stunnel &lt;client | server&gt; &lt;name&gt; psk &lt;name&gt; secret &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-psk-name-secret-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the pre-shared secret key, as a hexadecimal string, for the
+specified PSK entry.</strong></p>
+<p>The key must be at least 16 bytes long, which implies at least 32
+hexadecimal characters. Otherwise, the commit fails.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">generate</span> <span class="pre">psk</span> <span class="pre">random</span> <span class="pre">size</span> <span class="pre">&lt;32-512&gt;</span></code> operational command to
+generate a valid random secret. The <code class="docutils literal notranslate"><span class="pre">&lt;32-512&gt;</span></code> size is specified in
+bytes.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 psk key1 secret 1234567890abcdef1234567890abcdef
+</pre></div>
+</div>
+</section>
+<section id="protocol-negotiation">
+<h3>Protocol negotiation<a class="headerlink" href="#protocol-negotiation" title="Link to this heading"></a></h3>
+<p>By default, a service encrypts or decrypts the whole TCP connection. For
+applications that upgrade a plaintext connection to TLS (STARTTLS-style),
+and for other protocol-specific exchanges such as SOCKS or proxy
+handshakes, the application protocol must be declared so that stunnel
+performs this negotiation before starting TLS.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-server-name-protocol-cifs-connect-imap-nntp-pgsql-pop3-proxy-smtp-socks">
+set service stunnel &lt;client | server&gt; &lt;name&gt; protocol &lt;cifs | connect | imap | nntp | pgsql | pop3 | proxy | smtp | socks&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-server-name-protocol-cifs-connect-imap-nntp-pgsql-pop3-proxy-smtp-socks" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the application protocol used for the initial,
+protocol-specific negotiation that precedes TLS encryption.</strong></p>
+<p>This option should not be used when TLS runs on its own dedicated port.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">connect</span></code> and <code class="docutils literal notranslate"><span class="pre">nntp</span></code> protocols are available only in client mode.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 protocol connect
+</pre></div>
+</div>
+</section>
+<section id="protocol-options">
+<h3>Protocol options<a class="headerlink" href="#protocol-options" title="Link to this heading"></a></h3>
+<p>The following commands tune the protocol negotiation of a client-mode
+service. They are committable only when the service’s protocol is
+<code class="docutils literal notranslate"><span class="pre">connect</span></code> or <code class="docutils literal notranslate"><span class="pre">smtp</span></code>. With the <code class="docutils literal notranslate"><span class="pre">smtp</span></code> protocol, the <code class="docutils literal notranslate"><span class="pre">domain</span></code> and <code class="docutils literal notranslate"><span class="pre">host</span></code>
+options are not available.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-authentication-basic-ntlm-plain-login">
+set service stunnel client &lt;name&gt; options authentication &lt;basic | ntlm | plain | login&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-authentication-basic-ntlm-plain-login" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication type for the protocol negotiation.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">connect</span></code> protocol supports <code class="docutils literal notranslate"><span class="pre">basic</span></code> or <code class="docutils literal notranslate"><span class="pre">ntlm</span></code> authentication;
+<code class="docutils literal notranslate"><span class="pre">basic</span></code> is the default. The <code class="docutils literal notranslate"><span class="pre">smtp</span></code> protocol supports <code class="docutils literal notranslate"><span class="pre">plain</span></code> or <code class="docutils literal notranslate"><span class="pre">login</span></code>
+authentication; <code class="docutils literal notranslate"><span class="pre">plain</span></code> is the default.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options authentication ntlm
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-domain-domain">
+set service stunnel client &lt;name&gt; options domain &lt;domain&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-domain-domain" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the domain used for the connect protocol negotiation.</strong></p>
+<p>The value must be a FQDN.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options domain example.com
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-host-address-address">
+set service stunnel client &lt;name&gt; options host address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-host-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the final destination address the intermediate proxy
+connects to during the connect protocol negotiation.</strong></p>
+<p>The intermediate proxy itself is the service’s <code class="docutils literal notranslate"><span class="pre">connect</span></code> destination.</p>
+<p>Both a <code class="docutils literal notranslate"><span class="pre">host</span> <span class="pre">address</span></code> and a <code class="docutils literal notranslate"><span class="pre">host</span> <span class="pre">port</span></code> are required.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options host address 198.51.100.10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-host-port-1-65535">
+set service stunnel client &lt;name&gt; options host port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-host-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the TCP port of the final destination the intermediate proxy
+connects to during the connect protocol negotiation.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options host port 443
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-username-username">
+set service stunnel client &lt;name&gt; options username &lt;username&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-username-username" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the username used for the protocol negotiation.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options username stunnel-user
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-client-name-options-password-password">
+set service stunnel client &lt;name&gt; options password &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-client-name-options-password-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the password used for the protocol negotiation.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 options password mysecretpassword
+</pre></div>
+</div>
+</section>
+<section id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-stunnel-log-level-emerg-alert-crit-err-warning-notice-info-debug">
+set service stunnel log level &lt;emerg | alert | crit | err | warning | notice | info | debug&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-stunnel-log-level-emerg-alert-crit-err-warning-notice-info-debug" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the severity threshold for stunnel logging.</strong></p>
+<p>The levels correspond to syslog severity levels. Messages at the
+configured level and all more severe levels are logged.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">notice</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel log level info
+</pre></div>
+</div>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="tls-wrapper-for-a-plaintext-service">
+<h3>TLS wrapper for a plaintext service<a class="headerlink" href="#tls-wrapper-for-a-plaintext-service" title="Link to this heading"></a></h3>
+<p>The following example demonstrates how two VyOS routers secure a legacy
+plaintext application over an untrusted network by protecting its
+traffic with TLS, without modifying the application.</p>
+<p>On the router at <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code>, stunnel runs in server mode: it terminates
+TLS and forwards the connection to a local application on port 8080. On
+the router at <code class="docutils literal notranslate"><span class="pre">192.0.2.2</span></code>, stunnel runs in client mode: it wraps the
+application’s connection in TLS and forwards it to the server.</p>
+<p>On <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code> (server mode):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server app1 listen address 192.0.2.1
+set service stunnel server app1 listen port 443
+set service stunnel server app1 connect address 127.0.0.1
+set service stunnel server app1 connect port 8080
+set service stunnel server app1 ssl certificate srv-cert
+</pre></div>
+</div>
+<p>On <code class="docutils literal notranslate"><span class="pre">192.0.2.2</span></code> (client mode):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app1 listen address 127.0.0.1
+set service stunnel client app1 listen port 8080
+set service stunnel client app1 connect address 192.0.2.1
+set service stunnel client app1 connect port 443
+</pre></div>
+</div>
+</section>
+<section id="tls-secured-socks-proxy">
+<h3>TLS-secured SOCKS proxy<a class="headerlink" href="#tls-secured-socks-proxy" title="Link to this heading"></a></h3>
+<p>To build a TLS-secured SOCKS proxy, configure a <strong>server</strong> service with
+<code class="docutils literal notranslate"><span class="pre">protocol</span> <span class="pre">socks</span></code> - note that no <code class="docutils literal notranslate"><span class="pre">connect</span></code> target is set on the server side
+since SOCKS negotiates its own destination - and a matching <strong>client</strong>
+service that exposes a local SOCKS listener:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel server srv-one listen port 9001
+set service stunnel server srv-one protocol 'socks'
+set service stunnel server srv-one psk sock_proxy id 'cli-one'
+set service stunnel server srv-one psk sock_proxy secret '1234567890ABCDEF1234567890ABCDEF'
+
+set service stunnel client cli-one listen port 9000
+set service stunnel client cli-one connect port 9001
+set service stunnel client cli-one psk sock_proxy id 'cli-one'
+set service stunnel client cli-one psk sock_proxy secret '1234567890ABCDEF1234567890ABCDEF'
+</pre></div>
+</div>
+</section>
+<section id="tls-via-an-http-connect-proxy">
+<h3>TLS via an HTTP CONNECT proxy<a class="headerlink" href="#tls-via-an-http-connect-proxy" title="Link to this heading"></a></h3>
+<p>To tunnel an authenticated HTTP CONNECT proxy session:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service stunnel client app2 listen address '127.0.0.1'
+set service stunnel client app2 listen port 83
+set service stunnel client app2 connect address '192.168.0.10'
+set service stunnel client app2 connect port 84
+
+set service stunnel client app2 protocol 'connect'
+set service stunnel client app2 options authentication 'basic'
+set service stunnel client app2 options domain 'example.com'
+set service stunnel client app2 options host address '127.0.0.1'
+set service stunnel client app2 options host port 5000
+set service stunnel client app2 options username 'user'
+set service stunnel client app2 options password 'password'
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ssh.html" class="btn btn-neutral float-left" title="SSH" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="suricata.html" class="btn btn-neutral float-right" title="Suricata" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

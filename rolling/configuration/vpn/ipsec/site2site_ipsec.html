@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPsec Site-to-Site VPN &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/vpn/ipsec/site2site_ipsec.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="IPSec IKEv2 Remote Access VPN" href="remoteaccess_ipsec.html" />
+    <link rel="prev" title="IPsec General Information" href="ipsec_general.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPN</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">IPsec</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ipsec_general.html">IPsec General Information</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">IPsec Site-to-Site VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteaccess_ipsec.html">IPSec IKEv2 Remote Access VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="troubleshooting_ipsec.html">Troubleshooting Site-to-Site VPN IPsec</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dmvpn.html">DMVPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPN</a></li>
+          <li class="breadcrumb-item"><a href="index.html">IPsec</a></li>
+      <li class="breadcrumb-item active">IPsec Site-to-Site VPN</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/vpn/ipsec/site2site_ipsec.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipsec-site-to-site-vpn">
+<span id="size2site-ipsec"></span><h1>IPsec Site-to-Site VPN<a class="headerlink" href="#ipsec-site-to-site-vpn" title="Link to this heading"></a></h1>
+<section id="ipsec-site-to-site-vpn-types">
+<h2>IPsec Site-to-Site VPN Types<a class="headerlink" href="#ipsec-site-to-site-vpn-types" title="Link to this heading"></a></h2>
+<p>VyOS supports two types of IPsec VPN: Policy-based IPsec VPN and Route-based
+IPsec VPN.</p>
+<section id="policy-based-vpn">
+<h3>Policy-based VPN<a class="headerlink" href="#policy-based-vpn" title="Link to this heading"></a></h3>
+<p>Policy-based VPN is based on static configured policies. Each policy creates
+individual IPSec SA. Traffic matches these SAs encrypted and directed to the
+remote peer.</p>
+</section>
+<section id="route-based-vpn">
+<h3>Route-Based VPN<a class="headerlink" href="#route-based-vpn" title="Link to this heading"></a></h3>
+<p>Route-based VPN is based on secure traffic passing over Virtual Tunnel
+Interfaces (VTIs). This type of IPsec VPNs allows using routing protocols.</p>
+</section>
+</section>
+<section id="configuration-site-to-site-vpn">
+<h2>Configuration Site-to-Site VPN<a class="headerlink" href="#configuration-site-to-site-vpn" title="Link to this heading"></a></h2>
+<section id="requirements-and-prerequisites-for-site-to-site-vpn">
+<h3>Requirements and Prerequisites for Site-to-Site VPN<a class="headerlink" href="#requirements-and-prerequisites-for-site-to-site-vpn" title="Link to this heading"></a></h3>
+<p><strong>Negotiated parameters that need to match</strong></p>
+<dl>
+<dt>Phase 1</dt><dd><ul class="simple">
+<li><p>IKE version</p></li>
+<li><p>Authentication</p></li>
+<li><p>Encryption</p></li>
+<li><p>Hashing</p></li>
+<li><p>PRF</p></li>
+<li><p>Lifetime</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Strongswan recommends to use the same lifetime value on both peers</p>
+</div>
+</dd>
+<dt>Phase 2</dt><dd><ul class="simple">
+<li><p>Encryption</p></li>
+<li><p>Hashing</p></li>
+<li><p>PFS</p></li>
+<li><p>Mode (tunnel or transport)</p></li>
+<li><p>Lifetime</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Strongswan recommends to use the same lifetime value on both peers</p>
+</div>
+<ul class="simple">
+<li><p>Remote and Local networks in SA must be compatible on both peers</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="configuration-steps-for-site-to-site-vpn">
+<h3>Configuration Steps for Site-to-Site VPN<a class="headerlink" href="#configuration-steps-for-site-to-site-vpn" title="Link to this heading"></a></h3>
+<p>The next example shows the configuration one of the router participating in
+IPsec VPN.</p>
+<dl class="simple">
+<dt>Tunnel information:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Phase 1:</dt><dd><ul>
+<li><p>encryption: AES256</p></li>
+<li><p>hash: SHA256</p></li>
+<li><p>PRF: SHA256</p></li>
+<li><p>DH: 14</p></li>
+<li><p>lifetime: 28800</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Phase 2:</dt><dd><ul>
+<li><p>IPsec mode: tunnel</p></li>
+<li><p>encryption: AES256</p></li>
+<li><p>hash: SHA256</p></li>
+<li><p>PFS: inherited from DH Phase 1</p></li>
+<li><p>lifetime: 3600</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>If Policy based VPN is used</dt><dd><ul>
+<li><p>Remote network is 192.168.50.0/24. Local network is 192.168.10.0/24</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>If Route based VPN is used</dt><dd><ul>
+<li><p>IP of the VTI interface is 10.0.0.1/30</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We do not recommend using policy-based vpn and route-based vpn configurations to the same peer.</p>
+</div>
+<p><strong>1. Configure ike-group (IKE Phase 1)</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec ike-group IKE close-action 'start'
+set vpn ipsec ike-group IKE key-exchange 'ikev1'
+set vpn ipsec ike-group IKE lifetime '28800'
+set vpn ipsec ike-group IKE proposal 10 dh-group '14'
+set vpn ipsec ike-group IKE proposal 10 encryption 'aes256'
+set vpn ipsec ike-group IKE proposal 10 hash 'sha256'
+set vpn ipsec ike-group IKE proposal 10 prf 'prfsha256'
+</pre></div>
+</div>
+<p><strong>2. Configure ESP-group (IKE Phase 2)</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group ESP lifetime '3600'
+set vpn ipsec esp-group ESP mode 'tunnel'
+set vpn ipsec esp-group ESP pfs 'enable'
+set vpn ipsec esp-group ESP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group ESP proposal 10 hash 'sha256'
+</pre></div>
+</div>
+<p><strong>3. Specify interface facing to the protected destination.</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec interface eth0
+</pre></div>
+</div>
+<p><strong>4. Configure PSK keys and authentication ids for this key if authentication type is PSK</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk PSK-KEY id '192.168.0.2'
+set vpn ipsec authentication psk PSK-KEY id '192.168.5.2'
+set vpn ipsec authentication psk PSK-KEY secret 'vyos'
+</pre></div>
+</div>
+<p>To set base64 secret encode plaintext password to base64 and set secret-type</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>echo -n "vyos" | base64
+dnlvcw==
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec authentication psk PSK-KEY secret 'dnlvcw=='
+set vpn ipsec authentication psk PSK-KEY secret-type base64
+</pre></div>
+</div>
+<p><strong>5. Configure peer and apply IKE-group and esp-group to peer.</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec site-to-site peer PEER1 authentication local-id '192.168.0.2'
+set vpn ipsec site-to-site peer PEER1 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer PEER1 authentication remote-id '192.168.5.2'
+set vpn ipsec site-to-site peer PEER1 connection-type 'initiate'
+set vpn ipsec site-to-site peer PEER1 default-esp-group 'ESP'
+set vpn ipsec site-to-site peer PEER1 ike-group 'IKE'
+set vpn ipsec site-to-site peer PEER1 local-address '192.168.0.2'
+set vpn ipsec site-to-site peer PEER1 remote-address '192.168.5.2'
+
+Peer selects the key from step 4 according to local-id/remote-id pair.
+</pre></div>
+</div>
+<p><strong>6. Depends to vpn type (route-based vpn or policy-based vpn).</strong></p>
+<blockquote>
+<div><p><strong>6.1 For Policy-based VPN configure SAs using tunnel command specifying remote and local networks.</strong></p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec site-to-site peer PEER1 tunnel 1 local prefix '192.168.10.0/24'
+set vpn ipsec site-to-site peer PEER1 tunnel 1 remote prefix '192.168.50.0/24'
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>6.2 For Route-based VPN create VTI interface, set IP address to this interface and bind this interface to the vpn peer.</strong></p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vti vti1 address 10.0.0.1/30
+set vpn ipsec site-to-site peer PEER1 vti bind vti1
+set vpn ipsec options disable-route-autoinstall
+</pre></div>
+</div>
+<p>Create routing between local networks via VTI interface using dynamic or
+static routing.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocol static route 192.168.50.0/24 next-hop 10.0.0.2
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+</section>
+<section id="initiator-and-responder-connection-types">
+<h3>Initiator and Responder Connection Types<a class="headerlink" href="#initiator-and-responder-connection-types" title="Link to this heading"></a></h3>
+<p>In Site-to-Site IPsec VPN it is recommended that one peer should be an
+initiator and the other - the responder. The initiator actively establishes
+the VPN tunnel. The responder passively waits for the remote peer to
+establish the VPN tunnel. Depends on selected role it is recommended
+select proper values for close-action and DPD action.</p>
+<dl class="simple myst">
+<dt>The result of wrong value selection can be unstable work of the VPN.</dt><dd><ul class="simple">
+<li><p>Duplicate CHILD SA creation.</p></li>
+<li><p>None of the VPN sides initiates the tunnel establishment.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Below flow-chart could be a quick reference for the close-action
+combination depending on how the peer is configured.</p>
+<figure class="align-default">
+<img alt="../../../images/IPSec_close_action_settings.webp" src="../../../images/IPSec_close_action_settings.webp" />
+</figure>
+<p>Similar combinations are applicable for the dead-peer-detection.</p>
+</section>
+<section id="detailed-configuration-commands">
+<h3>Detailed Configuration Commands<a class="headerlink" href="#detailed-configuration-commands" title="Link to this heading"></a></h3>
+<section id="psk-key-authentication">
+<h4>PSK Key Authentication<a class="headerlink" href="#psk-key-authentication" title="Link to this heading"></a></h4>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-authentication-psk-name-dhcp-interface">
+set vpn ipsec authentication psk &lt;name&gt; dhcp-interface</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-authentication-psk-name-dhcp-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>ID for authentication generated from DHCP address
+dynamically.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-authentication-psk-id-id">
+set vpn ipsec authentication psk id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-authentication-psk-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>static ID’s for authentication. In general local and remote address
+<code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">%any</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-authentication-psk-secret-secret">
+set vpn ipsec authentication psk secret &lt;secret&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-authentication-psk-secret-secret" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>A predefined shared secret used in configured mode
+<code class="docutils literal notranslate"><span class="pre">pre-shared-secret</span></code>. Base64-encoded secrets are allowed if
+<code class="docutils literal notranslate"><span class="pre">secret-type</span> <span class="pre">base64</span></code> is configured.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-authentication-psk-secret-type-type">
+set vpn ipsec authentication psk secret-type &lt;type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-authentication-psk-secret-type-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specifies the secret type:</p>
+<ul class="simple">
+<li><p><strong>plaintext</strong> - Plain text type (default value).</p></li>
+<li><p><strong>base64</strong> - Base64 type.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="peer-configuration">
+<h4>Peer Configuration<a class="headerlink" href="#peer-configuration" title="Link to this heading"></a></h4>
+<section id="peer-authentication-commands">
+<h5>Peer Authentication Commands<a class="headerlink" href="#peer-authentication-commands" title="Link to this heading"></a></h5>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-mode-mode">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication mode &lt;mode&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-mode-mode" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Mode for authentication between VyOS and remote peer:</p>
+<ul class="simple">
+<li><p><strong>pre-shared-secret</strong> - Use predefined shared secret phrase.</p></li>
+<li><p><strong>rsa</strong> - Use simple shared RSA key.</p></li>
+<li><p><strong>x509</strong> - Use certificates infrastructure for authentication.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-local-id-id">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication local-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-local-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>ID for the local VyOS router. If defined, during the authentication
+it will be send to remote peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-remote-id-id">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication remote-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-remote-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>ID for remote peer, instead of using peer name or
+address. Useful in case if the remote peer is behind NAT
+or if <code class="docutils literal notranslate"><span class="pre">mode</span> <span class="pre">x509</span></code> is used.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-local-key-key">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication rsa local-key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-local-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of PKI key-pair with local private key.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-remote-key-key">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication rsa remote-key &lt;key&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-remote-key-key" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of PKI key-pair with remote public key.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-passphrase-passphrase">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication rsa passphrase &lt;passphrase&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-rsa-passphrase-passphrase" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Local private key passphrase.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-use-x509-id-id">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication use-x509-id &lt;id&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-use-x509-id-id" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Use local ID from x509 certificate. Cannot be used when
+<code class="docutils literal notranslate"><span class="pre">id</span></code> is defined.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-x509-ca-certificate-name">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication x509 ca-certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-x509-ca-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of CA certificate in PKI configuration. Using for authenticating
+remote peer in x509 mode.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-x509-certificate-name">
+set vpn ipsec site-to-site peer &lt;name&gt; authentication x509 certificate &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-authentication-x509-certificate-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of certificate in PKI configuration, which will be used
+for authenticating local router on remote peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-authentication-x509-passphrase-passphrase">
+set vpn ipsec authentication x509 passphrase &lt;passphrase&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-authentication-x509-passphrase-passphrase" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Private key passphrase, if needed.</p>
+</div>
+</div>
+</section>
+<section id="global-peer-configuration-commands">
+<h5>Global Peer Configuration Commands<a class="headerlink" href="#global-peer-configuration-commands" title="Link to this heading"></a></h5>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-connection-type-type">
+set vpn ipsec site-to-site peer &lt;name&gt; connection-type &lt;type&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-connection-type-type" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Operational mode defines how to handle this connection process.</p>
+<ul>
+<li><p><strong>initiate</strong> - does initial connection to remote peer immediately
+after configuring and after boot. In this mode the connection will
+not be restarted in case of disconnection, therefore should be used
+only together with DPD or another session tracking methods.</p></li>
+<li><p><strong>trap</strong> - does not try to initiate a connection to a remote
+peer immediately. Instead, it installs a trap policy that will
+trigger IKE negotiation and establish the IPsec session when
+matching traffic is sent from the local side. This can be useful
+when there is no direct connectivity to the peer due to firewall
+or NAT in the middle of the local and remote side.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">trap</span></code> mode is not needed in most environments
+and can lead to connection confusion or unintended tunnel uptime
+behavior if used incorrectly. Using this mode requires careful
+coordination with parameters such as <code class="docutils literal notranslate"><span class="pre">close-action</span></code> and DPD.
+For most deployments, use <code class="docutils literal notranslate"><span class="pre">initiate</span></code> and <code class="docutils literal notranslate"><span class="pre">none</span></code> as described below.</p>
+</div>
+</li>
+<li><p><strong>none</strong> - loads the connection only, which then can be manually
+initiated or used as a responder configuration.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For most site-to-site VPNs, configure one peer
+with <code class="docutils literal notranslate"><span class="pre">connection-type</span> <span class="pre">initiate</span></code> (active side) and the other peer
+with <code class="docutils literal notranslate"><span class="pre">connection-type</span> <span class="pre">none</span></code> (passive side) to
+ensure stable and predictable tunnel behavior.
+When using <code class="docutils literal notranslate"><span class="pre">connection-type</span> <span class="pre">initiate</span></code>, you must also configure
+DPD or another session tracking method (such as <code class="docutils literal notranslate"><span class="pre">close-action</span></code>)
+to automatically re-establish the tunnel after a disconnection.
+Otherwise, the tunnel will not reconnect automatically if it goes down.</p>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-default-esp-group-name">
+set vpn ipsec site-to-site peer &lt;name&gt; default-esp-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-default-esp-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of ESP group to use by default for traffic encryption.
+Might be overwritten by individual settings for tunnel or VTI
+interface binding.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-description-description">
+set vpn ipsec site-to-site peer &lt;name&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Description for this peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-dhcp-interface-interface">
+set vpn ipsec site-to-site peer &lt;name&gt; dhcp-interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-dhcp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the interface which IP address, received from DHCP for IPSec
+connection with this peer, will be used as <code class="docutils literal notranslate"><span class="pre">local-address</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-force-udp-encapsulation">
+set vpn ipsec site-to-site peer &lt;name&gt; force-udp-encapsulation</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-force-udp-encapsulation" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Force encapsulation of ESP into UDP datagrams. Useful in case if
+between local and remote side is firewall or NAT, which not
+allows passing plain ESP packets between them.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-ike-group-name">
+set vpn ipsec site-to-site peer &lt;name&gt; ike-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-ike-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Name of IKE group to use for key exchanges.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-ikev2-reauth-yes-no-inherit">
+set vpn ipsec site-to-site peer &lt;name&gt; ikev2-reauth &lt;yes|no|inherit&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-ikev2-reauth-yes-no-inherit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure IKEv2 reauthentication behavior for the specified IPsec
+site-to-site peer.</strong></p>
+<p>The following options are available:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">yes</span></code>: The active IKE SA channel between the two peers is terminated and
+re-established at each rekeying interval, explicitly re-verifying each
+peer’s identity.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">no</span></code> (default): Reauthentication (identity re-verification) is disabled
+for this peer. The active IKE SA channel is seamlessly renewed at each
+rekeying interval without termination.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inherit</span></code>: The peer inherits reauthentication behavior from the assigned
+IKE group. Reauthentication is applied only if it is explicitly enabled in
+that group’s configuration.</p></li>
+</ul>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-local-address-address">
+set vpn ipsec site-to-site peer &lt;name&gt; local-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-local-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Local IP address for IPsec connection with this peer.
+If defined <code class="docutils literal notranslate"><span class="pre">any</span></code>, then an IP address which configured on interface with
+default route will be used.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-remote-address-address">
+set vpn ipsec site-to-site peer &lt;name&gt; remote-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-remote-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Remote IP address or hostname for IPsec connection. IPv4 or IPv6
+address is used when a peer has a public static IP address. Hostname
+is a DNS name which could be used when a peer has a public IP
+address and DNS name, but an IP address could be changed from time
+to time.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-replay-window-size">
+set vpn ipsec site-to-site peer &lt;name&gt; replay-window &lt;size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-replay-window-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>IPsec replay window to configure for CHILD_SAs
+(default: 32), a value of 0 disables IPsec replay protection.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-virtual-address-address">
+set vpn ipsec site-to-site peer &lt;name&gt; virtual-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-virtual-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Defines a virtual IP address which is requested by the initiator and
+one or several IPv4 and/or IPv6 addresses are assigned from multiple
+pools by the responder. The wildcard addresses 0.0.0.0 and ::
+request an arbitrary address, specific addresses may be defined.</p>
+</div>
+</div>
+</section>
+<section id="child-sas-configuration-commands">
+<h5>CHILD SAs Configuration Commands<a class="headerlink" href="#child-sas-configuration-commands" title="Link to this heading"></a></h5>
+<section id="policy-based-child-sas-configuration-commands">
+<h6>Policy-Based CHILD SAs Configuration Commands<a class="headerlink" href="#policy-based-child-sas-configuration-commands" title="Link to this heading"></a></h6>
+<p>Every configured tunnel under peer configuration is a new CHILD SA.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-disable">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Disable this tunnel.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-esp-group-name">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; esp-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-esp-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify ESP group for this CHILD SA.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-priority-number">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; priority &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-priority-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Priority for policy-based IPsec VPN tunnels (lowest value more
+preferable).</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-protocol-name">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; protocol &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-protocol-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Define the protocol for match traffic, which should be encrypted and
+send to this peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-local-prefix-network">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; local prefix &lt;network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-local-prefix-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>IP network at the local side.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-local-port-number">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; local port &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-local-port-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Local port number. Have effect only when used together with
+<code class="docutils literal notranslate"><span class="pre">prefix</span></code>.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-remote-prefix-network">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; remote prefix &lt;network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-remote-prefix-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>IP network at the remote side.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-remote-port-number">
+set vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt; remote port &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-tunnel-number-remote-port-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Remote port number. Have effect only when used together with
+<code class="docutils literal notranslate"><span class="pre">prefix</span></code>.</p>
+</div>
+</div>
+</section>
+<section id="route-based-child-sas-configuration-commands">
+<h6>Route-Based CHILD SAs Configuration Commands<a class="headerlink" href="#route-based-child-sas-configuration-commands" title="Link to this heading"></a></h6>
+<p>To configure route-based VPN it is enough to create vti interface and
+bind it to the peer. Any traffic, which will be send to VTI interface
+will be encrypted and send to this peer. Using VTI makes IPsec
+configuration much flexible and easier in complex situation, and
+allows to dynamically add/delete remote networks, reachable via a
+peer, as in this mode router don’t need to create additional SA/policy
+for each remote network.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When using site-to-site IPsec with VTI interfaces,
+be sure to disable route autoinstall.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec options disable-route-autoinstall
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-bind-interface">
+set vpn ipsec site-to-site peer &lt;name&gt; vti bind &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-bind-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>VTI interface to bind to this peer.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-esp-group-name">
+set vpn ipsec site-to-site peer &lt;name&gt; vti esp-group &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-esp-group-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>ESP group for encrypt traffic, passed this VTI interface.</p>
+</div>
+</div>
+<p>Traffic-selectors parameters for traffic that should pass via vti
+interface.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-traffic-selector-local-prefix-network">
+set vpn ipsec site-to-site peer &lt;name&gt; vti traffic-selector local prefix &lt;network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-traffic-selector-local-prefix-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Local prefix for interesting traffic.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-traffic-selector-remote-prefix-network">
+set vpn ipsec site-to-site peer &lt;name&gt; vti traffic-selector remote prefix &lt;network&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-vpn-ipsec-site-to-site-peer-name-vti-traffic-selector-remote-prefix-network" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Remote prefix for interesting traffic.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="ipsec-op-mode-commands">
+<h3>IPsec Op-mode Commands<a class="headerlink" href="#ipsec-op-mode-commands" title="Link to this heading"></a></h3>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-sa">
+show vpn ike sa</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-sa" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows active IKE SAs information.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-secrets">
+show vpn ike secrets</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-secrets" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows configured authentication keys.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ike-status">
+show vpn ike status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ike-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows Strongswan daemon status.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-connections">
+show vpn ipsec connections</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-connections" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows summary status of all configured IKE and IPsec SAs.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-sa-detail">
+show vpn ipsec sa [detail]</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-sa-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows active IPsec SAs information.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-status">
+show vpn ipsec status</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-status" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows status of IPsec process.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-policy">
+show vpn ipsec policy</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-policy" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows the in-kernel crypto policies.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpn-ipsec-state">
+show vpn ipsec state</span>
+<a class="cmdlink" href="#opcmd-show-vpn-ipsec-state" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows the in-kernel crypto state.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-ipsec">
+show log ipsec</span>
+<a class="cmdlink" href="#opcmd-show-log-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Shows IPsec logs.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-all">
+reset vpn ipsec site-to-site all</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-all" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Clear all ipsec connection and reinitiate them if VyOS is configured
+as initiator.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-peer-name">
+reset vpn ipsec site-to-site peer &lt;name&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-peer-name" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Clear all peer IKE SAs with IPsec SAs and reinitiate them if VyOS is
+configured as initiator.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-peer-name-tunnel-number">
+reset vpn ipsec site-to-site peer &lt;name&gt; tunnel &lt;number&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-peer-name-tunnel-number" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Clear scpecific IPsec SA and reinitiate it if VyOS is configured as
+initiator.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-reset-vpn-ipsec-site-to-site-peer-name-vti-number">
+reset vpn ipsec site-to-site peer &lt;name&gt; vti &lt;number&gt;</span>
+<a class="cmdlink" href="#opcmd-reset-vpn-ipsec-site-to-site-peer-name-vti-number" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Clear IPsec SA which is map to vti interface of this peer and
+reinitiate it if VyOS is configured as initiator.</p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-restart-ipsec">
+restart ipsec</span>
+<a class="cmdlink" href="#opcmd-restart-ipsec" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p>Restart Strongswan daemon.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="examples">
+<h2>Examples:<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="policy-based-vpn-example">
+<h3>Policy-Based VPN Example<a class="headerlink" href="#policy-based-vpn-example" title="Link to this heading"></a></h3>
+<p><strong>PEER1:</strong></p>
+<ul class="simple">
+<li><p>WAN interface on <code class="docutils literal notranslate"><span class="pre">eth0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eth0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">10.0.1.2/30</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dum0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">192.168.0.1/24</span></code> (for testing purposes)</p></li>
+<li><p>Initiator</p></li>
+</ul>
+<p><strong>PEER2:</strong></p>
+<ul class="simple">
+<li><p>WAN interface on <code class="docutils literal notranslate"><span class="pre">eth0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eth0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">10.0.2.2/30</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dum0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">192.168.1.0/24</span></code> (for testing purposes)</p></li>
+<li><p>Responder</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># PEER1
+set interfaces dummy dum0 address '192.168.0.1/32'
+set interfaces ethernet eth0 address '10.0.1.2/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.1.1
+set vpn ipsec authentication psk AUTH-PSK id '10.0.1.2'
+set vpn ipsec authentication psk AUTH-PSK id '10.0.2.2'
+set vpn ipsec authentication psk AUTH-PSK secret 'test'
+set vpn ipsec esp-group ESP-GRPOUP lifetime '3600'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 hash 'sha1'
+set vpn ipsec ike-group IKE-GROUP close-action 'start'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection action 'restart'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection interval '30'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection timeout '120'
+set vpn ipsec ike-group IKE-GROUP key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-GROUP lifetime '28800'
+set vpn ipsec ike-group IKE-GROUP proposal 10 dh-group '14'
+set vpn ipsec ike-group IKE-GROUP proposal 10 encryption 'aes256'
+set vpn ipsec ike-group IKE-GROUP proposal 10 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec site-to-site peer PEER2 authentication local-id '10.0.1.2'
+set vpn ipsec site-to-site peer PEER2 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer PEER2 authentication remote-id '10.0.2.2'
+set vpn ipsec site-to-site peer PEER2 connection-type 'initiate'
+set vpn ipsec site-to-site peer PEER2 default-esp-group 'ESP-GRPOUP'
+set vpn ipsec site-to-site peer PEER2 ike-group 'IKE-GROUP'
+set vpn ipsec site-to-site peer PEER2 local-address '10.0.1.2'
+set vpn ipsec site-to-site peer PEER2 remote-address '10.0.2.2'
+set vpn ipsec site-to-site peer PEER2 tunnel 0 local prefix '192.168.0.0/24'
+set vpn ipsec site-to-site peer PEER2 tunnel 0 remote prefix '192.168.1.0/24'
+
+
+# PEER2
+set interfaces dummy dum0 address '192.168.1.1/32'
+set interfaces ethernet eth0 address '10.0.2.2/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.2.1
+set vpn ipsec authentication psk AUTH-PSK id '10.0.1.2'
+set vpn ipsec authentication psk AUTH-PSK id '10.0.2.2'
+set vpn ipsec authentication psk AUTH-PSK secret 'test'
+set vpn ipsec esp-group ESP-GRPOUP lifetime '3600'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 hash 'sha1'
+set vpn ipsec ike-group IKE-GROUP close-action 'none'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection action 'clear'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection interval '30'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection timeout '120'
+set vpn ipsec ike-group IKE-GROUP key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-GROUP lifetime '28800'
+set vpn ipsec ike-group IKE-GROUP proposal 10 dh-group '14'
+set vpn ipsec ike-group IKE-GROUP proposal 10 encryption 'aes256'
+set vpn ipsec ike-group IKE-GROUP proposal 10 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec site-to-site peer PEER1 authentication local-id '10.0.2.2'
+set vpn ipsec site-to-site peer PEER1 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer PEER1 authentication remote-id '10.0.1.2'
+set vpn ipsec site-to-site peer PEER1 connection-type 'none'
+set vpn ipsec site-to-site peer PEER1 default-esp-group 'ESP-GRPOUP'
+set vpn ipsec site-to-site peer PEER1 ike-group 'IKE-GROUP'
+set vpn ipsec site-to-site peer PEER1 local-address '10.0.2.2'
+set vpn ipsec site-to-site peer PEER1 remote-address '10.0.1.2'
+set vpn ipsec site-to-site peer PEER1 tunnel 0 local prefix '192.168.1.0/24'
+set vpn ipsec site-to-site peer PEER1 tunnel 0 remote prefix '192.168.0.0/24'
+</pre></div>
+</div>
+<p>Show status of policy-based IPsec VPN setup:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@PEER2:~$ show vpn ike sa
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+10.0.1.2 10.0.1.2                       10.0.2.2 10.0.2.2
+
+    State  IKEVer  Encrypt      Hash          D-H Group      NAT-T  A-Time  L-Time
+    -----  ------  -------      ----          ---------      -----  ------  ------
+    up     IKEv1   AES_CBC_256  HMAC_SHA1_96  MODP_2048      no     1254    25633
+
+
+vyos@srv-gw0:~$ show vpn ipsec sa
+Connection      State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------
+PEER1-tunnel-0  up       20m42s    0B/0B           0/0               10.0.1.2          10.0.1.2     AES_CBC_256/HMAC_SHA1_96/MODP_2048
+
+vyos@PEER2:~$ show vpn ipsec connections
+Connection      State    Type    Remote address    Local TS        Remote TS       Local id    Remote id    Proposal
+--------------  -------  ------  ----------------  --------------  --------------  ----------  -----------  ----------------------------------
+PEER1           up       IKEv1   10.0.1.2          -               -               10.0.2.2    10.0.1.2     AES_CBC/256/HMAC_SHA1_96/MODP_2048
+PEER1-tunnel-0  up       IPsec   10.0.1.2          192.168.1.0/24  192.168.0.0/24  10.0.2.2    10.0.1.2     AES_CBC/256/HMAC_SHA1_96/MODP_2048
+</pre></div>
+</div>
+<p>If there is SNAT rules on eth0, need to add exclude rule</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># PEER1 side
+set nat source rule 10 destination address '192.168.1.0/24'
+set nat source rule 10 'exclude'
+set nat source rule 10 outbound-interface name 'eth0'
+set nat source rule 10 source address '192.168.0.0/24'
+
+# PEER2 side
+set nat source rule 10 destination address '192.168.0.0/24'
+set nat source rule 10 'exclude'
+set nat source rule 10 outbound-interface name 'eth0'
+set nat source rule 10 source address '192.168.1.0/24'
+</pre></div>
+</div>
+</section>
+<section id="route-based-vpn-example">
+<h3>Route-Based VPN Example<a class="headerlink" href="#route-based-vpn-example" title="Link to this heading"></a></h3>
+<p><strong>PEER1:</strong></p>
+<ul class="simple">
+<li><p>WAN interface on <code class="docutils literal notranslate"><span class="pre">eth0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eth0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">10.0.1.2/30</span></code></p></li>
+<li><p>‘vti0’ interface IP: <code class="docutils literal notranslate"><span class="pre">10.100.100.1/30</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dum0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">192.168.0.1/24</span></code> (for testing purposes)</p></li>
+<li><p>Role: Initiator</p></li>
+</ul>
+<p><strong>PEER2:</strong></p>
+<ul class="simple">
+<li><p>WAN interface on <code class="docutils literal notranslate"><span class="pre">eth0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eth0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">10.0.2.2/30</span></code></p></li>
+<li><p>‘vti0’ interface IP: <code class="docutils literal notranslate"><span class="pre">10.100.100.2/30</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dum0</span></code> interface IP: <code class="docutils literal notranslate"><span class="pre">192.168.1.0/24</span></code> (for testing purposes)</p></li>
+<li><p>Role: Responder</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># PEER1
+set interfaces dummy dum0 address '192.168.0.1/32'
+set interfaces ethernet eth0 address '10.0.1.2/30'
+set interfaces vti vti0 address '10.100.100.1/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.1.1
+set protocols static route 192.168.1.0/24 next-hop 10.100.100.2
+set vpn ipsec authentication psk AUTH-PSK id '10.0.1.2'
+set vpn ipsec authentication psk AUTH-PSK id '10.0.2.2'
+set vpn ipsec authentication psk AUTH-PSK secret 'test'
+set vpn ipsec esp-group ESP-GRPOUP lifetime '3600'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 hash 'sha1'
+set vpn ipsec ike-group IKE-GROUP close-action 'start'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection action 'restart'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection interval '30'
+set vpn ipsec ike-group IKE-GROUP key-exchange 'ikev2'
+set vpn ipsec ike-group IKE-GROUP lifetime  '28800'
+set vpn ipsec ike-group IKE-GROUP proposal 10 dh-group '14'
+set vpn ipsec ike-group IKE-GROUP proposal 10 encryption 'aes256'
+set vpn ipsec ike-group IKE-GROUP proposal 10 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec options disable-route-autoinstall
+set vpn ipsec site-to-site peer PEER2 authentication local-id '10.0.1.2'
+set vpn ipsec site-to-site peer PEER2 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer PEER2 authentication remote-id '10.0.2.2'
+set vpn ipsec site-to-site peer PEER2 connection-type 'initiate'
+set vpn ipsec site-to-site peer PEER2 default-esp-group 'ESP-GRPOUP'
+set vpn ipsec site-to-site peer PEER2 ike-group 'IKE-GROUP'
+set vpn ipsec site-to-site peer PEER2 local-address '10.0.1.2'
+set vpn ipsec site-to-site peer PEER2 remote-address '10.0.2.2'
+set vpn ipsec site-to-site peer PEER2 vti bind 'vti0'
+
+
+# PEER2
+set interfaces dummy dum0 address '192.168.1.1/32'
+set interfaces ethernet eth0 address '10.0.2.2/30'
+set interfaces vti vti0 address '10.100.100.2/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.2.1
+set protocols static route 192.168.0.0/24 next-hop 10.100.100.1
+set vpn ipsec authentication psk AUTH-PSK id '10.0.1.2'
+set vpn ipsec authentication psk AUTH-PSK id '10.0.2.2'
+set vpn ipsec authentication psk AUTH-PSK secret 'test'
+set vpn ipsec esp-group ESP-GRPOUP lifetime '3600'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 encryption 'aes256'
+set vpn ipsec esp-group ESP-GRPOUP proposal 10 hash 'sha1'
+set vpn ipsec ike-group IKE-GROUP close-action 'none'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection action 'clear'
+set vpn ipsec ike-group IKE-GROUP dead-peer-detection interval '30'
+set vpn ipsec ike-group IKE-GROUP key-exchange 'ikev2'
+set vpn ipsec ike-group IKE-GROUP lifetime '28800'
+set vpn ipsec ike-group IKE-GROUP proposal 10 dh-group '14'
+set vpn ipsec ike-group IKE-GROUP proposal 10 encryption 'aes256'
+set vpn ipsec ike-group IKE-GROUP proposal 10 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec options disable-route-autoinstall
+set vpn ipsec site-to-site peer PEER1 authentication local-id '10.0.2.2'
+set vpn ipsec site-to-site peer PEER1 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer PEER1 authentication remote-id '10.0.1.2'
+set vpn ipsec site-to-site peer PEER1 connection-type 'none'
+set vpn ipsec site-to-site peer PEER1 default-esp-group 'ESP-GRPOUP'
+set vpn ipsec site-to-site peer PEER1 ike-group 'IKE-GROUP'
+set vpn ipsec site-to-site peer PEER1 local-address '10.0.2.2'
+set vpn ipsec site-to-site peer PEER1 remote-address '10.0.1.2'
+set vpn ipsec site-to-site peer PEER1 vti bind 'vti0'
+</pre></div>
+</div>
+<p>Show status of route-based IPsec VPN setup:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@PEER2:~$ show vpn ike sa
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+10.0.1.2 10.0.1.2                       10.0.2.2 10.0.2.2
+
+    State  IKEVer  Encrypt      Hash          D-H Group      NAT-T  A-Time  L-Time
+    -----  ------  -------      ----          ---------      -----  ------  ------
+    up     IKEv2   AES_CBC_256  HMAC_SHA1_96  MODP_2048      no     404     27650
+
+vyos@PEER2:~$ show vpn ipsec sa
+Connection    State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------
+PEER1-vti     up       3m28s     0B/0B           0/0               10.0.1.2          10.0.1.2     AES_CBC_256/HMAC_SHA1_96/MODP_2048
+
+vyos@PEER2:~$ show vpn ipsec connections
+Connection    State    Type    Remote address    Local TS    Remote TS    Local id    Remote id    Proposal
+------------  -------  ------  ----------------  ----------  -----------  ----------  -----------  ----------------------------------
+PEER1         up       IKEv2   10.0.1.2          -           -            10.0.2.2    10.0.1.2     AES_CBC/256/HMAC_SHA1_96/MODP_2048
+PEER1-vti     up       IPsec   10.0.1.2          0.0.0.0/0   0.0.0.0/0    10.0.2.2    10.0.1.2     AES_CBC/256/HMAC_SHA1_96/MODP_2048
+                                               ::/0        ::/0
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ipsec_general.html" class="btn btn-neutral float-left" title="IPsec General Information" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="remoteaccess_ipsec.html" class="btn btn-neutral float-right" title="IPSec IKEv2 Remote Access VPN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

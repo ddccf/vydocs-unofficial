@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="NTP is a protocol that synchronizes a computer's clock to Coordinated Universal Time by obtaining the time from time sources over a network. A VyOS router can function as both an NTP client and an NTP server. " name="description" />
+<meta content="ntp, utc, time synchronization, leap second, hardware timestamping" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NTP &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/ntp.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="PPPoE server" href="pppoe-server.html" />
+    <link rel="prev" title="Monitoring" href="monitoring.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lldp.html">LLDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NTP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hardware-timestamping-of-ntp-packets">Hardware timestamping of NTP packets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ntp-over-ptp">NTP over PTP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">NTP</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/ntp.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ntp">
+<span id="id1"></span><h1>NTP<a class="headerlink" href="#ntp" title="Link to this heading"></a></h1>
+<p><abbr title="Network Time Protocol">NTP</abbr> synchronizes a computer’s clock to
+Coordinated Universal Time (UTC) by obtaining the time from time sources
+over a network.</p>
+<p>NTP arranges time sources in a hierarchy. Top servers obtain time directly
+from highly accurate hardware reference clocks, such as GPS receivers.
+Lower-level servers synchronize with those above, and clients reside at the
+bottom of the hierarchy.</p>
+<p>A client usually synchronizes with multiple servers, regularly exchanging
+time messages over <abbr title="User Datagram Protocol">UDP</abbr> on port 123. Both
+sides timestamp each exchange, allowing the client to distinguish network
+delay from the actual clock difference. Typical accuracy is within a few
+milliseconds over the Internet and tens of microseconds on a LAN.</p>
+<p>A VyOS router can function as both an NTP client, synchronizing its clock
+with upstream servers, and an NTP server, providing time synchronization to
+clients.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since VyOS 1.4, the router responds to NTP client requests only from
+addresses explicitly permitted with the <code class="docutils literal notranslate"><span class="pre">allow-client</span></code> directive.
+Configurations upgraded from earlier releases continue accepting requests
+from any client and operate as before. For new setups, if clients use a
+VyOS installation as an NTP server, configure <code class="docutils literal notranslate"><span class="pre">allow-client</span></code>.</p>
+</div>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-server-address">
+set service ntp server &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-server-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure an NTP server to use as a time source.</strong></p>
+<p>The address can be specified as an IPv4 or IPv6 address, or as an
+<abbr title="Fully Qualified Domain Name">FQDN</abbr>.</p>
+<p>Repeat the command to configure multiple servers.</p>
+<p>By default, the system is preconfigured with three upstream NTP servers,
+<code class="docutils literal notranslate"><span class="pre">time1.vyos.net</span></code>, <code class="docutils literal notranslate"><span class="pre">time2.vyos.net</span></code>, and <code class="docutils literal notranslate"><span class="pre">time3.vyos.net</span></code>, which can be
+deleted and replaced with your own.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp server time1.vyos.net
+set service ntp server 192.0.2.1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-server-address-noselect-nts-pool-prefer-ptp-interleave-minpoll-n-maxpoll-n-presend-n-extfield-f323">
+set service ntp server &lt;address&gt; &lt;noselect | nts | pool | prefer | ptp | interleave | minpoll N | maxpoll N | presend N | extfield-f323 &gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-server-address-noselect-nts-pool-prefer-ptp-interleave-minpoll-n-maxpoll-n-presend-n-extfield-f323" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure per-server options for the specified NTP server:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">noselect</span></code>: Marks the server as unused. It is never selected for
+synchronization.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nts</span></code>: Authenticates time messages from the server using
+<abbr title="Network Time Security">NTS</abbr> (<span class="target" id="index-0"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc8915.html"><strong>RFC 8915</strong></a>), so the router can
+detect replies that were forged or altered in transit. The keys are
+established automatically over TLS, so no shared key file is needed, and
+the server must support NTS.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pool</span></code>: Treats the configured name as a pool of NTP servers rather than
+a single server, using four of them as time sources, or fewer if fewer
+respond.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prefer</span></code>: Prefers this server over other selectable servers configured
+without the <code class="docutils literal notranslate"><span class="pre">prefer</span></code> option.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ptp</span></code>: Exchanges NTP packets encapsulated in
+<abbr title="Precision Time Protocol">PTP</abbr> packets with this server (see
+<a class="reference internal" href="#ptp-transport"><span class="std std-ref">NTP over PTP</span></a>). NTP over PTP must also be enabled for the NTP
+service on the router. Otherwise, the commit fails.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interleave</span></code>: Enables the NTP interleaved mode (<span class="target" id="index-1"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc9769.html"><strong>RFC 9769</strong></a>) for the
+server, which lets the server respond with more accurate transmit
+timestamps and can improve synchronization accuracy and stability when
+supported by both parties.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minpoll</span> <span class="pre">N</span></code> sets the minimum delay between NTP polls of this server.
+The configured delay is 2^N seconds; the default of 6 is 2^6 or 64 seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxpoll</span> <span class="pre">N</span></code> sets the maximum delay between NTP polls of this server.
+The configured delay is 2^N seconds; the default of 10 is 2^10 or 1024 seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">presend</span> <span class="pre">N</span></code> enables pre-sending additional NTP packets if more than 2^N
+seconds have passed since the last NTP request was sent to this server.
+This can help warm up ARP caches and reduce variability.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extfield-f323</span></code> enables the F323 NTP extension field, which may
+slightly increase accuracy when talking to Chrony servers.</p></li>
+</ul>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use an FQDN with the <code class="docutils literal notranslate"><span class="pre">pool</span></code> option. Resolving the name returns the
+addresses of several servers, and the set behind the name may differ each
+time it is resolved, as operators add and remove machines. An IP address
+is also accepted, but it yields a single server, making the option
+pointless.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp server ntp.example.com nts
+set service ntp server pool.example.com pool
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-listen-address-address">
+set service ntp listen-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-listen-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a local IPv4 or IPv6 address on which the router listens for
+incoming NTP requests.</strong></p>
+<p>You can configure at most one IPv4 and one IPv6 address, using a separate
+command for each. Configuring more than one address per address family
+causes the commit to fail.</p>
+<p>When unset, the router accepts incoming NTP requests on any local IP
+address.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp listen-address 192.0.2.1
+set service ntp listen-address 2001:db8::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-interface-interface">
+set service ntp interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface on which the router listens for incoming NTP
+requests.</strong></p>
+<p>Only one interface can be configured. The router then accepts NTP requests
+only on that interface, regardless of which local address they are sent to,
+and this can be combined with <code class="docutils literal notranslate"><span class="pre">listen-address</span></code>.</p>
+<p>The interface must either be configured in VyOS or detected by the kernel.
+If a VRF is configured, the interface must belong to that VRF. Otherwise,
+the commit fails.</p>
+<p>When unset, the router accepts incoming NTP requests on any interface.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-allow-client-address-address">
+set service ntp allow-client address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-allow-client-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Permit the specified IPv4 or IPv6 address or prefix to use this router as
+an NTP server.</strong></p>
+<p>Repeat the command to permit multiple addresses or prefixes.</p>
+<p>NTP requests from any address that is not permitted are not answered. When
+no addresses are permitted, the router does not serve time to anyone and
+acts purely as an NTP client.</p>
+<p>The default configuration permits clients from the loopback, link-local,
+and private (RFC 1918 and IPv6 unique-local) ranges, so devices on directly
+attached private networks can use the router as their NTP server out of the
+box. To serve clients outside these ranges, permit them explicitly.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp allow-client address 192.0.2.0/24
+set service ntp allow-client address 2001:db8::/32
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-source-address-address">
+set service ntp source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the local IPv4 or IPv6 address used as the source for outgoing
+NTP requests.</strong></p>
+<p>You can configure at most one IPv4 and one IPv6 address, using a separate
+command for each. Configuring more than one address per address family
+causes the commit to fail.</p>
+<p>The address must already be assigned to an interface, otherwise the commit
+fails. If a VRF is configured, the address must be assigned within that
+VRF.</p>
+<p>When unset, the source address is chosen by the routing table for each
+request.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp source-address 192.0.2.1
+set service ntp source-address 2001:db8::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-source-interface-interface">
+set service ntp source-interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-source-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interface used to send outgoing NTP requests.</strong></p>
+<p>Only one interface can be configured. This binds the outgoing requests to
+the interface itself rather than to an address.</p>
+<p>The interface must either be configured in VyOS or detected by the kernel.
+If a VRF is configured, the interface must belong to that VRF. Otherwise,
+the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp source-interface eth1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-vrf-name">
+set service ntp vrf &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-vrf-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Bind the NTP service to the specified
+<abbr title="Virtual Routing and Forwarding">VRF</abbr> instance.</strong></p>
+<p>All NTP traffic (both synchronization with upstream servers and replies to
+clients) is then sent and received within that VRF, so the upstream servers
+must be reachable inside it.</p>
+<p>The VRF must already be configured under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">vrf</span> <span class="pre">name</span> <span class="pre">&lt;name&gt;</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp vrf mgmt
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-leap-second-ignore-smear-system-timezone">
+set service ntp leap-second &lt;ignore | smear | system | timezone&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-leap-second-ignore-smear-system-timezone" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure how the router handles leap seconds.</strong></p>
+<p>A leap second is a one-second adjustment occasionally applied to UTC to
+keep it close to mean solar time. Because a computer clock counts seconds
+without a slot for the extra 23:59:60, it skips the leap second and is then
+one second ahead of UTC. This setting determines how the router corrects
+that one-second difference:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ignore</span></code>: No correction is applied when the leap second occurs. The clock
+is left one second ahead and corrected afterward through normal
+measurements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smear</span></code>: The served time deliberately deviates from UTC while the
+one-second change is spread over approximately 17 hours. At any moment,
+the deviation shrinks too slowly for clients to notice a jump, and when
+the adjustment finishes, the served time matches UTC again. The router’s
+own clock is also corrected gradually. If clients use multiple servers,
+all must smear the leap second identically, or their times disagree.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">system</span></code>: The correction is applied at once, stepping the clock one
+second back at 00:00:00 UTC when a leap second is inserted, or one second
+forward at 23:59:59 UTC when one is deleted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timezone</span></code>: The router obtains leap-second information from the system
+timezone database rather than relying solely on upstream servers. This
+provides correct leap information even when servers announce leap seconds
+late or not at all. The clock is corrected as in <code class="docutils literal notranslate"><span class="pre">system</span></code> mode. Do not
+use this mode with upstream servers that smear leap seconds.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">timezone</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp leap-second smear
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-local-stratum-1-15">
+set service ntp local-stratum &lt;1-15&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-local-stratum-1-15" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable local reference mode.</strong></p>
+<p>In this mode, the router appears synchronized to its clients even when it
+has never synchronized with an upstream server or has lost contact with all
+its upstream servers.</p>
+<p>The value is the stratum the router reports while the mode is active. The
+stratum is the number of steps down the hierarchy from a reference clock,
+so a higher value means a greater distance from real time. Set it higher
+than the highest stratum expected in the network, so that clients prefer a
+real time source whenever one is available.</p>
+<p>When unset, the router reports itself as unsynchronized until it
+synchronizes with an upstream server.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp local-stratum 12
+</pre></div>
+</div>
+</section>
+<section id="hardware-timestamping-of-ntp-packets">
+<h2>Hardware timestamping of NTP packets<a class="headerlink" href="#hardware-timestamping-of-ntp-packets" title="Link to this heading"></a></h2>
+<p>The router can leverage <abbr title="Network Interface Card">NIC</abbr> capabilities
+to timestamp packets as they are sent and received. This avoids the
+packet-processing and queuing delays that affect software timestamps,
+especially under heavy load.</p>
+<p>When timestamping is enabled on an interface, the router by default
+attempts the following options in the order they are specified and uses the
+first one that the NIC supports:</p>
+<ul class="simple">
+<li><p>Timestamps only received NTP packets: supported by NICs that can
+timestamp NTP packets specifically.</p></li>
+<li><p>Timestamps all received packets: supported by NICs that can timestamp all
+packets but cannot filter NTP packets specifically.</p></li>
+<li><p>Timestamps only transmitted packets: supported by NICs that cannot
+timestamp received NTP packets or all received packets, including NICs
+that can timestamp only PTP packets.</p></li>
+</ul>
+<p>You can override this default with the <code class="docutils literal notranslate"><span class="pre">receive-filter</span></code> option described
+below.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-timestamp-interface-interface">
+set service ntp timestamp interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-timestamp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable hardware timestamping of NTP packets on the specified
+interface.</strong></p>
+<p>Repeat the command to enable timestamping on multiple interfaces.</p>
+<p>The special value <code class="docutils literal notranslate"><span class="pre">all</span></code> enables timestamping on all interfaces that support
+it.</p>
+<p>The NIC must support hardware timestamping. Run <code class="docutils literal notranslate"><span class="pre">ethtool</span> <span class="pre">-T</span> <span class="pre">&lt;interface&gt;</span></code> to
+check: the reported capabilities should include <code class="docutils literal notranslate"><span class="pre">hardware-raw-clock</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hardware-transmit</span></code>, and <code class="docutils literal notranslate"><span class="pre">hardware-receive</span></code>. If the NIC cannot timestamp
+received packets, the router falls back to kernel timestamps for them.</p>
+<p>The interface must either be configured in VyOS or detected by the kernel.
+Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp timestamp interface eth0
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-timestamp-interface-interface-receive-filter-all-ntp-ptp-none">
+set service ntp timestamp interface &lt;interface&gt; receive-filter &lt;all | ntp | ptp | none&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-timestamp-interface-interface-receive-filter-all-ntp-ptp-none" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure which incoming packets the NIC timestamps on the specified
+interface:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code>: All received packets are timestamped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ntp</span></code>: Only received NTP packets are timestamped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ptp</span></code>: Only received PTP packets and NTP packets encapsulated in PTP
+packets are timestamped. This lets NICs that support only the <code class="docutils literal notranslate"><span class="pre">ptp</span></code>
+filter timestamp NTP traffic when NTP over PTP is used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">none</span></code>: No received packets are timestamped. Transmitted packets are
+still timestamped if the NIC supports it.</p></li>
+</ul>
+<p>Except for <code class="docutils literal notranslate"><span class="pre">none</span></code>, the selected filter must be supported by the NIC.
+Otherwise, the commit fails.</p>
+<p>With interface <code class="docutils literal notranslate"><span class="pre">all</span></code>, at least one interface must support the selected
+filter.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp timestamp interface eth0 receive-filter all
+</pre></div>
+</div>
+</section>
+<section id="ntp-over-ptp">
+<span id="ptp-transport"></span><h2>NTP over PTP<a class="headerlink" href="#ntp-over-ptp" title="Link to this heading"></a></h2>
+<p>The Precision Time Protocol (PTP, IEEE 1588) enables high-precision time
+synchronization on local networks using hardware clocks in NICs and other
+network elements.</p>
+<p>VyOS does not currently support PTP. To timestamp NTP traffic on NICs that
+timestamp only PTP packets, NTP packets can be encapsulated in PTP packets,
+a technique known as NTP over PTP. It combines the hardware timestamping
+accuracy of such NICs with the configuration flexibility and fault
+tolerance of NTP.</p>
+<p>For NTP over PTP to work, both ends of an NTP exchange must be configured
+for it.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-ptp">
+set service ntp ptp</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-ptp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable sending and receiving NTP packets encapsulated in PTP packets (NTP
+over PTP).</strong></p>
+<p>The router sends and receives encapsulated NTP packets on the configured
+UDP port. Enabling the <code class="docutils literal notranslate"><span class="pre">ptp</span></code> option on an upstream server requires this
+option to be set first. Otherwise, the commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp ptp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-ntp-ptp-port-1-65535">
+set service ntp ptp port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-ntp-ptp-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the UDP port used for sending and receiving encapsulated NTP
+packets.</strong></p>
+<p>The default is 319, the port NICs use to recognize PTP traffic.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service ntp ptp port 10319
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="monitoring.html" class="btn btn-neutral float-left" title="Monitoring" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pppoe-server.html" class="btn btn-neutral float-right" title="PPPoE server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

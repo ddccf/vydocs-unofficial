@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP Dataplane Description &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/description.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="VPP Dataplane Requirements" href="requirements.html" />
+    <link rel="prev" title="VPP Dataplane" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">VPP Dataplane Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-vpp-in-vyos">What is VPP in VyOS?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-benefits">Key Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#when-to-use-vpp">When to Use VPP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#packet-processing-integration">Packet Processing Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#green-path">Green path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blue-path">Blue path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#red-path">Red path</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cli-integration">CLI Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/index.html">VPP Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Dataplane</a></li>
+      <li class="breadcrumb-item active">VPP Dataplane Description</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/description.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-description">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-dataplane-description">
+<h1>VPP Dataplane Description<a class="headerlink" href="#vpp-dataplane-description" title="Link to this heading"></a></h1>
+<section id="what-is-vpp-in-vyos">
+<h2>What is VPP in VyOS?<a class="headerlink" href="#what-is-vpp-in-vyos" title="Link to this heading"></a></h2>
+<p>VyOS supports two packet forwarding dataplanes:</p>
+<ul class="simple">
+<li><p><strong>Linux kernel dataplane</strong> (traditional)</p></li>
+<li><p><strong>Vector Packet Processor (VPP) dataplane</strong> (optional)</p></li>
+</ul>
+<p>VPP is a high-performance user space packet processor that improves
+throughput for demanding network workloads.</p>
+</section>
+<section id="key-benefits">
+<h2>Key Benefits<a class="headerlink" href="#key-benefits" title="Link to this heading"></a></h2>
+<p><strong>Performance Improvement</strong></p>
+<p>VPP uses vector-based packet processing instead of one-by-one handling,
+delivering:</p>
+<ul class="simple">
+<li><p><strong>Higher throughput</strong> compared to kernel forwarding.</p></li>
+<li><p><strong>Lower and more consistent latency</strong> for time-sensitive applications.</p></li>
+<li><p><strong>Linear scaling</strong> with additional CPU cores.</p></li>
+</ul>
+<p><strong>VyOS Hybrid Integration</strong></p>
+<p>VyOS supports both dataplanes simultaneously, providing:</p>
+<ul class="simple">
+<li><p><strong>Cross-dataplane forwarding</strong>: Traffic can flow between the VPP dataplane
+and kernel interfaces seamlessly.</p></li>
+<li><p><strong>Transparent configuration</strong>: Same CLI commands and most services work
+regardless of dataplane.</p></li>
+<li><p><strong>Gradual migration</strong>: Enable VPP on high-traffic interfaces while keeping
+others on kernel.</p></li>
+</ul>
+</section>
+<section id="when-to-use-vpp">
+<h2>When to Use VPP<a class="headerlink" href="#when-to-use-vpp" title="Link to this heading"></a></h2>
+<p><strong>Consider VPP if you have:</strong></p>
+<ul class="simple">
+<li><p>High-throughput requirements</p></li>
+<li><p>Latency-sensitive applications requiring consistent performance</p></li>
+</ul>
+<p><strong>Stay with kernel dataplane if you have:</strong></p>
+<ul class="simple">
+<li><p>Low to moderate traffic volumes</p></li>
+<li><p>No latency-sensitive workloads</p></li>
+<li><p>Applications requiring specific features not supported by VPP Dataplane</p></li>
+</ul>
+</section>
+<section id="packet-processing-integration">
+<h2>Packet Processing Integration<a class="headerlink" href="#packet-processing-integration" title="Link to this heading"></a></h2>
+<p>VPP Dataplane integration minimizes configuration changes. Features in the
+kernel dataplane continue to operate there. VPP Dataplane only handles packet
+forwarding for interfaces explicitly assigned to it.</p>
+<p>Traffic flow examples between VPP and kernel dataplane interfaces:</p>
+<img alt="../images/vyos_vpp_integration.svg" class="align-center" src="../images/vyos_vpp_integration.svg" /><section id="green-path">
+<h3>Green path<a class="headerlink" href="#green-path" title="Link to this heading"></a></h3>
+<p>Traffic between two VPP interfaces stays within VPP for maximum performance
+and can use only VPP dataplane features.</p>
+</section>
+<section id="blue-path">
+<h3>Blue path<a class="headerlink" href="#blue-path" title="Link to this heading"></a></h3>
+<p>Traffic between a VPP interface and a kernel interface is processed by both
+dataplanes and can use features from both.</p>
+<p><strong>Note:</strong> This path has slower performance than pure VPP or pure kernel
+forwarding because packets traverse both dataplanes.</p>
+</section>
+<section id="red-path">
+<h3>Red path<a class="headerlink" href="#red-path" title="Link to this heading"></a></h3>
+<p>Traffic between two kernel interfaces stays within the kernel dataplane without
+VPP acceleration. This is the traditional VyOS dataplane operation.</p>
+</section>
+</section>
+<section id="cli-integration">
+<h2>CLI Integration<a class="headerlink" href="#cli-integration" title="Link to this heading"></a></h2>
+<p>VyOS CLI commands work with both dataplanes. Use the same commands to
+configure interfaces, routing, and other features regardless of the dataplane.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="VPP Dataplane" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="requirements.html" class="btn btn-neutral float-right" title="VPP Dataplane Requirements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

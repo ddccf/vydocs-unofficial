@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP Bridge Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/interfaces/bridge.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP GRE Configuration" href="gre.html" />
+    <link rel="prev" title="VPP Bonding Configuration" href="bonding.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">VPP Interfaces Configuration</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bonding.html">VPP Bonding Configuration</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VPP Bridge Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gre.html">VPP GRE Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipip.html">VPP IPIP Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="loopback.html">VPP Loopback Interface Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vxlan.html">VPP VXLAN Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xconnect.html">VPP XConnect Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#why-vpp-interfaces">Why VPP Interfaces?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nat/index.html">VPP NAT Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Configuration</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Interfaces Configuration</a></li>
+      <li class="breadcrumb-item active">VPP Bridge Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/interfaces/bridge.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-interfaces-bridge">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-bridge-configuration">
+<h1>VPP Bridge Configuration<a class="headerlink" href="#vpp-bridge-configuration" title="Link to this heading"></a></h1>
+<p>VPP bridge interfaces provide Layer 2 switching functionality, allowing
+multiple interfaces to be connected at the data link layer.</p>
+<p>VPP bridges operate as learning bridges, automatically discovering MAC
+addresses and building forwarding tables to efficiently switch traffic
+between member interfaces. This provides transparent connectivity between
+different network segments while maintaining the performance benefits of
+VPP’s optimized data plane.</p>
+<p><strong>Supported Member Interface Types:</strong></p>
+<p>VPP bridges support various interface types as members:</p>
+<ul class="simple">
+<li><p>Physical Ethernet interfaces (managed through linux-cp)</p></li>
+<li><p><a class="reference internal" href="bonding.html"><span class="doc">VPP Bonding Configuration</span></a> - VPP bonding interfaces</p></li>
+<li><p><a class="reference internal" href="gre.html"><span class="doc">VPP GRE Configuration</span></a> - GRE tunnel interfaces</p></li>
+<li><p><a class="reference internal" href="loopback.html"><span class="doc">VPP Loopback Interface Configuration</span></a> - Loopback interfaces (required for BVI)</p></li>
+<li><p><a class="reference internal" href="vxlan.html"><span class="doc">VPP VXLAN Configuration</span></a> - VXLAN tunnel interfaces</p></li>
+</ul>
+<p>This flexibility allows you to create complex Layer 2 topologies
+combining different networking technologies.</p>
+<section id="basic-configuration">
+<h2>Basic Configuration<a class="headerlink" href="#basic-configuration" title="Link to this heading"></a></h2>
+<section id="creating-a-bridge-interface">
+<h3>Creating a Bridge Interface<a class="headerlink" href="#creating-a-bridge-interface" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-bridge-vppbrn">
+set interfaces vpp bridge &lt;vppbrN&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-bridge-vppbrn" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create a bridge interface where <code class="docutils literal notranslate"><span class="pre">&lt;vppbrN&gt;</span></code> follows the naming
+convention <code class="docutils literal notranslate"><span class="pre">vppbr1</span></code>, <code class="docutils literal notranslate"><span class="pre">vppbr2</span></code>, etc.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bridge domain <code class="docutils literal notranslate"><span class="pre">vppbr0</span></code> is reserved by VPP and cannot be
+configured through VyOS. Start with <code class="docutils literal notranslate"><span class="pre">vppbr1</span></code> for your bridge
+configurations.</p>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vpp bridge vppbr1
+</pre></div>
+</div>
+</section>
+<section id="interface-description">
+<h3>Interface Description<a class="headerlink" href="#interface-description" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-bridge-vppbrn-description-description">
+set interfaces vpp bridge &lt;vppbrN&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-bridge-vppbrn-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a descriptive name for the bridge interface.</p>
+</div>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vpp bridge vppbr1 description "Main campus bridge"
+</pre></div>
+</div>
+</section>
+</section>
+<section id="member-interface-configuration">
+<h2>Member Interface Configuration<a class="headerlink" href="#member-interface-configuration" title="Link to this heading"></a></h2>
+<section id="adding-member-interfaces">
+<h3>Adding Member Interfaces<a class="headerlink" href="#adding-member-interfaces" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-bridge-vppbrn-member-interface-interface-name">
+set interfaces vpp bridge &lt;vppbrN&gt; member interface &lt;interface-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-bridge-vppbrn-member-interface-interface-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Add an interface as a member of the bridge.</p>
+</div>
+</div>
+<p><strong>Examples:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Add physical interfaces
+set interfaces vpp bridge vppbr1 member interface eth0
+set interfaces vpp bridge vppbr1 member interface eth1
+
+# Add other VPP interfaces
+set interfaces vpp bridge vppbr1 member interface vppbond0
+set interfaces vpp bridge vppbr1 member interface vppgre1
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Bridge members can include various interface types such as:</p>
+<ul class="simple">
+<li><p>Physical Ethernet interfaces (eth0, eth1, etc.)</p></li>
+<li><p><a class="reference internal" href="bonding.html"><span class="doc">VPP Bonding Configuration</span></a> - VPP bonding interfaces (vppbond0, vppbond1, etc.)</p></li>
+<li><p><a class="reference internal" href="gre.html"><span class="doc">VPP GRE Configuration</span></a> - GRE tunnel interfaces</p></li>
+<li><p><a class="reference internal" href="loopback.html"><span class="doc">VPP Loopback Interface Configuration</span></a> - Loopback interfaces</p></li>
+<li><p><a class="reference internal" href="vxlan.html"><span class="doc">VPP VXLAN Configuration</span></a> - VXLAN tunnel interfaces</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="bridge-virtual-interface-bvi">
+<h2>Bridge Virtual Interface (BVI)<a class="headerlink" href="#bridge-virtual-interface-bvi" title="Link to this heading"></a></h2>
+<p>A Bridge Virtual Interface (BVI) provides Layer 3 connectivity to a
+bridge domain, allowing the bridge to have an IP address and participate
+in routing.</p>
+<section id="configuring-bvi">
+<h3>Configuring BVI<a class="headerlink" href="#configuring-bvi" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-bridge-vppbrn-member-interface-loopback-interface-bvi">
+set interfaces vpp bridge &lt;vppbrN&gt; member interface &lt;loopback-interface&gt; bvi</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-bridge-vppbrn-member-interface-loopback-interface-bvi" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Designate a loopback interface as the Bridge Virtual Interface for
+the bridge domain.</p>
+</div>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create a loopback interface first
+set interfaces vpp loopback vpplo1
+
+# Add it to the bridge as BVI
+set interfaces vpp bridge vppbr1 member interface vpplo1 bvi
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>BVI Restrictions:</strong></p>
+<ul class="simple">
+<li><p>Only loopback interfaces can be configured as BVI</p></li>
+<li><p>Each bridge domain can have only one BVI interface</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="configuration-examples">
+<h2>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h2>
+<section id="basic-bridge-setup">
+<h3>Basic Bridge Setup<a class="headerlink" href="#basic-bridge-setup" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create bridge interface
+set interfaces vpp bridge vppbr1
+set interfaces vpp bridge vppbr1 description "Office network bridge"
+
+# Add member interfaces
+set interfaces vpp bridge vppbr1 member interface eth0
+set interfaces vpp bridge vppbr1 member interface eth1
+set interfaces vpp bridge vppbr1 member interface eth2
+</pre></div>
+</div>
+</section>
+<section id="bridge-with-bvi">
+<h3>Bridge with BVI<a class="headerlink" href="#bridge-with-bvi" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create bridge and loopback for BVI
+set interfaces vpp bridge vppbr2
+set interfaces vpp bridge vppbr2 description "Server segment with gateway"
+set interfaces vpp loopback vpplo1
+
+# Configure bridge members
+set interfaces vpp bridge vppbr2 member interface eth3
+set interfaces vpp bridge vppbr2 member interface eth4
+set interfaces vpp bridge vppbr2 member interface vpplo1 bvi
+</pre></div>
+</div>
+</section>
+<section id="multi-technology-bridge">
+<h3>Multi-Technology Bridge<a class="headerlink" href="#multi-technology-bridge" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create bridge combining different interface types
+set interfaces vpp bridge vppbr3
+set interfaces vpp bridge vppbr3 description "Hybrid network bridge"
+
+# Add various interface types
+set interfaces vpp bridge vppbr3 member interface vppbond1
+set interfaces vpp bridge vppbr3 member interface vppgre1
+set interfaces vpp bridge vppbr3 member interface vppvxlan1
+set interfaces vpp bridge vppbr3 member interface vpplo2 bvi
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integration-with-kernel-interfaces">
+<h2>Integration with Kernel Interfaces<a class="headerlink" href="#integration-with-kernel-interfaces" title="Link to this heading"></a></h2>
+<p>Bridge interfaces can be integrated with kernel interfaces for
+management and compatibility with standard Linux networking services.
+This is accomplished by binding a kernel interface to the Bridge
+Virtual Interface (BVI).</p>
+<p><strong>Example Integration:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create VPP bridge with member interfaces
+set interfaces vpp bridge vppbr1
+set interfaces vpp bridge vppbr1 member interface eth1
+set interfaces vpp bridge vppbr1 member interface eth2
+
+# Create loopback interface and configure as BVI
+set interfaces vpp loopback vpplo1
+set interfaces vpp bridge vppbr1 member interface vpplo1 bvi
+
+# Bind LCP kernel interface to the BVI loopback
+set interfaces vpp loopback vpplo1 address '192.0.2.1/24'
+</pre></div>
+</div>
+<p>This configuration creates a kernel interface bound to the BVI,
+allowing standard Linux applications and routing daemons to interact
+with the VPP bridge. The kernel interface provides Layer 3 access to
+the bridge domain.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bonding.html" class="btn btn-neutral float-left" title="VPP Bonding Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gre.html" class="btn btn-neutral float-right" title="VPP GRE Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

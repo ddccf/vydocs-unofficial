@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build VyOS &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/contributing/build-vyos.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Development" href="development.html" />
+    <link rel="prev" title="Contributing" href="index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Contributing</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build VyOS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#native-build">Native Build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docker">Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-iso">Build ISO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customize">Customize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linux-kernel">Linux Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#packages">Packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-packages">Packages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install">Install</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cla.html">Contributor License Agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="issues-features.html">Issues/Feature requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upstream-packages.html">Upstream Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">Testing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Contributing</a></li>
+      <li class="breadcrumb-item active">Build VyOS</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/contributing/build-vyos.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-vyos">
+<span id="build"></span><h1>Build VyOS<a class="headerlink" href="#build-vyos" title="Link to this heading"></a></h1>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>There are different ways you can build VyOS. Building using a
+<a class="reference internal" href="#build-docker"><span class="std std-ref">Docker</span></a>
+container is the easiest way because all dependencies are managed for you.
+Alternatively, you can set up your own build machine and run a
+<a class="reference internal" href="#build-native"><span class="std std-ref">Native Build</span></a> build.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Starting with VyOS 1.4, only source code and Debian package
+repositories of the rolling release (the <code class="docutils literal notranslate"><span class="pre">rolling</span></code> branch) are publicly
+available.</p>
+<p>The source code and pre-built Debian package repositories of LTS releases
+are only available to subscription holders (customers and active community
+members with contributors subscriptions).</p>
+<p>The following includes the build process for VyOS rolling release.</p>
+</div>
+<p>This will guide you through the process of building a VyOS ISO using <a class="reference external" href="https://docs.docker.com/engine/install/debian/">Docker</a>.
+This process has been tested on clean installs of Debian Bookworm.</p>
+<section id="native-build">
+<span id="build-native"></span><h3>Native Build<a class="headerlink" href="#native-build" title="Link to this heading"></a></h3>
+<p>To build VyOS natively, you need a properly configured build host with
+Debian Bookworm installed.</p>
+<p>To get started, clone the repository to your local machine:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo make clean
+$ sudo ./build-vyos-image --architecture amd64 --build-by "j.randomhacker@vyos.io" generic
+</pre></div>
+</div>
+<p>For required packages, refer to the <code class="docutils literal notranslate"><span class="pre">docker/Dockerfile</span></code> file in the
+<a class="reference external" href="https://github.com/vyos/vyos-build">repository</a>. The <code class="docutils literal notranslate"><span class="pre">./build-vyos-image</span></code> script will also warn you if any
+dependencies are missing.</p>
+</section>
+<section id="docker">
+<span id="build-docker"></span><h3>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h3>
+<p>Installing <a class="reference external" href="https://docs.docker.com/engine/install/debian/">Docker</a> and prerequisites:</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Docker versions are updated frequently. The following examples may
+become outdated.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(. /etc/os-release &amp;&amp; echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</pre></div>
+</div>
+<p>To use Docker without <code class="docutils literal notranslate"><span class="pre">sudo</span></code>, add your current non-root user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code>
+group: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">usermod</span> <span class="pre">-aG</span> <span class="pre">docker</span> <span class="pre">yourusername</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Adding a user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group grants privileges equivalent to
+<code class="docutils literal notranslate"><span class="pre">root</span></code>. It is recommended to remove the non-root user from the <code class="docutils literal notranslate"><span class="pre">docker</span></code>
+group after building the VyOS ISO. See also <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">Docker as non-root</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The build process must run on a local file system. Building on SMB or
+NFS shares will cause the container to fail. VirtualBox shared folders are
+also not supported because block device operations are not implemented.</p>
+</div>
+<section id="build-container">
+<h4>Build Container<a class="headerlink" href="#build-container" title="Link to this heading"></a></h4>
+<p>The container can be built by hand or by fetching the pre-built one from
+DockerHub. It is recommended to use the pre-built containers from the
+<a class="reference external" href="https://hub.docker.com/u/vyos">VyOS DockerHub organisation</a>. The container
+is built from Docker packages automatically after every commit to the
+<code class="docutils literal notranslate"><span class="pre">vyos-build</span></code> repository (this process may take 2-3 hours).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use the pre-built container, it will be automatically
+downloaded from DockerHub if it is not found on your local machine when
+you build the ISO.</p>
+</div>
+<section id="dockerhub">
+<h5>Dockerhub<a class="headerlink" href="#dockerhub" title="Link to this heading"></a></h5>
+<p>To manually download the container from DockerHub, run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ docker pull vyos/vyos-build:rolling  # For VyOS rolling release
+</pre></div>
+</div>
+</section>
+<section id="build-from-source">
+<h5>Build from source<a class="headerlink" href="#build-from-source" title="Link to this heading"></a></h5>
+<p>The container can also be built directly from source:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone -b rolling --single-branch https://github.com/vyos/vyos-build
+
+$ cd vyos-build
+$ docker build -t vyos/vyos-build:rolling docker
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VyOS switched to Debian Bookworm (12) in the <code class="docutils literal notranslate"><span class="pre">rolling</span></code> branch.
+Due to software version updates, it is recommended to use the official
+Docker Hub image to build VyOS ISO.</p>
+</div>
+</section>
+</section>
+<section id="tips-and-tricks">
+<h4>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Link to this heading"></a></h4>
+<p>You can create Bash aliases to easily launch the latest container per release
+train (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>). Add the following to your <code class="docutils literal notranslate"><span class="pre">.bash_aliases</span></code> file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>alias vybld='docker pull vyos/vyos-build:rolling &amp;&amp; docker run --rm -it \
+    -v "$(pwd)":/vyos \
+    -v "$HOME/.gitconfig":/etc/gitconfig \
+    -v "$HOME/.bash_aliases":/home/vyos_bld/.bash_aliases \
+    -v "$HOME/.bashrc":/home/vyos_bld/.bashrc \
+    -w /vyos --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 \
+    -e GOSU_UID=$(id -u) -e GOSU_GID=$(id -g) \
+    vyos/vyos-build:rolling bash'
+</pre></div>
+</div>
+<p>Now you have a new alias <code class="docutils literal notranslate"><span class="pre">vybld</span></code> that launches development containers in
+your current working directory.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some VyOS packages (namely vyos-1x) come with build-time tests which
+verify some of the internal library calls that they work as expected. Those
+tests are carried out through the Python Unittest module. If you want to
+build the <code class="docutils literal notranslate"><span class="pre">vyos-1x</span></code> package (which is our main development package) you
+need to start your Docker container using the following argument:
+<code class="docutils literal notranslate"><span class="pre">--sysctl</span> <span class="pre">net.ipv6.conf.lo.disable_ipv6=0</span></code>, otherwise those tests will
+fail.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="build-iso">
+<span id="id1"></span><h2>Build ISO<a class="headerlink" href="#build-iso" title="Link to this heading"></a></h2>
+<p>Now that you understand the prerequisites, you can build a VyOS ISO from source.
+First, fetch the latest source code from GitHub:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone -b rolling --single-branch https://github.com/vyos/vyos-build
+</pre></div>
+</div>
+<p>Now you can begin a fresh VyOS ISO build. Change to the <code class="docutils literal notranslate"><span class="pre">vyos-build</span></code>
+directory and run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build
+$ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:rolling bash
+</pre></div>
+</div>
+<p>Start the build:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos_bld@8153428c7e1f:/vyos$ sudo make clean
+vyos_bld@8153428c7e1f:/vyos$ sudo ./build-vyos-image --architecture amd64 --build-by "j.randomhacker@vyos.io" generic
+</pre></div>
+</div>
+<p>When the build is successful, find the resulting ISO in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory
+as <code class="docutils literal notranslate"><span class="pre">live-image-[architecture].hybrid.iso</span></code>.</p>
+<section id="customize">
+<span id="build-source"></span><span id="id2"></span><h3>Customize<a class="headerlink" href="#customize" title="Link to this heading"></a></h3>
+<p>You can customize the ISO with the following configure options. Generate the
+full and current list with <code class="docutils literal notranslate"><span class="pre">./build-vyos-image</span> <span class="pre">--help</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ vyos_bld@8153428c7e1f:/vyos$ sudo ./build-vyos-image --help
+  I: Checking if packages required for VyOS image build are installed
+  usage: build-vyos-image [-h] [--architecture ARCHITECTURE]
+  [--build-by BUILD_BY] [--debian-mirror DEBIAN_MIRROR]
+  [--debian-security-mirror DEBIAN_SECURITY_MIRROR]
+  [--pbuilder-debian-mirror PBUILDER_DEBIAN_MIRROR]
+  [--vyos-mirror VYOS_MIRROR] [--build-type BUILD_TYPE]
+  [--version VERSION] [--build-comment BUILD_COMMENT] [--debug] [--dry-run]
+  [--custom-apt-entry CUSTOM_APT_ENTRY] [--custom-apt-key CUSTOM_APT_KEY]
+  [--custom-package CUSTOM_PACKAGE]
+      [build_flavor]
+
+  positional arguments:
+  build_flavor          Build flavor
+
+  optional arguments:
+  -h, --help            show this help message and exit
+  --architecture ARCHITECTURE
+                          Image target architecture (amd64 or arm64)
+  --build-by BUILD_BY   Builder identifier (e.g. jrandomhacker@example.net)
+  --debian-mirror DEBIAN_MIRROR
+                          Debian repository mirror
+  --debian-security-mirror DEBIAN_SECURITY_MIRROR
+                          Debian security updates mirror
+  --pbuilder-debian-mirror PBUILDER_DEBIAN_MIRROR
+                          Debian repository mirror for pbuilder env bootstrap
+  --vyos-mirror VYOS_MIRROR
+                          VyOS package mirror
+  --build-type BUILD_TYPE
+                          Build type, release or development
+  --version VERSION     Version number (release builds only)
+  --build-comment BUILD_COMMENT
+                          Optional build comment
+  --debug               Enable debug output
+  --dry-run             Check build configuration and exit
+  --custom-apt-entry CUSTOM_APT_ENTRY
+                          Custom APT entry
+  --custom-apt-key CUSTOM_APT_KEY
+                          Custom APT key file
+  --custom-package CUSTOM_PACKAGE
+                          Custom package to install from repositories
+</pre></div>
+</div>
+<section id="iso-build-issues">
+<span id="id3"></span><h4>ISO Build Issues<a class="headerlink" href="#iso-build-issues" title="Link to this heading"></a></h4>
+<p>There are (rare) situations where building an ISO image is not possible at all
+due to a broken package feed in the background. APT is not very good at
+reporting the root cause of the issue. Your ISO build will likely fail with a
+more or less similar looking error message:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The following packages have unmet dependencies:
+ vyos-1x : Depends: accel-ppp but it is not installable
+E: Unable to correct problems, you have held broken packages.
+...
+make: *** [Makefile:30: iso] Error 1
+</pre></div>
+</div>
+<p>To debug the build process and gain additional information of what could be the
+root cause, you need to use <code class="docutils literal notranslate"><span class="pre">chroot</span></code> to change into the build directory. This is
+explained in the following step by step procedure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos_bld ece068908a5b:/vyos [rolling] # sudo chroot build/chroot /bin/bash
+</pre></div>
+</div>
+<p>We now need to mount some required, volatile filesystems</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(live)root@ece068908a5b:/# mount -t proc none /proc
+(live)root@ece068908a5b:/# mount -t sysfs none /sys
+(live)root@ece068908a5b:/# mount -t devtmpfs none /dev
+</pre></div>
+</div>
+<p>We now are free to run any command we would like to use for debugging, e.g.
+re-installing the failed package after updating the repository.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(live)root@ece068908a5b:/# apt-get update; apt-get install vyos-1x
+...
+The following packages have unmet dependencies:
+ vyos-1x : Depends: accel-ppp but it is not installable
+E: Unable to correct problems, you have held broken packages.
+</pre></div>
+</div>
+<p>Now it’s time to fix the package mirror and rerun the last step until the
+package installation succeeds again!</p>
+</section>
+</section>
+<section id="linux-kernel">
+<span id="build-custom-packages"></span><h3>Linux Kernel<a class="headerlink" href="#linux-kernel" title="Link to this heading"></a></h3>
+<p>The Linux kernel used by VyOS is heavily tied to the ISO build process. The
+file <code class="docutils literal notranslate"><span class="pre">data/defaults.json</span></code> hosts a JSON definition of the kernel version used
+<code class="docutils literal notranslate"><span class="pre">kernel_version</span></code> and the <code class="docutils literal notranslate"><span class="pre">kernel_flavor</span></code> of the kernel which represents the
+kernel’s LOCAL_VERSION. Both together form the kernel version variable in the
+system:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ uname -r
+6.1.52-amd64-vyos
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Accel-PPP</p></li>
+<li><p>Intel NIC drivers</p></li>
+<li><p>Intel QAT</p></li>
+</ul>
+<p>Each of those modules holds a dependency on the kernel version and if you are
+lucky enough to receive an ISO build error which sounds like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>I: Create initramfs if it does not exist.
+Extra argument '6.1.52-amd64-vyos'
+...
+E: config/hooks/live/17-gen_initramfs.chroot failed (exit non-zero). You should check for errors.
+</pre></div>
+</div>
+<p>The most obvious reasons could be:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vyos-build</span></code> repo is outdated, please <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> to update to the latest
+release kernel version from us.</p></li>
+<li><p>You have your own custom kernel <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> packages in the <code class="docutils literal notranslate"><span class="pre">packages</span></code> folder but
+neglected to create all required out-of tree modules like Accel-PPP, Intel
+QAT or Intel NIC drivers</p></li>
+</ul>
+<section id="building-the-kernel">
+<h4>Building The Kernel<a class="headerlink" href="#building-the-kernel" title="Link to this heading"></a></h4>
+<p>The kernel build is quite easy, most of the required steps can be found in the
+<code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel/Jenkinsfile</span></code> but we will walk you through
+it.</p>
+<p>Clone the kernel source to <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel/</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build/packages/linux-kernel/
+$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+</pre></div>
+</div>
+<p>Check out the required kernel version - see <code class="docutils literal notranslate"><span class="pre">vyos-build/data/defaults.json</span></code>
+file (example uses kernel 4.19.146):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build/packages/linux-kernel/linux
+$ git checkout v4.19.146
+</pre></div>
+</div>
+<p>Now you can use the helper script <code class="docutils literal notranslate"><span class="pre">build-kernel.sh</span></code>, which completes all
+the necessary steps: applying required patches from the
+<code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel/patches</span></code> folder, copying the kernel
+configuration <code class="docutils literal notranslate"><span class="pre">x86_64_vyos_defconfig</span></code> to the correct location, and building
+the Debian packages.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Building the kernel will take some time depending on the speed and
+quantity of your CPU/cores and disk speed. Expect 20 minutes
+(or even longer) on lower end hardware.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(18:59) vyos_bld 412374ca36b8:/vyos/vyos-build/packages/linux-kernel [rolling] # ./build-kernel.sh
+</pre></div>
+</div>
+<p>When complete, you will have kernel binary packages to use in your custom ISO
+build. Place all <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> files in the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code> folder, where
+the build process will use them automatically.</p>
+<section id="firmware">
+<h5>Firmware<a class="headerlink" href="#firmware" title="Link to this heading"></a></h5>
+<p>If you upgrade your kernel or include new drivers you may need new firmware.
+This builds a new <code class="docutils literal notranslate"><span class="pre">vyos-linux-firmware</span></code> package using the included helper
+scripts.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build/packages/linux-kernel
+$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+$ ./build-linux-firmware.sh
+$ cp vyos-linux-firmware_*.deb ../
+</pre></div>
+</div>
+<p>The script automatically detects which firmware blobs are needed based on the
+built drivers. If detection fails, you can manually add files to
+<code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel/build-linux-firmware.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">ADD_FW_FILES</span><span class="o">=</span><span class="s2">"iwlwifi* ath11k/QCA6390/*/*.bin"</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="building-out-of-tree-modules">
+<h4>Building Out-Of-Tree Modules<a class="headerlink" href="#building-out-of-tree-modules" title="Link to this heading"></a></h4>
+<p>Building the kernel is one step. You must also build required out-of-tree
+modules so the ABIs match.
+Refer to <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel/Jenkinsfile</span></code>
+for all required modules and their versions. We show you how to build the
+currently required modules.</p>
+<section id="accel-ppp">
+<h5>Accel-PPP<a class="headerlink" href="#accel-ppp" title="Link to this heading"></a></h5>
+<p>First, clone the source code and check out the appropriate version:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd vyos-build/packages/linux-kernel
+$ git clone https://github.com/accel-ppp/accel-ppp.git
+</pre></div>
+</div>
+<p>Use the helper script and patches to build the package. Run the following
+command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./build-accel-ppp.sh
+</pre></div>
+</div>
+<p>After compiling the packages you will find yourself the newly generated <code class="docutils literal notranslate"><span class="pre">*.deb</span></code>
+binaries in <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel</span></code> from which you can copy them
+to the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code> folder for inclusion during the ISO build.</p>
+</section>
+<section id="intel-nic">
+<h5>Intel NIC<a class="headerlink" href="#intel-nic" title="Link to this heading"></a></h5>
+<p>The Intel NIC drivers do not come from a Git repository. VyOS fetches the
+tarballs from a mirror and compiles them. Use the following wrapper script
+to build all driver modules:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./build-intel-drivers.sh
+</pre></div>
+</div>
+<p>After compilation, find the generated <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> binaries in
+<code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel</span></code>. Copy them to the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code>
+folder for inclusion in the ISO build.</p>
+</section>
+<section id="intel-qat">
+<h5>Intel QAT<a class="headerlink" href="#intel-qat" title="Link to this heading"></a></h5>
+<p>The Intel QAT (Quick Assist Technology) drivers do not come from a Git
+repository. VyOS fetches the tarballs from <code class="docutils literal notranslate"><span class="pre">01.org</span></code>, Intel’s open-source
+website.
+Use the following wrapper script to build all driver modules:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./build-intel-qat.sh
+</pre></div>
+</div>
+<p>After compiling the packages you will find yourself the newly generated <code class="docutils literal notranslate"><span class="pre">*.deb</span></code>
+binaries in <code class="docutils literal notranslate"><span class="pre">vyos-build/packages/linux-kernel</span></code> from which you can copy them
+to the <code class="docutils literal notranslate"><span class="pre">vyos-build/packages</span></code> folder for inclusion during the ISO build.</p>
+</section>
+</section>
+</section>
+<section id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Link to this heading"></a></h3>
+<p>If you are brave enough to build your own ISO image with any modified package
+from VyOS’s GitHub organisation, this is the place for you.</p>
+<p>Any modified package may be an altered version (e.g., <code class="docutils literal notranslate"><span class="pre">vyos-1x</span></code>) that you
+want to test before filing a pull request on GitHub.</p>
+<p>Building an ISO with a customized package is the same as building a regular
+ISO image. Place your modified <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> package inside the <code class="docutils literal notranslate"><span class="pre">packages</span></code> folder
+within <code class="docutils literal notranslate"><span class="pre">vyos-build</span></code>. The build process will automatically use your custom
+package during the ISO build.</p>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h3>
+<p>Debian APT does not provide verbose error messages. If your ISO build fails and
+you suspect an APT dependencies or installation issue, you can apply this patch
+to increase APT verbosity during the ISO build.</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gh">diff --git i/scripts/live-build-config w/scripts/live-build-config</span>
+<span class="gh">index 1b3b454..3696e4e 100755</span>
+<span class="gd">--- i/scripts/live-build-config</span>
+<span class="gi">+++ w/scripts/live-build-config</span>
+<span class="gu">@@ -57,7 +57,8 @@ lb config noauto \</span>
+<span class="w"> </span>        --firmware-binary false \
+<span class="w"> </span>        --updates true \
+<span class="w"> </span>        --security true \
+<span class="gd">-        --apt-options "--yes -oAcquire::Check-Valid-Until=false" \</span>
+<span class="gi">+        --apt-options "--yes -oAcquire::Check-Valid-Until=false -oDebug::BuildDeps=true -oDebug::pkgDepCache::AutoInstall=true \</span>
+<span class="gi">+                             -oDebug::pkgDepCache::Marker=true -oDebug::pkgProblemResolver=true -oDebug::Acquire::gpgv=true" \</span>
+<span class="w"> </span>        --apt-indices false
+<span class="w"> </span>        "${@}"
+<span class="w"> </span>"""
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-packages">
+<span id="id4"></span><h2>Packages<a class="headerlink" href="#build-packages" title="Link to this heading"></a></h2>
+<p>VyOS comes with specific packages that cannot be found in any
+Debian mirror. These packages are located in the <a class="reference external" href="https://github.com/vyos">VyOS GitHub project</a> in
+source format and can easily be compiled into custom
+Debian (<code class="docutils literal notranslate"><span class="pre">*.deb</span></code>) packages.</p>
+<p>The easiest way to compile your package is with the <a class="reference internal" href="#build-docker"><span class="std std-ref">Docker</span></a>
+container mentioned earlier, as it includes all required dependencies for all
+VyOS related packages.</p>
+<p>Assuming you want to build the <code class="docutils literal notranslate"><span class="pre">vyos-1x</span></code> package and modify it for your needs,
+first clone the repository from GitHub:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone --recurse-submodules https://github.com/vyos/vyos-1x
+</pre></div>
+</div>
+<section id="id5">
+<h3>Build<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>Launch the Docker container and build the package:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># For VyOS 1.3 (equuleus, rolling)
+$ docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:rolling bash
+
+# Change to source directory
+$ cd vyos-1x
+
+# Build DEB
+$ dpkg-buildpackage -uc -us -tc -b
+</pre></div>
+</div>
+<p>After a minute or two, the generated DEB packages are located next to the
+<code class="docutils literal notranslate"><span class="pre">vyos-1x</span></code> source directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ls -al ../vyos-1x*.deb
+-rw-r--r-- 1 vyos_bld vyos_bld 567420 Aug  3 12:01 ../vyos-1x_1.3dev0-1847-gb6dcb0a8_all.deb
+-rw-r--r-- 1 vyos_bld vyos_bld   3808 Aug  3 12:01 ../vyos-1x-vmware_1.3dev0-1847-gb6dcb0a8_amd64.deb
+</pre></div>
+</div>
+</section>
+<section id="install">
+<h3>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h3>
+<p>To test your newly created package, you can SCP it to a running VyOS instance
+and install the new <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> package to replace the current one.</p>
+<p>Install the package using the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ dpkg --install /tmp/vyos-1x_&lt;version&gt;_all.deb
+</pre></div>
+</div>
+<p>You can also place the generated <code class="docutils literal notranslate"><span class="pre">*.deb</span></code> in your ISO build environment to
+include it in a custom ISO. See <a class="reference internal" href="#build-custom-packages"><span class="std std-ref">Linux Kernel</span></a> for more
+information.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Any packages in the <code class="docutils literal notranslate"><span class="pre">packages</span></code> directory will be added to the
+ISO during the build, replacing upstream packages. Delete both the source
+directories and built DEB packages if you want to build an ISO from purely
+upstream packages.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development.html" class="btn btn-neutral float-right" title="Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

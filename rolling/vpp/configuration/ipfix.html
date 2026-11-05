@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP IPFIX Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/ipfix.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VPP IPsec Configuration" href="ipsec.html" />
+    <link rel="prev" title="VPP ACL Configuration" href="acl.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interfaces/index.html">VPP Interfaces Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VPP IPFIX Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#key-ipfix-concepts">Key IPFIX Concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-options">Configuration Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-configuration">Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat/index.html">VPP NAT Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Configuration</a></li>
+      <li class="breadcrumb-item active">VPP IPFIX Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/ipfix.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vpp-ipfix-configuration">
+<h1>VPP IPFIX Configuration<a class="headerlink" href="#vpp-ipfix-configuration" title="Link to this heading"></a></h1>
+<p>VPP IPFIX in VyOS allows monitoring and exporting network traffic flows
+for analytics, security, and accounting. IPFIX works with the VPP
+(Vector Packet Processing) backend to provide high-performance flow tracking.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>VyOS integrates VPP for high-performance packet processing. IPFIX
+configuration controls how flows are monitored, exported, and which
+interfaces are included.</p>
+</section>
+<section id="key-ipfix-concepts">
+<h2>Key IPFIX Concepts<a class="headerlink" href="#key-ipfix-concepts" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Active timeout</strong>: Maximum time a flow is kept active before export.</p></li>
+<li><p><strong>Inactive timeout</strong>: Maximum time an idle flow is kept before export.</p></li>
+<li><p><strong>Collector</strong>: The remote host and port to which flow records are sent.</p></li>
+<li><p><strong>Flow layers</strong>: Determines which layer information is included
+(<code class="docutils literal notranslate"><span class="pre">l2</span></code>, <code class="docutils literal notranslate"><span class="pre">l3</span></code>, <code class="docutils literal notranslate"><span class="pre">l4</span></code>).</p></li>
+<li><p><strong>Interfaces</strong>: Physical or virtual interfaces to monitor.</p></li>
+<li><p><strong>Direction</strong>: Which traffic to monitor (<code class="docutils literal notranslate"><span class="pre">rx</span></code>, <code class="docutils literal notranslate"><span class="pre">tx</span></code>, <code class="docutils literal notranslate"><span class="pre">both</span></code>).</p></li>
+<li><p><strong>Flow variant</strong>: Optional filter for IPv4 or IPv6 flows.</p></li>
+</ul>
+</section>
+<section id="configuration-options">
+<h2>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>active-timeout</strong>: Duration (in seconds) after which active flows
+are exported.</p></li>
+<li><p><strong>inactive-timeout</strong>: Duration (in seconds) after which idle flows
+are exported.</p></li>
+<li><p><strong>collector `&lt;ip&gt;` port `&lt;port&gt;`</strong>: IP and UDP port of the IPFIX collector.</p></li>
+<li><p><strong>collector `&lt;ip&gt;` source-address `&lt;ip&gt;`</strong>: Source address for flow export.</p></li>
+<li><p><strong>flowprobe-record `&lt;l2|l3|l4&gt;`</strong>: Layers to include in flow records.</p></li>
+<li><p><strong>interface</strong> <code class="docutils literal notranslate"><span class="pre">&lt;interface&gt;</span></code> <strong>[direction</strong> <code class="docutils literal notranslate"><span class="pre">&lt;rx|tx|both&gt;</span></code><strong>]</strong>
+<strong>[flow-variant</strong> <code class="docutils literal notranslate"><span class="pre">&lt;ipv4|ipv6&gt;</span></code><strong>]</strong>: Interfaces to monitor,
+direction of traffic, and optional flow variant filter.</p></li>
+</ul>
+</section>
+<section id="example-configuration">
+<h2>Example Configuration<a class="headerlink" href="#example-configuration" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp ipfix active-timeout '15'
+set vpp ipfix inactive-timeout '120'
+set vpp ipfix collector 192.0.2.2 port '4739'
+set vpp ipfix collector 192.0.2.2 source-address '192.0.2.1'
+set vpp ipfix flowprobe-record 'l2'
+set vpp ipfix flowprobe-record 'l3'
+set vpp ipfix flowprobe-record 'l4'
+set vpp ipfix interface eth0
+set vpp ipfix interface eth1 direction 'both'
+set vpp ipfix interface eth1 flow-variant 'ipv4'
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acl.html" class="btn btn-neutral float-left" title="VPP ACL Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipsec.html" class="btn btn-neutral float-right" title="VPP IPsec Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

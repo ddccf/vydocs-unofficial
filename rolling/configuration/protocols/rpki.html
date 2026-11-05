@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Resource Public Key Infrastructure (RPKI) is an architecture designed to secure the internet routing infrastructure by cryptographically associating IP address prefixes with their originating ASNs. " name="description" />
+<meta content="rpki, roa, bgp, routing security, rtr, validator, asn" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPKI &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/protocols/rpki.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Static" href="static.html" />
+    <link rel="prev" title="RIP" href="rip.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="traffic-engineering.html">Traffic Engineering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openfabric.html">OpenFabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIMv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RPKI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#current-implementation">Current implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">RPKI</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/protocols/rpki.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rpki">
+<span id="id1"></span><h1>RPKI<a class="headerlink" href="#rpki" title="Link to this heading"></a></h1>
+<p><abbr title="Resource Public Key Infrastructure">RPKI</abbr> is an architecture designed
+to secure the internet routing infrastructure. It cryptographically associates
+IP address prefixes with the correct originating
+<abbr title="Autonomous System Numbers">ASNs</abbr>. BGP routers can use this data to
+check the origin of each route against the corresponding
+<abbr title="Route Origin Authorization">ROA</abbr> for validity. RPKI is described in
+<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc6480">RFC 6480</a>.</p>
+<p>BGP routers can retrieve ROA information from RPKI Relying Party software,
+also known as an RPKI server or validator, using the RTR protocol. Open-source
+implementations include NLnet Labs’
+<a class="reference external" href="https://www.nlnetlabs.nl/projects/routing/routinator/">Routinator</a> (Rust),
+OpenBSD’s <a class="reference external" href="https://www.rpki-client.org/">rpki-client</a> (C), and
+<a class="reference external" href="https://github.com/bgp/stayrtr">StayRTR</a> (Go). The RTR protocol is described
+in <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8210">RFC 8210</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are new to routing security, the
+<a class="reference external" href="https://rpki.readthedocs.io/">RPKI Documentation</a> maintained by NLnet Labs
+will quickly get you up to speed. It covers everything from fundamental
+concepts to production deployment.</p>
+</div>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>First, you need to deploy an RPKI validator for your routers. The
+<a class="reference external" href="https://rpki.readthedocs.io/">RPKI Documentation</a> maintained by NLnet Labs
+provides a comprehensive list of open-source software packages you can compare
+and choose from. Once your chosen server is running, your routers can start
+validating announcements.</p>
+<p>After validation, imported routes may have one of the following states:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">valid</span></code>: The prefix and originating ASN match a signed ROA. These route
+announcements are considered trustworthy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">invalid</span></code>: The prefix, prefix length, or originating ASN does not match
+any existing ROA. This may indicate a prefix hijack or misconfiguration
+and should be treated as untrustworthy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notfound</span></code>: No ROA covers the prefix. As of early 2024, this applies to
+approximately 40% to 50% of prefixes announced to the
+<abbr title="Default-Free Zone">DFZ</abbr>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you manage global IP addresses for your network, ensure their prefixes
+have associated ROAs to prevent them from being marked as <code class="docutils literal notranslate"><span class="pre">notfound</span></code> by
+RPKI.</p>
+</div>
+<p>For most network operators, this involves publishing ROAs through their
+respective <abbr title="Regional Internet Registry">RIR</abbr>, such as ARIN, RIPE NCC,
+APNIC, LACNIC, or AFRINIC. It is highly recommended to create ROAs for any IP
+prefixes you plan to announce into the DFZ.</p>
+<p>Particularly large networks may choose to run their own RPKI certificate
+authority and publication server instead of publishing ROAs via their RIR.
+This subject is beyond the scope of VyOS documentation. For more information,
+consider reviewing resources about
+<a class="reference external" href="https://www.nlnetlabs.nl/projects/routing/krill/">Krill</a>.</p>
+</section>
+<section id="current-implementation">
+<h2>Current implementation<a class="headerlink" href="#current-implementation" title="Link to this heading"></a></h2>
+<p>The current implementation includes the following features:</p>
+<ul class="simple">
+<li><p>The BGP router connects to one or more RPKI cache servers to receive
+validated prefix-to-origin AS mappings. Advanced failover can be
+implemented by configuring multiple cache servers with different
+preference values.</p></li>
+<li><p>If no connection to an RPKI cache server is established after a predefined
+timeout, the router processes routes without prefix origin validation. It
+will continue attempting to connect to an RPKI cache server in the
+background.</p></li>
+<li><p>By default, enabling RPKI does not affect best path selection. Invalid
+prefixes are still considered during best path selection, but you can
+configure the router to ignore them.</p></li>
+<li><p>You can configure route maps to match a specific RPKI validation state.
+This enables the creation of local policies that handle BGP routes based
+on Prefix Origin Validation results.</p></li>
+<li><p>Updates from RPKI cache servers are applied directly, and path selection
+is updated accordingly. Note: BGP soft reconfiguration must be enabled
+for this feature to work.</p></li>
+</ul>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-polling-period-1-86400">
+set protocols rpki polling-period &lt;1-86400&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-polling-period-1-86400" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, at which the router polls the RPKI
+cache server for updates.</strong></p>
+<p>The default value is 300 seconds.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki polling-period 600
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-expire-interval-600-172800">
+set protocols rpki expire-interval &lt;600-172800&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-expire-interval-600-172800" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, after which the router expires its
+cached RPKI data.</strong></p>
+<p>The default value is 7200 seconds.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki expire-interval 14400
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-retry-interval-1-7200">
+set protocols rpki retry-interval &lt;1-7200&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-retry-interval-1-7200" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, before the router retries a failed
+connection to the RPKI cache server.</strong></p>
+<p>The default value is 600 seconds.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki retry-interval 60
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-cache-address-port-1-65535">
+set protocols rpki cache &lt;address&gt; port &lt;1-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-cache-address-port-1-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the address and port of an RPKI cache server.</strong></p>
+<p>The address can be specified as an IPv4 or IPv6 address, or as a
+<abbr title="Fully Qualified Domain Name">FQDN</abbr>.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You need to configure both <code class="docutils literal notranslate"><span class="pre">port</span></code> and <code class="docutils literal notranslate"><span class="pre">preference</span></code> for each cache server
+IP address.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki cache 192.0.2.1 port 3323
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-cache-address-preference-1-255">
+set protocols rpki cache &lt;address&gt; preference &lt;1-255&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-cache-address-preference-1-255" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the preference value for an RPKI cache server.</strong></p>
+<p>When multiple cache servers are configured, the router prioritizes
+connecting to the server with the lowest preference value.</p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You need to configure both <code class="docutils literal notranslate"><span class="pre">port</span></code> and <code class="docutils literal notranslate"><span class="pre">preference</span></code> for each cache server
+IP address.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">preference</span></code> values must be unique across cache servers.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki cache 192.0.2.1 preference 1
+</pre></div>
+</div>
+<section id="ssh">
+<h3>SSH<a class="headerlink" href="#ssh" title="Link to this heading"></a></h3>
+<p>You can connect to the RPKI cache server using the RTR protocol over plain
+TCP or over SSH. SSH provides transport integrity and confidentiality. Use
+SSH if your validation software supports this option.</p>
+<p>To use SSH authentication, complete the following steps:</p>
+<p><strong>Step 1.</strong> Generate an SSH client keypair:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-ssh-client-key-config-auth-id-rsa-rpki">
+generate ssh client-key /config/auth/id_rsa_rpki</span>
+<a class="cmdlink" href="#opcmd-generate-ssh-client-key-config-auth-id-rsa-rpki" title="Permalink to this Command"></a></div></div>
+<p><strong>Step 2.</strong> Extract the base64 portion from both keys, plus the public
+key’s algorithm identifier:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">"PRIVATE KEY"</span><span class="w"> </span>/config/auth/id_rsa_rpki<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">'\n'</span>
+<span class="w">   </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="w"> </span>/config/auth/id_rsa_rpki.pub
+<span class="w">   </span>awk<span class="w"> </span><span class="s1">'{print $1}'</span><span class="w"> </span>/config/auth/id_rsa_rpki.pub
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The PKI subsystem accepts only the base64 portion of each key, without
+any PEM/OpenSSH headers, footer, or line breaks. If you paste the file
+contents directly, the commit fails.</p>
+</div>
+<p><strong>Step 3.</strong> Import the keypair into the PKI subsystem:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   set pki openssh &lt;name&gt; private key &lt;base64-encoded-private-key&gt;
+   set pki openssh &lt;name&gt; public key &lt;base64-encoded-public-key&gt;
+   set pki openssh &lt;name&gt; public type &lt;type&gt;
+</pre></div>
+</div>
+<p>Once the keypair is imported, set up the SSH connection using the commands
+below.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-cache-address-ssh-username-user">
+set protocols rpki cache &lt;address&gt; ssh username &lt;user&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-cache-address-ssh-username-user" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the SSH username for authenticating to the RPKI cache server.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki cache 192.0.2.1 ssh username rpki-user
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-rpki-cache-address-ssh-key-name">
+set protocols rpki cache &lt;address&gt; ssh key &lt;name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-rpki-cache-address-ssh-key-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the name of the OpenSSH keypair used to authenticate to the RPKI
+cache server.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> must match a keypair name previously defined under the
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">pki</span> <span class="pre">openssh</span></code> commands.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki cache 192.0.2.1 ssh key rpki
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The following example demonstrates how to connect to an RPKI cache server
+(such as Routinator) and build an import route-map to filter prefixes based
+on their validation state.</p>
+<p>First, configure the connection to the RPKI cache server at <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols rpki cache 192.0.2.1 port '3323'
+set protocols rpki cache 192.0.2.1 preference '1'
+</pre></div>
+</div>
+<p>Next, create a route-map to apply to your incoming BGP updates. This policy
+dictates the following behavior:</p>
+<ul class="simple">
+<li><p>Permits <code class="docutils literal notranslate"><span class="pre">valid</span></code> prefixes and assigns a high local-preference (300).</p></li>
+<li><p>Permits <code class="docutils literal notranslate"><span class="pre">notfound</span></code> prefixes but assigns a lower local-preference (125).</p></li>
+<li><p>Rejects prefixes with an <code class="docutils literal notranslate"><span class="pre">invalid</span></code> state.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set policy route-map ROUTES-IN rule 10 action 'permit'
+set policy route-map ROUTES-IN rule 10 match rpki 'valid'
+set policy route-map ROUTES-IN rule 10 set local-preference '300'
+
+set policy route-map ROUTES-IN rule 20 action 'permit'
+set policy route-map ROUTES-IN rule 20 match rpki 'notfound'
+set policy route-map ROUTES-IN rule 20 set local-preference '125'
+
+set policy route-map ROUTES-IN rule 30 action 'deny'
+set policy route-map ROUTES-IN rule 30 match rpki 'invalid'
+</pre></div>
+</div>
+<p>After configuring your routers to reject RPKI-invalid prefixes, verify the
+setup using <a class="reference external" href="https://isbgpsafe.com/">Cloudflare’s test website</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ensure there are no default routes or other paths that would direct traffic
+to RPKI-invalid destinations. Otherwise, the test may report the router as
+unsafe.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rip.html" class="btn btn-neutral float-left" title="RIP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="static.html" class="btn btn-neutral float-right" title="Static" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="OpenFabric is a routing protocol derived from IS-IS that provides link-state routing with optimized flooding, making it well-suited for spine-leaf topologies. " name="description" />
+<meta content="openfabric, isis, link-state, spine-leaf, fabric, net, lsp" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenFabric &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/protocols/openfabric.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="OSPF" href="ospf.html" />
+    <link rel="prev" title="Traffic Engineering" href="traffic-engineering.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arp.html">ARP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babel.html">Babel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bfd.html">BFD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bgp.html">BGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="failover.html">Failover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="igmp-proxy.html">IGMP proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isis.html">IS-IS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpls.html">MPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multicast.html">Multicast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment-routing.html">Segment Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="traffic-engineering.html">Traffic Engineering</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OpenFabric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ospf.html">OSPF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim.html">PIM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pim6.html">PIMv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rip.html">RIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpki.html">RPKI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static.html">Static</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Protocols</a></li>
+      <li class="breadcrumb-item active">OpenFabric</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/protocols/openfabric.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="openfabric">
+<span id="id1"></span><h1>OpenFabric<a class="headerlink" href="#openfabric" title="Link to this heading"></a></h1>
+<p>OpenFabric, specified in <a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-white-openfabric-06">draft-white-openfabric-06.txt</a>,</p>
+<p>is a routing protocol derived from IS-IS. It provides link-state routing with
+optimized flooding, making it well-suited for spine-leaf topologies.</p>
+<p>OpenFabric is a dual-stack protocol. A single instance can simultaneously
+route both IPv4 and IPv6 traffic.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="mandatory-settings">
+<h3>Mandatory settings<a class="headerlink" href="#mandatory-settings" title="Link to this heading"></a></h3>
+<p>Each OpenFabric router must be configured with a unique
+<abbr title="Network Entity Title">NET</abbr>, the
+<abbr title="Connectionless Network Service">CLNS</abbr> equivalent of a Router ID. The
+6-byte system identifier portion of the NET must be unique across the fabric.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-net-network-entity-title">
+set protocols openfabric net &lt;network-entity-title&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-net-network-entity-title" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the Network Entity Title (NET) for the router.</strong></p>
+<p>A typical NET looks like <code class="docutils literal notranslate"><span class="pre">49.0001.1921.6800.1002.00</span></code>.</p>
+<p>The NET consists of the following parts:</p>
+<ul class="simple">
+<li><p><strong><abbr title="Authority and Format Identifier">AFI</abbr></strong> (<code class="docutils literal notranslate"><span class="pre">49</span></code>): OpenFabric
+conventionally uses AFI value 49 for private addressing.</p></li>
+<li><p><strong>Area identifier</strong> (<code class="docutils literal notranslate"><span class="pre">0001</span></code>): The area number within the fabric (in this
+case, Area 1).</p></li>
+<li><p><strong>System identifier</strong> (<code class="docutils literal notranslate"><span class="pre">1921.6800.1002</span></code>): Uniquely identifies the router
+within the fabric. We recommend deriving this value from the router IP
+address or MAC address. To construct the system identifier from an IPv4
+address (for example, <code class="docutils literal notranslate"><span class="pre">192.168.1.2</span></code>):</p>
+<ul>
+<li><p>Pad each octet with leading zeros: <code class="docutils literal notranslate"><span class="pre">192.168.1.2</span></code> → <code class="docutils literal notranslate"><span class="pre">192.168.001.002</span></code>.</p></li>
+<li><p>Regroup the digits into three 4-digit blocks: <code class="docutils literal notranslate"><span class="pre">192.168.001.002</span></code> →
+<code class="docutils literal notranslate"><span class="pre">1921.6800.1002</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>NET selector</strong> (<code class="docutils literal notranslate"><span class="pre">00</span></code>): Must always be <code class="docutils literal notranslate"><span class="pre">00</span></code> to indicate the local system.</p></li>
+</ul>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric net 49.0001.1921.6800.1002.00
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-address-family-ipv4-ipv6">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; address-family &lt;ipv4|ipv6&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-address-family-ipv4-ipv6" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the named OpenFabric domain on a specific interface for the
+given address family (IPv4 or IPv6).</strong></p>
+<p>For dual-stack operation, run the command twice: once with <code class="docutils literal notranslate"><span class="pre">ipv4</span></code> and once
+with <code class="docutils literal notranslate"><span class="pre">ipv6</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth1 address-family ipv4
+set protocols openfabric domain fabric1 interface eth1 address-family ipv6
+</pre></div>
+</div>
+</section>
+<section id="openfabric-global-configuration">
+<h3>OpenFabric global configuration<a class="headerlink" href="#openfabric-global-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-domain-password-plaintext-password-md5-password">
+set protocols openfabric domain &lt;name&gt; domain-password &lt;plaintext-password|md5&gt; &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-domain-password-plaintext-password-md5-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication password for the specified OpenFabric
+domain.</strong></p>
+<p>The password can be specified as either plain text or
+an <abbr title="Message-Digest Algorithm 5">MD5</abbr> hash.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 domain-password md5 'shared-secret'
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-purge-originator">
+set protocols openfabric domain &lt;name&gt; purge-originator</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-purge-originator" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable <abbr title="Purge Originator Identification">POI</abbr> for the specified
+OpenFabric domain.</strong></p>
+<p>POI is defined in RFC 6232.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 purge-originator
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-set-overload-bit">
+set protocols openfabric domain &lt;name&gt; set-overload-bit</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-set-overload-bit" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the overload bit for the specified OpenFabric domain.</strong></p>
+<p>This instructs other routers in the domain not to use this router for
+transit traffic.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 set-overload-bit
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-log-adjacency-changes">
+set protocols openfabric domain &lt;name&gt; log-adjacency-changes</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-log-adjacency-changes" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable logging of adjacency state changes in the specified OpenFabric
+domain.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 log-adjacency-changes
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-fabric-tier-0-14">
+set protocols openfabric domain &lt;name&gt; fabric-tier &lt;0-14&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-fabric-tier-0-14" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure a static tier number for the specified OpenFabric domain.</strong></p>
+<p>The router advertises the tier value to indicate its location in the
+OpenFabric domain.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 fabric-tier 1
+</pre></div>
+</div>
+</section>
+<section id="interface-configuration">
+<h3>Interface configuration<a class="headerlink" href="#interface-configuration" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-hello-interval-1-600">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; hello-interval &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-hello-interval-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, at which the router transmits Hello
+packets on this interface.</strong></p>
+<p>Hello packets are exchanged with neighbors to establish and maintain
+adjacencies.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 hello-interval 5
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-hello-multiplier-2-100">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; hello-multiplier &lt;2-100&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-hello-multiplier-2-100" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the multiplier used to compute the Hello hold time on the
+specified interface.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 hello-multiplier 3
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-metric-0-16777215">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; metric &lt;0-16777215&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-metric-0-16777215" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the routing metric for the specified interface.</strong></p>
+<p>This metric is used in path selection to determine the most efficient
+route. Lower metrics indicate preferred paths.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 metric 100
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-passive">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; passive</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-passive" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable passive mode for the specified interface.</strong></p>
+<p>In passive mode, the router does not send Hello packets on the interface
+and does not form adjacencies.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 passive
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-password-plaintext-password-md5-password">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; password &lt;plaintext-password|md5&gt; &lt;password&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-password-plaintext-password-md5-password" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the authentication password for the specified interface.</strong></p>
+<p>The password can be specified as either plain text or
+an <abbr title="Message-Digest Algorithm 5">MD5</abbr> hash.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 password plaintext-password link-secret
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-csnp-interval-1-600">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; csnp-interval &lt;1-600&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-csnp-interval-1-600" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, at which
+<abbr title="Complete Sequence Number PDUs">CSNPs</abbr> are sent on the specified
+interface.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 csnp-interval 10
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-interface-interface-psnp-interval-0-120">
+set protocols openfabric domain &lt;name&gt; interface &lt;interface&gt; psnp-interval &lt;0-120&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-interface-interface-psnp-interval-0-120" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the interval, in seconds, at which
+<abbr title="Partial Sequence Number PDUs">PSNPs</abbr> are sent on the specified
+interface.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 interface eth0 psnp-interval 2
+</pre></div>
+</div>
+</section>
+<section id="timers">
+<h3>Timers<a class="headerlink" href="#timers" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-lsp-gen-interval-1-120">
+set protocols openfabric domain &lt;name&gt; lsp-gen-interval &lt;1-120&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-lsp-gen-interval-1-120" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the minimum interval, in seconds, between successive
+generations of the same <abbr title="Link State PDU">LSP</abbr> in the OpenFabric
+domain.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 lsp-gen-interval 5
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-lsp-refresh-interval-1-65235">
+set protocols openfabric domain &lt;name&gt; lsp-refresh-interval &lt;1-65235&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-lsp-refresh-interval-1-65235" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the LSP refresh interval, in seconds, for the OpenFabric
+domain.</strong></p>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The value must be lower than <code class="docutils literal notranslate"><span class="pre">max-lsp-lifetime</span></code>. Otherwise, LSPs will
+time out before they can be refreshed.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 lsp-refresh-interval 900
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-max-lsp-lifetime-360-65535">
+set protocols openfabric domain &lt;name&gt; max-lsp-lifetime &lt;360-65535&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-max-lsp-lifetime-360-65535" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the maximum lifetime, in seconds, for LSPs in the OpenFabric
+domain.</strong></p>
+<p>By default, LSPs remain in the link-state database for 1200 seconds and
+are deleted if they are not refreshed.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 max-lsp-lifetime 1200
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-protocols-openfabric-domain-name-spf-interval-1-120">
+set protocols openfabric domain &lt;name&gt; spf-interval &lt;1-120&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-protocols-openfabric-domain-name-spf-interval-1-120" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the minimum interval, in seconds, between consecutive
+<abbr title="Shortest Path First">SPF</abbr> calculations in the OpenFabric domain.</strong></p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols openfabric domain fabric1 spf-interval 5
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The following example demonstrates a basic OpenFabric configuration between
+two routers.</p>
+<p><strong>Node 1:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address '198.51.100.1/32'
+set interfaces ethernet eth1 address '192.0.2.1/24'
+
+set protocols openfabric domain VyOS interface eth1 address-family ipv4
+set protocols openfabric domain VyOS interface lo address-family ipv4
+set protocols openfabric domain VyOS interface lo passive
+set protocols openfabric net '49.0001.1980.5110.0001.00'
+</pre></div>
+</div>
+<p><strong>Node 2:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces loopback lo address '198.51.100.2/32'
+set interfaces ethernet eth1 address '192.0.2.2/24'
+
+set protocols openfabric domain VyOS interface eth1 address-family ipv4
+set protocols openfabric domain VyOS interface lo address-family ipv4
+set protocols openfabric domain VyOS interface lo passive
+set protocols openfabric net '49.0001.1980.5110.0002.00'
+</pre></div>
+</div>
+<p>After committing the configuration, verify the neighbor adjacencies on both
+nodes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@node-1:~$ show openfabric neighbor
+show openfabric neighbor
+Area VyOS:
+  System Id           Interface   L  State        Holdtime SNPA
+  node-2              eth1        2  Up            27      2020.2020.2020
+
+
+vyos@node-2:~$ show openfabric neighbor
+show openfabric neighbor
+Area VyOS:
+  System Id           Interface   L  State        Holdtime SNPA
+  node-1              eth1        2  Up            30      2020.2020.2020
+</pre></div>
+</div>
+<p>Verify that the OpenFabric routes have successfully populated:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@node-1:~$ show ip route openfabric
+show ip route openfabric
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+f   192.0.2.0/24 [115/20] via 192.0.2.2, eth1 onlink, weight 1, 00:00:10
+f&gt;* 198.51.100.2/32 [115/20] via 192.0.2.2, eth1 onlink, weight 1, 00:00:10
+
+vyos@node-2:~$ show ip route openfabric
+show ip route openfabric
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+f   192.0.2.0/24 [115/20] via 192.0.2.1, eth1 onlink, weight 1, 00:00:48
+f&gt;* 198.51.100.1/32 [115/20] via 192.0.2.1, eth1 onlink, weight 1, 00:00:48
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="traffic-engineering.html" class="btn btn-neutral float-left" title="Traffic Engineering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ospf.html" class="btn btn-neutral float-right" title="OSPF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

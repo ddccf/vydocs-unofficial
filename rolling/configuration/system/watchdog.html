@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watchdog &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/system/watchdog.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Default Gateway/Route" href="default-route.html" />
+    <link rel="prev" title="Updates" href="updates.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acceleration.html">Acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack.html">Conntrack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Serial console</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow-accounting.html">Flow accounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frr.html">FRR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host-name.html">Host information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ip.html">IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipv6.html">IPv6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd.html">System Display (LCD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="login.html">Login/user management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="name-server.html">System DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="proxy.html">System Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">sFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syslog.html">Syslog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysctl.html">Sysctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task-scheduler.html">Task Scheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time-zone.html">Time Zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Watchdog</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="default-route.html">Default Gateway/Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">System</a></li>
+      <li class="breadcrumb-item active">Watchdog</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/system/watchdog.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="watchdog">
+<span id="system-watchdog"></span><h1>Watchdog<a class="headerlink" href="#watchdog" title="Link to this heading"></a></h1>
+<p>VyOS supports hardware watchdog timers to automatically reboot the system if
+it becomes unresponsive. This is particularly useful for remote or embedded
+systems where physical access is limited.</p>
+<p>A watchdog timer is a hardware or software mechanism that automatically resets
+the system if the operating system stops responding within a configured timeout
+period. The system will periodically notify the watchdog that it is still
+running. If the watchdog is not notified within the timeout period, the watchdog
+will reset the system.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>The watchdog feature is configured under the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">watchdog</span></code> configuration
+tree. The presence of the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">watchdog</span></code> node enables the watchdog feature.</p>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-watchdog">
+set system watchdog</span>
+<a class="cmdlink" href="#cfgcmd-set-system-watchdog" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Enable watchdog support.</p>
+<p>The watchdog is enabled only when a watchdog device is available as
+<code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If multiple watchdog devices are present, only the first watchdog
+device is supported (VyOS uses <code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code> only).</p>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code> does not exist and no module is configured, commit will
+fail. If a module is configured but <code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code> still cannot be
+created, VyOS will emit a warning and will not enable the systemd watchdog.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-watchdog-module-module-name">
+set system watchdog module &lt;module-name&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-system-watchdog-module-module-name" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Specify the kernel watchdog driver module to load for <code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code>.</p>
+<p>The configured module must be a watchdog driver module, not an arbitrary
+kernel module.</p>
+<p><strong>In most cases, this option is not required</strong> as the kernel will
+automatically load the appropriate watchdog driver for your system. Use this
+option if the kernel fails to load the required driver, or when you want to
+use the software watchdog (<code class="docutils literal notranslate"><span class="pre">softdog</span></code>).</p>
+<p>Common modules include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">softdog</span></code> - Software watchdog timer (available on all systems)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iTCO_wdt</span></code> - Intel TCO watchdog timer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sp5100_tco</span></code> - AMD SP5100 TCO watchdog timer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">i6300esb</span></code> - Intel 6300ESB watchdog timer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ipmi_watchdog</span></code> - IPMI watchdog timer</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">softdog</span></code> is not a hardware watchdog. It is implemented using
+kernel timers and therefore depends on the Linux kernel continuing to run.
+In some fault conditions (for example, a kernel hang), <code class="docutils literal notranslate"><span class="pre">softdog</span></code> may not
+be able to trigger a reset.</p>
+<p>Prefer a hardware watchdog driver whenever possible, as hardware watchdogs
+can operate independently of the operating system.</p>
+</div>
+<p>If no module is specified, VyOS will use an existing <code class="docutils literal notranslate"><span class="pre">/dev/watchdog0</span></code>
+device if available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a module is specified but a different driver is actually bound
+to <code class="docutils literal notranslate"><span class="pre">watchdog0</span></code>, VyOS will emit a warning during commit.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog module softdog
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-watchdog-timeout-seconds">
+set system watchdog timeout &lt;seconds&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-watchdog-timeout-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the watchdog timeout for normal runtime operation in seconds.</p>
+<p>Valid range: 1-65535 seconds</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some watchdog drivers expose minimum and maximum supported runtime
+timeouts via sysfs. When available, VyOS validates <code class="docutils literal notranslate"><span class="pre">timeout</span></code> against
+those driver limits during commit.</p>
+</div>
+<p>This is the interval during which the system must respond to the watchdog.
+If the system does not respond within this time, the watchdog will trigger
+a reboot.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog timeout 30
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-watchdog-shutdown-timeout-seconds">
+set system watchdog shutdown-timeout &lt;seconds&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-watchdog-shutdown-timeout-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the watchdog timeout during system shutdown in seconds.</p>
+<p>Valid range: 60-65535 seconds</p>
+<p>This extended timeout allows the system to complete a graceful shutdown
+without triggering the watchdog.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting this value too low (below 120 seconds) may cause
+unclean shutdowns, as the system may not have enough time to properly
+stop all services and flush disk buffers. The recommended minimum value
+is 120 seconds.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog shutdown-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-system-watchdog-reboot-timeout-seconds">
+set system watchdog reboot-timeout &lt;seconds&gt; </span>
+<a class="cmdlink" href="#cfgcmd-set-system-watchdog-reboot-timeout-seconds" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the watchdog timeout during system reboot in seconds.</p>
+<p>Valid range: 60-65535 seconds</p>
+<p>This extended timeout allows the system to complete the reboot process
+without triggering the watchdog during the transition.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting this value too low (below 120 seconds) may cause
+unclean reboots, as the system may not have enough time to properly
+stop all services before restarting. The recommended minimum value
+is 120 seconds.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog reboot-timeout 180
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="basic-configuration-with-software-watchdog">
+<h3>Basic Configuration with Software Watchdog<a class="headerlink" href="#basic-configuration-with-software-watchdog" title="Link to this heading"></a></h3>
+<p>This example configures a basic software watchdog with default timeouts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog module softdog
+</pre></div>
+</div>
+<p>This will:</p>
+<ul class="simple">
+<li><p>Enable the watchdog feature</p></li>
+<li><p>Load the <code class="docutils literal notranslate"><span class="pre">softdog</span></code> kernel module</p></li>
+<li><p>Use a 10-second runtime timeout (default)</p></li>
+<li><p>Use 120-second shutdown and reboot timeouts (default)</p></li>
+</ul>
+</section>
+<section id="advanced-configuration">
+<h3>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Link to this heading"></a></h3>
+<p>This example shows a more customized configuration suitable for a production
+system:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set system watchdog module iTCO_wdt
+set system watchdog timeout 30
+set system watchdog shutdown-timeout 300
+set system watchdog reboot-timeout 300
+</pre></div>
+</div>
+<p>This configuration:</p>
+<ul class="simple">
+<li><p>Enables the watchdog feature</p></li>
+<li><p>Loads the Intel TCO hardware watchdog module</p></li>
+<li><p>Sets a 30-second runtime timeout</p></li>
+<li><p>Allows 5 minutes for shutdown and reboot operations</p></li>
+</ul>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Start with conservative timeouts</strong>: Use longer timeouts initially and
+reduce them as you gain confidence in system stability.</p></li>
+<li><p><strong>Test before deployment</strong>: Verify the watchdog works as expected in a
+non-production environment before deploying to production systems.</p></li>
+<li><p><strong>Choose appropriate modules</strong>: Use hardware watchdog modules (like
+<code class="docutils literal notranslate"><span class="pre">iTCO_wdt</span></code>) when available, as they are more reliable than software
+watchdogs.</p></li>
+<li><p><strong>Consider shutdown time</strong>: Set <code class="docutils literal notranslate"><span class="pre">shutdown-timeout</span></code> and <code class="docutils literal notranslate"><span class="pre">reboot-timeout</span></code>
+values high enough to allow for normal shutdown procedures, especially on
+systems with many services or slow storage.</p></li>
+<li><p><strong>Monitor watchdog events</strong>: Check system logs after any unexpected reboots
+to determine if the watchdog triggered the reboot.</p></li>
+<li><p><strong>Remote systems</strong>: For systems without physical console access, use
+conservative timeout values to avoid false-positive reboots during high
+load conditions.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The watchdog configuration takes effect immediately after commit,
+but systemd must be reloaded. This happens automatically during commit.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Incorrect watchdog configuration on remote systems can result
+in unexpected reboots. Always test watchdog settings in a controlled
+environment before deploying to production systems.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="updates.html" class="btn btn-neutral float-left" title="Updates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="default-route.html" class="btn btn-neutral float-right" title="Default Gateway/Route" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

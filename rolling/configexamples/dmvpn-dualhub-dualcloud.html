@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMVPN Dual HUB Dual Cloud &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configexamples/dmvpn-dualhub-dualcloud.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="QoS example" href="qos.html" />
+    <link rel="prev" title="Inter-VRF Routing over VRF Lite" href="inter-vrf-routing-vrf-lite.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Configuration Blueprints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewall.html">Firewall Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bgp-ipv6-unnumbered.html">BGP IPv6 unnumbered with extended nexthop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ospf-unnumbered.html">OSPF unnumbered with ECMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-bgp.html">Route-Based Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="azure-vpn-dual-bgp.html">Route-Based Redundant Site-to-Site VPN to Azure (BGP over IKEv2/IPsec)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gcp-ha-vpn-bgp.html">Route-Based Site-to-Site VPN to Google Cloud HA VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ha.html">High Availability Walkthrough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wan-load-balancing.html">WAN Load Balancer examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pppoe-ipv6-basic.html">PPPoE IPv6 Basic Setup for Home Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l3vpn-hub-and-spoke.html">L3VPN for Hub-and-Spoke connectivity with VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lac-lns.html">PPPoE over L2TP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inter-vrf-routing-vrf-lite.html">Inter-VRF Routing over VRF Lite</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DMVPN Dual HUB Dual Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-topology">Network Topology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configurations">Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#underlay-configuration">Underlay configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nhrp-configuration">NHRP configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#overlay-configuration">Overlay configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-configuration">Security configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qos.html">QoS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="segment-routing-isis.html">Segment-routing IS-IS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nmp.html">NMP example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-cisco-policy-based.html">Policy-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-cisco-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Cisco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipsec-pa-route-based.html">Route-based Site-to-Site VPN IPsec between VyOS and Palo Alto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="policy-based-ipsec-and-firewall.html">Policy-Based Site-to-Site VPN and Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="site-2-site-cisco.html">Site-to-Site IPSec VPN to Cisco using FlexVPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#configuration-blueprints-autotest">Configuration Blueprints (autotest)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Configuration Blueprints</a></li>
+      <li class="breadcrumb-item active">DMVPN Dual HUB Dual Cloud</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configexamples/dmvpn-dualhub-dualcloud.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dmvpn-dual-hub-dual-cloud">
+<span id="examples-dmvpn-dualhub-dualcloud"></span><h1>DMVPN Dual HUB Dual Cloud<a class="headerlink" href="#dmvpn-dual-hub-dual-cloud" title="Link to this heading"></a></h1>
+<p>This document is to describe a basic setup to build DMVPN network with two Hubs
+and two clouds using DMVPN Phase3.
+OSPF is used as routing protocol inside DMVPN.</p>
+<p>In this example we use VyOS 1.5 as HUBs and Spokes (HUB-1, HUB-2, SPOKE-2,
+SPOKE-3) and Cisco IOSv 15.5(3)M (SPOKE-1) as a Spoke.</p>
+<section id="network-topology">
+<h2>Network Topology<a class="headerlink" href="#network-topology" title="Link to this heading"></a></h2>
+<a class="reference internal image-reference" href="../images/dual-hub-DMVPN.webp"><img alt="DMVPN Network Topology" class="align-center" src="../images/dual-hub-DMVPN.webp" style="width: 80%;" /></a>
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading"></a></h2>
+<section id="underlay-configuration">
+<h3>Underlay configuration<a class="headerlink" href="#underlay-configuration" title="Link to this heading"></a></h3>
+<p>Networks 192.168.X.0/24 are used as LANs for every spoke.</p>
+<p>HUB-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '10.0.0.2/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.0.1
+</pre></div>
+</div>
+<p>HUB-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '10.0.1.2/30'
+set protocols static route 0.0.0.0/0 next-hop 10.0.1.1
+</pre></div>
+</div>
+<p>Spoke-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface GigabitEthernet0/0
+ ip address 10.0.11.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 192.168.11.1 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip route 0.0.0.0 0.0.0.0 10.0.11.1
+</pre></div>
+</div>
+<p>Spoke-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '10.0.12.2/30'
+set interfaces ethernet eth1 address '192.168.12.1/24'
+set protocols static route 0.0.0.0/0 next-hop 10.0.12.1
+</pre></div>
+</div>
+<p>Spoke-3</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces ethernet eth0 address '10.0.13.2/30'
+set interfaces ethernet eth1 address '192.168.13.1/24'
+set protocols static route 0.0.0.0/0 next-hop 10.0.13.1
+</pre></div>
+</div>
+</section>
+<section id="nhrp-configuration">
+<h3>NHRP configuration<a class="headerlink" href="#nhrp-configuration" title="Link to this heading"></a></h3>
+<p>The next step is to configure the NHRP protocol. In a Dual cloud network, every
+HUB has to be configured with one GRE multipoint tunnel interface and every
+spoke has to be configured with two tunnel interfaces, one tunnel to each hub.
+In this example tunnel networks are 10.100.100.0/24 for the first cloud
+and 10.100.101.0/24 for the second cloud. But VyOS uses FRR for NHRP, that is
+why the tunnel address mask must be /32.</p>
+<p>HUB-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun100 address '10.100.100.1/32'
+set interfaces tunnel tun100 enable-multicast
+set interfaces tunnel tun100 encapsulation 'gre'
+set interfaces tunnel tun100 ip adjust-mss '1360'
+set interfaces tunnel tun100 mtu '1436'
+set interfaces tunnel tun100 parameters ip key '42'
+set interfaces tunnel tun100 source-interface 'eth0'
+set protocols nhrp tunnel tun100 authentication 'vyos'
+set protocols nhrp tunnel tun100 holdtime '300'
+set protocols nhrp tunnel tun100 multicast 'dynamic'
+set protocols nhrp tunnel tun100 network-id '1'
+set protocols nhrp tunnel tun100 redirect
+set protocols nhrp tunnel tun100 registration-no-unique
+</pre></div>
+</div>
+<p>HUB-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun101 address '10.100.101.1/32'
+set interfaces tunnel tun101 enable-multicast
+set interfaces tunnel tun101 encapsulation 'gre'
+set interfaces tunnel tun101 ip adjust-mss '1360'
+set interfaces tunnel tun101 mtu '1436'
+set interfaces tunnel tun101 parameters ip key '43'
+set interfaces tunnel tun101 source-interface 'eth0'
+set protocols nhrp tunnel tun101 authentication 'vyos'
+set protocols nhrp tunnel tun101 holdtime '300'
+set protocols nhrp tunnel tun101 multicast 'dynamic'
+set protocols nhrp tunnel tun101 network-id '2'
+set protocols nhrp tunnel tun101 redirect
+set protocols nhrp tunnel tun101 registration-no-unique
+</pre></div>
+</div>
+<p>Spoke-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface Tunnel100
+ ip address 10.100.100.11 255.255.255.0
+ no ip redirects
+ ip mtu 1436
+ ip nhrp authentication vyos
+ ip nhrp map multicast 10.0.0.2
+ ip nhrp network-id 1
+ ip nhrp holdtime 300
+ ip nhrp nhs 10.100.100.1 nbma 10.0.0.2
+ ip nhrp shortcut
+ ip tcp adjust-mss 1360
+ tunnel source GigabitEthernet0/0
+ tunnel mode gre multipoint
+ tunnel key 42
+!
+interface Tunnel101
+ ip address 10.100.101.11 255.255.255.0
+ no ip redirects
+ ip mtu 1436
+ ip nhrp authentication vyos
+ ip nhrp map multicast 10.0.1.2
+ ip nhrp network-id 2
+ ip nhrp holdtime 300
+ ip nhrp nhs 10.100.101.1 nbma 10.0.1.2
+ ip nhrp shortcut
+ ip tcp adjust-mss 1360
+ tunnel source GigabitEthernet0/0
+ tunnel mode gre multipoint
+ tunnel key 43
+</pre></div>
+</div>
+<p>Spoke-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces tunnel tun100 address '10.100.100.12/32'
+set interfaces tunnel tun100 enable-multicast
+set interfaces tunnel tun100 encapsulation 'gre'
+set interfaces tunnel tun100 ip adjust-mss '1360'
+set interfaces tunnel tun100 mtu '1436'
+set interfaces tunnel tun100 parameters ip key '42'
+set interfaces tunnel tun100 source-interface 'eth0'
+set interfaces tunnel tun101 address '10.100.101.12/32'
+set interfaces tunnel tun101 enable-multicast
+set interfaces tunnel tun101 encapsulation 'gre'
+set interfaces tunnel tun101 ip adjust-mss '1360'
+set interfaces tunnel tun101 mtu '1436'
+set interfaces tunnel tun101 parameters ip key '43'
+set interfaces tunnel tun101 source-interface 'eth0'
+set protocols nhrp tunnel tun100 authentication 'vyos'
+set protocols nhrp tunnel tun100 holdtime '300'
+set protocols nhrp tunnel tun100 multicast '10.0.0.2'
+set protocols nhrp tunnel tun100 network-id '1'
+set protocols nhrp tunnel tun100 nhs tunnel-ip dynamic nbma '10.0.0.2'
+set protocols nhrp tunnel tun100 registration-no-unique
+set protocols nhrp tunnel tun100 shortcut
+set protocols nhrp tunnel tun101 authentication 'vyos'
+set protocols nhrp tunnel tun101 holdtime '300'
+set protocols nhrp tunnel tun101 multicast '10.0.1.2'
+set protocols nhrp tunnel tun101 network-id '2'
+set protocols nhrp tunnel tun101 nhs tunnel-ip dynamic nbma '10.0.1.2'
+set protocols nhrp tunnel tun101 registration-no-unique
+set protocols nhrp tunnel tun101 shortcut
+</pre></div>
+</div>
+<p>Spoke-3</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols nhrp tunnel tun100 authentication 'vyos'
+set protocols nhrp tunnel tun100 holdtime '300'
+set protocols nhrp tunnel tun100 multicast '10.0.0.2'
+set protocols nhrp tunnel tun100 network-id '1'
+set protocols nhrp tunnel tun100 nhs tunnel-ip dynamic nbma '10.0.0.2'
+set protocols nhrp tunnel tun100 registration-no-unique
+set protocols nhrp tunnel tun100 shortcut
+set protocols nhrp tunnel tun101 authentication 'vyos'
+set protocols nhrp tunnel tun101 holdtime '300'
+set protocols nhrp tunnel tun101 multicast '10.0.1.2'
+set protocols nhrp tunnel tun101 network-id '2'
+set protocols nhrp tunnel tun101 nhs tunnel-ip dynamic nbma '10.0.1.2'
+set protocols nhrp tunnel tun101 registration-no-unique
+set protocols nhrp tunnel tun101 shortcut
+</pre></div>
+</div>
+</section>
+<section id="overlay-configuration">
+<h3>Overlay configuration<a class="headerlink" href="#overlay-configuration" title="Link to this heading"></a></h3>
+<p>The last step is to configure the routing protocol. In this scenario, OSPF was
+chosen as the dynamic routing protocol.
+But you can use iBGP or eBGP. To form fast convergence it is possible to use
+BFD protocol.</p>
+<p>HUB-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf interface tun100 area '0'
+set protocols ospf interface tun100 network 'point-to-multipoint'
+set protocols ospf interface tun100 passive disable
+set protocols ospf passive-interface 'default'
+</pre></div>
+</div>
+<p>HUB-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf interface tun101 area '0'
+set protocols ospf interface tun101 network 'point-to-multipoint'
+set protocols ospf interface tun101 passive disable
+set protocols ospf passive-interface 'default'
+</pre></div>
+</div>
+<p>Spoke-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface Tunnel100
+ ip ospf network point-to-multipoint
+ ip ospf dead-interval 40
+ ip ospf hello-interval 10
+ ip ospf 1 area 0
+!
+interface Tunnel101
+ ip ospf network point-to-multipoint
+ ip ospf dead-interval 40
+ ip ospf hello-interval 10
+ ip ospf 1 area 0
+!
+router ospf 1
+ passive-interface default
+ no passive-interface Tunnel100
+ no passive-interface Tunnel101
+</pre></div>
+</div>
+<p>Spoke-2</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf interface eth1 area '0'
+set protocols ospf interface tun100 area '0'
+set protocols ospf interface tun100 network 'point-to-multipoint'
+set protocols ospf interface tun100 passive disable
+set protocols ospf interface tun101 area '0'
+set protocols ospf interface tun101 network 'point-to-multipoint'
+set protocols ospf interface tun101 passive disable
+set protocols ospf passive-interface 'default'
+</pre></div>
+</div>
+<p>Spoke-3</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set protocols ospf interface eth1 area '0'
+set protocols ospf interface tun100 area '0'
+set protocols ospf interface tun100 network 'point-to-multipoint'
+set protocols ospf interface tun100 passive disable
+set protocols ospf interface tun101 area '0'
+set protocols ospf interface tun101 network 'point-to-multipoint'
+set protocols ospf interface tun101 passive disable
+set protocols ospf passive-interface 'default'
+</pre></div>
+</div>
+</section>
+<section id="security-configuration">
+<h3>Security configuration<a class="headerlink" href="#security-configuration" title="Link to this heading"></a></h3>
+<p>Tunnels can be encrypted by IPSEC for security.</p>
+<p>HUB-1</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group ESP-HUB lifetime '1800'
+set vpn ipsec esp-group ESP-HUB mode 'transport'
+set vpn ipsec esp-group ESP-HUB pfs 'disable'
+set vpn ipsec esp-group ESP-HUB proposal 1 encryption 'aes256'
+set vpn ipsec esp-group ESP-HUB proposal 1 hash 'sha1'
+set vpn ipsec ike-group IKE-HUB key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-HUB lifetime '3600'
+set vpn ipsec ike-group IKE-HUB proposal 1 dh-group '2'
+set vpn ipsec ike-group IKE-HUB proposal 1 encryption 'aes256'
+set vpn ipsec ike-group IKE-HUB proposal 1 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec profile NHRPVPN authentication mode 'pre-shared-secret'
+set vpn ipsec profile NHRPVPN authentication pre-shared-secret 'secret'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun100'
+set vpn ipsec profile NHRPVPN esp-group 'ESP-HUB'
+set vpn ipsec profile NHRPVPN ike-group 'IKE-HUB'
+</pre></div>
+</div>
+</div></blockquote>
+<p>HUB-2</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group ESP-HUB lifetime '1800'
+set vpn ipsec esp-group ESP-HUB mode 'transport'
+set vpn ipsec esp-group ESP-HUB pfs 'disable'
+set vpn ipsec esp-group ESP-HUB proposal 1 encryption 'aes256'
+set vpn ipsec esp-group ESP-HUB proposal 1 hash 'sha1'
+set vpn ipsec ike-group IKE-HUB key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-HUB lifetime '3600'
+set vpn ipsec ike-group IKE-HUB proposal 1 dh-group '2'
+set vpn ipsec ike-group IKE-HUB proposal 1 encryption 'aes256'
+set vpn ipsec ike-group IKE-HUB proposal 1 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec profile NHRPVPN authentication mode 'pre-shared-secret'
+set vpn ipsec profile NHRPVPN authentication pre-shared-secret 'secret'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun101'
+set vpn ipsec profile NHRPVPN esp-group 'ESP-HUB'
+set vpn ipsec profile NHRPVPN ike-group 'IKE-HUB'
+</pre></div>
+</div>
+</div></blockquote>
+<p>VyOS Spokes have the same configuration</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpn ipsec esp-group ESP-HUB lifetime '1800'
+set vpn ipsec esp-group ESP-HUB mode 'transport'
+set vpn ipsec esp-group ESP-HUB pfs 'disable'
+set vpn ipsec esp-group ESP-HUB proposal 1 encryption 'aes256'
+set vpn ipsec esp-group ESP-HUB proposal 1 hash 'sha1'
+set vpn ipsec ike-group IKE-HUB key-exchange 'ikev1'
+set vpn ipsec ike-group IKE-HUB lifetime '3600'
+set vpn ipsec ike-group IKE-HUB proposal 1 dh-group '2'
+set vpn ipsec ike-group IKE-HUB proposal 1 encryption 'aes256'
+set vpn ipsec ike-group IKE-HUB proposal 1 hash 'sha1'
+set vpn ipsec interface 'eth0'
+set vpn ipsec profile NHRPVPN authentication mode 'pre-shared-secret'
+set vpn ipsec profile NHRPVPN authentication pre-shared-secret 'secret'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun100'
+set vpn ipsec profile NHRPVPN bind tunnel 'tun101'
+set vpn ipsec profile NHRPVPN esp-group 'ESP-HUB'
+set vpn ipsec profile NHRPVPN ike-group 'IKE-HUB'
+</pre></div>
+</div>
+</div></blockquote>
+<p>SPOKE-1</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>crypto isakmp policy 1
+ encr aes 256
+ authentication pre-share
+ group 2
+ lifetime 3600
+crypto isakmp key secret address 0.0.0.0
+!
+!
+crypto ipsec transform-set ESP_TRANSFORMSET esp-aes 256 esp-sha-hmac
+ mode transport
+!
+!
+crypto ipsec profile gre_protection
+ set security-association lifetime seconds 1800
+ set transform-set ESP_TRANSFORMSET
+!
+interface Tunnel100
+ tunnel protection ipsec profile gre_protection shared
+!
+interface Tunnel101
+ tunnel protection ipsec profile gre_protection shared
+</pre></div>
+</div>
+</div></blockquote>
+<p>Because GRE forwarding in DMVPN is independent of IPSec, there can be conditions
+when traffic is routed over the tunnel but there is no active IPsec SA for
+a peer that would get that packets encrypted at that moment.
+That may result in unencrypted GRE leaving the router.</p>
+<p>To prevent this, drop any GRE that is not protected by an outbound IPSec policy.
+Add the following rule on the VyOS nodes (HUB-1, HUB-2, SPOKE-2 and SPOKE-3),
+and make sure it comes before any rule that permits GRE.</p>
+<p>Note that this disables unencrypted GRE on the node entirely,
+so any plain GRE tunnels without IPSec will stop working.
+If your setup requires unencrypted GRE tunnels together with DMVPN,
+you have to find a way to exempt their traffic from that filter.
+See <a class="reference internal" href="../configuration/vpn/dmvpn.html#vpn-dmvpn"><span class="std std-ref">DMVPN</span></a> for the full explanation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set firewall ipv4 output filter rule 10 action 'drop'
+set firewall ipv4 output filter rule 10 protocol 'gre'
+set firewall ipv4 output filter rule 10 ipsec match-none-out
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<p>All spokes created IPSec tunnels to Hubs, are registered on Hubs using NHRP
+protocol and formed adjacency in OSPF.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@HUB-1:~$ show vpn ipsec sa
+Connection                  State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ------------------------
+dmvpn-NHRPVPN-tun100-child  up       6m1s      4K/5K           51/56             10.0.13.2         10.0.13.2    AES_CBC_256/HMAC_SHA1_96
+dmvpn-NHRPVPN-tun100-child  up       6m36s     4K/6K           56/65             10.0.12.2         10.0.12.2    AES_CBC_256/HMAC_SHA1_96
+dmvpn-NHRPVPN-tun100-child  up       8m49s     6K/6K           73/77             10.0.11.2         10.0.11.2    AES_CBC_256/HMAC_SHA1_96
+
+vyos@HUB-1:~$ show ip nhrp cache
+Iface    Type     Protocol                 NBMA                     Claimed NBMA             Flags  Identity
+tun100   dynamic  10.100.100.12            10.0.12.2                10.0.12.2                 T     10.0.12.2
+tun100   dynamic  10.100.100.13            10.0.13.2                10.0.13.2                 T     10.0.13.2
+tun100   dynamic  10.100.100.11            10.0.11.2                10.0.11.2                 T     10.0.11.2
+tun100   local    10.100.100.1             10.0.0.2                 10.0.0.2                        -
+
+vyos@HUB-1:~$ show ip ospf neighbor
+
+Neighbor ID     Pri State           Up Time         Dead Time Address         Interface                        RXmtL RqstL DBsmL
+192.168.11.1      1 Full/DROther    17m01s            36.201s 10.100.100.11   tun100:10.100.100.1                  0     0     0
+192.168.12.1      1 Full/DROther    9m42s             37.443s 10.100.100.12   tun100:10.100.100.1                  0     0     0
+192.168.13.1      1 Full/DROther    9m15s             35.053s 10.100.100.13   tun100:10.100.100.1                  0     0     0
+</pre></div>
+</div>
+<p>First, we see that LANs are accessible through hubs using OSPF routes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SPOKE-1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is 10.0.11.1 to network 0.0.0.0
+.....
+      192.168.11.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.11.0/24 is directly connected, GigabitEthernet0/1
+L        192.168.11.1/32 is directly connected, GigabitEthernet0/1
+O     192.168.12.0/24 [110/1002] via 10.100.101.1, 00:14:36, Tunnel101
+                      [110/1002] via 10.100.100.1, 00:16:13, Tunnel100
+O     192.168.13.0/24 [110/1002] via 10.100.101.1, 00:14:36, Tunnel101
+                      [110/1002] via 10.100.100.1, 00:15:45, Tunnel100
+
+
+vyos@SPOKE-2:~$ show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+......
+O&gt;* 192.168.11.0/24 [110/3] via 10.100.100.1, tun100 onlink, weight 1, 00:12:36
+  *                         via 10.100.101.1, tun101 onlink, weight 1, 00:12:36
+O   192.168.12.0/24 [110/1] is directly connected, eth1, weight 1, 01:24:40
+C&gt;* 192.168.12.0/24 is directly connected, eth1, weight 1, 01:24:43
+L&gt;* 192.168.12.1/32 is directly connected, eth1, weight 1, 01:24:43
+O&gt;* 192.168.13.0/24 [110/3] via 10.100.100.1, tun100 onlink, weight 1, 00:12:36
+  *                         via 10.100.101.1, tun101 onlink, weight 1, 00:12:36
+</pre></div>
+</div>
+<p>After initiating traffic between SPOKES sites, Phase 3 of DMVPN will work.
+For instance, traceroute was generated from PC-SPOKE-2 to PC-SPOKE-1</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PC-SPOKE-2 : 192.168.12.2 255.255.255.0 gateway 192.168.12.1
+
+PC-SPOKE-2&gt; trace 192.168.11.2
+trace to 192.168.11.2, 8 hops max, press Ctrl+C to stop
+ 1   192.168.12.1   0.558 ms  0.378 ms  0.561 ms
+ 2   10.100.101.1   1.768 ms  1.158 ms  1.744 ms
+ 3   10.100.101.11   7.196 ms  4.971 ms  4.793 ms
+ 4   *192.168.11.2   7.747 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC-SPOKE-2&gt; trace 192.168.11.2
+trace to 192.168.11.2, 8 hops max, press Ctrl+C to stop
+ 1   192.168.12.1   0.562 ms  0.396 ms  0.364 ms
+ 2   10.100.100.11   4.401 ms  4.399 ms  4.174 ms
+ 3   *192.168.11.2   3.241 ms (ICMP type:3, code:3, Destination port unreachable)
+</pre></div>
+</div>
+<p>First trace goes via HUB but the second goes directly from SPOKE-1 to SPOKE-2.
+Now routing tables are changed. LAN networks 192.168.12.0/24
+and 192.168.11.0/24 available directly via SPOKES.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@SPOKE-2:~$ show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+N&gt;* 192.168.11.0/24 [10/0] via 10.100.100.11, tun100 onlink, weight 1, 00:00:14
+O   192.168.11.0/24 [110/3] via 10.100.100.1, tun100 onlink, weight 1, 00:00:54
+                            via 10.100.101.1, tun101 onlink, weight 1, 00:00:54
+
+
+SPOKE-1# show ip route next-hop-override
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is 10.0.11.1 to network 0.0.0.0
+
+O   % 192.168.12.0/24 [110/1002] via 10.100.101.1, 00:24:09, Tunnel101
+                      [110/1002] via 10.100.100.1, 00:25:46, Tunnel100
+                      [NHO][110/1] via 10.100.100.12, 00:00:03, Tunnel100
+</pre></div>
+</div>
+<p>NHRP shows shortcuts on Spokes</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@SPOKE-2:~$ show ip nhrp shortcut
+Type     Prefix                   Via                      Identity
+dynamic  192.168.11.0/24          10.100.100.11            10.0.11.2
+
+SPOKE-1# show ip nhrp shortcut
+10.100.100.12/32 via 10.100.100.12
+   Tunnel100 created 00:09:59, expire 00:02:21
+   Type: dynamic, Flags: router nhop rib nho
+   NBMA address: 10.0.12.2
+192.168.12.0/24 via 10.100.100.12
+   Tunnel100 created 00:02:38, expire 00:02:21
+   Type: dynamic, Flags: router rib nho
+   NBMA address: 10.0.12.2
+</pre></div>
+</div>
+<p>A new Spoke to Spoke IPSec tunnel is created</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SPOKE-1#show crypto isakmp sa
+IPv4 Crypto ISAKMP SA
+dst             src             state          conn-id status
+10.0.0.2        10.0.11.2       QM_IDLE           1002 ACTIVE
+10.0.12.2       10.0.11.2       QM_IDLE           1004 ACTIVE
+10.0.1.2        10.0.11.2       QM_IDLE           1003 ACTIVE
+
+vyos@SPOKE-2:~$ show vpn ipsec sa
+Connection                  State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+--------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ------------------------
+dmvpn-NHRPVPN-tun100-child  up       7m26s     4K/4K           57/53             10.0.0.2          10.0.0.2     AES_CBC_256/HMAC_SHA1_96
+dmvpn-NHRPVPN-tun100-child  up       11m48s    316B/1K         3/15              10.0.11.2         10.0.11.2    AES_CBC_256/HMAC_SHA1_96
+dmvpn-NHRPVPN-tun101-child  up       5m58s     5K/4K           62/51             10.0.1.2          10.0.1.2     AES_CBC_256/HMAC_SHA1_96
+</pre></div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>If one of the Hubs loses connectivity to the Internet, the other Hub will be
+available and take the main role. This is a simple example where only one
+internet connection is used. But in the real world, there can be two
+connections to the Internet. In this case, there is a recommendation to build
+each tunnel via each Internet connection, choose the main cloud, and manipulate
+traffic via a routing protocol. It allows the creation failover on link-level
+connections too.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="inter-vrf-routing-vrf-lite.html" class="btn btn-neutral float-left" title="Inter-VRF Routing over VRF Lite" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qos.html" class="btn btn-neutral float-right" title="QoS example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

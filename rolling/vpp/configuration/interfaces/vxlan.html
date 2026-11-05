@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP VXLAN Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/interfaces/vxlan.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="VPP XConnect Configuration" href="xconnect.html" />
+    <link rel="prev" title="VPP Loopback Interface Configuration" href="loopback.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">VPP Interfaces Configuration</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bonding.html">VPP Bonding Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bridge.html">VPP Bridge Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gre.html">VPP GRE Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipip.html">VPP IPIP Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="loopback.html">VPP Loopback Interface Configuration</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VPP VXLAN Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xconnect.html">VPP XConnect Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#why-vpp-interfaces">Why VPP Interfaces?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../acl.html">VPP ACL Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nat/index.html">VPP NAT Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Configuration</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Interfaces Configuration</a></li>
+      <li class="breadcrumb-item active">VPP VXLAN Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/interfaces/vxlan.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-interfaces-vxlan">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-vxlan-configuration">
+<h1>VPP VXLAN Configuration<a class="headerlink" href="#vpp-vxlan-configuration" title="Link to this heading"></a></h1>
+<p>VPP VXLAN interfaces provide virtual extensible local area network (VXLAN)
+tunneling with high-performance packet processing. VXLAN extends Layer 2
+domains across Layer 3 networks using UDP encapsulation, enabling scalable
+multi-tenant networking while leveraging VPP’s optimized data plane.</p>
+<section id="basic-configuration">
+<h2>Basic Configuration<a class="headerlink" href="#basic-configuration" title="Link to this heading"></a></h2>
+<section id="creating-a-vxlan-interface">
+<h3>Creating a VXLAN Interface<a class="headerlink" href="#creating-a-vxlan-interface" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann">
+set interfaces vpp vxlan &lt;vppvxlanN&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Create a VXLAN interface where <code class="docutils literal notranslate"><span class="pre">&lt;vppvxlanN&gt;</span></code> follows the naming
+convention <code class="docutils literal notranslate"><span class="pre">vppvxlan1</span></code>, <code class="docutils literal notranslate"><span class="pre">vppvxlan2</span></code>, etc.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-vni-vni">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; vni &lt;vni&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-vni-vni" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Virtual Network Identifier (VNI) for the VXLAN tunnel. Valid range
+is 0-16777214.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-remote-address">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; remote &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-remote-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the tunnel remote endpoint address. Supports both IPv4 and IPv6
+addresses.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-source-address-address">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; source-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-source-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the tunnel source address. Must match an address configured on the
+local system.</p>
+</div>
+</div>
+<p><strong>Basic Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vpp vxlan vppvxlan1
+set interfaces vpp vxlan vppvxlan1 vni 100
+set interfaces vpp vxlan vppvxlan1 remote 203.0.113.2
+set interfaces vpp vxlan vppvxlan1 source-address 192.168.1.1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="interface-configuration">
+<h2>Interface Configuration<a class="headerlink" href="#interface-configuration" title="Link to this heading"></a></h2>
+<section id="description-and-administrative-control">
+<h3>Description and Administrative Control<a class="headerlink" href="#description-and-administrative-control" title="Link to this heading"></a></h3>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-description-description">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; description &lt;description&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-description-description" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set a descriptive name for the VXLAN interface.</p>
+</div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-disable">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; disable</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-disable" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Administratively disable the VXLAN interface.</p>
+</div>
+</div>
+</section>
+<section id="kernel-interface-integration">
+<h3>Kernel Interface Integration<a class="headerlink" href="#kernel-interface-integration" title="Link to this heading"></a></h3>
+<p>The kernel interface is bound to the VXLAN tunnel for management and
+application compatibility.</p>
+</section>
+</section>
+<section id="ip-address-configuration">
+<h2>IP Address Configuration<a class="headerlink" href="#ip-address-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-address-ip-address-prefix">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; address &lt;ip-address/prefix&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-address-ip-address-prefix" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Configure IPv4 or IPv6 addresses on the kernel interface. Multiple
+addresses can be assigned.</p>
+</div>
+</div>
+<p><strong>Examples:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set interfaces vpp vxlan vppvxlan1 address 192.168.1.10/24
+set interfaces vpp vxlan vppvxlan1 address 2001:db8::10/64
+</pre></div>
+</div>
+</section>
+<section id="mtu-configuration">
+<h2>MTU Configuration<a class="headerlink" href="#mtu-configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-mtu-size">
+set interfaces vpp vxlan &lt;vppvxlanN&gt; mtu &lt;size&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-interfaces-vpp-vxlan-vppvxlann-mtu-size" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p>Set the Maximum Transmission Unit (MTU) for the kernel interface. The MTU
+must be compatible with the connected VPP interface.</p>
+</div>
+</div>
+</section>
+<section id="configuration-examples">
+<h2>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h2>
+<section id="basic-vxlan-tunnel">
+<h3>Basic VXLAN Tunnel<a class="headerlink" href="#basic-vxlan-tunnel" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># IPv4 VXLAN tunnel
+set interfaces vpp vxlan vppvxlan1
+set interfaces vpp vxlan vppvxlan1 description "Tenant A network extension"
+set interfaces vpp vxlan vppvxlan1 vni 1000
+set interfaces vpp vxlan vppvxlan1 remote 203.0.113.10
+set interfaces vpp vxlan vppvxlan1 source-address 192.168.1.1
+</pre></div>
+</div>
+</section>
+<section id="ipv6-vxlan-tunnel">
+<h3>IPv6 VXLAN Tunnel<a class="headerlink" href="#ipv6-vxlan-tunnel" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># IPv6 endpoints
+set interfaces vpp vxlan vppvxlan2
+set interfaces vpp vxlan vppvxlan2 vni 2000
+set interfaces vpp vxlan vppvxlan2 remote 2001:db8::2
+set interfaces vpp vxlan vppvxlan2 source-address 2001:db8::1
+</pre></div>
+</div>
+</section>
+<section id="vxlan-with-kernel-interface">
+<h3>VXLAN with Kernel Interface<a class="headerlink" href="#vxlan-with-kernel-interface" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># VXLAN tunnel with management interface
+set interfaces vpp vxlan vppvxlan3
+set interfaces vpp vxlan vppvxlan3 vni 3000
+set interfaces vpp vxlan vppvxlan3 remote 203.0.113.30
+set interfaces vpp vxlan vppvxlan3 source-address 192.168.1.1
+set interfaces vpp vxlan vppvxlan3 address 10.0.3.1/24
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bridge-integration">
+<h2>Bridge Integration<a class="headerlink" href="#bridge-integration" title="Link to this heading"></a></h2>
+<p>VXLAN interfaces are commonly used as members in VPP bridges for Layer 2
+extension. See <a class="reference internal" href="bridge.html"><span class="doc">VPP Bridge Configuration</span></a> for more information.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Add VXLAN tunnel to bridge
+set interfaces vpp bridge vppbr1
+set interfaces vpp bridge vppbr1 member interface vppvxlan1
+set interfaces vpp bridge vppbr1 member interface eth1
+set interfaces vpp bridge vppbr1 member interface vpplo1 bvi
+</pre></div>
+</div>
+<section id="multi-tenant-configuration">
+<h3>Multi-Tenant Configuration<a class="headerlink" href="#multi-tenant-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Multiple VNIs for tenant separation
+set interfaces vpp vxlan vppvxlan10
+set interfaces vpp vxlan vppvxlan10 description "Tenant A - Production"
+set interfaces vpp vxlan vppvxlan10 vni 1001
+set interfaces vpp vxlan vppvxlan10 remote 203.0.113.20
+set interfaces vpp vxlan vppvxlan10 source-address 192.168.1.1
+
+set interfaces vpp vxlan vppvxlan11
+set interfaces vpp vxlan vppvxlan11 description "Tenant A - Development"
+set interfaces vpp vxlan vppvxlan11 vni 1002
+set interfaces vpp vxlan vppvxlan11 remote 203.0.113.21
+set interfaces vpp vxlan vppvxlan11 source-address 192.168.1.1
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="loopback.html" class="btn btn-neutral float-left" title="VPP Loopback Interface Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xconnect.html" class="btn btn-neutral float-right" title="VPP XConnect Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

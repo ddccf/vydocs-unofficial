@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP ACL Configuration &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/configuration/acl.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="VPP IPFIX Configuration" href="ipfix.html" />
+    <link rel="prev" title="VPP XConnect Configuration" href="interfaces/xconnect.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VPP Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dataplane/index.html">VPP Dataplane Core Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interfaces/index.html">VPP Interfaces Configuration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VPP ACL Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#structure-and-components">Structure and Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l3-ip-acls">L3/IP ACLs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-mac-acls">L2/MAC ACLs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-best-practices">Configuration Best Practices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operational-commands">Operational Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ipfix.html">VPP IPFIX Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipsec.html">VPP IPsec Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat/index.html">VPP NAT Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sflow.html">VPP sFlow Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#vpp-initialization">VPP Initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html">VPP Dataplane Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPP Dataplane</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Configuration</a></li>
+      <li class="breadcrumb-item active">VPP ACL Configuration</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/configuration/acl.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-config-acl">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-acl-configuration">
+<h1>VPP ACL Configuration<a class="headerlink" href="#vpp-acl-configuration" title="Link to this heading"></a></h1>
+<p>VPP ACLs (Access Control Lists) provide a way to filter traffic passing through VPP interfaces. They offer a high-performance packet filtering solution that can be used as a fast firewall alternative.</p>
+<p>VyOS VPP ACL implementation supports two main types of access control lists:</p>
+<ul class="simple">
+<li><p><strong>IP ACLs</strong> - Layer 3 filtering based on IPv4/IPv6 addresses, ports, and protocols (can be applied to both input and output directions)</p></li>
+<li><p><strong>MAC ACLs</strong> - Layer 2 filtering based on MAC addresses and IP prefixes (can only be applied to input direction)</p></li>
+</ul>
+<section id="structure-and-components">
+<h2>Structure and Components<a class="headerlink" href="#structure-and-components" title="Link to this heading"></a></h2>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Link to this heading"></a></h3>
+<p>ACL tags are named rule sets that contain one or more access control entries (ACEs). Tags provide a way to group related rules and apply them consistently across different interfaces.</p>
+<ul class="simple">
+<li><p>Tag names are user-defined text strings</p></li>
+<li><p>Each tag can contain multiple numbered rules</p></li>
+<li><p>Tags can be applied to interfaces in input or output direction</p></li>
+<li><p>Multiple tags can be applied to a single interface</p></li>
+</ul>
+</section>
+<section id="interface-application">
+<h3>Interface Application<a class="headerlink" href="#interface-application" title="Link to this heading"></a></h3>
+<p>ACL tags are applied to interfaces to control traffic flow:</p>
+<ul class="simple">
+<li><p><strong>Input direction</strong>: Filters traffic entering the interface</p></li>
+<li><p><strong>Output direction</strong>: Filters traffic leaving the interface</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Important Limitation</strong>: MAC ACLs can only be applied to the input direction of interfaces. They cannot filter outbound traffic. Use IP ACLs if you need to filter traffic in both directions.</p>
+</div>
+</section>
+<section id="rule-processing">
+<h3>Rule Processing<a class="headerlink" href="#rule-processing" title="Link to this heading"></a></h3>
+<p>Rules within an ACL are processed in numerical order (lowest to highest). The first matching rule determines the action taken on the packet.</p>
+<p>Available actions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">permit</span></code> - Allow the packet to continue</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deny</span></code> - Drop the packet</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">permit-reflect</span></code> - Allow traffic and automatically permit return traffic</p></li>
+</ul>
+</section>
+</section>
+<section id="l3-ip-acls">
+<h2>L3/IP ACLs<a class="headerlink" href="#l3-ip-acls" title="Link to this heading"></a></h2>
+<p>IP ACLs provide Layer 3 filtering capabilities based on IPv4 and IPv6 addresses, port numbers, and protocols. They support both stateless and stateful (reflexive) filtering.</p>
+<section id="creating-ip-acl-tags">
+<h3>Creating IP ACL Tags<a class="headerlink" href="#creating-ip-acl-tags" title="Link to this heading"></a></h3>
+<p>IP ACL tags are created under the <code class="docutils literal notranslate"><span class="pre">vpp</span> <span class="pre">acl</span> <span class="pre">ip</span></code> configuration node:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl ip tag-name &lt;tag-name&gt;
+set vpp acl ip tag-name &lt;tag-name&gt; description '&lt;description&gt;'
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl ip tag-name 'WEB-FILTER'
+set vpp acl ip tag-name 'WEB-FILTER' description 'Web server access control'
+</pre></div>
+</div>
+</section>
+<section id="adding-rules-to-ip-acl-tags">
+<h3>Adding Rules to IP ACL Tags<a class="headerlink" href="#adding-rules-to-ip-acl-tags" title="Link to this heading"></a></h3>
+<p>Rules are added to IP ACL tags with specific rule numbers:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt;
+</pre></div>
+</div>
+<section id="basic-ip-acl-rule-configuration">
+<h4>Basic IP ACL Rule Configuration<a class="headerlink" href="#basic-ip-acl-rule-configuration" title="Link to this heading"></a></h4>
+<p>Each rule requires an action and matching criteria:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; action &lt;permit|deny|permit-reflect&gt;
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; description '&lt;description&gt;'
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; protocol &lt;protocol&gt;
+</pre></div>
+</div>
+<p><strong>Actions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">permit</span></code> - Allow matching traffic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deny</span></code> - Block matching traffic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">permit-reflect</span></code> - Allow outbound traffic and automatically permit return traffic</p></li>
+</ul>
+<p><strong>Protocols:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code> - Match all IP protocols (default)</p></li>
+<li><p>Or specific protocol by name, e.g. <code class="docutils literal notranslate"><span class="pre">tcp</span></code>, <code class="docutils literal notranslate"><span class="pre">udp</span></code>, <code class="docutils literal notranslate"><span class="pre">icmp</span></code></p></li>
+</ul>
+</section>
+<section id="source-and-destination-matching">
+<h4>Source and Destination Matching<a class="headerlink" href="#source-and-destination-matching" title="Link to this heading"></a></h4>
+<p>Configure source and destination parameters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Source configuration
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; source prefix &lt;ip-prefix&gt;
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; source port &lt;port-spec&gt;
+
+# Destination configuration  
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; destination prefix &lt;ip-prefix&gt;
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; destination port &lt;port-spec&gt;
+</pre></div>
+</div>
+<p><strong>Prefix Specification:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;x.x.x.x/x&gt;</span></code> - IPv4 prefix in CIDR notation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;h:h:h:h:h:h:h:h/x&gt;</span></code> - IPv6 prefix in CIDR notation</p></li>
+</ul>
+<p><strong>Port Specification:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;1-65535&gt;</span></code> - Single port number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;start&gt;-&lt;end&gt;</span></code> - Port range (e.g., 1001-1005)</p></li>
+</ul>
+</section>
+<section id="tcp-flags-matching">
+<h4>TCP Flags Matching<a class="headerlink" href="#tcp-flags-matching" title="Link to this heading"></a></h4>
+<p>For TCP protocol rules, you can match specific TCP flags:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Match packets with specific flags set
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; tcp-flags is-set &lt;ack|cwr|ecn|fin|psh|rst|syn|urg&gt;
+
+# Match packets without specific flags set
+set vpp acl ip tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; tcp-flags is-not-set &lt;ack|cwr|ecn|fin|psh|rst|syn|urg&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ip-acl-configuration-examples">
+<h3>IP ACL Configuration Examples<a class="headerlink" href="#ip-acl-configuration-examples" title="Link to this heading"></a></h3>
+<section id="example-1-basic-web-server-acl">
+<h4>Example 1: Basic Web Server ACL<a class="headerlink" href="#example-1-basic-web-server-acl" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create ACL for web server access
+set vpp acl ip tag-name 'WEB-SERVER'
+set vpp acl ip tag-name 'WEB-SERVER' description 'Web server access control'
+
+# Allow HTTP traffic
+set vpp acl ip tag-name 'WEB-SERVER' rule 10 action permit
+set vpp acl ip tag-name 'WEB-SERVER' rule 10 protocol tcp
+set vpp acl ip tag-name 'WEB-SERVER' rule 10 destination port 80
+
+# Allow HTTPS traffic
+set vpp acl ip tag-name 'WEB-SERVER' rule 20 action permit
+set vpp acl ip tag-name 'WEB-SERVER' rule 20 protocol tcp
+set vpp acl ip tag-name 'WEB-SERVER' rule 20 destination port 443
+
+# Deny all other traffic
+set vpp acl ip tag-name 'WEB-SERVER' rule 999 action deny
+set vpp acl ip tag-name 'WEB-SERVER' rule 999 protocol all
+</pre></div>
+</div>
+</section>
+<section id="example-2-network-segmentation-acl">
+<h4>Example 2: Network Segmentation ACL<a class="headerlink" href="#example-2-network-segmentation-acl" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create ACL for network segmentation
+set vpp acl ip tag-name 'DMZ-FILTER'
+set vpp acl ip tag-name 'DMZ-FILTER' description 'DMZ to internal network filter'
+
+# Allow specific internal subnet access
+set vpp acl ip tag-name 'DMZ-FILTER' rule 10 action permit
+set vpp acl ip tag-name 'DMZ-FILTER' rule 10 destination prefix '192.168.100.0/24'
+set vpp acl ip tag-name 'DMZ-FILTER' rule 10 protocol tcp
+set vpp acl ip tag-name 'DMZ-FILTER' rule 10 destination port 443
+
+# Allow DNS queries
+set vpp acl ip tag-name 'DMZ-FILTER' rule 20 action permit
+set vpp acl ip tag-name 'DMZ-FILTER' rule 20 destination prefix '192.168.1.10/32'
+set vpp acl ip tag-name 'DMZ-FILTER' rule 20 protocol udp
+set vpp acl ip tag-name 'DMZ-FILTER' rule 20 destination port 53
+
+# Block everything else to internal networks
+set vpp acl ip tag-name 'DMZ-FILTER' rule 100 action deny
+set vpp acl ip tag-name 'DMZ-FILTER' rule 100 destination prefix '192.168.0.0/16'
+</pre></div>
+</div>
+</section>
+<section id="example-3-reflexive-acl">
+<h4>Example 3: Reflexive ACL<a class="headerlink" href="#example-3-reflexive-acl" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create reflexive ACL for outbound connections
+set vpp acl ip tag-name 'OUTBOUND-REFLECT'
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' description 'Allow outbound with return traffic'
+
+# Allow outbound HTTP/HTTPS with return traffic
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 10 action permit-reflect
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 10 protocol tcp
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 10 destination port 80
+
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 20 action permit-reflect
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 20 protocol tcp
+set vpp acl ip tag-name 'OUTBOUND-REFLECT' rule 20 destination port 443
+</pre></div>
+</div>
+</section>
+</section>
+<section id="applying-ip-acl-tags-to-interfaces">
+<h3>Applying IP ACL Tags to Interfaces<a class="headerlink" href="#applying-ip-acl-tags-to-interfaces" title="Link to this heading"></a></h3>
+<p>IP ACL tags are applied to interfaces using the interface configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Apply to input direction
+set vpp acl ip interface &lt;interface&gt; input acl-tag &lt;number&gt; tag-name &lt;tag-name&gt;
+
+# Apply to output direction  
+set vpp acl ip interface &lt;interface&gt; output acl-tag &lt;number&gt; tag-name &lt;tag-name&gt;
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;interface&gt;</span></code> - Interface name (e.g., eth0, eth1)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> - ACL rule number (0-4294967295) for ordering multiple ACL tags</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;tag-name&gt;</span></code> - Name of the ACL tag to apply</p></li>
+</ul>
+<p>Multiple tags can be applied to the same interface and direction by using different ACL rule numbers.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Apply web server ACL to input direction
+set vpp acl ip interface eth0 input acl-tag 10 tag-name 'WEB-SERVER'
+
+# Apply outbound reflexive ACL to output direction
+set vpp acl ip interface eth1 output acl-tag 10 tag-name 'OUTBOUND-REFLECT'
+
+# Apply multiple ACLs to the same interface and direction
+set vpp acl ip interface eth0 input acl-tag 20 tag-name 'FIREWALL'
+</pre></div>
+</div>
+</section>
+</section>
+<section id="l2-mac-acls">
+<h2>L2/MAC ACLs<a class="headerlink" href="#l2-mac-acls" title="Link to this heading"></a></h2>
+<p>MAC ACLs provide Layer 2 filtering capabilities based on MAC addresses and IP prefixes. They are particularly useful for controlling access at the data link layer.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Direction Limitation</strong>: MAC ACLs can <strong>only</strong> be applied to the <strong>input direction</strong> of interfaces. They cannot filter outbound/output traffic. If you need bidirectional filtering, use IP ACLs instead.</p>
+</div>
+<section id="creating-mac-acl-tags">
+<h3>Creating MAC ACL Tags<a class="headerlink" href="#creating-mac-acl-tags" title="Link to this heading"></a></h3>
+<p>MAC ACL tags are created under the <code class="docutils literal notranslate"><span class="pre">vpp</span> <span class="pre">acl</span> <span class="pre">mac</span></code> configuration node:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name &lt;tag-name&gt;
+set vpp acl mac tag-name &lt;tag-name&gt; description '&lt;description&gt;'
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name 'MAC-FILTER'
+set vpp acl mac tag-name 'MAC-FILTER' description 'Layer 2 MAC address filtering'
+</pre></div>
+</div>
+</section>
+<section id="adding-rules-to-mac-acl-tags">
+<h3>Adding Rules to MAC ACL Tags<a class="headerlink" href="#adding-rules-to-mac-acl-tags" title="Link to this heading"></a></h3>
+<p>Rules are added to MAC ACL tags with specific rule numbers:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt;
+</pre></div>
+</div>
+<section id="basic-mac-acl-rule-configuration">
+<h4>Basic MAC ACL Rule Configuration<a class="headerlink" href="#basic-mac-acl-rule-configuration" title="Link to this heading"></a></h4>
+<p>Each rule requires an action and matching criteria:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; action &lt;permit|deny&gt;
+set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; description '&lt;description&gt;'
+</pre></div>
+</div>
+<p><strong>Actions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">permit</span></code> - Allow matching traffic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deny</span></code> - Block matching traffic</p></li>
+</ul>
+<p>Note: MAC ACLs do not support the <code class="docutils literal notranslate"><span class="pre">permit-reflect</span></code> action available in IP ACLs.</p>
+</section>
+<section id="mac-address-matching">
+<h4>MAC Address Matching<a class="headerlink" href="#mac-address-matching" title="Link to this heading"></a></h4>
+<p>Configure MAC address matching criteria:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; mac-address &lt;mac-address&gt;
+set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; mac-mask &lt;mac-mask&gt;
+</pre></div>
+</div>
+<p><strong>MAC Address Specification:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mac-address</span></code> - Source MAC address to match (format: xx:xx:xx:xx:xx:xx)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mac-mask</span></code> - MAC address mask (default: ff:ff:ff:ff:ff:ff for exact match)</p></li>
+</ul>
+<p>The MAC mask allows for partial MAC address matching. For example:
+- <code class="docutils literal notranslate"><span class="pre">ff:ff:ff:00:00:00</span></code> matches the first 3 octets (OUI)
+- <code class="docutils literal notranslate"><span class="pre">ff:ff:ff:ff:ff:ff</span></code> matches the complete MAC address (default)</p>
+</section>
+<section id="ip-prefix-matching">
+<h4>IP Prefix Matching<a class="headerlink" href="#ip-prefix-matching" title="Link to this heading"></a></h4>
+<p>Configure IP prefix matching for the source:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac tag-name &lt;tag-name&gt; rule &lt;rule-number&gt; prefix &lt;ip-prefix&gt;
+</pre></div>
+</div>
+<p><strong>Prefix Specification:</strong></p>
+<ul class="simple">
+<li><p>Supports both IPv4 and IPv6 prefixes in CIDR notation</p></li>
+<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">192.168.1.0/24</span></code>, <code class="docutils literal notranslate"><span class="pre">10.0.0.0/8</span></code>, <code class="docutils literal notranslate"><span class="pre">2001:db8::/32</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="mac-acl-configuration-examples">
+<h3>MAC ACL Configuration Examples<a class="headerlink" href="#mac-acl-configuration-examples" title="Link to this heading"></a></h3>
+<section id="example-1-device-whitelist">
+<h4>Example 1: Device Whitelist<a class="headerlink" href="#example-1-device-whitelist" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create MAC ACL for device whitelisting
+set vpp acl mac tag-name 'DEVICE-WHITELIST'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' description 'Allow only approved devices'
+
+# Allow specific workstation
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 10 action permit
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 10 mac-address '00:1b:21:12:34:56'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 10 prefix '192.168.1.100/32'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 10 description 'Admin workstation'
+
+# Allow specific server
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 20 action permit
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 20 mac-address '00:1b:21:78:90:ab'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 20 prefix '192.168.1.10/32'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 20 description 'Web server'
+
+# Deny everything else
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 999 action deny
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 999 mac-address '00:00:00:00:00:00'
+set vpp acl mac tag-name 'DEVICE-WHITELIST' rule 999 mac-mask '00:00:00:00:00:00'
+</pre></div>
+</div>
+</section>
+<section id="example-2-vendor-based-filtering">
+<h4>Example 2: Vendor-Based Filtering<a class="headerlink" href="#example-2-vendor-based-filtering" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create MAC ACL for vendor-based filtering
+set vpp acl mac tag-name 'VENDOR-FILTER'
+set vpp acl mac tag-name 'VENDOR-FILTER' description 'Filter by MAC vendor OUI'
+
+# Deny Realtek devices (OUI: 00:e0:4c)
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 10 action deny
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 10 mac-address '00:e0:4c:00:00:00'
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 10 mac-mask 'ff:ff:ff:00:00:00'
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 10 description 'Block Realtek devices'
+
+# Allow all other devices
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 100 action permit
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 100 mac-address '00:00:00:00:00:00'
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 100 mac-mask '00:00:00:00:00:00'
+set vpp acl mac tag-name 'VENDOR-FILTER' rule 100 description 'Allow all other vendors'
+</pre></div>
+</div>
+</section>
+<section id="example-3-network-segmentation-by-mac">
+<h4>Example 3: Network Segmentation by MAC<a class="headerlink" href="#example-3-network-segmentation-by-mac" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Create MAC ACL for network segmentation
+set vpp acl mac tag-name 'SEGMENT-FILTER'
+set vpp acl mac tag-name 'SEGMENT-FILTER' description 'Segment networks by MAC/IP binding'
+
+# Allow management VLAN devices
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 10 action permit
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 10 mac-address '02:01:00:00:00:00'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 10 mac-mask 'ff:ff:00:00:00:00'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 10 prefix '10.1.0.0/16'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 10 description 'Management VLAN'
+
+# Allow user VLAN devices
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 20 action permit
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 20 mac-address '02:02:00:00:00:00'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 20 mac-mask 'ff:ff:00:00:00:00'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 20 prefix '10.2.0.0/16'
+set vpp acl mac tag-name 'SEGMENT-FILTER' rule 20 description 'User VLAN'
+</pre></div>
+</div>
+</section>
+</section>
+<section id="applying-mac-acl-tags-to-interfaces">
+<h3>Applying MAC ACL Tags to Interfaces<a class="headerlink" href="#applying-mac-acl-tags-to-interfaces" title="Link to this heading"></a></h3>
+<p>MAC ACL tags can only be applied to the input direction of interfaces:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set vpp acl mac interface &lt;interface&gt; tag-name &lt;tag-name&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Syntax Difference</strong>: Unlike IP ACLs, MAC ACL interface application does not use the <code class="docutils literal notranslate"><span class="pre">acl-tag</span> <span class="pre">&lt;number&gt;</span></code> structure since only single MAC ACLs can be applied.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Unlike IP ACLs, MAC ACLs do <strong>not</strong> support output direction filtering. There is no <code class="docutils literal notranslate"><span class="pre">output</span></code> option available for MAC ACL interface application.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Apply MAC filtering to interface input
+set vpp acl mac interface eth0 tag-name 'MAC-FILTER'
+set vpp acl mac interface eth1 tag-name 'DEVICE-WHITELIST'
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-best-practices">
+<h2>Configuration Best Practices<a class="headerlink" href="#configuration-best-practices" title="Link to this heading"></a></h2>
+<section id="rule-ordering">
+<h3>Rule Ordering<a class="headerlink" href="#rule-ordering" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Number rules strategically</strong>: Use gaps between rule numbers (10, 20, 30) to allow for future insertions</p></li>
+<li><p><strong>Place specific rules first</strong>: More specific matches should have lower rule numbers</p></li>
+<li><p><strong>End with catch-all</strong>: Always include a final rule that matches all traffic with explicit action</p></li>
+<li><p><strong>Document rules</strong>: Use descriptions for complex rules to aid troubleshooting</p></li>
+</ul>
+</section>
+<section id="performance-considerations">
+<h3>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Minimize rule count</strong>: Fewer rules generally mean better performance</p></li>
+<li><p><strong>Use appropriate ACL type</strong>: Use MAC ACLs for Layer 2/3 filtering, IP ACLs for Layer 3/4 filtering</p></li>
+<li><p><strong>Consider direction limitations</strong>: Remember that MAC ACLs only work on input traffic; use IP ACLs for filtering in both directions</p></li>
+<li><p><strong>Combine related rules</strong>: Group similar filtering requirements into single ACL tags</p></li>
+<li><p><strong>Apply strategically</strong>: Apply ACLs at ingress points where possible to minimize processing</p></li>
+</ul>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>ACL not taking effect:</strong></p>
+<ul>
+<li><p>Verify ACL is applied to correct interface and direction</p></li>
+<li><p>Check rule numbering and order</p></li>
+<li><p>Ensure interface is properly configured in VPP</p></li>
+</ul>
+</li>
+<li><p><strong>Performance degradation:</strong></p>
+<ul>
+<li><p>Review ACL complexity and rule count</p></li>
+<li><p>Consider consolidating rules</p></li>
+<li><p>Check for unnecessary broad matches</p></li>
+</ul>
+</li>
+<li><p><strong>Traffic blocked unexpectedly:</strong></p>
+<ul>
+<li><p>Review rule order (first match wins)</p></li>
+<li><p>Check for overly restrictive rules</p></li>
+<li><p>Verify protocol and port specifications</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="verification-commands">
+<h3>Verification Commands<a class="headerlink" href="#verification-commands" title="Link to this heading"></a></h3>
+<p>Use these commands to verify ACL configuration and operation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Show VPP ACL configuration
+show configuration commands | grep "vpp acl"
+
+# Show VPP interface configuration
+show configuration commands | grep "vpp acl.*interface"
+
+# View commit history for ACL changes
+show configuration commit-revisions | grep -A5 -B5 "vpp acl"
+</pre></div>
+</div>
+</section>
+</section>
+<section id="operational-commands">
+<h2>Operational Commands<a class="headerlink" href="#operational-commands" title="Link to this heading"></a></h2>
+<p>VyOS provides several operational commands to monitor and troubleshoot VPP ACL configurations and their status.</p>
+<section id="viewing-all-acls">
+<h3>Viewing All ACLs<a class="headerlink" href="#viewing-all-acls" title="Link to this heading"></a></h3>
+<p>Display all configured ACLs (both IP and MAC):</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl">
+show vpp acl</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl" title="Permalink to this Command"></a></div></div>
+<p>This command shows a summary of all configured ACL tags with their rules, displaying both IP ACLs and MAC ACLs in a tabular format.
+Example output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>---------------------------------
+IP ACL "tag-name WEB-SERVER" acl_index 0
+
+Rule  Action    Src prefix    Src port    Dst prefix    Dst port      Proto  TCP flags set    TCP flags not set
+------  --------  ------------  ----------  ------------  ----------  -------  ---------------  -------------------
+    10  permit    0.0.0.0/0     0-65535     0.0.0.0/0     80                6
+    20  permit    0.0.0.0/0     0-65535     0.0.0.0/0     443               6
+    999  deny     0.0.0.0/0     0-65535     0.0.0.0/0     0-65535           0
+
+---------------------------------
+MACIP ACL "tag-name VENDOR-FILTER" acl_index 0
+
+Rule  Action    IP prefix    MAC address        MAC mask
+------  --------  -----------  -----------------  -----------------
+    10  deny      0.0.0.0/0    00:e0:4c:00:00:00  ff:ff:ff:00:00:00
+    100  permit   0.0.0.0/0    00:00:00:00:00:00  00:00:00:00:00:00
+</pre></div>
+</div>
+</section>
+<section id="ip-acl-commands">
+<h3>IP ACL Commands<a class="headerlink" href="#ip-acl-commands" title="Link to this heading"></a></h3>
+<p>View all IP ACLs:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-ip">
+show vpp acl ip</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-ip" title="Permalink to this Command"></a></div></div>
+<p>View IP ACL interface assignments:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-ip-interface">
+show vpp acl ip interface</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-ip-interface" title="Permalink to this Command"></a></div></div>
+<p>Example output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Interface    Input ACLs    Output ACLs
+-----------  ------------  -------------
+eth1         WEB-SERVER
+</pre></div>
+</div>
+<p>View specific IP ACL by tag name:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-ip-tag-name-tag-name">
+show vpp acl ip tag-name &lt;tag-name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-ip-tag-name-tag-name" title="Permalink to this Command"></a></div></div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpp acl ip tag-name WEB-SERVER 
+
+---------------------------------
+IP ACL "tag-name WEB-SERVER" acl_index 0
+
+  Rule  Action    Src prefix    Src port    Dst prefix    Dst port      Proto  TCP flags set    TCP flags not set
+------  --------  ------------  ----------  ------------  ----------  -------  ---------------  -------------------
+    10  permit    0.0.0.0/0     0-65535     0.0.0.0/0     80                6
+    20  permit    0.0.0.0/0     0-65535     0.0.0.0/0     443               6
+   999  deny      0.0.0.0/0     0-65535     0.0.0.0/0     0-65535           0
+</pre></div>
+</div>
+</section>
+<section id="mac-acl-commands">
+<h3>MAC ACL Commands<a class="headerlink" href="#mac-acl-commands" title="Link to this heading"></a></h3>
+<p>View all MAC ACLs:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-mac">
+show vpp acl mac</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-mac" title="Permalink to this Command"></a></div></div>
+<p>View MAC ACL interface assignments:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-mac-interface">
+show vpp acl mac interface</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-mac-interface" title="Permalink to this Command"></a></div></div>
+<p>Example output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Interface    ACL
+-----------  -----
+eth0         VENDOR-FILTER
+</pre></div>
+</div>
+<p>View specific MAC ACL by tag name:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-vpp-acl-mac-tag-name-tag-name">
+show vpp acl mac tag-name &lt;tag-name&gt;</span>
+<a class="cmdlink" href="#opcmd-show-vpp-acl-mac-tag-name-tag-name" title="Permalink to this Command"></a></div></div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpp acl mac tag-name VENDOR-FILTER
+
+---------------------------------
+MACIP ACL "tag-name VENDOR-FILTER" acl_index 0
+
+  Rule  Action    IP prefix    MAC address        MAC mask
+------  --------  -----------  -----------------  -----------------
+    10  deny      0.0.0.0/0    00:e0:4c:00:00:00  ff:ff:ff:00:00:00
+   100  permit    0.0.0.0/0    00:00:00:00:00:00  00:00:00:00:00:00
+</pre></div>
+</div>
+</section>
+<section id="understanding-command-output">
+<h3>Understanding Command Output<a class="headerlink" href="#understanding-command-output" title="Link to this heading"></a></h3>
+<p><strong>IP ACL Output Fields:</strong></p>
+<ul class="simple">
+<li><p><strong>Rule</strong>: Rule number within the ACL</p></li>
+<li><p><strong>Action</strong>: permit, deny, or permit-reflect</p></li>
+<li><p><strong>Src prefix</strong>: Source IP prefix (0.0.0.0/0 = any source)</p></li>
+<li><p><strong>Src port</strong>: Source port range (0-65535 = any port)</p></li>
+<li><p><strong>Dst prefix</strong>: Destination IP prefix</p></li>
+<li><p><strong>Dst port</strong>: Destination port or port range</p></li>
+<li><p><strong>Proto</strong>: IP protocol number (6=TCP, 17=UDP, 1=ICMP, 0=any)</p></li>
+<li><p><strong>TCP flags set</strong>: Required TCP flags (for TCP protocol)</p></li>
+<li><p><strong>TCP flags not set</strong>: Prohibited TCP flags (for TCP protocol)</p></li>
+</ul>
+<p><strong>MAC ACL Output Fields:</strong></p>
+<ul class="simple">
+<li><p><strong>Rule</strong>: Rule number within the ACL</p></li>
+<li><p><strong>Action</strong>: permit or deny</p></li>
+<li><p><strong>IP prefix</strong>: Source IP prefix constraint</p></li>
+<li><p><strong>MAC address</strong>: Source MAC address to match</p></li>
+<li><p><strong>MAC mask</strong>: MAC address mask for partial matching</p></li>
+</ul>
+<p><strong>Interface Assignment Output:</strong></p>
+<ul class="simple">
+<li><p>Shows which interfaces have ACLs applied</p></li>
+<li><p><strong>Input ACLs</strong>: ACL tags applied to incoming traffic</p></li>
+<li><p><strong>Output ACLs</strong>: ACL tags applied to outgoing traffic (IP ACLs only)</p></li>
+<li><p><strong>ACL</strong>: MAC ACL tag applied to interface (input only)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="interfaces/xconnect.html" class="btn btn-neutral float-left" title="VPP XConnect Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipfix.html" class="btn btn-neutral float-right" title="VPP IPFIX Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

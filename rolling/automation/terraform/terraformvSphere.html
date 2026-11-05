@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy VyOS on VMware vSphere with Terraform and Ansible &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/automation/terraform/terraformvSphere.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="NAPALM VyOS driver" href="../vyos-napalm.html" />
+    <link rel="prev" title="Deploy VyOS on Google Cloud with Terraform and Ansible" href="terraformGoogle.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">VyOS automation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../vyos-api.html">VyOS API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-ansible.html">Ansible</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">VyOS Terraform</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="terraformvyos.html">Terraform for VyOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformAWS.html">Deploy VyOS on AWS with Terraform and Ansible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformAZ.html">Deploy VyOS on Microsoft Azure with Terraform and Ansible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terraformGoogle.html">Deploy VyOS on Google Cloud with Terraform and Ansible</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Deploy VyOS on VMware vSphere with Terraform and Ansible</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-to-deploy-vyos-with-terraform-on-vsphere">Prepare to deploy VyOS with Terraform on vSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-in-terraform-for-vsphere">Structure of files in Terraform for vSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-terraform-for-vsphere">File contents of Terraform for vSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structure-of-files-in-ansible-for-vsphere">Structure of files in Ansible for vSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-contents-of-ansible-for-vsphere">File contents of Ansible for vSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-files-on-github">Source files on GitHub</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-napalm.html">NAPALM VyOS driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-netmiko.html">Netmiko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-salt.html">Salt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command-scripting.html">Command scripting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-pyvyos.html">PyVyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vyos-govyos.html">Go-VyOS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VyOS automation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">VyOS Terraform</a></li>
+      <li class="breadcrumb-item active">Deploy VyOS on VMware vSphere with Terraform and Ansible</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/automation/terraform/terraformvSphere.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploy-vyos-on-vmware-vsphere-with-terraform-and-ansible">
+<span id="terraformvsphere"></span><h1>Deploy VyOS on VMware vSphere with Terraform and Ansible<a class="headerlink" href="#deploy-vyos-on-vmware-vsphere-with-terraform-and-ansible" title="Link to this heading"></a></h1>
+<p>You can use Terraform to quickly deploy VyOS-based infrastructure
+on VMware vSphere (hereafter referred to as <em>vSphere</em>) and remove
+infrastructure when it’s no longer needed.
+Additionally, you can use Ansible for provisioning.</p>
+<p>On this page you’ll learn how to:</p>
+<ul class="simple">
+<li><p>Create the necessary files for Terraform and Ansible.</p></li>
+<li><p>Use Terraform to create a single instance on vSphere and use Ansible for
+provisioning.</p></li>
+</ul>
+<section id="prepare-to-deploy-vyos-with-terraform-on-vsphere">
+<h2>Prepare to deploy VyOS with Terraform on vSphere<a class="headerlink" href="#prepare-to-deploy-vyos-with-terraform-on-vsphere" title="Link to this heading"></a></h2>
+<p>To create a single instance and install your configuration using
+Terraform, Ansible, and vSphere, follow these steps:</p>
+<section id="vsphere">
+<h3>vSphere<a class="headerlink" href="#vsphere" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Add all necessary data to the <code class="docutils literal notranslate"><span class="pre">terraform.tfvars</span></code>
+<a class="reference external" href="https://github.com/vyos/vyos-automation/blob/main/TerraformCloud/Vsphere_terraform_ansible_single_vyos_instance-main/terraform.tfvars">file</a>
+and create resources.</p></li>
+</ul>
+</section>
+<section id="terraform">
+<h3>Terraform<a class="headerlink" href="#terraform" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Create an UNIX or Windows instance.</p></li>
+<li><p>Download and install
+<a class="reference external" href="https://developer.hashicorp.com/terraform/install">Terraform</a>.</p></li>
+<li><p>Create the folder for example <code class="docutils literal notranslate"><span class="pre">/root/vsphereterraform</span></code>.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir /root/vsphereterraform
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Copy all files into your Terraform project <code class="docutils literal notranslate"><span class="pre">/root/vsphereterraform</span></code>
+(<code class="docutils literal notranslate"><span class="pre">vyos.tf</span></code>, <code class="docutils literal notranslate"><span class="pre">var.tf</span></code>, <code class="docutils literal notranslate"><span class="pre">terraform.tfvars</span></code>, <code class="docutils literal notranslate"><span class="pre">version.tf</span></code>).
+For more details,
+see <a class="reference internal" href="#structure-of-files-in-terraform-for-vsphere"><span class="xref myst">Structure of files in Terraform for vSphere</span></a></p></li>
+<li><p>Run the following commands:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform init
+</pre></div>
+</div>
+</section>
+<section id="ansible">
+<h3>Ansible<a class="headerlink" href="#ansible" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Create an UNIX instance either locally or in the cloud.</p></li>
+<li><p>Download and install Ansible.</p></li>
+<li><p>Create the folder. For example, <code class="docutils literal notranslate"><span class="pre">/root/vsphereterraform/</span></code>.</p></li>
+<li><p>Copy all files into your Ansible project <code class="docutils literal notranslate"><span class="pre">/root/vsphereterraform/</span></code>
+(<code class="docutils literal notranslate"><span class="pre">ansible.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">instance.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>). For more details, see
+<a class="reference internal" href="#structure-of-files-in-ansible-for-vsphere"><span class="xref myst">Structure of files in Ansible for vSphere</span></a></p></li>
+</ul>
+</section>
+<section id="deploy-with-terraform">
+<h3>Deploy with Terraform<a class="headerlink" href="#deploy-with-terraform" title="Link to this heading"></a></h3>
+<p>Run the following commands on your Terraform instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd /&lt;your folder&gt;
+terraform plan  
+terraform apply  
+yes
+</pre></div>
+</div>
+<p>After executing these commands, your VyOS instance is deployed to
+vSphere with your configuration.
+If you need to delete the instance, run the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>terraform destroy
+</pre></div>
+</div>
+</section>
+</section>
+<section id="structure-of-files-in-terraform-for-vsphere">
+<h2>Structure of files in Terraform for vSphere<a class="headerlink" href="#structure-of-files-in-terraform-for-vsphere" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── vyos.tf                                # The main script.
+├── versions.tf                          # File for Terraform version.
+├── var.tf                                   # File for Terraform version.
+└── terraform.tfvars           # Values for all variables (passwords,
+                       # login, IP addresses, etc.).
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-terraform-for-vsphere">
+<h2>File contents of Terraform for vSphere<a class="headerlink" href="#file-contents-of-terraform-for-vsphere" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vyos.tf</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>provider "vsphere" {
+  user           = var.vsphere_user
+  password       = var.vsphere_password
+  vsphere_server = var.vsphere_server
+  allow_unverified_ssl = true
+}
+
+data "vsphere_datacenter" "datacenter" {
+  name = var.datacenter
+}
+
+data "vsphere_datastore" "datastore" {
+  name          = var.datastore
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+data "vsphere_compute_cluster" "cluster" {
+  name          = var.cluster
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+data "vsphere_resource_pool" "default" {
+  name          = format("%s%s", data.vsphere_compute_cluster.cluster.name, "/Resources/terraform")  # set as you need
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+data "vsphere_host" "host" {
+  name          = var.host
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+data "vsphere_network" "network" {
+  name          = var.network_name
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+# Deployment of VM from Remote OVF
+resource "vsphere_virtual_machine" "vmFromRemoteOvf" {
+  name                 = var.remotename
+  datacenter_id        = data.vsphere_datacenter.datacenter.id
+  datastore_id         = data.vsphere_datastore.datastore.id
+  host_system_id       = data.vsphere_host.host.id
+  resource_pool_id     = data.vsphere_resource_pool.default.id
+  network_interface {
+    network_id = data.vsphere_network.network.id
+  }
+  wait_for_guest_net_timeout = 2
+  wait_for_guest_ip_timeout  = 2
+
+  ovf_deploy {
+    allow_unverified_ssl_cert = true
+    remote_ovf_url            = var.url_ova
+    disk_provisioning         = "thin"
+    ip_protocol               = "IPv4"
+    ip_allocation_policy = "dhcpPolicy"
+    ovf_network_map = {
+      "Network 1" = data.vsphere_network.network.id
+      "Network 2" = data.vsphere_network.network.id
+    }
+  }
+  vapp {
+    properties = {
+       "password"          = "12345678",
+       "local-hostname"    = "terraform_vyos"
+    }
+  }
+}
+
+output "ip" {
+  description = "default ip address of the deployed VM"
+  value       = vsphere_virtual_machine.vmFromRemoteOvf.default_ip_address
+}
+
+# IP of vSphere instance copied to a file ip.txt in local system
+
+resource "local_file" "ip" {
+    content  = vsphere_virtual_machine.vmFromRemoteOvf.default_ip_address
+    filename = "ip.txt"
+}
+
+#Connecting to the Ansible control node using SSH connection
+
+resource "null_resource" "nullremote1" {
+depends_on = ["vsphere_virtual_machine.vmFromRemoteOvf"]
+connection {
+ type     = "ssh"
+ user     = "root"
+ password = var.ansiblepassword
+ host = var.ansiblehost
+
+}
+
+# Copying the ip.txt file to the Ansible control node from local system
+
+ provisioner "file" {
+    source      = "ip.txt"
+    destination = "/root/vsphere/ip.txt"
+       }
+}
+
+resource "null_resource" "nullremote2" {
+depends_on = ["vsphere_virtual_machine.vmFromRemoteOvf"]
+connection {
+        type     = "ssh"
+        user     = "root"
+        password = var.ansiblepassword
+        host = var.ansiblehost
+}
+
+# Command to run ansible playbook on remote Linux OS
+
+provisioner "remote-exec" {
+
+    inline = [
+        "cd /root/vsphere/",
+        "ansible-playbook instance.yml"
+]
+}
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">versions.tf</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
+terraform {
+  required_providers {
+    vsphere = {
+      source  = "hashicorp/vsphere"
+      version = "2.4.0"
+    }
+  }
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">var.tf</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
+variable "vsphere_server" {
+  description = "vSphere server"
+  type        = string
+}
+
+variable "vsphere_user" {
+  description = "vSphere username"
+  type        = string
+}
+
+variable "vsphere_password" {
+  description = "vSphere password"
+  type        = string
+  sensitive   = true
+}
+
+variable "datacenter" {
+  description = "vSphere data center"
+  type        = string
+}
+
+variable "cluster" {
+  description = "vSphere cluster"
+  type        = string
+}
+
+variable "datastore" {
+  description = "vSphere datastore"
+  type        = string
+}
+
+variable "network_name" {
+  description = "vSphere network name"
+  type        = string
+}
+
+variable "host" {
+  description = "Name of your host"
+  type        = string
+}
+
+variable "remotename" {
+  description = "The name of your VM"
+  type        = string
+}
+
+variable "url_ova" {
+  description = "The URL to the .OVA file or cloud storage"
+  type        = string
+}
+
+variable "ansiblepassword" {
+  description = "Ansible password"
+  type        = string
+}
+
+variable "ansiblehost" {
+  description = "Ansible host name or IP"
+  type        = string
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">terraform.tfvars</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vsphere_user       = ""
+vsphere_password   = ""
+vsphere_server     = ""
+datacenter         = ""
+datastore          = ""
+cluster            = ""
+network_name       = ""
+host               = ""
+url_ova            = ""
+ansiblepassword    = ""
+ansiblehost        = ""
+remotename         = ""
+</pre></div>
+</div>
+</section>
+<section id="structure-of-files-in-ansible-for-vsphere">
+<h2>Structure of files in Ansible for vSphere<a class="headerlink" href="#structure-of-files-in-ansible-for-vsphere" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── group_vars
+    └── all
+├── ansible.cfg
+└── instance.yml
+</pre></div>
+</div>
+</section>
+<section id="file-contents-of-ansible-for-vsphere">
+<h2>File contents of Ansible for vSphere<a class="headerlink" href="#file-contents-of-ansible-for-vsphere" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ansible.cfg</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[defaults]
+inventory = /root/vsphere/ip.txt
+host_key_checking= False
+remote_user=vyos
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">instance.yml</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##############################################################################
+# About tasks:
+# "Wait 300 seconds, but only start checking after 60 seconds" - try to make ssh connection every 60 seconds until 300 seconds
+# "Configure general settings for the VyOS hosts group" - make provisioning into vSphere VyOS node
+# You have to add all necessary commands of VyOS under the block "lines:"
+##############################################################################
+
+
+- name: integration of terraform and ansible
+  hosts: all
+  gather_facts: 'no'
+
+  tasks:
+
+    - name: "Wait 300 seconds, but only start checking after 60 seconds"
+      wait_for_connection:
+        delay: 60
+        timeout: 300
+    - name: "Configure general settings for the VyOS hosts group"
+      vyos_config:
+        lines:
+          - set system name-server 192.0.2.1
+        save:
+          true
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">group_vars/all</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: vyos.vyos.vyos
+
+# user and password gets from terraform variables "admin_username" and "admin_password"
+ansible_user: vyos
+# get from vyos.tf "vapp"
+ansible_ssh_pass: 12345678
+</pre></div>
+</div>
+</section>
+<section id="source-files-on-github">
+<h2>Source files on GitHub<a class="headerlink" href="#source-files-on-github" title="Link to this heading"></a></h2>
+<p>All files related to deploying VyOS on vSphere with Terraform and Ansible
+can be found in the <a class="reference external" href="https://github.com/vyos/vyos-automation/tree/main/TerraformCloud/Vsphere_terraform_ansible_single_vyos_instance-main">vyos-automation</a> repository.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="terraformGoogle.html" class="btn btn-neutral float-left" title="Deploy VyOS on Google Cloud with Terraform and Ansible" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vyos-napalm.html" class="btn btn-neutral float-right" title="NAPALM VyOS driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

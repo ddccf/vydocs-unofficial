@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Issues/Feature requests &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/contributing/issues-features.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Upstream Packages" href="upstream-packages.html" />
+    <link rel="prev" title="Contributor License Agreement" href="cla.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Contributing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build-vyos.html">Build VyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cla.html">Contributor License Agreement</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Issues/Feature requests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bug-report-issue">Bug Report/Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#i-found-a-bug-what-should-i-do">I found a bug, what should I do?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ensure-the-bug-is-reproducible">Ensure the bug is reproducible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#report-a-bug">Report a Bug</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-requests">Feature Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#task-auto-closing">Task auto-closing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="upstream-packages.html">Upstream Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">Testing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Contributing</a></li>
+      <li class="breadcrumb-item active">Issues/Feature requests</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/contributing/issues-features.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="issues-feature-requests">
+<span id="issues-features"></span><h1>Issues/Feature requests<a class="headerlink" href="#issues-feature-requests" title="Link to this heading"></a></h1>
+<section id="bug-report-issue">
+<span id="bug-report"></span><h2>Bug Report/Issue<a class="headerlink" href="#bug-report-issue" title="Link to this heading"></a></h2>
+<p>Issues and bugs occur in every software project, and VyOS is no exception.</p>
+<section id="i-found-a-bug-what-should-i-do">
+<h3>I found a bug, what should I do?<a class="headerlink" href="#i-found-a-bug-what-should-i-do" title="Link to this heading"></a></h3>
+<p>When you find a potential bug, first:</p>
+<ul class="simple">
+<li><p>Consult the <a class="reference external" href="https://docs.vyos.io">documentation</a> to ensure you configured your system
+correctly.</p></li>
+<li><p>Check if the VyOS community has identified a workaround for the bug through
+<a class="reference external" href="https://slack.vyos.io">Slack</a> or the VyOS <a class="reference external" href="https://forum.vyos.io">Forum</a>.</p></li>
+</ul>
+</section>
+<section id="ensure-the-bug-is-reproducible">
+<h3>Ensure the bug is reproducible<a class="headerlink" href="#ensure-the-bug-is-reproducible" title="Link to this heading"></a></h3>
+<p>Include the following information when reporting a bug:</p>
+<ul class="simple">
+<li><p>A sequence of configuration commands or a complete configuration file needed
+to recreate the bug. Avoid partial configurations: a sequence of commands is
+easy to paste and a complete configuration is easy to load, but a partial
+config is hard to reconstruct.</p></li>
+<li><p>Describe the expected behavior and how it differs from what you observe.
+Include command outputs or traffic dumps. Explain briefly why these outputs
+are incorrect and what the correct behavior should be.</p></li>
+<li><p>A sequence of actions that trigger the bug. While not always possible, this
+helps developers and community members confirm the issue and verify fixes.</p></li>
+<li><p>If the bug is a regression, specify the VyOS version where the feature worked
+correctly (any working version is acceptable). Identify the exact version
+that the feature stopped working, if possible.</p></li>
+</ul>
+<p>If you are uncertain whether the behavior is a bug or what the correct behavior
+is, or if you lack a reliable reproducing procedure, post on the forum or ask in
+chat first. If you have a subscription, create a support ticket. The team and
+community can help identify the issue, work around it, and create an actionable
+bug report.</p>
+</section>
+<section id="report-a-bug">
+<h3>Report a Bug<a class="headerlink" href="#report-a-bug" title="Link to this heading"></a></h3>
+<p>To open a bug report or feature request, create an account on
+<a class="reference external" href="https://vyos.dev">vyos.dev</a>, the public issue tracker for VyOS.</p>
+<p>When creating a new issue, select the appropriate project and:</p>
+<ul class="simple">
+<li><p>Provide as much information as you can.</p></li>
+<li><p>Specify which VyOS version you are using: <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">show</span> <span class="pre">version</span></code>.</p></li>
+<li><p>Explain how to reproduce the bug.</p></li>
+</ul>
+</section>
+</section>
+<section id="feature-requests">
+<span id="feature-request"></span><h2>Feature Requests<a class="headerlink" href="#feature-requests" title="Link to this heading"></a></h2>
+<p>Have an idea to improve VyOS or need a feature that would benefit all users?
+Before submitting a feature request, search the public issue tracker
+<a class="reference external" href="https://vyos.dev">vyos.dev</a> to check if a request already exists. You can
+also enhance an existing request by providing additional information.</p>
+<p>Create a task before starting work on a feature,
+even if it is a trivial feature.
+The task tracker generates release notes, so all work must be reflected
+in the tracker.</p>
+<p>Include at least the following information:</p>
+<ul class="simple">
+<li><p>Provide a detailed description of the feature: what it is, how it works, and
+how you would use it. Maintainers may not have experience with every feature,
+protocol, and tool in VyOS. Detailed information helps VyOS contributors and
+maintainers test new features they are unfamiliar with.</p></li>
+<li><p>Include proposed CLI syntax if the feature requires new commands. Provide both
+configuration and operational mode commands if both are needed.</p></li>
+</ul>
+<p>Consider including the following information:</p>
+<ul class="simple">
+<li><p>Is the feature already supported by the underlying component
+(FreeRangeRouting, nftables, Kea, etc.)?</p></li>
+<li><p>How would you configure the feature manually within that component?</p></li>
+<li><p>Are there any limitations to using the feature
+(hardware support, resource usage)?</p></li>
+<li><p>Are there any adverse or non-obvious interactions with other features? Should
+the feature be mutually exclusive?</p></li>
+<li><p>Any relevant documentation or references about the feature.</p></li>
+</ul>
+<p>You do not need to provide all this information, but if you can, it simplifies
+developers’ work considerably. Research these questions when possible.</p>
+</section>
+<section id="task-auto-closing">
+<h2>Task auto-closing<a class="headerlink" href="#task-auto-closing" title="Link to this heading"></a></h2>
+<p>A special task status exists for when all work by maintainers and contributors
+is complete: <strong>Needs reporter action</strong>.</p>
+<p>VyOS assigns this status to:</p>
+<ul class="simple">
+<li><p>Feature requests that do not include required information and need
+clarification.</p></li>
+<li><p>Bug reports that lack reproducing procedures.</p></li>
+<li><p>Tasks that are implemented and tested by the implementation author,
+but require testing in the real-world environment that only the reporter
+can replicate (for example, hardware VyOS does not support or specific
+network conditions).</p></li>
+</ul>
+<p>When a task is set to <strong>Needs reporter action</strong>:</p>
+<ul class="simple">
+<li><p>If the reporter does not respond within two weeks, the task bot adds a comment
+(“Any news?”) to remind the reporter.</p></li>
+<li><p>If there is still no response after another two weeks,
+the task is closed automatically.</p></li>
+</ul>
+<p>We do not auto-close tasks with any other status and do not close tasks due to
+lack of maintainer activity.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cla.html" class="btn btn-neutral float-left" title="Contributor License Agreement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="upstream-packages.html" class="btn btn-neutral float-right" title="Upstream Packages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

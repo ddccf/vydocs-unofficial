@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPP Dataplane Troubleshooting &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/vpp/troubleshooting.html" />
+  <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../static/jquery.js?v=5d32c60e"></script>
+        <script src="../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../static/doctools.js?v=888ff710"></script>
+        <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../static/design-tabs.js?v=36754332"></script>
+        <script src="../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Contributing" href="../contributing/index.html" />
+    <link rel="prev" title="VPP sFlow Configuration" href="configuration/sflow.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            VyOS
+              <img src="../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">VPP Dataplane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="description.html">VPP Dataplane Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html">VPP Dataplane Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="limitations.html">VPP Dataplane Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/index.html">VPP Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">VPP Dataplane Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#packet-capture-pcap">Packet Capture (PCAP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#starting-packet-capture">Starting Packet Capture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring-capture-status">Monitoring Capture Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stopping-packet-capture">Stopping Packet Capture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#packet-tracing">Packet Tracing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-packet-tracing-commands">Basic Packet Tracing Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#understanding-trace-output">Understanding Trace Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-diagnostic-information">Additional Diagnostic Information</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#before-after-traffic-analysis">Before/After Traffic Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-system-information">Core System Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-specific-information">Protocol-Specific Information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-support-packages">Creating Support Packages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vpp-diagnostic-collection-script">VPP Diagnostic Collection Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installation-and-usage">Installation and Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-the-script-collects">What the Script Collects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">VPP Dataplane</a></li>
+      <li class="breadcrumb-item active">VPP Dataplane Troubleshooting</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/vpp/troubleshooting.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="error admonition" id="vpp-troubleshooting">
+<p class="admonition-title">Call for Contributions</p>
+<p>Help improve this section with additional content, examples, and explanations.</p>
+<p>For contribution guidelines, see <a class="reference internal" href="../documentation.html#documentation"><span class="std std-ref">Write Documentation</span></a>.</p>
+</div>
+<section id="vpp-dataplane-troubleshooting">
+<h1>VPP Dataplane Troubleshooting<a class="headerlink" href="#vpp-dataplane-troubleshooting" title="Link to this heading"></a></h1>
+<p>This page shows you how to collect diagnostic information to troubleshoot VPP
+dataplane issues. These techniques help you resolve problems yourself and
+provide support teams with the information they need.</p>
+<p>Collecting the right diagnostic data is crucial for effective troubleshooting.</p>
+<section id="packet-capture-pcap">
+<h2>Packet Capture (PCAP)<a class="headerlink" href="#packet-capture-pcap" title="Link to this heading"></a></h2>
+<p>Packet capture is a valuable debugging tool for analyzing network traffic and
+identifying issues with packet processing, routing, and filtering.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pcap</span> <span class="pre">trace</span></code> in VPP captures packets at different states: received (rx),
+transmitted (tx), and dropped (drop).</p>
+<section id="starting-packet-capture">
+<h3>Starting Packet Capture<a class="headerlink" href="#starting-packet-capture" title="Link to this heading"></a></h3>
+<p><strong>Command syntax:</strong></p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-pcap-trace-rx-tx-drop-max-n-intfc-interface-name-any-file-name-max-bytes-per-pkt-n">
+sudo vppctl pcap trace [rx] [tx] [drop] [max &lt;n&gt;] [intfc &lt;interface-name|any&gt;] [file &lt;name&gt;] [max-bytes-per-pkt &lt;n&gt;]</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-pcap-trace-rx-tx-drop-max-n-intfc-interface-name-any-file-name-max-bytes-per-pkt-n" title="Permalink to this Command"></a></div></div>
+<p><strong>Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rx</span></code> - Capture received packets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tx</span></code> - Capture transmitted packets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drop</span></code> - Capture dropped packets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max</span> <span class="pre">&lt;n&gt;</span></code> - Depth of the local buffer. After <code class="docutils literal notranslate"><span class="pre">n</span></code> packets arrive, the
+buffer flushes to file. When the next <code class="docutils literal notranslate"><span class="pre">n</span></code> packets arrive, the file
+overwrites with new data. (default: 100)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intfc</span> <span class="pre">&lt;interface-name|any&gt;</span></code> - Specify an interface or use <code class="docutils literal notranslate"><span class="pre">any</span></code> for
+all interfaces (default: any)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">&lt;name&gt;</span></code> - Output filename. The PCAP file is stored in the <code class="docutils literal notranslate"><span class="pre">/tmp/</span></code>
+directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max-bytes-per-pkt</span> <span class="pre">&lt;n&gt;</span></code> - Maximum bytes to capture per packet
+(must be &gt;= 32, &lt;= 9000)</p></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Start capturing tx packets with specific parameters
+sudo vppctl pcap trace tx max 35 intfc eth1 file vpp_eth1.pcap
+
+# Capture all packet types from any interface
+sudo vppctl pcap trace rx tx drop max 1000 intfc any file vpp_capture.pcap max-bytes-per-pkt 128
+</pre></div>
+</div>
+</section>
+<section id="monitoring-capture-status">
+<h3>Monitoring Capture Status<a class="headerlink" href="#monitoring-capture-status" title="Link to this heading"></a></h3>
+<p>To check the capture status:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-pcap-trace-status">
+sudo vppctl pcap trace status</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-pcap-trace-status" title="Permalink to this Command"></a></div></div>
+<p>This command displays:</p>
+<ul class="simple">
+<li><p>Whether capture is active</p></li>
+<li><p>Capture parameters</p></li>
+<li><p>Number of packets captured</p></li>
+<li><p>Output file location</p></li>
+</ul>
+</section>
+<section id="stopping-packet-capture">
+<h3>Stopping Packet Capture<a class="headerlink" href="#stopping-packet-capture" title="Link to this heading"></a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>VPP does not automatically stop packet captures. If left running, captures
+consume resources indefinitely. Always stop captures when you’re done
+with them.</p>
+</div>
+<p>To stop the active packet capture:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-pcap-trace-off">
+sudo vppctl pcap trace off</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-pcap-trace-off" title="Permalink to this Command"></a></div></div>
+<p>Example output when stopping:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Write 35 packets to /tmp/vpp_eth1.pcap, and stop capture...
+</pre></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>PCAP files are stored in the <code class="docutils literal notranslate"><span class="pre">/tmp/</span></code> directory.</p></li>
+<li><p>Existing files are overwritten.</p></li>
+<li><p>If you don’t specify a filename, default names are used: <code class="docutils literal notranslate"><span class="pre">/tmp/rx.pcap</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/tmp/tx.pcap</span></code>, and <code class="docutils literal notranslate"><span class="pre">/tmp/rxandtx.pcap</span></code>.</p></li>
+<li><p>Large captures consume significant disk space—monitor available space.</p></li>
+<li><p>Stop captures promptly to avoid filling storage.</p></li>
+</ul>
+</section>
+</section>
+<section id="packet-tracing">
+<h2>Packet Tracing<a class="headerlink" href="#packet-tracing" title="Link to this heading"></a></h2>
+<p>VPP packet tracing shows how packets flow through the VPP processing graph,
+including which nodes process each packet and what transformations occur.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Tracing generates large amounts of data, especially on high-traffic
+systems. Limit the number of traced packets to avoid overwhelming the system.</p>
+</div>
+<section id="basic-packet-tracing-commands">
+<h3>Basic Packet Tracing Commands<a class="headerlink" href="#basic-packet-tracing-commands" title="Link to this heading"></a></h3>
+<section id="start-tracing">
+<h4>Start tracing<a class="headerlink" href="#start-tracing" title="Link to this heading"></a></h4>
+<p>To start tracing packets at a specific graph node:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-trace-add-input-graph-node-pkts-verbose">
+sudo vppctl trace add &lt;input-graph-node&gt; &lt;pkts&gt; [verbose]</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-trace-add-input-graph-node-pkts-verbose" title="Permalink to this Command"></a></div></div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;input-graph-node&gt;</span></code> - Graph node name where tracing starts
+(for example, <code class="docutils literal notranslate"><span class="pre">dpdk-input</span></code>, <code class="docutils literal notranslate"><span class="pre">ethernet-input</span></code>, or <code class="docutils literal notranslate"><span class="pre">ip4-input</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;pkts&gt;</span></code> - Number of packets to trace (for example, 100).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[verbose]</span></code> - Optional flag to include detailed buffer information in the
+trace output.</p></li>
+</ul>
+<p><strong>Common node names for tracing:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dpdk-input</span></code>: Packets received from DPDK interfaces</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ethernet-input</span></code>: Ethernet frame processing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip4-input</span></code>: IPv4 packet processing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip6-input</span></code>: IPv6 packet processing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip4-lookup</span></code>: IPv4 routing table lookup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip6-lookup</span></code>: IPv6 routing table lookup</p></li>
+</ul>
+</section>
+<section id="view-traces">
+<h4>View traces<a class="headerlink" href="#view-traces" title="Link to this heading"></a></h4>
+<p>After packets are traced, view the results:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-show-trace-max-count">
+sudo vppctl show trace [max COUNT]</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-show-trace-max-count" title="Permalink to this Command"></a></div></div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[max</span> <span class="pre">COUNT]</span></code> - Optional limit on number of packets to display
+(default: all)</p></li>
+</ul>
+</section>
+<section id="clear-traces">
+<h4>Clear traces<a class="headerlink" href="#clear-traces" title="Link to this heading"></a></h4>
+<p>After reviewing traces, clear them to free up resources:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-vppctl-clear-trace">
+sudo vppctl clear trace</span>
+<a class="cmdlink" href="#opcmd-sudo-vppctl-clear-trace" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="example-workflow">
+<h4>Example Workflow<a class="headerlink" href="#example-workflow" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Add traces for 100 packets on dpdk-input node
+sudo vppctl trace add dpdk-input 100
+
+# Send some traffic, then view results
+sudo vppctl show trace
+
+# Clear traces for next test
+sudo vppctl clear trace
+</pre></div>
+</div>
+</section>
+</section>
+<section id="understanding-trace-output">
+<h3>Understanding Trace Output<a class="headerlink" href="#understanding-trace-output" title="Link to this heading"></a></h3>
+<p>Trace output shows how packets flow through VPP processing nodes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Packet 1
+
+01:00:09:508438: dpdk-input
+  eth2 rx queue 0
+  buffer 0x8533: current data 0, length 98, buffer-pool 0, ref-count 1, trace handle 0x1000000
+                 ext-hdr-valid 
+  PKT MBUF: port 1, nb_segs 1, pkt_len 98
+    buf_len 1828, data_len 98, ol_flags 0x0, data_off 128, phys_addr 0x78814d40
+    packet_type 0x0 l2_len 0 l3_len 0 outer_l2_len 0 outer_l3_len 0 
+    rss 0x0 fdir.hi 0x0 fdir.lo 0x0
+  IP4: 0c:87:6c:4e:00:01 -&gt; 0c:de:0d:e2:00:02
+  ICMP: 192.168.102.2 -&gt; 192.168.99.3
+    tos 0x00, ttl 64, length 84, checksum 0xb88d dscp CS0 ecn NON_ECN
+    fragment id 0x37c5, flags DONT_FRAGMENT
+  ICMP echo_request checksum 0x64e id 3024
+01:00:09:508449: ethernet-input
+  frame: flags 0x1, hw-if-index 2, sw-if-index 2
+  IP4: 0c:87:6c:4e:00:01 -&gt; 0c:de:0d:e2:00:02
+01:00:09:508455: ip4-input
+  ICMP: 192.168.102.2 -&gt; 192.168.99.3
+    tos 0x00, ttl 64, length 84, checksum 0xb88d dscp CS0 ecn NON_ECN
+    fragment id 0x37c5, flags DONT_FRAGMENT
+  ICMP echo_request checksum 0x64e id 3024
+01:00:09:508458: ip4-sv-reassembly-feature
+  [not-fragmented]
+01:00:09:508460: nat-pre-in2out
+  in2out next_index 2 arc_next_index 10
+01:00:09:508462: nat44-ed-in2out
+  NAT44_IN2OUT_ED_FAST_PATH: sw_if_index 2, next index 10, session 0, translation result 'success' via i2of
+  i2of match: saddr 192.168.102.2 sport 3024 daddr 192.168.99.3 dport 3024 proto ICMP fib_idx 0 rewrite: saddr 192.168.99.1 daddr 192.168.99.3 icmp-id 3024 txfib 0 
+  o2if match: saddr 192.168.99.3 sport 3024 daddr 192.168.99.1 dport 3024 proto ICMP fib_idx 0 rewrite: saddr 192.168.99.3 daddr 192.168.102.2 icmp-id 3024 txfib 0 
+  search key local 192.168.102.2:3024 remote 192.168.99.3:3024 proto ICMP fib 0 thread-index 0 session-index 0
+01:00:09:508469: ip4-lookup
+  fib 0 dpo-idx 10 flow hash: 0x00000000
+  ICMP: 192.168.99.1 -&gt; 192.168.99.3
+    tos 0x00, ttl 64, length 84, checksum 0xbb8e dscp CS0 ecn NON_ECN
+    fragment id 0x37c5, flags DONT_FRAGMENT
+  ICMP echo_request checksum 0x64e id 3024
+01:00:09:508472: ip4-rewrite
+  tx_sw_if_index 1 dpo-idx 10 : ipv4 via 192.168.99.3 eth1: mtu:1500 next:5 flags:[] 0ccea70400010cde0de200010800 flow hash: 0x00000000
+  00000000: 0ccea70400010cde0de2000108004500005437c540003f01bc8ec0a86301c0a8
+  00000020: 63030800064e0bd00d9a52c2d26800000000f4490000000000001011
+01:00:09:508474: eth1-output
+  eth1 flags 0x0038000d
+  IP4: 0c:de:0d:e2:00:01 -&gt; 0c:ce:a7:04:00:01
+  ICMP: 192.168.99.1 -&gt; 192.168.99.3
+    tos 0x00, ttl 63, length 84, checksum 0xbc8e dscp CS0 ecn NON_ECN
+    fragment id 0x37c5, flags DONT_FRAGMENT
+  ICMP echo_request checksum 0x64e id 3024
+01:00:09:508477: eth1-tx
+  eth1 tx queue 0
+  buffer 0x8533: current data 0, length 98, buffer-pool 0, ref-count 1, trace handle 0x1000000
+                 ext-hdr-valid 
+                 natted l2-hdr-offset 0 l3-hdr-offset 14 
+  PKT MBUF: port 1, nb_segs 1, pkt_len 98
+    buf_len 1828, data_len 98, ol_flags 0x0, data_off 128, phys_addr 0x78814d40
+    packet_type 0x0 l2_len 0 l3_len 0 outer_l2_len 0 outer_l3_len 0 
+    rss 0x0 fdir.hi 0x0 fdir.lo 0x0
+  IP4: 0c:de:0d:e2:00:01 -&gt; 0c:ce:a7:04:00:01
+  ICMP: 192.168.99.1 -&gt; 192.168.99.3
+    tos 0x00, ttl 63, length 84, checksum 0xbc8e dscp CS0 ecn NON_ECN
+    fragment id 0x37c5, flags DONT_FRAGMENT
+  ICMP echo_request checksum 0x64e id 3024
+</pre></div>
+</div>
+<p>In this example, the trace shows:</p>
+<ul class="simple">
+<li><p>The packet is received on <code class="docutils literal notranslate"><span class="pre">eth2</span></code> interface at the <code class="docutils literal notranslate"><span class="pre">dpdk-input</span></code> node.</p></li>
+<li><p>It flows through <code class="docutils literal notranslate"><span class="pre">ethernet-input</span></code> and <code class="docutils literal notranslate"><span class="pre">ip4-input</span></code> nodes.</p></li>
+<li><p>NAT translation occurs at the <code class="docutils literal notranslate"><span class="pre">nat44-ed-in2out</span></code> node, changing the source
+IP.</p></li>
+<li><p>The packet is routed through <code class="docutils literal notranslate"><span class="pre">ip4-lookup</span></code> and <code class="docutils literal notranslate"><span class="pre">ip4-rewrite</span></code> nodes.</p></li>
+<li><p>It transmits out of <code class="docutils literal notranslate"><span class="pre">eth1</span></code> interface at the <code class="docutils literal notranslate"><span class="pre">eth1-tx</span></code> node.</p></li>
+</ul>
+</section>
+</section>
+<section id="additional-diagnostic-information">
+<h2>Additional Diagnostic Information<a class="headerlink" href="#additional-diagnostic-information" title="Link to this heading"></a></h2>
+<p>When reporting issues to support teams or performing advanced troubleshooting,
+collect additional diagnostic information.</p>
+<section id="before-after-traffic-analysis">
+<h3>Before/After Traffic Analysis<a class="headerlink" href="#before-after-traffic-analysis" title="Link to this heading"></a></h3>
+<p>Before you send traffic:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl clear hardware-interfaces
+sudo vppctl clear interfaces
+sudo vppctl clear error
+sudo vppctl clear runtime
+</pre></div>
+</div>
+<p>After you send traffic:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show version verbose
+sudo vppctl show hardware-interfaces
+sudo vppctl show interface address
+sudo vppctl show interface
+sudo vppctl show runtime
+sudo vppctl show error
+</pre></div>
+</div>
+</section>
+<section id="core-system-information">
+<h3>Core System Information<a class="headerlink" href="#core-system-information" title="Link to this heading"></a></h3>
+<p><strong>Memory and buffer information:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show memory api-segment stats-segment numa-heaps main-heap map verbose
+sudo vppctl show buffers
+sudo vppctl show physmem detail
+sudo vppctl show physmem map
+</pre></div>
+</div>
+<p><strong>Runtime and performance data:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show cpu
+sudo vppctl show threads
+sudo vppctl show runtime
+sudo vppctl show node counters
+</pre></div>
+</div>
+</section>
+<section id="protocol-specific-information">
+<h3>Protocol-Specific Information<a class="headerlink" href="#protocol-specific-information" title="Link to this heading"></a></h3>
+<p><strong>Layer 2 data (if configured):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show l2fib
+sudo vppctl show bridge-domain
+</pre></div>
+</div>
+<p><strong>IPv4 data (if configured):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show ip fib
+sudo vppctl show ip neighbors
+</pre></div>
+</div>
+<p><strong>IPv6 data (if configured):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show ip6 fib
+sudo vppctl show ip6 neighbors
+</pre></div>
+</div>
+<p><strong>MPLS data (if configured):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vppctl show mpls fib
+sudo vppctl show mpls tunnel
+</pre></div>
+</div>
+</section>
+</section>
+<section id="creating-support-packages">
+<h2>Creating Support Packages<a class="headerlink" href="#creating-support-packages" title="Link to this heading"></a></h2>
+<p>Use the automated diagnostic collection script to gather comprehensive VPP
+troubleshooting information when contacting support or reporting issues.</p>
+<section id="vpp-diagnostic-collection-script">
+<h3>VPP Diagnostic Collection Script<a class="headerlink" href="#vpp-diagnostic-collection-script" title="Link to this heading"></a></h3>
+<p>Create the diagnostic collection script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""VyOS VPP Diagnostic Collection Script"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">diag_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Run command and save output to file."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Command: </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="se">\n</span><span class="s2">Exit code: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="se">\n</span><span class="s2">Timestamp: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="s1">'-'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">50</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">STDOUT:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">STDERR:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">(</span><span class="n">diag_dir</span> <span class="o">/</span> <span class="n">output_file</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">diag_dir</span> <span class="o">/</span> <span class="n">output_file</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Command: </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERROR: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">collect_diagnostics</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Collect all VPP diagnostics and create archive."""</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S"</span><span class="p">)</span>
+    <span class="n">diag_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"vpp-diagnostics-</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">"</span>
+
+    <span class="c1"># VPP commands to collect</span>
+    <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show version verbose cmdline"</span><span class="p">,</span> <span class="s2">"vpp-version.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show hardware-interfaces"</span><span class="p">,</span> <span class="s2">"hardware-interfaces.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show interface address"</span><span class="p">,</span> <span class="s2">"interface-addresses.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show interface"</span><span class="p">,</span> <span class="s2">"interfaces.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show errors"</span><span class="p">,</span> <span class="s2">"errors.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show runtime"</span><span class="p">,</span> <span class="s2">"runtime.txt"</span><span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">"sudo vppctl show memory api-segment stats-segment numa-heaps main-heap map verbose"</span><span class="p">,</span>
+            <span class="s2">"memory.txt"</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show buffers"</span><span class="p">,</span> <span class="s2">"buffers.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show physmem detail"</span><span class="p">,</span> <span class="s2">"physmem.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show physmem map"</span><span class="p">,</span> <span class="s2">"physmem-map.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show cpu"</span><span class="p">,</span> <span class="s2">"cpu.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show threads"</span><span class="p">,</span> <span class="s2">"threads.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show node counters"</span><span class="p">,</span> <span class="s2">"node-counters.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show l2fib"</span><span class="p">,</span> <span class="s2">"l2fib.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show bridge-domain"</span><span class="p">,</span> <span class="s2">"bridge-domains.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show ip fib"</span><span class="p">,</span> <span class="s2">"ip4-fib.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show ip neighbors"</span><span class="p">,</span> <span class="s2">"ip4-neighbors.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show ip6 fib"</span><span class="p">,</span> <span class="s2">"ip6-fib.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show ip6 neighbors"</span><span class="p">,</span> <span class="s2">"ip6-neighbors.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show mpls fib"</span><span class="p">,</span> <span class="s2">"mpls-fib.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show mpls tunnel"</span><span class="p">,</span> <span class="s2">"mpls-tunnels.txt"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"sudo vppctl show trace"</span><span class="p">,</span> <span class="s2">"packet-traces.txt"</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Create diagnostics directory</span>
+        <span class="n">diag_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Collect VPP data</span>
+        <span class="k">for</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">output_file</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
+            <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">diag_dir</span><span class="p">)</span>
+
+        <span class="c1"># Collect PCAP files</span>
+        <span class="n">pcap_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.pcap"</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pcap_files</span><span class="p">:</span>
+            <span class="n">pcap_dir</span> <span class="o">=</span> <span class="n">diag_dir</span> <span class="o">/</span> <span class="s2">"pcap-files"</span>
+            <span class="n">pcap_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pcap_file</span> <span class="ow">in</span> <span class="n">pcap_files</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">pcap_file</span><span class="p">,</span> <span class="n">pcap_dir</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">PermissionError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+                    <span class="k">pass</span>
+
+        <span class="c1"># Create archive</span>
+        <span class="n">archive_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"vpp-diagnostics-</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.tar.gz"</span>
+        <span class="n">archive_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="n">archive_name</span>
+
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="s2">"w:gz"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="n">tar</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diag_dir</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">diag_dir</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># Cleanup</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">diag_dir</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"VPP diagnostics collected: </span><span class="si">{</span><span class="n">archive_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">archive_path</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">diag_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">diag_dir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Collection failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Main function."""</span>
+    <span class="n">collect_diagnostics</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Save this script as <code class="docutils literal notranslate"><span class="pre">/config/scripts/vpp-collect-diagnostics</span></code></p>
+</section>
+<section id="installation-and-usage">
+<h3>Installation and Usage<a class="headerlink" href="#installation-and-usage" title="Link to this heading"></a></h3>
+<p><strong>1. Make the script executable</strong></p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-sudo-chmod-x-config-scripts-vpp-collect-diagnostics">
+sudo chmod +x /config/scripts/vpp-collect-diagnostics</span>
+<a class="cmdlink" href="#opcmd-sudo-chmod-x-config-scripts-vpp-collect-diagnostics" title="Permalink to this Command"></a></div></div>
+<p><strong>2. Run VPP diagnostic collection</strong></p>
+<p>The script automatically collects all diagnostics and stores them in your home
+directory.</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-config-scripts-vpp-collect-diagnostics">
+/config/scripts/vpp-collect-diagnostics</span>
+<a class="cmdlink" href="#opcmd-config-scripts-vpp-collect-diagnostics" title="Permalink to this Command"></a></div></div>
+<p><strong>3. Generate VyOS tech-support archive separately</strong>
+You can also generate a tech-support archive with system-wide diagnostics:</p>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-generate-tech-support-archive">
+generate tech-support archive</span>
+<a class="cmdlink" href="#opcmd-generate-tech-support-archive" title="Permalink to this Command"></a></div></div>
+</section>
+<section id="what-the-script-collects">
+<h3>What the Script Collects<a class="headerlink" href="#what-the-script-collects" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>System information</strong>: Version details, build information, command-line
+parameters.</p></li>
+<li><p><strong>Interface data</strong>: Hardware interfaces, interface addresses, statistics,
+and configurations.</p></li>
+<li><p><strong>Performance metrics</strong>: Runtime statistics, error counters, node counters,
+CPU, and thread information.</p></li>
+<li><p><strong>Memory analysis</strong>: Memory usage (API segment, stats segment, NUMA heaps,
+main heap), buffers, and physical memory.</p></li>
+<li><p><strong>Layer 2 data</strong>: L2 forwarding table (L2FIB) and bridge domain
+configurations.</p></li>
+<li><p><strong>IPv4 data</strong>: IPv4 forwarding table (FIB) and IPv4 neighbor table.</p></li>
+<li><p><strong>IPv6 data</strong>: IPv6 forwarding table (FIB) and IPv6 neighbor table.</p></li>
+<li><p><strong>MPLS data</strong>: MPLS forwarding table (FIB) and MPLS tunnel information.</p></li>
+<li><p><strong>Packet traces</strong>: Captured packet traces (if available).</p></li>
+<li><p><strong>Packet captures</strong>: PCAP files from the <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> directory (if available).</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="configuration/sflow.html" class="btn btn-neutral float-left" title="VPP sFlow Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contributing/index.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

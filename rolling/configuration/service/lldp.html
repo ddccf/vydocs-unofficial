@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="LLDP is a vendor-neutral Layer 2 protocol that lets devices advertise their identity, capabilities, and management addresses to directly connected neighbors and learn the same from them. " name="description" />
+<meta content="lldp, lldp-med, cdp, edp, fdp, sonmp, neighbor-discovery" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLDP &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/service/lldp.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="mDNS repeater" href="mdns.html" />
+    <link rel="prev" title="IPoE server" href="ipoe-server.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Service</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="broadcast-relay.html">UDP broadcast relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-sync.html">Config sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conntrack-sync.html">Conntrack sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console-server.html">Console server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-relay.html">DHCP relay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dhcp-server.html">DHCP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dns.html">DNS forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-dns.html">Dynamic DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eventhandler.html">Event handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="https.html">HTTP API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipoe-server.html">IPoE server</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">LLDP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ntp.html">NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pppoe-server.html">PPPoE server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="router-advert.html">Router Advertisements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snmp.html">SNMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stunnel.html">Stunnel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suricata.html">Suricata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftp-server.html">TFTP server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webproxy.html">Webproxy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Service</a></li>
+      <li class="breadcrumb-item active">LLDP</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/service/lldp.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lldp">
+<span id="id1"></span><h1>LLDP<a class="headerlink" href="#lldp" title="Link to this heading"></a></h1>
+<p><abbr title="Link Layer Discovery Protocol">LLDP</abbr> is a vendor-neutral Layer
+2 protocol that enables devices to advertise their identity,
+capabilities, and management addresses to directly connected neighbors
+and to learn the same information from them. LLDP is specified in IEEE
+802.1AB, Station and Media Access Control Connectivity Discovery.</p>
+<p>Each device sends LLDP frames periodically on every interface where
+LLDP transmission is enabled and records the received information in a
+local neighbor database. This database can also be queried with
+<abbr title="Simple Network Management Protocol">SNMP</abbr> (see <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">lldp</span> <span class="pre">snmp</span></code>), so the topology of an entire LLDP-enabled network can be
+mapped by querying each device in turn. Advertised information may
+include:</p>
+<ul class="simple">
+<li><p>System name and description</p></li>
+<li><p>Port name and description</p></li>
+<li><p>VLAN name</p></li>
+<li><p>Management IP address</p></li>
+<li><p>System capabilities (the device’s role: router, bridge, telephone,
+and so on)</p></li>
+<li><p>Physical link settings, such as speed, duplex, and auto-negotiation
+(MAC/PHY)</p></li>
+<li><p>Power over Ethernet (MDI power)</p></li>
+<li><p>Link aggregation (bonding)</p></li>
+</ul>
+<p>LLDP provides functionality similar to proprietary protocols such as
+<abbr title="Cisco Discovery Protocol">CDP</abbr>,
+<abbr title="Extreme Discovery Protocol">EDP</abbr>,
+<abbr title="Foundry Discovery Protocol">FDP</abbr>, and
+<abbr title="SynOptics Network Management Protocol">SONMP</abbr>. You can
+configure VyOS to interoperate with devices running these protocols
+via <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">lldp</span> <span class="pre">legacy-protocols</span></code>.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp">
+set service lldp</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable the LLDP service.</strong></p>
+<p>With no further configuration, the service sends and processes LLDP
+frames on every available local interface.</p>
+<p>Configure <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">lldp</span> <span class="pre">interface</span></code> to restrict it to selected
+interfaces.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface">
+set service lldp interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable LLDP on the specified interface.</strong></p>
+<p>Repeat the command to enable LLDP on multiple interfaces. The special
+value <code class="docutils literal notranslate"><span class="pre">all</span></code> enables LLDP on every available local interface.</p>
+<p>Once LLDP is enabled with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">service</span> <span class="pre">lldp</span></code>, it runs on all available
+local interfaces by default. Configuring one or more interfaces here
+limits LLDP strictly to those configured, disabling LLDP on all
+remaining interfaces.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1
+set service lldp interface eth2
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-mode-disable-rx-tx-tx-rx">
+set service lldp interface &lt;interface&gt; mode &lt;disable | rx-tx | tx | rx&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-mode-disable-rx-tx-tx-rx" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the LLDP administrative status on the specified
+interface:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rx-tx</span></code>: Sends LLDP frames and processes received ones.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rx</span></code>: Processes only received frames, so the router learns about its
+neighbors without announcing itself.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tx</span></code>: Sends frames only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable</span></code>: Neither sends nor processes frames on the interface.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">rx-tx</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 mode rx
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-latitude-latitude">
+set service lldp interface &lt;interface&gt; location coordinate-based latitude &lt;latitude&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-latitude-latitude" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the latitude of the coordinate-based LLDP-MED location
+advertised on the specified interface.</strong></p>
+<p>The value is a decimal number followed by N or S. Both latitude and
+longitude must be configured.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 location coordinate-based latitude 37.524449N
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-longitude-longitude">
+set service lldp interface &lt;interface&gt; location coordinate-based longitude &lt;longitude&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-longitude-longitude" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the longitude of the coordinate-based LLDP-MED location
+advertised on the specified interface.</strong></p>
+<p>The value is a decimal number followed by E or W. Both latitude and
+longitude must be configured.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 location coordinate-based longitude 122.267255W
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-altitude-altitude">
+set service lldp interface &lt;interface&gt; location coordinate-based altitude &lt;altitude&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-altitude-altitude" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the altitude, in meters, of the coordinate-based LLDP-MED
+location advertised on the specified interface.</strong></p>
+<p>The value is a positive or negative number of meters, where 0 means no
+altitude. Altitude is part of the coordinate-based location, so
+latitude and longitude must also be configured for it to be
+advertised.</p>
+<p>The default is 0.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 location coordinate-based altitude 12
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-datum-wgs84-nad83-mllw">
+set service lldp interface &lt;interface&gt; location coordinate-based datum &lt;WGS84 | NAD83 | MLLW&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-location-coordinate-based-datum-wgs84-nad83-mllw" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Configure the geodetic datum of the coordinate-based LLDP-MED
+location advertised on the specified interface:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">WGS84</span></code> and <code class="docutils literal notranslate"><span class="pre">NAD83</span></code> select the corresponding geodetic datum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MLLW</span></code> selects NAD83 combined with the
+<abbr title="Mean Lower Low Water">MLLW</abbr> tidal datum, used where altitude
+is referenced to tidal water level.</p></li>
+</ul>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">WGS84</span></code>.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 location coordinate-based datum NAD83
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-interface-interface-location-elin-number">
+set service lldp interface &lt;interface&gt; location elin &lt;number&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-interface-interface-location-elin-number" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Advertise an Emergency Call Service
+<abbr title="Emergency Location Identification Number">ELIN</abbr> on the
+specified interface.</strong></p>
+<p>The value is 10 to 25 digits.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp interface eth1 location elin 1234567890
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-management-address-address">
+set service lldp management-address &lt;address&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-management-address-address" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Advertise the specified IPv4 or IPv6 address to LLDP neighbors as a
+management address.</strong></p>
+<p>Repeat the command to advertise multiple addresses. VyOS generates a
+warning upon commit if the address is a loopback address or is not
+assigned to any interface.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp management-address 192.0.2.1
+set service lldp management-address 2001:db8::1
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-snmp">
+set service lldp snmp</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-snmp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Allow the LLDP database to be queried over SNMP.</strong></p>
+<p>Requires a configured SNMP service (see <a class="reference internal" href="snmp.html#snmp"><span class="std std-ref">SNMP</span></a>). Otherwise, the
+commit fails.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp snmp
+</pre></div>
+</div>
+<div class="cmd cmd-cfg">
+<div class="cfgcmd-heading">
+<span class="cfgcmd" id="cfgcmd-set-service-lldp-legacy-protocols-cdp-edp-fdp-sonmp">
+set service lldp legacy-protocols &lt;cdp | edp | fdp | sonmp&gt;</span>
+<a class="cmdlink" href="#cfgcmd-set-service-lldp-legacy-protocols-cdp-edp-fdp-sonmp" title="Permalink to this Command"></a></div><div class="cfgcmd-body">
+<p><strong>Enable the LLDP service to process the specified vendor-proprietary
+discovery protocol:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cdp</span></code>: Cisco routers and switches.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">edp</span></code>: Extreme routers and switches.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fdp</span></code>: Foundry routers and switches.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sonmp</span></code>: Nortel routers and switches.</p></li>
+</ul>
+<p>After receiving a frame of an enabled protocol on an interface, VyOS
+also transmits that protocol on the interface.</p>
+<p>Repeat the command to enable processing of multiple protocols.</p>
+</div>
+</div>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set service lldp legacy-protocols cdp
+</pre></div>
+</div>
+</section>
+<section id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Link to this heading"></a></h2>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-lldp-neighbors">
+show lldp neighbors</span>
+<a class="cmdlink" href="#opcmd-show-lldp-neighbors" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show all neighbors discovered via LLDP or enabled legacy
+protocols.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-lldp-neighbors-detail">
+show lldp neighbors detail</span>
+<a class="cmdlink" href="#opcmd-show-lldp-neighbors-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show detailed information about discovered neighbors.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-lldp-neighbors-interface-interface">
+show lldp neighbors interface &lt;interface&gt;</span>
+<a class="cmdlink" href="#opcmd-show-lldp-neighbors-interface-interface" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show neighbors discovered on the specified interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-lldp-neighbors-interface-interface-detail">
+show lldp neighbors interface &lt;interface&gt; detail</span>
+<a class="cmdlink" href="#opcmd-show-lldp-neighbors-interface-interface-detail" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show detailed information about neighbors discovered on the
+specified interface.</strong></p>
+</div>
+</div>
+<div class="cmd cmd-op">
+<div class="opcmd-heading">
+<span class="opcmd" id="opcmd-show-log-lldp">
+show log lldp</span>
+<a class="cmdlink" href="#opcmd-show-log-lldp" title="Permalink to this Command"></a></div><div class="opcmd-body">
+<p><strong>Show the log of the LLDP service since the last boot.</strong></p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ipoe-server.html" class="btn btn-neutral float-left" title="IPoE server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mdns.html" class="btn btn-neutral float-right" title="mDNS repeater" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

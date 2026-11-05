@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting Site-to-Site VPN IPsec &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/vpn/ipsec/troubleshooting_ipsec.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../../static/doctools.js?v=888ff710"></script>
+        <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="L2TP" href="../l2tp.html" />
+    <link rel="prev" title="IPSec IKEv2 Remote Access VPN" href="remoteaccess_ipsec.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../firewall/index.html">Firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">VPN</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">IPsec</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ipsec_general.html">IPsec General Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site2site_ipsec.html">IPsec Site-to-Site VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteaccess_ipsec.html">IPSec IKEv2 Remote Access VPN</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Troubleshooting Site-to-Site VPN IPsec</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../l2tp.html">L2TP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openconnect.html">OpenConnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pptp.html">PPTP-Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rsa-keys.html">RSA-Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sstp.html">SSTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dmvpn.html">DMVPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Configuration Guide</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">VPN</a></li>
+          <li class="breadcrumb-item"><a href="index.html">IPsec</a></li>
+      <li class="breadcrumb-item active">Troubleshooting Site-to-Site VPN IPsec</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/vpn/ipsec/troubleshooting_ipsec.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting-site-to-site-vpn-ipsec">
+<span id="troubleshooting-ipsec"></span><h1>Troubleshooting Site-to-Site VPN IPsec<a class="headerlink" href="#troubleshooting-site-to-site-vpn-ipsec" title="Link to this heading"></a></h1>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Convert raw command blocks in this file to cfgcmd/opcmd
+directives for command coverage tracking.</p>
+</div>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>This document describes the methodology to monitor and troubleshoot
+Site-to-Site VPN IPsec.</p>
+<dl class="simple myst">
+<dt>Steps for troubleshooting problems with Site-to-Site VPN IPsec:</dt><dd><ol class="arabic simple">
+<li><p>Ping the remote site through the tunnel using the source and
+destination IPs included in the policy.</p></li>
+<li><p>Check connectivity between the routers using the ping command
+(if ICMP traffic is allowed).</p></li>
+<li><p>Check the IKE SAs’ statuses.</p></li>
+<li><p>Check the IPsec SAs’ statuses.</p></li>
+<li><p>Check logs to view debug messages.</p></li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="checking-ike-sa-status">
+<h2>Checking IKE SA Status<a class="headerlink" href="#checking-ike-sa-status" title="Link to this heading"></a></h2>
+<p>The next command shows IKE SAs’ statuses.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ike sa
+
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+192.168.1.2 192.168.1.2                 192.168.0.1 192.168.0.1
+
+    State  IKEVer  Encrypt      Hash          D-H Group      NAT-T  A-Time  L-Time
+    -----  ------  -------      ----          ---------      -----  ------  ------
+    up     IKEv2   AES_CBC_128  HMAC_SHA1_96  MODP_2048      no     162     27023
+</pre></div>
+</div>
+<dl class="simple myst">
+<dt>This command shows the next information:</dt><dd><ul class="simple">
+<li><p>IKE SA status.</p></li>
+<li><p>Selected IKE version.</p></li>
+<li><p>Selected Encryption, Hash and Diffie-Hellman Group.</p></li>
+<li><p>NAT-T.</p></li>
+<li><p>ID and IP of both peers.</p></li>
+<li><p>A-Time: established time, L-Time: time for next rekeying.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="ipsec-sa-child-sa-status">
+<h2>IPsec SA (CHILD SA) Status<a class="headerlink" href="#ipsec-sa-child-sa-status" title="Link to this heading"></a></h2>
+<p>The next commands show IPsec SAs’ statuses.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ipsec sa
+Connection     State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+-------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------
+PEER-tunnel-1  up       16m30s    168B/168B       2/2               192.168.1.2       192.168.1.2  AES_CBC_128/HMAC_SHA1_96/MODP_2048
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ipsec sa detail
+PEER: #1, ESTABLISHED, IKEv2, 101275ac719d5a1b_i* 68ea4ec3bed3bf0c_r
+  local  '192.168.0.1' @ 192.168.0.1[4500]
+  remote '192.168.1.2' @ 192.168.1.2[4500]
+  AES_CBC-128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+  established 4054s ago, rekeying in 23131s
+  PEER-tunnel-1: #2, reqid 1, INSTALLED, TUNNEL, ESP:AES_CBC-128/HMAC_SHA1_96/MODP_2048
+    installed 1065s ago, rekeying in 1998s, expires in 2535s
+    in  c5821882,    168 bytes,     2 packets,    81s ago
+    out c433406a,    168 bytes,     2 packets,    81s ago
+    local  10.0.0.0/24
+    remote 10.0.1.0/24
+</pre></div>
+</div>
+<dl class="simple myst">
+<dt>These commands show the next information:</dt><dd><ul class="simple">
+<li><p>IPsec SA status.</p></li>
+<li><p>Uptime and time for the next rekeing.</p></li>
+<li><p>Amount of transferred data.</p></li>
+<li><p>Remote and local ID and IP.</p></li>
+<li><p>Selected Encryption, Hash and Diffie-Hellman Group.</p></li>
+<li><p>Mode (tunnel or transport).</p></li>
+<li><p>Remote and local prefixes which are use for policy.</p></li>
+</ul>
+</dd>
+</dl>
+<p>There is a possibility to view the summarized information of SAs’ status</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ipsec connections
+Connection     State    Type    Remote address    Local TS     Remote TS    Local id     Remote id    Proposal
+-------------  -------  ------  ----------------  -----------  -----------  -----------  -----------  ----------------------------------
+PEER           up       IKEv2   192.168.1.2       -            -            192.168.0.1  192.168.1.2  AES_CBC/128/HMAC_SHA1_96/MODP_2048
+PEER-tunnel-1  up       IPsec   192.168.1.2       10.0.0.0/24  10.0.1.0/24  192.168.0.1  192.168.1.2  AES_CBC/128/HMAC_SHA1_96/MODP_2048
+</pre></div>
+</div>
+</section>
+<section id="viewing-logs-for-debugging">
+<h2>Viewing Logs for Debugging<a class="headerlink" href="#viewing-logs-for-debugging" title="Link to this heading"></a></h2>
+<p>If IKE SAs or IPsec SAs are down, need to debug IPsec connectivity
+using logs <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">log</span> <span class="pre">ipsec</span></code></p>
+<p>The next example of the successful IPsec connection initialization.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show log ipsec
+Jun 20 14:29:47 charon[2428]: 02[NET] &lt;PEER|1&gt; received packet: from 192.168.1.2[500] to 192.168.0.1[500] (472 bytes)
+Jun 20 14:29:47 charon[2428]: 02[ENC] &lt;PEER|1&gt; parsed IKE_SA_INIT response 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) N(FRAG_SUP) N(HASH_ALG) N(CHDLESS_SUP) N(MULT_AUTH) ]
+Jun 20 14:29:47 charon-systemd[2428]: received packet: from 192.168.1.2[500] to 192.168.0.1[500] (472 bytes)
+Jun 20 14:29:47 charon[2428]: 02[CFG] &lt;PEER|1&gt; selected proposal: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 20 14:29:47 charon-systemd[2428]: parsed IKE_SA_INIT response 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) N(FRAG_SUP) N(HASH_ALG) N(CHDLESS_SUP) N(MULT_AUTH) ]
+Jun 20 14:29:47 charon-systemd[2428]: selected proposal: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 20 14:29:47 charon[2428]: 02[IKE] &lt;PEER|1&gt; authentication of '192.168.0.1' (myself) with pre-shared key
+Jun 20 14:29:47 charon-systemd[2428]: authentication of '192.168.0.1' (myself) with pre-shared key
+Jun 20 14:29:47 charon[2428]: 02[IKE] &lt;PEER|1&gt; establishing CHILD_SA PEER-tunnel-1{1}
+Jun 20 14:29:47 charon-systemd[2428]: establishing CHILD_SA PEER-tunnel-1{1}
+Jun 20 14:29:47 charon[2428]: 02[ENC] &lt;PEER|1&gt; generating IKE_AUTH request 1 [ IDi N(INIT_CONTACT) IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) N(MULT_AUTH) N(EAP_ONLY) N(MSG_ID_SYN_SUP) ]
+Jun 20 14:29:47 charon-systemd[2428]: generating IKE_AUTH request 1 [ IDi N(INIT_CONTACT) IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) N(MULT_AUTH) N(EAP_ONLY) N(MSG_ID_SYN_SUP) ]
+Jun 20 14:29:47 charon[2428]: 02[NET] &lt;PEER|1&gt; sending packet: from 192.168.0.1[4500] to 192.168.1.2[4500] (268 bytes)
+Jun 20 14:29:47 charon-systemd[2428]: sending packet: from 192.168.0.1[4500] to 192.168.1.2[4500] (268 bytes)
+Jun 20 14:29:47 charon[2428]: 13[NET] &lt;PEER|1&gt; received packet: from 192.168.1.2[4500] to 192.168.0.1[4500] (220 bytes)
+Jun 20 14:29:47 charon[2428]: 13[ENC] &lt;PEER|1&gt; parsed IKE_AUTH response 1 [ IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) ]
+Jun 20 14:29:47 charon-systemd[2428]: received packet: from 192.168.1.2[4500] to 192.168.0.1[4500] (220 bytes)
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; authentication of '192.168.1.2' with pre-shared key successful
+Jun 20 14:29:47 charon-systemd[2428]: parsed IKE_AUTH response 1 [ IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) ]
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; peer supports MOBIKE
+Jun 20 14:29:47 charon-systemd[2428]: authentication of '192.168.1.2' with pre-shared key successful
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; IKE_SA PEER[1] established between 192.168.0.1[192.168.0.1]...192.168.1.2[192.168.1.2]
+Jun 20 14:29:47 charon-systemd[2428]: peer supports MOBIKE
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; scheduling rekeying in 27703s
+Jun 20 14:29:47 charon-systemd[2428]: IKE_SA PEER[1] established between 192.168.0.1[192.168.0.1]...192.168.1.2[192.168.1.2]
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; maximum IKE_SA lifetime 30583s
+Jun 20 14:29:47 charon-systemd[2428]: scheduling rekeying in 27703s
+Jun 20 14:29:47 charon[2428]: 13[CFG] &lt;PEER|1&gt; selected proposal: ESP:AES_CBC_128/HMAC_SHA1_96/NO_EXT_SEQ
+Jun 20 14:29:47 charon-systemd[2428]: maximum IKE_SA lifetime 30583s
+Jun 20 14:29:47 charon-systemd[2428]: selected proposal: ESP:AES_CBC_128/HMAC_SHA1_96/NO_EXT_SEQ
+Jun 20 14:29:47 charon[2428]: 13[IKE] &lt;PEER|1&gt; CHILD_SA PEER-tunnel-1{1} established with SPIs cb94fb3f_i ca99c8a9_o and TS 10.0.0.0/24 === 10.0.1.0/24
+Jun 20 14:29:47 charon-systemd[2428]: CHILD_SA PEER-tunnel-1{1} established with SPIs cb94fb3f_i ca99c8a9_o and TS 10.0.0.0/24 === 10.0.1.0/24
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting-examples">
+<h2>Troubleshooting Examples<a class="headerlink" href="#troubleshooting-examples" title="Link to this heading"></a></h2>
+<section id="ike-proposal-are-different">
+<h3>IKE PROPOSAL are Different<a class="headerlink" href="#ike-proposal-are-different" title="Link to this heading"></a></h3>
+<p>In this situation, IKE SAs can be down or not active.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ike sa
+</pre></div>
+</div>
+<p>The problem is in IKE phase (Phase 1). The next step is checking debug logs.</p>
+<p>Responder Side:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 07:36:33 charon[2440]: 01[CFG] &lt;1&gt; received proposals: IKE:AES_CBC_256/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 07:36:33 charon-systemd[2440]: received proposals: IKE:AES_CBC_256/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 07:36:33 charon[2440]: 01[CFG] &lt;1&gt; configured proposals: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 07:36:33 charon-systemd[2440]: configured proposals: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 07:36:33 charon[2440]: 01[IKE] &lt;1&gt; received proposals unacceptable
+Jun 23 07:36:33 charon-systemd[2440]: received proposals unacceptable
+Jun 23 07:36:33 charon[2440]: 01[ENC] &lt;1&gt; generating IKE_SA_INIT response 0 [ N(NO_PROP) ]
+</pre></div>
+</div>
+<p>Initiator side:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 07:36:32 charon-systemd[2444]: parsed IKE_SA_INIT response 0 [ N(NO_PROP) ]
+Jun 23 07:36:32 charon[2444]: 14[IKE] &lt;PEER|1&gt; received NO_PROPOSAL_CHOSEN notify error
+Jun 23 07:36:32 charon-systemd[2444]: received NO_PROPOSAL_CHOSEN notify error
+</pre></div>
+</div>
+<p>The notification <strong>NO_PROPOSAL_CHOSEN</strong> means that the proposal mismatch.
+On the Responder side there is concrete information where is mismatch.
+Encryption <strong>AES_CBC_128</strong> is configured in IKE policy on the responder
+but <strong>AES_CBC_256</strong> is configured on the initiator side.</p>
+</section>
+<section id="psk-secret-mismatch">
+<h3>PSK Secret Mismatch<a class="headerlink" href="#psk-secret-mismatch" title="Link to this heading"></a></h3>
+<p>In this situation, IKE SAs can be down or not active.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ike sa
+</pre></div>
+</div>
+<p>The problem is in IKE phase (Phase 1). The next step is checking debug logs.</p>
+<p>Responder:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 08:07:26 charon-systemd[2440]: tried 1 shared key for '192.168.1.2' - '192.168.0.1', but MAC mismatched
+Jun 23 08:07:26 charon[2440]: 13[ENC] &lt;PEER|3&gt; generating IKE_AUTH response 1 [ N(AUTH_FAILED) ]
+</pre></div>
+</div>
+<p>Initiator side:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 08:07:24 charon[2436]: 12[ENC] &lt;PEER|1&gt; parsed IKE_AUTH response 1 [ N(AUTH_FAILED) ]
+Jun 23 08:07:24 charon-systemd[2436]: parsed IKE_AUTH response 1 [ N(AUTH_FAILED) ]
+Jun 23 08:07:24 charon[2436]: 12[IKE] &lt;PEER|1&gt; received AUTHENTICATION_FAILED notify error
+Jun 23 08:07:24 charon-systemd[2436]: received AUTHENTICATION_FAILED notify error
+</pre></div>
+</div>
+<p>The notification <strong>AUTHENTICATION_FAILED</strong> means that the authentication
+is failed. There is a reason to check PSK on both side.</p>
+</section>
+<section id="esp-proposal-mismatch">
+<h3>ESP Proposal Mismatch<a class="headerlink" href="#esp-proposal-mismatch" title="Link to this heading"></a></h3>
+<p>The output of <strong>show</strong> commands shows us that IKE SA is established but
+IPSec SA is not.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ike sa
+Peer ID / IP                            Local ID / IP
+------------                            -------------
+192.168.1.2 192.168.1.2                 192.168.0.1 192.168.0.1
+
+    State  IKEVer  Encrypt      Hash          D-H Group      NAT-T  A-Time  L-Time
+    -----  ------  -------      ----          ---------      -----  ------  ------
+    up     IKEv2   AES_CBC_128  HMAC_SHA1_96  MODP_2048      no     158     26817
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vyos@vyos:~$ show vpn ipsec sa
+Connection    State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal
+------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------
+</pre></div>
+</div>
+<p>The next step is checking debug logs.</p>
+<p>Initiator side:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 08:16:10 charon[3789]: 13[NET] &lt;PEER|1&gt; received packet: from 192.168.1.2[500] to 192.168.0.1[500] (472 bytes)
+Jun 23 08:16:10 charon[3789]: 13[ENC] &lt;PEER|1&gt; parsed IKE_SA_INIT response 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) N(FRAG_SUP) N(HASH_ALG) N(CHDLESS_SUP) N(MULT_AUTH) ]
+Jun 23 08:16:10 charon-systemd[3789]: received packet: from 192.168.1.2[500] to 192.168.0.1[500] (472 bytes)
+Jun 23 08:16:10 charon[3789]: 13[CFG] &lt;PEER|1&gt; selected proposal: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 08:16:10 charon-systemd[3789]: parsed IKE_SA_INIT response 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) N(FRAG_SUP) N(HASH_ALG) N(CHDLESS_SUP) N(MULT_AUTH) ]
+Jun 23 08:16:10 charon-systemd[3789]: selected proposal: IKE:AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_2048
+Jun 23 08:16:10 charon[3789]: 13[IKE] &lt;PEER|1&gt; authentication of '192.168.0.1' (myself) with pre-shared key
+Jun 23 08:16:10 charon-systemd[3789]: authentication of '192.168.0.1' (myself) with pre-shared key
+Jun 23 08:16:10 charon[3789]: 13[IKE] &lt;PEER|1&gt; establishing CHILD_SA PEER-tunnel-1{1}
+Jun 23 08:16:10 charon-systemd[3789]: establishing CHILD_SA PEER-tunnel-1{1}
+Jun 23 08:16:10 charon[3789]: 13[ENC] &lt;PEER|1&gt; generating IKE_AUTH request 1 [ IDi N(INIT_CONTACT) IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) N(MULT_AUTH) N(EAP_ONLY) N(MSG_ID_SYN_SUP) ]
+Jun 23 08:16:10 charon-systemd[3789]: generating IKE_AUTH request 1 [ IDi N(INIT_CONTACT) IDr AUTH SA TSi TSr N(MOBIKE_SUP) N(NO_ADD_ADDR) N(MULT_AUTH) N(EAP_ONLY) N(MSG_ID_SYN_SUP) ]
+Jun 23 08:16:10 charon[3789]: 13[NET] &lt;PEER|1&gt; sending packet: from 192.168.0.1[4500] to 192.168.1.2[4500] (268 bytes)
+Jun 23 08:16:10 charon-systemd[3789]: sending packet: from 192.168.0.1[4500] to 192.168.1.2[4500] (268 bytes)
+Jun 23 08:16:10 charon[3789]: 09[NET] &lt;PEER|1&gt; received packet: from 192.168.1.2[4500] to 192.168.0.1[4500] (140 bytes)
+Jun 23 08:16:10 charon-systemd[3789]: received packet: from 192.168.1.2[4500] to 192.168.0.1[4500] (140 bytes)
+Jun 23 08:16:10 charon[3789]: 09[ENC] &lt;PEER|1&gt; parsed IKE_AUTH response 1 [ IDr AUTH N(MOBIKE_SUP) N(NO_ADD_ADDR) N(NO_PROP) ]
+Jun 23 08:16:10 charon-systemd[3789]: parsed IKE_AUTH response 1 [ IDr AUTH N(MOBIKE_SUP) N(NO_ADD_ADDR) N(NO_PROP) ]
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; authentication of '192.168.1.2' with pre-shared key successful
+Jun 23 08:16:10 charon-systemd[3789]: authentication of '192.168.1.2' with pre-shared key successful
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; peer supports MOBIKE
+Jun 23 08:16:10 charon-systemd[3789]: peer supports MOBIKE
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; IKE_SA PEER[1] established between 192.168.0.1[192.168.0.1]...192.168.1.2[192.168.1.2]
+Jun 23 08:16:10 charon-systemd[3789]: IKE_SA PEER[1] established between 192.168.0.1[192.168.0.1]...192.168.1.2[192.168.1.2]
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; scheduling rekeying in 26975s
+Jun 23 08:16:10 charon-systemd[3789]: scheduling rekeying in 26975s
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; maximum IKE_SA lifetime 29855s
+Jun 23 08:16:10 charon-systemd[3789]: maximum IKE_SA lifetime 29855s
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; received NO_PROPOSAL_CHOSEN notify, no CHILD_SA built
+Jun 23 08:16:10 charon-systemd[3789]: received NO_PROPOSAL_CHOSEN notify, no CHILD_SA built
+Jun 23 08:16:10 charon[3789]: 09[IKE] &lt;PEER|1&gt; failed to establish CHILD_SA, keeping IKE_SA
+Jun 23 08:16:10 charon-systemd[3789]: failed to establish CHILD_SA, keeping IKE_SA
+</pre></div>
+</div>
+<p>There are messages: <strong>NO_PROPOSAL_CHOSEN</strong> and
+<strong>failed to establish CHILD_SA</strong> which refers that the problem is in
+the IPsec(ESP) proposal mismatch.</p>
+<p>The reason of this problem is showed on the responder side.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 08:16:12 charon[2440]: 01[CFG] &lt;PEER|5&gt; received proposals: ESP:AES_CBC_256/HMAC_SHA1_96/NO_EXT_SEQ
+Jun 23 08:16:12 charon-systemd[2440]: received proposals: ESP:AES_CBC_256/HMAC_SHA1_96/NO_EXT_SEQ
+Jun 23 08:16:12 charon[2440]: 01[CFG] &lt;PEER|5&gt; configured proposals: ESP:AES_CBC_128/HMAC_SHA1_96/MODP_2048/NO_EXT_SEQ
+Jun 23 08:16:12 charon-systemd[2440]: configured proposals: ESP:AES_CBC_128/HMAC_SHA1_96/MODP_2048/NO_EXT_SEQ
+Jun 23 08:16:12 charon[2440]: 01[IKE] &lt;PEER|5&gt; no acceptable proposal found
+Jun 23 08:16:12 charon-systemd[2440]: no acceptable proposal found
+Jun 23 08:16:12 charon[2440]: 01[IKE] &lt;PEER|5&gt; failed to establish CHILD_SA, keeping IKE_SA
+</pre></div>
+</div>
+<p>Encryption <strong>AES_CBC_128</strong> is configured in IKE policy on the responder but <strong>AES_CBC_256</strong>
+is configured on the initiator side.</p>
+</section>
+<section id="prefixes-in-policies-mismatch">
+<h3>Prefixes in Policies Mismatch<a class="headerlink" href="#prefixes-in-policies-mismatch" title="Link to this heading"></a></h3>
+<p>As in previous situation, IKE SA is in up state but IPsec SA is not up.
+According to logs we can see <strong>TS_UNACCEPTABLE</strong> notification. It means
+that prefixes (traffic selectors) mismatch on both sides</p>
+<p>Initiator:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 14:13:17 charon[4996]: 11[IKE] &lt;PEER|1&gt; received TS_UNACCEPTABLE notify, no CHILD_SA built
+Jun 23 14:13:17 charon-systemd[4996]: maximum IKE_SA lifetime 29437s
+Jun 23 14:13:17 charon[4996]: 11[IKE] &lt;PEER|1&gt; failed to establish CHILD_SA, keeping IKE_SA
+Jun 23 14:13:17 charon-systemd[4996]: received TS_UNACCEPTABLE notify, no CHILD_SA built
+Jun 23 14:13:17 charon-systemd[4996]: failed to establish CHILD_SA, keeping IKE_SA
+</pre></div>
+</div>
+<p>The reason of this problem is showed on the responder side.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jun 23 14:13:19 charon[2440]: 01[IKE] &lt;PEER|7&gt; traffic selectors 10.0.2.0/24 === 10.0.0.0/24 unacceptable
+Jun 23 14:13:19 charon-systemd[2440]: traffic selectors 10.0.2.0/24 === 10.0.0.0/24 unacceptable
+Jun 23 14:13:19 charon[2440]: 01[IKE] &lt;PEER|7&gt; failed to establish CHILD_SA, keeping IKE_SA
+Jun 23 14:13:19 charon-systemd[2440]: failed to establish CHILD_SA, keeping IKE_SA
+Jun 23 14:13:19 charon[2440]: 01[ENC] &lt;PEER|7&gt; generating IKE_AUTH response 1 [ IDr AUTH N(MOBIKE_SUP) N(NO_ADD_ADDR) N(TS_UNACCEPT) ]
+Jun 23 14:13:19 charon-systemd[2440]: generating IKE_AUTH response 1 [ IDr AUTH N(MOBIKE_SUP) N(NO_ADD_ADDR) N(TS_UNACCEPT) ]
+</pre></div>
+</div>
+<p>Traffic selectors <strong>10.0.2.0/24 === 10.0.0.0/24</strong> are unacceptable on the
+responder side.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="remoteaccess_ipsec.html" class="btn btn-neutral float-left" title="IPSec IKEv2 Remote Access VPN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../l2tp.html" class="btn btn-neutral float-right" title="L2TP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

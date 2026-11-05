@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The VyOS firewall filters the traffic that the router receives, forwards, or generates. It matches packets by their properties, provides groups for reuse in rules, and includes a zone-based firewall. It operates at an IP layer and a Bridge layer, and processes packets at the processing points of each layer. " name="description" />
+<meta content="firewall, zone-based firewall, ip layer, bridge layer" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firewall &mdash; VyOS rolling release (current)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/version-picker.css?v=e03284c5" />
+
+  
+    <link rel="shortcut icon" href="../../static/vyos-logo-icon.png"/>
+    <link rel="canonical" href="https://docs.vyos.io/en/rolling/configuration/firewall/index.html" />
+  <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../static/jquery.js?v=5d32c60e"></script>
+        <script src="../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../static/documentation_options.js?v=57cd15ac"></script>
+        <script src="../../static/doctools.js?v=888ff710"></script>
+        <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../static/design-tabs.js?v=36754332"></script>
+        <script src="../../static/js/version-picker.js?v=592f8c19"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Firewall global options" href="global-options.html" />
+    <link rel="prev" title="Container" href="../container/index.html" />
+    
+
+    <style>#vyos-header-iframe{position:fixed;top:0;left:0;right:0;z-index:999999999;width:100%;border:none}</style>
+    <style>#vyos-footer-iframe{width:100%;border:none}</style>
+    <script>const iframeHeader=document.getElementById('vyos-header-iframe');const postMessageToIframe=()=>{iframeHeader.contentWindow.postMessage({height:window.innerHeight,width:window.width},'*')};window.addEventListener('message',function(message){if(message.data.headerIframeHeight){iframeHeader.style.height=`${message.data.headerIframeHeight}px`;postMessageToIframe()}});window.addEventListener('resize',event=>{postMessageToIframe()})</script>
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/lists.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/hints.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/headers.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/breadcrumbs.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/linkButtons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/text.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/leftSidebar.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/scrolls.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/tables.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/installation/running-on-bare-metal.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code-snippets.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/separate-commands.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/configuration/index.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/datatables.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="../../static/js/datatables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/tables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/codecopier.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/sidebar.js"></script>
+    <script type="text/javascript" charset="utf8" src="../../static/js/footer.js"></script>
+
+    </script>
+
+    <head>
+        <style>
+            #branch-select-container {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: #f0f0f0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="branch-select-container">
+            <select id="branch-select">
+                <option value="sagitta">Sagitta</option>
+                <option value="circinus">Circinus</option>
+                <option value="rolling">Rolling</option>
+            </select>
+        </div>
+        <script>
+            // Define the branches
+            const branches = ['sagitta', 'circinus', 'rolling'];
+
+            // Get the current branch name from the URL
+            const currentUrl = window.location.href;
+            const currentBranch = branches.find(branch => currentUrl.includes(branch));
+
+            // Set the selected option in the dropdown
+            const branchSelect = document.getElementById('branch-select');
+            branchSelect.value = currentBranch;
+
+            // Add an event listener to the dropdown
+            branchSelect.addEventListener('change', () => {
+                const newBranch = branchSelect.value;
+                const newUrl = currentUrl.replace(currentBranch, newBranch);
+                window.location.href = newUrl;
+            });
+        </script>
+    </body>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            VyOS
+              <img src="../../static/vyos-logo.webp" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                rolling
+              </div>
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introducing/history.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation and Image Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html#configuration-overview">Configuration Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Adminguide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#packet-flow">Packet flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ip-layer">IP layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bridge-layer">Bridge layer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-based-firewall">Zone-based firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firewall-configuration">Firewall configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="global-options.html">Firewall global options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="groups.html">Firewall groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bridge.html">Bridge layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zone.html">Zone-Based Firewall</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../highavailability/index.html">High availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../loadbalancing/index.html">Load-balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nat/index.html">NAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policy/index.html">Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pki/index.html">PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../service/index.html">Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trafficpolicy/index.html">Traffic Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpn/index.html">VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html">VRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vrf/index.html#l3vpn-vrfs">L3VPN VRFs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operation/index.html">Operation Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../automation/index.html">VyOS automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configexamples/index.html">Configuration Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vpp/index.html">VPP Dataplane</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">Contributing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Misc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Write Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright notice</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">VyOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Configuration Guide</a></li>
+      <li class="breadcrumb-item active">Firewall</li>
+<li class="vyos-version-picker-item"><div id="vyos-version-picker" aria-label="Documentation version"></div></li>
+
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/vyos/vyos-documentation/blob/rolling/docs/configuration/firewall/index.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="firewall">
+<span id="id1"></span><h1>Firewall<a class="headerlink" href="#firewall" title="Link to this heading"></a></h1>
+<p>The VyOS firewall filters traffic that the router <strong>receives</strong>, <strong>forwards</strong>,
+or <strong>generates</strong>. It matches packets by their addresses, ports, protocols,
+connection state, and other properties; groups addresses, networks,
+interfaces, and ports for reuse in rules; divides interfaces into zones;
+and offloads forwarded connections to a flowtable.</p>
+<p>The firewall operates at two processing layers. The layer at which the
+firewall begins processing a packet depends on the interface that
+received it:</p>
+<ul class="simple">
+<li><p><strong>IP layer</strong>: Processes packets received on interfaces that are not bridge
+member interfaces.</p></li>
+<li><p><strong>Bridge layer</strong>: Processes packets received on bridge member interfaces.</p></li>
+</ul>
+<p>Packets that the router generates have no receiving interface. The
+firewall begins processing them at the IP layer. The firewall can
+continue processing a packet at another layer, for example, when the
+router sends the packet out through a bridge.</p>
+<p>At each layer, the firewall processes packets at specific processing
+points. The points at which a packet is processed depend on its source
+and destination. By default, firewall rules apply to matching packets on
+any interface of their processing layer.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>During boot, the router configures interfaces before it applies the
+firewall rules. Until then, the firewall does not filter traffic that
+arrives on interfaces, which poses a security risk.</p>
+</div>
+<section id="packet-flow">
+<h2>Packet flow<a class="headerlink" href="#packet-flow" title="Link to this heading"></a></h2>
+<p>The following diagram shows how the router processes packets and the
+paths that traffic can take.</p>
+<figure class="align-default">
+<img alt="../../images/firewall-gral-packet-flow.webp" src="../../images/firewall-gral-packet-flow.webp" />
+</figure>
+<section id="ip-layer">
+<h3>IP layer<a class="headerlink" href="#ip-layer" title="Link to this heading"></a></h3>
+<p>The IP layer processes packets received on interfaces that are not
+<strong>bridge member interfaces</strong>, packets that the router generates, and packets
+that the Bridge layer passes on. Depending on its source and
+destination, the firewall processes a packet at different processing
+points, as outlined in the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 18.0%" />
+<col style="width: 22.0%" />
+<col style="width: 48.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Processing point (hook)</p></th>
+<th class="head"><p>Processing order</p></th>
+<th class="head"><p>Packet source or destination</p></th>
+<th class="head"><p>Configuration applied</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>prerouting</p></td>
+<td><p>First processing point at the IP layer for received packets.</p></td>
+<td><p>Received packets, regardless of their destination.</p></td>
+<td><p><strong>Firewall prerouting raw</strong>: Rules that match received packets and apply an
+action to them before connection tracking, such as dropping them or
+exempting* them from connection tracking.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">prerouting</span> <span class="pre">raw</span> <span class="pre">...</span></code>.</p>
+<p><strong>Source validation</strong>: Drops received packets whose source address fails the
+reverse path check.<br />
+You set the check mode under
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">source-validation</span> <span class="pre">...</span></code> and
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">ipv6-source-validation</span> <span class="pre">...</span></code>.</p>
+<p><strong>Policy route</strong>: Rules that match packets received on the interfaces you
+specify and assign the matching packets to a routing table or
+<abbr title="Virtual Routing and Forwarding">VRF</abbr>, or modify packet properties.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">policy</span> <span class="pre">[route</span> <span class="pre">|</span> <span class="pre">route6]</span> <span class="pre">...</span></code>.</p>
+<p><strong>Destination <abbr title="Network Address Translation">NAT</abbr></strong>: Rules that match
+received packets and translate their destination address and port, or, for
+IPv4, redirect them to the router itself.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">[nat</span> <span class="pre">|</span> <span class="pre">nat66]</span> <span class="pre">destination</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>input</p></td>
+<td><p>After the prerouting processing point.</p></td>
+<td><p>Packets whose destination is the router.</p></td>
+<td><p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the input rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Firewall input</strong>: Rules that match received packets and apply an action to
+them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">input</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+<p><strong>Zone policy</strong>: Rules that match packets according to the zone of the
+receiving interface and apply an action to them, such as accepting or
+dropping them, after the input rules.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">zone</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>forward</p></td>
+<td><p>After the prerouting processing point.</p></td>
+<td><p>Packets that the router routes through to another destination.</p></td>
+<td><p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the forward rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Firewall forward</strong>: Rules that match received packets and apply an action
+to them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">forward</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+<p><strong>Zone policy</strong>: Rules that match packets according to the zones of the
+receiving and outgoing interfaces and apply an action to them, such as
+accepting or dropping them, after the forward rules.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">zone</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>output</p></td>
+<td><p>First processing point at the IP layer for packets that the router
+generates.</p></td>
+<td><p>Packets that the router generates.</p></td>
+<td><p><strong>Firewall output raw</strong>: Rules that match generated packets and apply an
+action to them before connection tracking, such as dropping them or
+exempting* them from connection tracking.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">output</span> <span class="pre">raw</span> <span class="pre">...</span></code>.</p>
+<p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the output filter rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Firewall output filter</strong>: Rules that match generated packets and apply an
+action to them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">output</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+<p><strong>Zone policy</strong>: Rules that match packets according to the zone of the
+outgoing interface and apply an action to them, such as accepting or
+dropping them, after the output filter rules.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">zone</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>-</p></td>
+<td><p>After the forward or output processing point.</p></td>
+<td><p>Packets that the router sends out, both transit packets and packets
+that the router generates.</p></td>
+<td><p><strong>Source NAT</strong>: Rules that match packets and translate their source address
+and port.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">[nat</span> <span class="pre">|</span> <span class="pre">nat66]</span> <span class="pre">source</span> <span class="pre">...</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>* To exempt packets from connection tracking, you can also define rules
+under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">system</span> <span class="pre">conntrack</span> <span class="pre">ignore</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">...</span></code>. These rules apply
+to both received and generated packets and are maintained for
+compatibility. VyOS recommends rules with the <code class="docutils literal notranslate"><span class="pre">notrack</span></code> action under
+<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">prerouting</span> <span class="pre">raw</span></code> and <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">[ipv4</span> <span class="pre">|</span> <span class="pre">ipv6]</span> <span class="pre">output</span> <span class="pre">raw</span></code> instead, as <code class="docutils literal notranslate"><span class="pre">conntrack</span> <span class="pre">ignore</span></code> rules are expected to
+be removed in the future.</p>
+<p>At the IP layer, the firewall has no processing point after the forward
+or output processing point. Source NAT applies after these points and is
+configured separately under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">nat</span> <span class="pre">source</span></code> and <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">nat66</span> <span class="pre">source</span></code>.</p>
+<p>After source NAT, a packet that the router sends out through a bridge is
+passed to the Bridge layer, which processes it at its output processing
+point.</p>
+<p>After the router offloads a connection to a flowtable, the firewall does
+not process the subsequent packets of that connection at any processing
+point of the IP layer.</p>
+</section>
+<section id="bridge-layer">
+<h3>Bridge layer<a class="headerlink" href="#bridge-layer" title="Link to this heading"></a></h3>
+<p>The Bridge layer processes packets received on <strong>bridge member interfaces</strong>
+and packets that the IP layer passes on to send out through a bridge.
+Depending on its source and destination, the firewall processes a packet
+at different processing points, as outlined in the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 18.0%" />
+<col style="width: 22.0%" />
+<col style="width: 48.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Processing point (hook)</p></th>
+<th class="head"><p>Processing order</p></th>
+<th class="head"><p>Packet source or destination</p></th>
+<th class="head"><p>Configuration applied</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>prerouting</p></td>
+<td><p>First processing point at the Bridge layer for received packets.</p></td>
+<td><p>Received packets, regardless of their destination.</p></td>
+<td><p><strong>Bridge firewall prerouting</strong>: Rules that match received packets and apply
+an action to them, such as accepting or dropping them, or exempting them
+from connection tracking.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">bridge</span> <span class="pre">prerouting</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>input</p></td>
+<td><p>After the prerouting processing point.</p></td>
+<td><p>Packets whose destination is the bridge.</p></td>
+<td><p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the input rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Bridge firewall input</strong>: Rules that match received packets and apply an
+action to them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">bridge</span> <span class="pre">input</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>forward</p></td>
+<td><p>After the prerouting processing point.</p></td>
+<td><p>Packets that the bridge forwards between its member interfaces.</p></td>
+<td><p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the forward rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Bridge firewall forward</strong>: Rules that match received packets and apply an
+action to them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">bridge</span> <span class="pre">forward</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>output</p></td>
+<td><p>First processing point at the Bridge layer for packets that the
+router sends out through a bridge.</p></td>
+<td><p>Packets that the router sends out through a bridge, both routed
+packets and packets that the router generates.</p></td>
+<td><p><strong>Global state policy</strong>: Accepts, drops, or rejects packets according to the
+state of their connection, before the output rules.<br />
+You define the policy under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">global-options</span> <span class="pre">state-policy</span> <span class="pre">...</span></code>.</p>
+<p><strong>Bridge firewall output</strong>: Rules that match outgoing packets and apply an
+action to them, such as accepting or dropping them.<br />
+You define the rules under <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">firewall</span> <span class="pre">bridge</span> <span class="pre">output</span> <span class="pre">filter</span> <span class="pre">...</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>After the bridge input processing point, accepted IPv4 and IPv6 packets
+are passed to the IP layer, which processes them starting at IP
+prerouting.</p>
+</section>
+</section>
+<section id="zone-based-firewall">
+<h2>Zone-based firewall<a class="headerlink" href="#zone-based-firewall" title="Link to this heading"></a></h2>
+<p>The zone-based firewall is not a separate service. It is part of the
+same firewall, and you can use it together with the other firewall
+rules. It lets you group interfaces into zones and assign rules to
+control traffic between them. The local zone represents the router
+itself.</p>
+<p>The zone-based firewall processes packets at the following processing
+points of the IP layer:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Traffic</p></th>
+<th class="head"><p>Processing point</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>From one zone to another zone</p></td>
+<td><p>forward</p></td>
+</tr>
+<tr class="row-odd"><td><p>From a zone to the local zone</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>From the local zone to a zone</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+<p>At each point, the firewall applies zone rules after the input, forward,
+or output filter rules.</p>
+</section>
+<section id="firewall-configuration">
+<h2>Firewall configuration<a class="headerlink" href="#firewall-configuration" title="Link to this heading"></a></h2>
+<p>For information on firewall configuration, see the following pages:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="global-options.html">Firewall global options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groups.html">Firewall groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipv4.html">IPv4 Firewall Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipv6.html">IPv6 Firewall Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flowtables.html">Flowtables Firewall Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zone.html">Zone-Based Firewall</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../container/index.html" class="btn btn-neutral float-left" title="Container" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="global-options.html" class="btn btn-neutral float-right" title="Firewall global options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2026, VyOS maintainers and contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
